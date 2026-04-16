@@ -69,6 +69,7 @@ function mapPublicProjectToProject(project: PublicProject): Project {
     description: project.description,
     status: project.status === 'completed' ? 'completed' : 'in_progress',
     budget: parseBudgetToNumber(project.budget),
+        beneficiaire: project.beneficiaries,
     latitude: project.location.lat,
     longitude: project.location.lng,
     region: project.location.region,
@@ -231,6 +232,13 @@ export default function PublicMapPage() {
       regionFilter !== 'all' ? 1 : 0,
     ].reduce((a, b) => a + b, 0);
   }, [statusFilter, themeFilter, regionFilter]);
+
+
+    useEffect(() => {
+        if (search.trim().length > 0) {
+            setSelectedCountryCode(null);
+        }
+    }, [search]);
 
   return (
     <PublicLayout>
@@ -397,14 +405,16 @@ export default function PublicMapPage() {
                     {t('public.map.filtersButton')}
                   </Button>
                 </div>
+
+
+
+
               </div>
             </CardContent>
           </Card>
 
           {/* Dashboard Stats */}
           <Card className="mb-4 border-2 border-primary/10 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="h-5 w-5 text-primary" />
                 <span className="font-semibold">{t('public.map.dashboard.title')}</span>
               </div>
@@ -487,9 +497,10 @@ export default function PublicMapPage() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
             {/* Filters Panel */}
-            <Card className={cn("lg:col-span-1 transition-all", showFilters ? "" : "max-h-20 overflow-hidden")}>
+                    {showFilters && (
+                        <Card className={cn("lg:col-span-1 transition-all mb-5", showFilters ? "" : "max-h-20 overflow-hidden")}>
               <CardContent className="p-4">
                 <div
                   className="flex items-center justify-between cursor-pointer mb-4"
@@ -510,11 +521,11 @@ export default function PublicMapPage() {
                         <TrendingUp className="h-4 w-4 text-muted-foreground" />
                         {t('public.map.status.label')}
                       </label>
-                      <div className="space-y-2">
+                                            <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => setStatusFilter('all')}
                           className={cn(
-                            "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                             statusFilter === 'all'
                               ? "bg-primary/10 border-2 border-primary"
                               : "hover:bg-muted border-2 border-transparent"
@@ -528,7 +539,7 @@ export default function PublicMapPage() {
                         <button
                           onClick={() => setStatusFilter('active')}
                           className={cn(
-                            "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                             statusFilter === 'active'
                               ? "bg-amber-500/10 border-2 border-amber-500"
                               : "hover:bg-muted border-2 border-transparent"
@@ -545,7 +556,7 @@ export default function PublicMapPage() {
                         <button
                           onClick={() => setStatusFilter('completed')}
                           className={cn(
-                            "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                             statusFilter === 'completed'
                               ? "bg-green-500/10 border-2 border-green-500"
                               : "hover:bg-muted border-2 border-transparent"
@@ -568,7 +579,7 @@ export default function PublicMapPage() {
                         <Wifi className="h-4 w-4 text-muted-foreground" />
                         {t('public.map.themesLabel')}
                       </label>
-                      <div className="space-y-2">
+                                            <div className="flex flex-wrap gap-2">
                         {Object.entries(PROJECT_THEMES).map(([key, { labelKey, icon, color }]) => {
                           const count = key === 'all' ? activeProjects.length : themeCounts[key] || 0;
                           const isActive = themeFilter === key;
@@ -578,7 +589,7 @@ export default function PublicMapPage() {
                               key={key}
                               onClick={() => setThemeFilter(key as ProjectTheme)}
                               className={cn(
-                                "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                                "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                                 isActive && key !== 'all'
                                   ? "border-2"
                                   : "hover:bg-muted border-2 border-transparent"
@@ -604,11 +615,11 @@ export default function PublicMapPage() {
                         <Globe className="h-4 w-4 text-muted-foreground" />
                         {t('public.map.region')}
                       </label>
-                      <div className="space-y-2">
+                                            <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => setRegionFilter('all')}
                           className={cn(
-                            "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                             regionFilter === 'all'
                               ? "bg-primary/10 border-2 border-primary"
                               : "hover:bg-muted border-2 border-transparent"
@@ -628,7 +639,7 @@ export default function PublicMapPage() {
                               key={region}
                               onClick={() => setRegionFilter(isActive ? 'all' : region)}
                               className={cn(
-                                "w-full flex items-center justify-between p-3 rounded-lg transition-all",
+                                                                "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
                                 isActive
                                   ? "bg-primary/10 border-2 border-primary"
                                   : count > 0 ? "hover:bg-muted border-2 border-transparent" : "opacity-50"
@@ -648,11 +659,106 @@ export default function PublicMapPage() {
                 )}
               </CardContent>
             </Card>
+                    )}
+
+
+
+
+
+
+                    {/* Dashboard Stats */}
+                    <Card className="mb-4 border-2 border-primary/10 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <TrendingUp className="h-5 w-5 text-primary" />
+                                <span className="font-semibold">{t('public.map.dashboard.title')}</span>
+                            </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                <div className="bg-background rounded-xl p-4 border-2 border-primary/10 hover:border-primary/30 transition-all hover:shadow-lg">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                                            <MapPin className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <p className="text-3xl font-bold text-primary">
+                                                <AnimatedCounter value={stats.totalProjects} />
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">{t('public.map.dashboard.projects')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-background rounded-xl p-4 border-2 border-amber-500/10 hover:border-amber-500/30 transition-all hover:shadow-lg">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                                            <TrendingUp className="h-6 w-6 text-amber-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-3xl font-bold text-amber-600">
+                                                <AnimatedCounter value={stats.inProgress} />
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">{t('public.map.dashboard.inProgress')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-background rounded-xl p-4 border-2 border-green-500/10 hover:border-green-500/30 transition-all hover:shadow-lg">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                                            <Users className="h-6 w-6 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-3xl font-bold text-green-600">
+                                                <AnimatedCounter value={stats.completed} />
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">{t('public.map.dashboard.completed')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-background rounded-xl p-4 border-2 border-secondary/10 hover:border-secondary/30 transition-all hover:shadow-lg">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-12 w-12 rounded-xl bg-secondary/10 flex items-center justify-center">
+                                            <Globe className="h-6 w-6 text-secondary" />
+                                        </div>
+                                        <div>
+                                            <p className="text-3xl font-bold text-secondary">
+                                                <AnimatedCounter value={stats.countriesWithProjects} />
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">{t('public.map.dashboard.countries')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-background rounded-xl p-4 border-2 border-green-600/10 hover:border-green-600/30 transition-all hover:shadow-lg">
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-12 w-12 rounded-xl bg-green-600/10 flex items-center justify-center">
+                                            <DollarSign className="h-6 w-6 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-3xl font-bold text-green-600">
+                                                {stats.totalBudget > 0 ? (
+                                                    <AnimatedCounter value={Math.round(stats.totalBudget / 1_000_000)} />
+                                                ) : (
+                                                    '—'
+                                                )}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">{t('public.map.dashboard.millions')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
 
             {/* Map */}
-            <Card className="lg:col-span-3">
+                        <Card className="lg:col-span-4">
               <CardContent className="p-0">
-                <div className="relative" style={{ minHeight: '600px' }}>
+                                <div className="relative" style={{ minHeight: '700px' }}>
                   {/* Map View Indicator */}
                   <div className="absolute top-4 left-4 z-[400] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 border-2 border-primary/20">
                     <div className="flex items-center gap-2 mb-1">
@@ -674,7 +780,7 @@ export default function PublicMapPage() {
                   </div>
 
                   {/* Map */}
-                  <div className="w-full" style={{ height: '600px' }}>
+                                    <div className="w-full" style={{ height: '705px' }}>
                     {mapView === 'projects' ? (
                       isLoading ? (
                         <div className="flex items-center justify-center h-full">

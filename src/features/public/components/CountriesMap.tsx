@@ -273,7 +273,24 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
 
     if (bounds.length > 0) {
       try {
-        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 5 });
+                //map.fitBounds(bounds, { padding: [50, 50], maxZoom: 5 });
+                map.fitBounds(bounds, {
+                    paddingTopLeft: [50, 50],
+                    paddingBottomRight: [50, 120], // 👈 plus d’espace en bas
+                    maxZoom: 5,
+                });
+
+                // 👇 offset manuel
+                /*const center = map.getCenter();
+                const zoom = map.getZoom();
+
+                const offsetY = 10; // ajuste ici
+                const point = map.project(center, zoom);
+                const newPoint = point.subtract([0, offsetY]);
+                const newCenter = map.unproject(newPoint, zoom);
+
+                map.setView(newCenter, zoom);*/
+
         console.log('[CountriesMap] ✅ Bounds fitted');
       } catch (error) {
         console.error('[CountriesMap] ❌ Error fitting bounds:', error);

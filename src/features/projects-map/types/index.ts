@@ -5,6 +5,7 @@ export interface Project {
   description: string | null;
   status: ProjectStatus;
   budget: number | null;
+  beneficiaire: number | null;
   latitude: number | null;
   longitude: number | null;
   region: string | null;

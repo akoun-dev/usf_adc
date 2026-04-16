@@ -64,6 +64,10 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
           <div style="font-size:13px;font-weight:600;color:#1e293b;">${budget}</div>
         </div>
         <div>
+        <div style="font-size:10px;color:#64748b;text-transform:uppercase;">${t('public.map.beneficiaries')}</div>
+            <div className="font-bold">${project.beneficiaire?.toLocaleString('fr-FR') || '—'}</div>
+        </div>
+        <div>
           <div style="font-size:10px;color:#64748b;text-transform:uppercase;">${t('public.map.status.label')}</div>
           <div style="font-size:13px;font-weight:600;color:#1e293b;">${statusLabels[project.status]}</div>
         </div>
@@ -223,7 +227,12 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
 
     if (geoProjects.length > 0) {
       const bounds = L.latLngBounds(geoProjects.map((p) => [p.latitude!, p.longitude!] as L.LatLngTuple));
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
+            //map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
+            map.fitBounds(bounds, {
+                paddingTopLeft: [40, 40],
+                paddingBottomRight: [40, 120], // 👈 plus d’espace en bas
+                maxZoom: 6,
+            });
     }
   }, [projects, onProjectClick, mapMode, t]);
 
@@ -234,7 +243,13 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
     const marker = markersMapRef.current.get(selectedProjectId);
     if (marker) {
       const latLng = marker.getLatLng();
-      map.flyTo(latLng, 8, { duration: 0.8 });
+            const offsetY = 100; // pixels (ajuste ici)
+
+            const point = map.project(latLng, 8);
+            const newPoint = point.subtract([0, offsetY]);
+            const newLatLng = map.unproject(newPoint, 8);
+
+            map.flyTo(newLatLng, 8, { duration: 0.8 });
       marker.openPopup();
     }
   }, [selectedProjectId]);

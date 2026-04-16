@@ -1,7 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { MfaVerification } from './MfaVerification';
 import { useIdleTimeout } from '@/hooks/useIdleTimeout';
 import { toast } from 'sonner';
 
@@ -9,13 +8,11 @@ interface AuthGuardProps {
   children: React.ReactNode;
 }
 
-const ADMIN_ROLES = ['global_admin', 'country_admin'] as const;
 const IDLE_TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
 const IDLE_WARNING_MS = 2 * 60 * 1000;  // warn 2 min before
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { isLoading, isAuthenticated, roles, signOut } = useAuth();
-  const [mfaVerified, setMfaVerified] = useState(false);
+  const { isLoading, isAuthenticated, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleIdleWarning = useCallback(() => {
@@ -48,17 +45,6 @@ export function AuthGuard({ children }: AuthGuardProps) {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
-  }
-
-  // Check if user is admin and needs MFA
-  const isAdmin = ADMIN_ROLES.some((r) => roles.includes(r));
-  if (isAdmin && !mfaVerified) {
-    return (
-      <MfaVerification
-        onVerified={() => setMfaVerified(true)}
-        onCancel={() => signOut()}
-      />
-    );
   }
 
   return <>{children}</>;

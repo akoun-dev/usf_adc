@@ -179,16 +179,6 @@ create trigger on_auth_user_created
   for each row execute function public.handle_new_user();
 
 -- =====================================================
--- 9. create trigger on profiles to assign default role
--- =====================================================
--- note: this trigger fires after the profile is created
--- it calls assign_default_role to give every new user the public_external role
-
-create trigger on_profile_created_assign_role
-  after insert on public.profiles
-  for each row execute function public.assign_default_role();
-
--- =====================================================
 -- 10. add country admin policies to user_roles
 -- =====================================================
 -- note: these policies are added after profiles table and get_user_country function exist

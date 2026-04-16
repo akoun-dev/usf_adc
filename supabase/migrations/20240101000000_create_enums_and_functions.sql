@@ -160,3 +160,5 @@ begin
   return new;
 end;
 $$;
+
+drop trigger if exists on_profile_created_assign_role on public.profiles;

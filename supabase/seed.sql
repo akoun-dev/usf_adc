@@ -59,6 +59,14 @@ values
 on conflict (slug) do nothing;
 
 -- =====================================================
+-- 2.5. TEMPORARILY DISABLED - forum topics and posts
+-- =====================================================
+-- Forum data seed temporarily disabled due to schema mismatch between migrations 000011 and 000021/000022
+-- The original migration 000011 creates forum_topics with created_by refs profiles
+-- But migrations 000021/000022 override with created_by refs auth.users (nullable)
+-- To resolve this, either unify the migrations or seed data via API after users exist
+
+-- =====================================================
 -- 3. insert demo events (10 events)
 -- =====================================================
 
@@ -471,7 +479,7 @@ on conflict do nothing;
 -- 10. insert demo documents (30 documents)
 -- =====================================================
 
-insert into public.documents (id, title, description, category, file_name, file_path, file_size, mime_type, is_public, type, language, published_date, thumbnail, featured)
+insert into public.documents (id, title, description, category, file_name, file_path, file_size, mime_type, is_public, type, language, published_at, thumbnail, featured)
 values
   -- Guides (8)
   ('d0000000-0000-0000-0000-000000000001', 'Guide de mise en œuvre du FSU', 'Guide complet pour la mise en place d''un Fonds de Service Universel national.', 'guides', 'guide_fsu_implementation.pdf', 'documents/guide_fsu_implementation.pdf', 2500000, 'application/pdf', true, 'pdf', 'fr', NOW() - INTERVAL '30 days', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true),

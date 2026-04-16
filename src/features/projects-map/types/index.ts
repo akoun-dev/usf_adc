@@ -19,6 +19,7 @@ export interface Project {
   };
 }
 
+
 export type ProjectStatus = 'planned' | 'in_progress' | 'completed' | 'suspended';
 
 export interface ProjectFilters {

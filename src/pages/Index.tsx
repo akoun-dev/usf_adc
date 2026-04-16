@@ -1,6 +1,6 @@
-import React, { lazy, Suspense, useState, useMemo, useEffect } from "react"
-import { Link } from "react-router-dom"
-import { useTranslation } from "react-i18next"
+import React, { lazy, Suspense, useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
     Shield,
     FileText,
@@ -118,7 +118,6 @@ const HeroSection = () => {
                     className="h-full w-full object-cover"
                     width={1920}
                     height={1080}
-                    fetchpriority="high"
                     decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
@@ -140,6 +139,7 @@ const HeroSection = () => {
                             ATU / UAT
                         </span>
                     </div>
+
 
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center gap-1">
@@ -993,7 +993,7 @@ const NewsEventsSection = () => {
                 {/* CTA Enhanced */}
                 <div>
                     <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 border-primary/20 overflow-hidden">
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjAzIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-50" />
+                        <div className="absolute bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjAzIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-50" />
                         <CardContent className="relative p-8 text-center">
                             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
                                 <Bell className="h-6 w-6 text-primary" />

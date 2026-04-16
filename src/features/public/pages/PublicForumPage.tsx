@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageSquare, Users, Clock, Search, Lock, Mail, Pin, Flame, CheckCircle, Tag as TagIcon, TrendingUp, Award, Sparkles, ArrowRight, Eye, Reply } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
@@ -10,6 +10,15 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import PageHero from '@/components/PageHero';
 import {
   Select,
@@ -18,13 +27,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { mockForumCategories, mockForumTopics } from '../data/mockForum';
+import { usePublicForumCategories, usePublicForumTopics, usePopularTags } from '../hooks/usePublicForum';
+import type { ForumCategory, ForumTopic } from '../services/forum.service';
 
-const getStatusBadge = (status: string) => {
+const getStatusBadge = (status: string, t: (key: string) => string) => {
   const badges: Record<string, { label: string; className: string; icon: React.ComponentType<{ className?: string }> }> = {
-    'pinned': { label: 'Épinglé', className: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20', icon: Pin },
-    'solved': { label: 'Résolu', className: 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20', icon: CheckCircle },
-    'active': { label: 'Actif', className: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20', icon: Flame },
+    'pinned': { label: t('public.forum.status.pinned'), className: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20', icon: Pin },
+    'solved': { label: t('public.forum.status.solved'), className: 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20', icon: CheckCircle },
+    'active': { label: t('public.forum.status.active'), className: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20', icon: Flame },
   };
   return badges[status] || badges['active'];
 };
@@ -42,10 +52,9 @@ function getAvatarColor(name: string) {
 }
 
 // Enhanced Topic Card with better visual hierarchy
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: boolean }) {
-  const { t } = useTranslation();
-  const statusBadge = getStatusBadge(topic.status || 'active');
+function TopicCard({ topic, showCategory = true }: { topic: ForumTopic; showCategory?: boolean }) {
+  const { t, i18n } = useTranslation();
+  const statusBadge = getStatusBadge(topic.status || 'active', t);
   const StatusIcon = statusBadge.icon;
   const startDate = new Date(topic.created_at);
 
@@ -79,19 +88,19 @@ function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: 
                   {topic.is_pinned && (
                     <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-400 border-amber-500/30 text-xs">
                       <Pin className="h-3 w-3 mr-1" />
-                      Épinglé
+                      {t('public.forum.status.pinned')}
                     </Badge>
                   )}
                   {topic.is_locked && (
                     <Badge variant="outline" className="text-xs">
                       <Lock className="h-3 w-3 mr-1" />
-                      Verrouillé
+                      {t('public.forum.locked')}
                     </Badge>
                   )}
                   {topic.status === 'solved' && (
                     <Badge className="bg-green-500/20 text-green-700 dark:text-green-400 border-green-500/30 text-xs">
                       <CheckCircle className="h-3 w-3 mr-1" />
-                      Résolu
+                      {t('public.forum.status.solved')}
                     </Badge>
                   )}
                 </div>
@@ -119,7 +128,7 @@ function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: 
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t">
                   <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 font-medium">
-                      {topic.author?.full_name || 'Anonyme'}
+                      {topic.author?.full_name || t('public.forum.anonymous')}
                       {topic.author?.country && (
                         <span className="text-muted-foreground">({topic.author.country})</span>
                       )}
@@ -136,7 +145,7 @@ function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: 
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
-                      {startDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                      {startDate.toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
                 </div>
@@ -149,14 +158,25 @@ function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: 
   );
 }
 
+function getCategoryTranslation(slug: string, t: (key: string) => string) {
+  const translations: Record<string, { name: string; description: string }> = {
+    'connectivite': { name: t('public.forum.categoriesSlugs.connectivity.name'), description: t('public.forum.categoriesSlugs.connectivity.desc') },
+    'financement': { name: t('public.forum.categoriesSlugs.financing.name'), description: t('public.forum.categoriesSlugs.financing.desc') },
+    'reglementation': { name: t('public.forum.categoriesSlugs.regulation.name'), description: t('public.forum.categoriesSlugs.regulation.desc') },
+    'general': { name: t('public.forum.categoriesSlugs.general.name'), description: t('public.forum.categoriesSlugs.general.desc') },
+  };
+  return translations[slug] || { name: '', description: '' };
+}
+
 // Category Card Component
 function CategoryCard({ category, topicCount, onClick, isSelected }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  category: any;
+  category: ForumCategory;
   topicCount: number;
   onClick: () => void;
   isSelected: boolean;
 }) {
+  const { t } = useTranslation();
+  const translated = getCategoryTranslation(category.slug, t);
   return (
     <button
       onClick={onClick}
@@ -172,8 +192,8 @@ function CategoryCard({ category, topicCount, onClick, isSelected }: {
             {category.icon}
           </div>
           <div>
-            <h4 className="font-semibold text-sm">{category.name}</h4>
-            <p className="text-xs text-muted-foreground line-clamp-1">{category.description}</p>
+            <h4 className="font-semibold text-sm">{translated.name || category.name}</h4>
+            <p className="text-xs text-muted-foreground line-clamp-1">{translated.description || category.description}</p>
           </div>
         </div>
         <Badge variant={isSelected ? "default" : "secondary"} className="shrink-0">
@@ -184,26 +204,26 @@ function CategoryCard({ category, topicCount, onClick, isSelected }: {
   );
 }
 
-// Top Contributor Card
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ContributorCard({ contributor }: { contributor: any }) {
-  return (
-    <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors">
-      <Avatar className="h-10 w-10 ring-2 ring-primary/20">
-        <AvatarFallback className={getAvatarColor(contributor.name)}>
-          {contributor.name?.substring(0, 2).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
-      <div className="flex-1 min-w-0">
-        <p className="font-medium text-sm truncate">{contributor.name}</p>
-        <p className="text-xs text-muted-foreground">{contributor.role}</p>
-      </div>
-      <Badge variant="outline" className="text-xs">
-        {contributor.posts} posts
-      </Badge>
-    </div>
-  );
-}
+// Top Contributor Card (disabled for now - no data in DB yet)
+// function ContributorCard({ contributor }: { contributor: any }) {
+//   const { t } = useTranslation();
+//   return (
+//     <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors">
+//       <Avatar className="h-10 w-10 ring-2 ring-primary/20">
+//         <AvatarFallback className={getAvatarColor(contributor.name)}>
+//           {contributor.name?.substring(0, 2).toUpperCase()}
+//         </AvatarFallback>
+//       </Avatar>
+//       <div className="flex-1 min-w-0">
+//         <p className="font-medium text-sm truncate">{contributor.name}</p>
+//         <p className="text-xs text-muted-foreground">{contributor.role}</p>
+//       </div>
+//       <Badge variant="outline" className="text-xs">
+//         {contributor.posts} {t('public.forum.posts')}
+//       </Badge>
+//     </div>
+//   );
+// }
 
 // Benefit Card
 function BenefitCard({ icon: Icon, title, description }: {
@@ -229,43 +249,60 @@ export default function PublicForumPage() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeTab, setActiveTab] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  const filteredTopics = mockForumTopics.filter((topic) => {
-    const matchCategory = selectedCategory === 'all' || topic.category_id === selectedCategory;
-    const matchSearch = !search ||
-      topic.title.toLowerCase().includes(search.toLowerCase()) ||
-      topic.content.toLowerCase().includes(search.toLowerCase()) ||
-      (topic.tags && topic.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())));
+  // Fetch real data from database
+  const { data: categories = [], isLoading: categoriesLoading } = usePublicForumCategories();
+  const { data: topics = [], isLoading: topicsLoading } = usePublicForumTopics();
+  const { data: popularTags = [], isLoading: tagsLoading } = usePopularTags();
 
-    let matchTab = true;
-    if (activeTab === 'pinned') matchTab = topic.is_pinned;
-    else if (activeTab === 'recent') matchTab = !topic.is_pinned;
+  const isLoading = categoriesLoading || topicsLoading || tagsLoading;
 
-    return matchCategory && matchSearch && matchTab;
-  });
+  const filteredTopics = useMemo(() => {
+    return topics.filter((topic) => {
+      const matchCategory = selectedCategory === 'all' || topic.category_id === selectedCategory;
+      const searchLower = search.toLowerCase();
+      const matchSearch = !search ||
+        topic.title.toLowerCase().includes(searchLower) ||
+        topic.content.toLowerCase().includes(searchLower) ||
+        (topic.tags && topic.tags.some((tag: string) => tag.toLowerCase().includes(searchLower)));
+
+      let matchTab = true;
+      if (activeTab === 'pinned') matchTab = topic.is_pinned;
+      else if (activeTab === 'recent') matchTab = !topic.is_pinned;
+
+      return matchCategory && matchSearch && matchTab;
+    });
+  }, [topics, selectedCategory, search, activeTab]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [search, selectedCategory, activeTab]);
 
   const pinnedTopics = filteredTopics.filter(t => t.is_pinned);
   const regularTopics = filteredTopics.filter(t => !t.is_pinned);
 
-  const categoryStats = mockForumCategories.map(cat => ({
-    ...cat,
-    topicCount: mockForumTopics.filter(t => t.category_id === cat.id).length,
-  }));
+  const totalPages = Math.ceil(regularTopics.length / itemsPerPage);
+  const paginatedRegularTopics = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return regularTopics.slice(startIndex, startIndex + itemsPerPage);
+  }, [regularTopics, currentPage, itemsPerPage]);
 
-  // Mock top contributors
-  const topContributors = [
-    { name: 'Amadou Diallo', role: 'Point Focal', country: 'Sénégal', posts: 24 },
-    { name: 'Fatou Bensouda', role: 'Admin Pays', country: 'Côte d\'Ivoire', posts: 18 },
-    { name: 'Ousmane Traoré', role: 'Point Focal', country: 'Mali', posts: 15 },
-    { name: 'Aissa Moussa', role: 'Admin Pays', country: 'Bénin', posts: 12 },
-  ];
+  const categoryStats = useMemo(() => {
+    return categories.map(cat => ({
+      ...cat,
+      topicCount: topics.filter(t => t.category_id === cat.id).length,
+    }));
+  }, [categories, topics]);
 
   return (
     <PublicLayout>
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
-          title="Forum Public"
-          description="Discussions et échanges sur le Service Universel"
+          title={t('public.forum.title')}
+          description={t('public.forum.description')}
           icon={<MessageSquare className="h-6 w-6 text-secondary" />}
         />
 
@@ -274,9 +311,9 @@ export default function PublicForumPage() {
           <CardContent className="p-4 flex items-start gap-3">
             <Lock className="h-5 w-5 text-primary mt-0.5 shrink-0" />
             <div className="text-sm">
-              <p className="font-medium">Mode Lecture Seule</p>
+              <p className="font-medium">{t('public.forum.readOnlyMode')}</p>
               <p className="text-muted-foreground mt-1">
-                Vous naviguez sur le forum public en mode lecture seule. Pour participer aux discussions, connectez-vous à votre compte.
+                {t('public.forum.readOnlyFullDesc')}
               </p>
             </div>
           </CardContent>
@@ -285,10 +322,10 @@ export default function PublicForumPage() {
         {/* Benefits Section */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { icon: Users, title: 'Réseau Expert', description: 'Échangez avec des experts de 23 pays africains' },
-            { icon: Sparkles, title: 'Bonnes Pratiques', description: 'Découvrez des solutions éprouvées par vos pairs' },
-            { icon: TrendingUp, title: 'Veille', description: 'Restez informé des dernières actualités du FSU' },
-            { icon: Award, title: 'Support', description: 'Bénéficiez de l\'aide de la communauté' },
+            { icon: Users, title: t('public.forum.benefits.network.title'), description: t('public.forum.benefits.network.desc') },
+            { icon: Sparkles, title: t('public.forum.benefits.practices.title'), description: t('public.forum.benefits.practices.desc') },
+            { icon: TrendingUp, title: t('public.forum.benefits.watch.title'), description: t('public.forum.benefits.watch.desc') },
+            { icon: Award, title: t('public.forum.benefits.support.title'), description: t('public.forum.benefits.support.desc') },
           ].map((benefit, i) => (
             <BenefitCard key={i} {...benefit} />
           ))}
@@ -302,7 +339,7 @@ export default function PublicForumPage() {
               <div className="relative flex-1 min-w-[200px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Rechercher un sujet, un tag..."
+                  placeholder={t('public.forum.searchPlaceholder')}
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   className="pl-10 h-12 rounded-xl"
@@ -310,15 +347,18 @@ export default function PublicForumPage() {
               </div>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-[180px] h-12 rounded-xl">
-                  <SelectValue placeholder="Catégorie" />
+                  <SelectValue placeholder={t('public.forum.categoryPlaceholder')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Toutes catégories</SelectItem>
-                  {mockForumCategories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.icon} {cat.name}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="all">{t('public.forum.allCategories')}</SelectItem>
+                  {categories.map((cat) => {
+                    const translated = getCategoryTranslation(cat.slug, t);
+                    return (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        {cat.icon} {translated.name || cat.name}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -327,13 +367,13 @@ export default function PublicForumPage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
               <TabsList className="grid w-full max-w-md grid-cols-3 h-12 rounded-xl bg-muted/50 p-1">
                 <TabsTrigger value="all" className="rounded-lg data-[state=active]:bg-background shadow-sm">
-                  Tous <Badge variant="secondary" className="ml-2">{filteredTopics.length}</Badge>
+                  {t('public.forum.tabs.all')} <Badge variant="secondary" className="ml-2">{filteredTopics.length}</Badge>
                 </TabsTrigger>
                 <TabsTrigger value="pinned" className="rounded-lg data-[state=active]:bg-background shadow-sm">
-                  Épinglés <Badge variant="secondary" className="ml-2">{pinnedTopics.length}</Badge>
+                  {t('public.forum.tabs.pinned')} <Badge variant="secondary" className="ml-2">{pinnedTopics.length}</Badge>
                 </TabsTrigger>
                 <TabsTrigger value="recent" className="rounded-lg data-[state=active]:bg-background shadow-sm">
-                  Récents <Badge variant="secondary" className="ml-2">{regularTopics.length}</Badge>
+                  {t('public.forum.tabs.recent')} <Badge variant="secondary" className="ml-2">{regularTopics.length}</Badge>
                 </TabsTrigger>
               </TabsList>
 
@@ -343,7 +383,7 @@ export default function PublicForumPage() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-sm font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 w-fit px-4 py-2 rounded-full">
                       <Pin className="h-4 w-4" />
-                      Sujets épinglés
+                      {t('public.forum.pinnedTopics')}
                     </div>
                     {pinnedTopics.map((topic) => (
                       <TopicCard key={topic.id} topic={topic} />
@@ -357,12 +397,58 @@ export default function PublicForumPage() {
                     {pinnedTopics.length > 0 && (
                       <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground bg-muted/50 w-fit px-4 py-2 rounded-full">
                         <MessageSquare className="h-4 w-4" />
-                        Discussions récentes
+                        {t('public.forum.recentDiscussions')}
                       </div>
                     )}
-                    {regularTopics.map((topic) => (
+                    {paginatedRegularTopics.map((topic) => (
                       <TopicCard key={topic.id} topic={topic} />
                     ))}
+
+                    {totalPages > 1 && (
+                      <div className="pt-4 flex justify-center border-t">
+                        <Pagination>
+                          <PaginationContent>
+                            <PaginationPrevious
+                              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                              if (
+                                page === 1 ||
+                                page === totalPages ||
+                                (page >= currentPage - 1 && page <= currentPage + 1)
+                              ) {
+                                return (
+                                  <PaginationItem key={page}>
+                                    <PaginationLink
+                                      onClick={() => setCurrentPage(page)}
+                                      isActive={page === currentPage}
+                                      className="cursor-pointer"
+                                    >
+                                      {page}
+                                    </PaginationLink>
+                                  </PaginationItem>
+                                );
+                              } else if (
+                                page === currentPage - 2 ||
+                                page === currentPage + 2
+                              ) {
+                                return (
+                                  <PaginationEllipsis key={page} />
+                                );
+                              }
+                              return null;
+                            })}
+
+                            <PaginationNext
+                              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                              className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+                          </PaginationContent>
+                        </Pagination>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -370,8 +456,8 @@ export default function PublicForumPage() {
                   <Card>
                     <CardContent className="py-16 text-center text-muted-foreground">
                       <MessageSquare className="mx-auto h-16 w-16 mb-4 opacity-50 rounded-2xl bg-muted p-4" />
-                      <p className="font-semibold text-lg mb-2">Aucun sujet trouvé</p>
-                      <p className="text-sm">Essayez d'autres critères de recherche</p>
+                      <p className="font-semibold text-lg mb-2">{t('public.forum.noTopicsFound')}</p>
+                      <p className="text-sm">{t('public.forum.tryOtherSearch')}</p>
                     </CardContent>
                   </Card>
                 )}
@@ -386,7 +472,7 @@ export default function PublicForumPage() {
               <CardContent className="p-4">
                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                   <MessageSquare className="h-5 w-5 text-primary" />
-                  Catégories
+                  {t('public.forum.categories')}
                 </h3>
                 <div className="space-y-2">
                   {categoryStats.map((cat) => (
@@ -402,32 +488,17 @@ export default function PublicForumPage() {
               </CardContent>
             </Card>
 
-            {/* Top Contributors */}
-            <Card className="border-2">
-              <CardContent className="p-4">
-                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                  <Award className="h-5 w-5 text-primary" />
-                  Top Contributeurs
-                </h3>
-                <div className="space-y-2">
-                  {topContributors.map((contributor, i) => (
-                    <ContributorCard key={i} contributor={contributor} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Popular Tags */}
             <Card className="border-2">
               <CardContent className="p-4">
                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                   <TagIcon className="h-5 w-5 text-primary" />
-                  Tags populaires
+                  {t('public.forum.popularTags')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {['FSU', 'Formation', 'Sénégal', 'Règlementation', 'Technique', 'Innovation', 'Partenariat', 'Bonnes pratiques', 'Subvention', 'Solaire'].map((tag) => (
+                  {popularTags.map((tag) => (
                     <Badge
-                      key={tag}
+                      key={`tag-${tag}`}
                       variant="outline"
                       className="cursor-pointer hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
                       onClick={() => setSearch(tag)}
@@ -444,14 +515,14 @@ export default function PublicForumPage() {
               <CardContent className="p-5">
                 <div className="text-center mb-4">
                   <Mail className="h-10 w-10 mx-auto mb-3 text-primary" />
-                  <h3 className="font-bold text-lg mb-2">Restez informé</h3>
+                  <h3 className="font-bold text-lg mb-2">{t('public.forum.newsletter.title')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Recevez les dernières discussions par email
+                    {t('public.forum.newsletter.description')}
                   </p>
                 </div>
-                <Input placeholder="Votre email" className="mb-3" />
+                <Input placeholder={t('public.forum.newsletter.placeholder')} className="mb-3" />
                 <Button className="w-full" variant="outline">
-                  S'abonner
+                  {t('public.forum.newsletter.subscribe')}
                 </Button>
               </CardContent>
             </Card>

@@ -66,11 +66,11 @@ create index idx_news_language on public.news(language);
 -- =====================================================
 -- note: policies are granular - one per operation per role
 
--- policy: select - authenticated users can view public news
+-- policy: select - anonymous and authenticated users can view public news
 -- rationale: news is meant to be publicly accessible
-create policy "news_select_public"
+create policy "news_select_anon"
   on public.news for select
-  to authenticated
+  to anon, authenticated
   using (is_public = true);
 
 -- policy: select - global admins can view all news
@@ -163,16 +163,10 @@ alter table public.news_tags enable row level security;
 -- note: access to tags is derived from access to the parent news article
 
 -- policy: select - users can view tags of news they can view
-create policy "news_tags_select_from_news"
+create policy "news_tags_select_anon"
   on public.news_tags for select
-  to authenticated
-  using (
-    exists (
-      select 1 from public.news n
-      where n.id = news_tags.news_id
-        and (n.is_public = true or public.has_role(auth.uid(), 'global_admin'))
-    )
-  );
+  to anon, authenticated
+  using (true);
 
 -- policy: insert - admins can insert tags for news they can modify
 create policy "news_tags_insert_admins"

@@ -26,7 +26,7 @@ export default function ForumPage() {
     <div className="space-y-6 animate-fade-in">
       <PageHero
         title={t('forum.title')}
-        description={t('forum.desc')}
+        description={t('forum.description')}
         icon={<MessageSquare className="h-6 w-6 text-secondary" />}
       >
         {canCreate && (

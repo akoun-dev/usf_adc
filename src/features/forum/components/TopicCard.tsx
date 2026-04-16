@@ -2,19 +2,22 @@ import { Link } from 'react-router-dom';
 import { MessageSquare, Pin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 import type { ForumTopic } from '../types';
 
-function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `il y a ${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `il y a ${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `il y a ${days}j`;
-}
-
 export function TopicCard({ topic }: { topic: ForumTopic }) {
+  const { t } = useTranslation();
+
+  const timeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return t('forum.timeAgo.minutes', { count: mins });
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return t('forum.timeAgo.hours', { count: hours });
+    const days = Math.floor(hours / 24);
+    return t('forum.timeAgo.days', { count: days });
+  };
+
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-4">
@@ -30,7 +33,7 @@ export function TopicCard({ topic }: { topic: ForumTopic }) {
                 {topic.category && (
                   <Badge variant="secondary" className="text-xs">{topic.category.name}</Badge>
                 )}
-                <span>{topic.author?.full_name ?? 'Anonyme'}</span>
+                <span>{topic.author?.full_name ?? t('forum.anonymous')}</span>
                 <span>{timeAgo(topic.created_at)}</span>
               </div>
             </div>

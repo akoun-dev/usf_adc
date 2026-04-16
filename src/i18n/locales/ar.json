@@ -869,6 +869,38 @@
       "readOnlyDesc": "أنت تتصفح المنتدى العام في وضع القراءة فقط. للمشاركة في المناقشات، أنشئ حساباً أو سجل الدخول.",
       "searchPlaceholder": "بحث...",
       "allCategories": "جميع الفئات",
+      "categories": {
+        "announcements": "الإعلانات",
+        "announcementsDesc": "الاتصالات الرسمية من UAT",
+        "introductions": "مقدمات",
+        "introductionsDesc": "قدم نفسك ودولتك",
+        "help": "مساعدة ودعم",
+        "helpDesc": "أسئلة حول منصة USF-ADC",
+        "bestPractices": "أفضل الممارسات",
+        "bestPracticesDesc": "مشاركة الخبرات الناجحة",
+        "regulation": "التنظيم",
+        "regulationDesc": "مناقشات حول الأطر التنظيمية",
+        "technical": "تقني",
+        "technicalDesc": "الجوانب التقنية للنشر"
+      },
+      "categoriesSlugs": {
+        "connectivity": {
+          "name": "الربط",
+          "desc": "مناقشات حول بنى تحتية للربط والوصول للإنترنت"
+        },
+        "financing": {
+          "name": "التمويل",
+          "desc": "تبادلات حول آليات التمويل والميزانيات"
+        },
+        "regulation": {
+          "name": "التنظيم",
+          "desc": "الإطار التنظيمي والسياسات الرقمية"
+        },
+        "general": {
+          "name": "عام",
+          "desc": "مناقشات عامة ومواضيع متنوعة"
+        }
+      },
       "noTopics": "لم يتم العثور على مواضيع عامة",
       "replies": "ردود",
       "askQuestion": {
@@ -882,7 +914,118 @@
         "d1": "مقدمة لقواعد وأفضل ممارسات المنتدى.",
         "t2": "مشاركة أفضل ممارسات ص الخدمة الشاملة",
         "d2": "ناقش الاستراتيجيات الفعالة للخدمة الشاملة."
-      }
+      },
+      "newTopic": "موضوع جديد",
+      "createFirst": "إنشاء الموضوع الأول",
+      "timeAgo": {
+        "minutes": "منذ {{count}}د",
+        "hours": "منذ {{count}}س",
+        "days": "منذ {{count}}ي"
+      },
+      "anonymous": "مجهول",
+      "all": "الكل",
+      "topic": {
+        "notFound": "الموضوع غير موجود.",
+        "backToForum": "العودة إلى المنتدى",
+        "dateLocale": "ar-MA",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "saving": "جاري الحفظ…",
+        "titlePlaceholder": "عنوان الموضوع",
+        "replies": "ردود ({{count}})",
+        "noReplies": "لا توجد ردود حتى الآن.",
+        "reply": "رد",
+        "deleteConfirmTitle": "حذف هذا الموضوع؟",
+        "deleteConfirmDesc": "هذا الإجراء لا رجعة فيه. سيتم حذف الموضوع وجميع ردوده نهائياً."
+      },
+      "post": {
+        "edit": "تعديل",
+        "delete": "حذف",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "edited": "(معدل)",
+        "deleteConfirmTitle": "حذف هذه الرد؟",
+        "deleteConfirmDesc": "هذا الإجراء لا رجعة فيه. سيتم حذف الرد نهائياً.",
+        "placeholder": "كتابة رد…",
+        "success": "تم نشر الرد",
+        "error": "خطأ",
+        "errorDesc": "تعذر نشر الرد."
+      },
+      "new": {
+        "title": "موضوع مناقشة جديد",
+        "titleLabel": "العنوان",
+        "titlePlaceholder": "عنوان الموضوع",
+        "categoryLabel": "الفئة",
+        "categoryPlaceholder": "اختيار فئة",
+        "contentLabel": "المحتوى",
+        "contentPlaceholder": "صف موضوعك…",
+        "cancel": "إلغاء",
+        "publish": "نشر الموضوع",
+        "publishing": "جاري النشر…",
+        "success": "تم إنشاء الموضوع بنجاح",
+        "error": "خطأ",
+        "errorDesc": "تعذر إنشاء الموضوع."
+      },
+      "report": {
+        "button": "الإبلاغ",
+        "title": "الإبلاغ عن هذا المحتوى",
+        "placeholder": "صف سبب الإبلاغ…",
+        "cancel": "إلغاء",
+        "submit": "الإبلاغ"
+      },
+      "moderation": {
+        "title": "إدارة المنتدى",
+        "all": "الكل",
+        "pending": "قيد الانتظار",
+        "reviewed": "المعالجة",
+        "dismissed": "المرفوضة",
+        "noReports": "لا توجد بلاغات",
+        "markReviewed": "وضع علامة كمُعالج",
+        "dismiss": "رفض البلاغ",
+        "status": {
+          "pending": "قيد الانتظار",
+          "reviewed": "مُعالج",
+          "dismissed": "مرفوض"
+        }
+      },
+      "pinned": "مثبت",
+      "locked": "مغلق",
+      "readOnlyFullDesc": "أنت تتصفح المنتدى العام في وضع القراءة فقط. للمشاركة في المناقشات، سجل الدخول إلى حسابك.",
+      "benefits": {
+        "network": { "title": "شبكة الخبراء", "desc": "تبادل مع خبراء من 23 دولة أفريقية" },
+        "practices": { "title": "أفضل الممارسات", "desc": "اكتشف حلولاً مجربة من أقرانك" },
+        "watch": { "title": "الرصد", "desc": "ابق على اطلاع بآخر أخبار الخدمة الشاملة" },
+        "support": { "title": "الدعم", "desc": "استفد من مساعدة المجتمع" }
+      },
+      "searchPlaceholder": "بحث عن موضوع، وسم...",
+      "categoryPlaceholder": "الفئة",
+      "tabs": {
+        "all": "الكل",
+        "pinned": "المثبتة",
+        "recent": "الحديثة"
+      },
+      "pinnedTopics": "المواضيع المثبتة",
+      "recentDiscussions": "المناقشات الحديثة",
+      "noTopicsFound": "لم يتم العثور على موضوع",
+      "tryOtherSearch": "جرب معايير بحث أخرى",
+      "categories": "الفئات",
+      "topContributors": "أفضل المساهمين",
+      "popularTags": "الوسوم الشائعة",
+      "newsletter": {
+        "title": "ابق على اطلاع",
+        "description": "تلقى آخر المناقشات عبر البريد الإلكتروني",
+        "placeholder": "بريدك الإلكتروني",
+        "subscribe": "اشترك"
+      },
+      "status": {
+        "pinned": "مثبت",
+        "solved": "محلول",
+        "active": "نشط"
+      },
+      "views": "مشاهدات",
+      "posts": "رسائل"
     },
     "calls": {
       "title": "المشاريع",

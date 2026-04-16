@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from 'react-i18next';
 import type { ForumCategory } from '../types';
 
 interface CategoryFilterProps {
@@ -8,6 +9,8 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, selected, onSelect }: CategoryFilterProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-wrap gap-2">
       <Badge
@@ -15,7 +18,7 @@ export function CategoryFilter({ categories, selected, onSelect }: CategoryFilte
         className="cursor-pointer"
         onClick={() => onSelect(undefined)}
       >
-        Tous
+        {t('forum.all')}
       </Badge>
       {categories.map((cat) => (
         <Badge

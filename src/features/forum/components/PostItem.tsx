@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ReportButton } from './ReportButton';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,16 +23,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import type { ForumPost } from '../types';
 
-function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `il y a ${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `il y a ${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `il y a ${days}j`;
-}
-
 interface PostItemProps {
   post: ForumPost;
   currentUserId?: string;
@@ -41,6 +32,7 @@ interface PostItemProps {
 }
 
 export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: PostItemProps) {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -53,6 +45,16 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
     .join('')
     .slice(0, 2)
     .toUpperCase();
+
+  const timeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return t('forum.timeAgo.minutes', { count: mins });
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return t('forum.timeAgo.hours', { count: hours });
+    const days = Math.floor(hours / 24);
+    return t('forum.timeAgo.days', { count: days });
+  };
 
   const handleSave = () => {
     if (editContent.trim() && onUpdate) {
@@ -73,10 +75,10 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
       </Avatar>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 text-sm">
-          <span className="font-medium text-foreground">{post.author?.full_name ?? 'Anonyme'}</span>
+          <span className="font-medium text-foreground">{post.author?.full_name ?? t('forum.anonymous')}</span>
           <span className="text-muted-foreground text-xs">{timeAgo(post.created_at)}</span>
           {post.updated_at && post.updated_at !== post.created_at && (
-            <span className="text-muted-foreground text-xs italic">(modifié)</span>
+            <span className="text-muted-foreground text-xs italic">{t('forum.post.edited')}</span>
           )}
           <div className="ml-auto flex items-center gap-1">
             {currentUserId && currentUserId !== post.author_id && (
@@ -91,13 +93,13 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => { setEditContent(post.content); setIsEditing(true); }}>
-                    <Pencil className="mr-2 h-4 w-4" />Modifier
+                    <Pencil className="mr-2 h-4 w-4" />{t('forum.post.edit')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-destructive focus:text-destructive"
                     onClick={() => setShowDeleteDialog(true)}
                   >
-                    <Trash2 className="mr-2 h-4 w-4" />Supprimer
+                    <Trash2 className="mr-2 h-4 w-4" />{t('forum.post.delete')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -113,10 +115,10 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
             />
             <div className="flex gap-2">
               <Button size="sm" onClick={handleSave} disabled={!editContent.trim()}>
-                Sauvegarder
+                {t('forum.post.save')}
               </Button>
               <Button size="sm" variant="outline" onClick={handleCancel}>
-                Annuler
+                {t('forum.post.cancel')}
               </Button>
             </div>
           </div>
@@ -128,18 +130,18 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer cette réponse ?</AlertDialogTitle>
+            <AlertDialogTitle>{t('forum.post.deleteConfirmTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irréversible. La réponse sera définitivement supprimée.
+              {t('forum.post.deleteConfirmDesc')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>{t('forum.post.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => onDelete?.(post.id)}
             >
-              Supprimer
+              {t('forum.post.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

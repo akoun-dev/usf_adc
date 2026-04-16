@@ -12,13 +12,22 @@ import {
 import { Link } from "react-router-dom"
 import { PublicLayout } from "../components/PublicLayout"
 import { usePublicProjects } from "../hooks/usePublicProjects"
-import { STATUS_LABELS, THEMATIC_LABELS, type PublicProject } from "../data/mockProjects"
+import type { ProjectWithDetails } from "../services/projects.service"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from "@/components/ui/input"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 import PageHero from "@/components/PageHero"
 import {
     Select,
@@ -28,6 +37,13 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  'planned': { label: 'Planifié', color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
+  'in_progress': { label: 'En cours', color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
+  'completed': { label: 'Terminé', color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
+  'suspended': { label: 'Suspendu', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
+}
+
 function formatDate(date: string) {
     return new Date(date).toLocaleDateString("fr-FR", {
         day: "numeric",
@@ -36,18 +52,20 @@ function formatDate(date: string) {
     })
 }
 
-function ProjectCard({ project }: { project: PublicProject }) {
-    const statusInfo = STATUS_LABELS[project.status]
+function ProjectCard({ project }: { project: ProjectWithDetails }) {
+    const statusInfo = STATUS_LABELS[project.status] || STATUS_LABELS['planned']
 
     return (
         <Card className="hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
                 <div className="flex items-start justify-between gap-3 mb-4">
                     <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline">{project.countryName}</Badge>
-                        <Badge variant="outline">
-                            {THEMATIC_LABELS[project.thematic] ?? project.thematic}
-                        </Badge>
+                        {project.country && (
+                            <Badge variant="outline">{project.country.name_fr}</Badge>
+                        )}
+                        {project.thematic && (
+                            <Badge variant="outline">{project.thematic}</Badge>
+                        )}
                     </div>
                     <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
                 </div>
@@ -60,35 +78,41 @@ function ProjectCard({ project }: { project: PublicProject }) {
                 <div className="grid gap-2 text-sm text-muted-foreground mb-5">
                     <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        <span>Cloture le {formatDate(project.endDate)}</span>
+                        <span>Cloture le {formatDate(project.updated_at)}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4" />
-                        <span>Budget : {project.budget}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4" />
-                        <span>
-                            {project.beneficiaries.toLocaleString("fr-FR")} beneficiaires
-                        </span>
-                    </div>
+                    {project.budget && (
+                        <div className="flex items-center gap-2">
+                            <TrendingUp className="h-4 w-4" />
+                            <span>Budget : {project.budget.toLocaleString('fr-FR')} FCFA</span>
+                        </div>
+                    )}
+                    {project.beneficiaries && (
+                        <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4" />
+                            <span>{project.beneficiaries} bénéficiaires</span>
+                        </div>
+                    )}
                     <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4" />
-                        <span>{project.location.region}</span>
+                        <span>{project.region || project.country?.region || "N/A"}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Globe className="h-4 w-4" />
-                        <span>Operateur : {project.operator}</span>
-                    </div>
+                    {project.operator && (
+                        <div className="flex items-center gap-2">
+                            <Globe className="h-4 w-4" />
+                            <span>Operateur : {project.operator}</span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex gap-2">
                     <Button asChild size="sm" className="flex-1">
                         <Link to="/carte-public">Voir sur la carte</Link>
                     </Button>
-                    <Button asChild size="sm" variant="outline">
-                        <Link to={`/projets-pays/${project.countryCode}`}>Pays</Link>
-                    </Button>
+                    {project.country && (
+                        <Button asChild size="sm" variant="outline">
+                            <Link to={`/projets-pays/${project.country.code_iso}`}>Pays</Link>
+                        </Button>
+                    )}
                 </div>
             </CardContent>
         </Card>
@@ -100,6 +124,8 @@ export default function CallsForProjectsPage() {
     const { data: projects, isLoading } = usePublicProjects()
     const [thematic, setThematic] = useState("all")
     const [search, setSearch] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 12
 
     const completedProjects = useMemo(
         () => (projects || []).filter(project => project.status === "completed"),
@@ -109,9 +135,9 @@ export default function CallsForProjectsPage() {
     const thematicOptions = useMemo(() => {
         const values = Array.from(
             new Set(completedProjects.map(project => project.thematic))
-        )
+        ).filter((thematic): thematic is string => thematic !== null)
         return values.sort((a, b) =>
-            (THEMATIC_LABELS[a] ?? a).localeCompare(THEMATIC_LABELS[b] ?? b)
+            (a || '').localeCompare((b || ''))
         )
     }, [completedProjects])
 
@@ -121,14 +147,25 @@ export default function CallsForProjectsPage() {
             const searchLower = search.toLowerCase()
             const matchSearch = !search ||
                 project.title.toLowerCase().includes(searchLower) ||
-                project.description.toLowerCase().includes(searchLower) ||
-                project.countryName.toLowerCase().includes(searchLower) ||
-                project.operator.toLowerCase().includes(searchLower) ||
-                project.location.region.toLowerCase().includes(searchLower)
+                (project.description || '').toLowerCase().includes(searchLower) ||
+                project.country?.name_fr?.toLowerCase().includes(searchLower) ||
+                (project.operator || '').toLowerCase().includes(searchLower) ||
+                (project.region || project.country?.region || '').toLowerCase().includes(searchLower)
 
             return matchThematic && matchSearch
         })
     }, [completedProjects, thematic, search])
+
+    // Reset to page 1 when filters change
+    useMemo(() => {
+        setCurrentPage(1)
+    }, [search, thematic])
+
+    const totalPages = Math.ceil(filteredProjects.length / itemsPerPage)
+    const paginatedProjects = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage
+        return filteredProjects.slice(startIndex, startIndex + itemsPerPage)
+    }, [filteredProjects, currentPage, itemsPerPage])
 
     return (
         <PublicLayout>
@@ -178,7 +215,7 @@ export default function CallsForProjectsPage() {
                             </SelectItem>
                             {thematicOptions.map(value => (
                                 <SelectItem key={value} value={value}>
-                                    {THEMATIC_LABELS[value] ?? value}
+                                    {value || 'Sans thématique'}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -204,12 +241,65 @@ export default function CallsForProjectsPage() {
                             {t("public.calls.noCalls")}
                         </CardContent>
                     </Card>
+                ) : filteredProjects.length === 0 ? (
+                    <Card>
+                        <CardContent className="py-12 text-center text-muted-foreground">
+                            <Briefcase className="mx-auto h-12 w-12 mb-3 opacity-50" />
+                            {t("public.calls.noCalls")}
+                        </CardContent>
+                    </Card>
                 ) : (
-                    <div className="grid gap-6 sm:grid-cols-2">
-                        {filteredProjects.map(project => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid gap-6 sm:grid-cols-2">
+                            {paginatedProjects.map(project => (
+                                <ProjectCard key={project.id} project={project} />
+                            ))}
+                        </div>
+
+                        {totalPages > 1 && (
+                            <div className="mt-8 flex justify-center">
+                                <Pagination>
+                                    <PaginationContent>
+                                        <PaginationPrevious
+                                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                        />
+
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                                            if (
+                                                page === 1 ||
+                                                page === totalPages ||
+                                                (page >= currentPage - 1 && page <= currentPage + 1)
+                                            ) {
+                                                return (
+                                                    <PaginationItem key={page}>
+                                                        <PaginationLink
+                                                            onClick={() => setCurrentPage(page)}
+                                                            isActive={page === currentPage}
+                                                            className="cursor-pointer"
+                                                        >
+                                                            {page}
+                                                        </PaginationLink>
+                                                    </PaginationItem>
+                                                )
+                                            } else if (
+                                                page === currentPage - 2 ||
+                                                page === currentPage + 2
+                                            ) {
+                                                return <PaginationEllipsis key={page} />
+                                            }
+                                            return null
+                                        })}
+
+                                        <PaginationNext
+                                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                        />
+                                    </PaginationContent>
+                                </Pagination>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </PublicLayout>

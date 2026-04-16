@@ -16,6 +16,19 @@ export { PublicFooter } from './components/PublicFooter';
 export { PublicLayout } from './components/PublicLayout';
 
 // Public Hooks
-export { usePublicNews, type NewsArticle } from './hooks/usePublicNews';
-export { usePublicEvents, usePastEvents, type PublicEvent } from './hooks/usePublicEvents';
+export { usePublicNews, useNewsByCategory, useNewsByLanguage, useLatestNews, type NewsArticle } from './hooks/usePublicNews';
+export { usePublicEvents, usePastEvents, useEvent, useEventsByType, useEventsByCountry, type PublicEvent } from './hooks/usePublicEvents';
+export { usePublicProjects, usePublicProjectsByCountry, usePublicProjectsByThematic, usePublicProjectStats, useProjectsForMap, type PublicProject, type ProjectStats } from './hooks/usePublicProjects';
+export { usePublicDocuments, usePublicDocumentsByCategory, usePublicDocumentsByLanguage, usePublicDocumentsByType, useFeaturedDocuments, usePublicDocumentStats, useDocumentSearch, getDocumentUrl, type PublicDocument, type DocumentStats } from './hooks/usePublicDocuments';
+export { useCountries, useCountriesByRegion, useCountryByISO, useCountryById, useRegions, useCountriesWithProjectCount, useCountrySearch, REGIONS } from './hooks/useCountries';
 export { useProjectCalls, type ProjectCall } from './hooks/useProjectCalls';
+
+// Public Services (direct access if needed)
+export * from './services';
+
+// Mock Data (still available for testing)
+export { mockEvents, mockPastEvents } from './data/mockEvents';
+export { mockNews } from './data/mockNews';
+export { mockProjects } from './data/mockProjects';
+export { mockDocuments, DOCUMENT_CATEGORIES as MOCK_DOCUMENT_CATEGORIES, DOCUMENT_TYPES as MOCK_DOCUMENT_TYPES } from './data/mockDocuments';
+export { mockCountries } from './data/mockCountries';

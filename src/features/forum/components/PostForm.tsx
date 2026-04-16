@@ -5,8 +5,10 @@ import { useCreatePost } from '../hooks/useCreatePost';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { toast } from '@/hooks/use-toast';
 import { Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function PostForm({ topicId }: { topicId: string }) {
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
   const { user } = useAuth();
   const { mutate, isPending } = useCreatePost();
@@ -20,10 +22,10 @@ export function PostForm({ topicId }: { topicId: string }) {
       {
         onSuccess: () => {
           setContent('');
-          toast({ title: 'Réponse publiée' });
+          toast({ title: t('forum.post.success') });
         },
         onError: () => {
-          toast({ title: 'Erreur', description: 'Impossible de publier la réponse.', variant: 'destructive' });
+          toast({ title: t('forum.post.error'), description: t('forum.post.errorDesc'), variant: 'destructive' });
         },
       }
     );
@@ -34,7 +36,7 @@ export function PostForm({ topicId }: { topicId: string }) {
       <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Écrire une réponse…"
+        placeholder={t('forum.post.placeholder')}
         className="min-h-[60px] flex-1"
         required
         maxLength={2000}

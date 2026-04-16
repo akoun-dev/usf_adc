@@ -325,3 +325,62 @@ create policy "forum_topic_tags_delete_global_admin"
   on public.forum_topic_tags for delete
   to authenticated
   using (public.has_role(auth.uid(), 'global_admin'));
+
+-- =====================================================
+-- 16. add public read access policies (anon users)
+-- =====================================================
+-- note: anonymous users can read public forum content
+
+-- policy: select - anon users can view categories
+create policy "forum_categories_select_anon"
+  on public.forum_categories for select
+  to anon
+  using (true);
+
+-- policy: select - anon users can view public topics
+create policy "forum_topics_select_anon"
+  on public.forum_topics for select
+  to anon
+  using (is_public = true);
+
+-- policy: select - anon users can view posts in public topics
+create policy "forum_posts_select_anon"
+  on public.forum_posts for select
+  to anon
+  using (
+    exists (
+      select 1 from public.forum_topics t
+      where t.id = forum_posts.topic_id
+        and t.is_public = true
+    )
+  );
+
+-- policy: select - anon users can view tags of public topics
+create policy "forum_topic_tags_select_anon"
+  on public.forum_topic_tags for select
+  to anon
+  using (
+    exists (
+      select 1 from public.forum_topics t
+      where t.id = forum_topic_tags.topic_id
+        and t.is_public = true
+    )
+  );
+
+-- =====================================================
+-- 17. create view counter function
+-- =====================================================
+-- note: function to increment topic views counter
+
+create or replace function increment_forum_topic_views(topic_id uuid)
+returns void as $$
+begin
+  update public.forum_topics
+  set views = views + 1
+  where id = topic_id;
+end;
+$$ language plpgsql security definer;
+
+-- grant execute on view counter function
+grant execute on function public.increment_forum_topic_views to authenticated;
+grant execute on function public.increment_forum_topic_views to anon;

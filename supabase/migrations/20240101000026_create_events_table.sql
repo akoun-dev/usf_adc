@@ -88,18 +88,18 @@ create index idx_events_is_public on public.events(is_public);
 -- =====================================================
 -- note: policies are granular - one per operation per role
 
--- policy: select - authenticated users can view public events
--- rationale: events should be visible to all authenticated users
-create policy "events_select_authenticated"
+-- policy: select - anonymous and authenticated users can view public events
+-- rationale: events should be visible to everyone on public pages
+create policy "events_select_anon"
   on public.events for select
-  to authenticated
+  to anon, authenticated
   using (is_public = true);
 
 -- policy: select - global admins can view all events
 -- rationale: global admins need to see private events
 create policy "events_select_global_admin"
   on public.events for select
-  to authenticated
+  to anon, authenticated
   using (public.has_role(auth.uid(), 'global_admin'));
 
 -- policy: insert - country admins can create events for their country
@@ -186,16 +186,10 @@ alter table public.event_tags enable row level security;
 -- note: access to tags is derived from access to the parent event
 
 -- policy: select - users can view tags of events they can view
-create policy "event_tags_select_from_events"
+create policy "event_tags_select_anon"
   on public.event_tags for select
-  to authenticated
-  using (
-    exists (
-      select 1 from public.events e
-      where e.id = event_tags.event_id
-        and (e.is_public = true or public.has_role(auth.uid(), 'global_admin'))
-    )
-  );
+  to anon, authenticated
+  using (true);
 
 -- policy: insert - users can insert tags for events they can modify
 create policy "event_tags_insert_from_events"

@@ -868,6 +868,38 @@
       "readOnlyDesc": "You are viewing the public forum in read-only mode. To participate in discussions, create an account or log in.",
       "searchPlaceholder": "Search...",
       "allCategories": "All categories",
+      "categories": {
+        "announcements": "Announcements",
+        "announcementsDesc": "Official ATU communications",
+        "introductions": "Introductions",
+        "introductionsDesc": "Introduce yourself and your country",
+        "help": "Help & Support",
+        "helpDesc": "Questions about the USF-ADC platform",
+        "bestPractices": "Best Practices",
+        "bestPracticesDesc": "Sharing successful experiences",
+        "regulation": "Regulation",
+        "regulationDesc": "Discussions on regulatory frameworks",
+        "technical": "Technical",
+        "technicalDesc": "Technical deployment aspects"
+      },
+      "categoriesSlugs": {
+        "connectivity": {
+          "name": "Connectivity",
+          "desc": "Discussions on connectivity infrastructure and Internet access"
+        },
+        "financing": {
+          "name": "Financing",
+          "desc": "Discussions on financing mechanisms and budgets"
+        },
+        "regulation": {
+          "name": "Regulation",
+          "desc": "Regulatory framework and digital policies"
+        },
+        "general": {
+          "name": "General",
+          "desc": "General discussions and miscellaneous topics"
+        }
+      },
       "noTopics": "No public topics found",
       "replies": "replies",
       "askQuestion": {
@@ -881,7 +913,119 @@
         "d1": "Introduction to forum rules and best practices.",
         "t2": "Sharing USF Best Practices",
         "d2": "Discuss effective strategies for Universal Service."
-      }
+      },
+      "newTopic": "New topic",
+      "createFirst": "Create first topic",
+      "timeAgo": {
+        "minutes": "{{count}}m ago",
+        "hours": "{{count}}h ago",
+        "days": "{{count}}d ago"
+      },
+      "anonymous": "Anonymous",
+      "all": "All",
+      "topic": {
+        "notFound": "Topic not found.",
+        "backToForum": "Back to forum",
+        "dateLocale": "en-US",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "saving": "Saving…",
+        "titlePlaceholder": "Topic title",
+        "replies": "Replies ({{count}})",
+        "noReplies": "No replies yet.",
+        "reply": "Reply",
+        "deleteConfirmTitle": "Delete this topic?",
+        "deleteConfirmDesc": "This action is irreversible. The topic and all its replies will be permanently deleted."
+      },
+      "post": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "edited": "(edited)",
+        "deleteConfirmTitle": "Delete this reply?",
+        "deleteConfirmDesc": "This action is irreversible. The reply will be permanently deleted.",
+        "placeholder": "Write a reply…",
+        "success": "Reply published",
+        "error": "Error",
+        "errorDesc": "Unable to publish reply."
+      },
+      "new": {
+        "title": "New discussion topic",
+        "titleLabel": "Title",
+        "titlePlaceholder": "Topic title",
+        "categoryLabel": "Category",
+        "categoryPlaceholder": "Choose a category",
+        "contentLabel": "Content",
+        "contentPlaceholder": "Describe your topic…",
+        "cancel": "Cancel",
+        "publish": "Publish topic",
+        "publishing": "Publishing…",
+        "success": "Topic created successfully",
+        "error": "Error",
+        "errorDesc": "Unable to create topic."
+      },
+      "report": {
+        "button": "Report",
+        "title": "Report this content",
+        "placeholder": "Describe the reason for the report…",
+        "cancel": "Cancel",
+        "submit": "Report"
+      },
+      "moderation": {
+        "title": "Forum moderation",
+        "all": "All",
+        "pending": "Pending",
+        "reviewed": "Reviewed",
+        "dismissed": "Dismissed",
+        "noReports": "No reports",
+        "markReviewed": "Mark as reviewed",
+        "dismiss": "Dismiss report",
+        "status": {
+          "pending": "Pending",
+          "reviewed": "Reviewed",
+          "dismissed": "Dismissed"
+        }
+      },
+      "pinned": "Pinned",
+      "locked": "Locked",
+      "readOnlyFullDesc": "You are viewing the public forum in read-only mode. To participate in discussions, log in to your account.",
+      "benefits": {
+        "network": { "title": "Expert Network", "desc": "Exchange with experts from 23 African countries" },
+        "practices": { "title": "Best Practices", "desc": "Discover proven solutions from your peers" },
+        "watch": { "title": "Stay Informed", "desc": "Keep up with the latest USF news" },
+        "support": { "title": "Support", "desc": "Get help from the community" }
+      },
+      "searchPlaceholder": "Search a topic, a tag...",
+      "categoryPlaceholder": "Category",
+      "allCategories": "All categories",
+      "tabs": {
+        "all": "All",
+        "pinned": "Pinned",
+        "recent": "Recent"
+      },
+      "pinnedTopics": "Pinned topics",
+      "recentDiscussions": "Recent discussions",
+      "noTopicsFound": "No topics found",
+      "tryOtherSearch": "Try other search criteria",
+      "categories": "Categories",
+      "topContributors": "Top Contributors",
+      "popularTags": "Popular tags",
+      "newsletter": {
+        "title": "Stay informed",
+        "description": "Receive the latest discussions by email",
+        "placeholder": "Your email",
+        "subscribe": "Subscribe"
+      },
+      "status": {
+        "pinned": "Pinned",
+        "solved": "Solved",
+        "active": "Active"
+      },
+      "views": "views",
+      "posts": "posts"
     },
     "calls": {
       "title": "Projects",

@@ -807,6 +807,20 @@
       "readOnlyDesc": "Está a navegar no fórum público em modo de leitura. Para participar nas discussões, crie uma conta ou inicie sessão.",
       "searchPlaceholder": "Pesquisar...",
       "allCategories": "Todas as categorias",
+      "categories": {
+        "announcements": "Anúncios",
+        "announcementsDesc": "Comunicações oficiais da UAT",
+        "introductions": "Apresentações",
+        "introductionsDesc": "Apresente-se e o seu país",
+        "help": "Ajuda e Suporte",
+        "helpDesc": "Perguntas sobre a plataforma USF-ADC",
+        "bestPractices": "Boas Práticas",
+        "bestPracticesDesc": "Partilha de experiências bem-sucedidas",
+        "regulation": "Regulamentação",
+        "regulationDesc": "Discussões sobre quadros regulamentares",
+        "technical": "Técnico",
+        "technicalDesc": "Aspectos técnicos da implementação"
+      },
       "noTopics": "Nenhum tópico público encontrado",
       "replies": "respostas",
       "askQuestion": {
@@ -820,7 +834,137 @@
         "d1": "Apresentação das regras e boas práticas do fórum.",
         "t2": "Partilha das melhores práticas FSU",
         "d2": "Discuta estratégias eficazes para o Serviço Universal."
-      }
+      },
+      "newTopic": "Novo tópico",
+      "createFirst": "Criar primeiro tópico",
+      "timeAgo": {
+        "minutes": "há {{count}}m",
+        "hours": "há {{count}}h",
+        "days": "há {{count}}d"
+      },
+      "anonymous": "Anónimo",
+      "all": "Todos",
+      "topic": {
+        "notFound": "Tópico não encontrado.",
+        "backToForum": "Voltar ao fórum",
+        "dateLocale": "pt-PT",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "saving": "A guardar…",
+        "titlePlaceholder": "Título do tópico",
+        "replies": "Respostas ({{count}})",
+        "noReplies": "Ainda sem respostas.",
+        "reply": "Responder",
+        "deleteConfirmTitle": "Eliminar este tópico?",
+        "deleteConfirmDesc": "Esta ação é irreversível. O tópico e todas as suas respostas serão definitivamente eliminados."
+      },
+      "post": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "edited": "(editado)",
+        "deleteConfirmTitle": "Eliminar esta resposta?",
+        "deleteConfirmDesc": "Esta ação é irreversível. A resposta será definitivamente eliminada.",
+        "placeholder": "Escrever uma resposta…",
+        "success": "Resposta publicada",
+        "error": "Erro",
+        "errorDesc": "Não foi possível publicar a resposta."
+      },
+      "new": {
+        "title": "Novo tópico de discussão",
+        "titleLabel": "Título",
+        "titlePlaceholder": "Título do tópico",
+        "categoryLabel": "Categoria",
+        "categoryPlaceholder": "Escolher uma categoria",
+        "contentLabel": "Conteúdo",
+        "contentPlaceholder": "Descreva o seu tópico…",
+        "cancel": "Cancelar",
+        "publish": "Publicar tópico",
+        "publishing": "A publicar…",
+        "success": "Tópico criado com sucesso",
+        "error": "Erro",
+        "errorDesc": "Não foi possível criar o tópico."
+      },
+      "report": {
+        "button": "Denunciar",
+        "title": "Denunciar este conteúdo",
+        "placeholder": "Descreva o motivo da denúncia…",
+        "cancel": "Cancelar",
+        "submit": "Denunciar"
+      },
+      "moderation": {
+        "title": "Moderação do fórum",
+        "all": "Todos",
+        "pending": "Pendente",
+        "reviewed": "Revisto",
+        "dismissed": "Rejeitado",
+        "noReports": "Nenhuma denúncia",
+        "markReviewed": "Marcar como revisto",
+        "dismiss": "Rejeitar denúncia",
+        "status": {
+          "pending": "Pendente",
+          "reviewed": "Revisto",
+          "dismissed": "Rejeitado"
+        }
+      },
+      "pinned": "Fixado",
+      "locked": "Bloqueado",
+      "readOnlyFullDesc": "Está a navegar no fórum público em modo apenas leitura. Para participar nas discussões, inicie sessão na sua conta.",
+      "benefits": {
+        "network": { "title": "Rede de Especialistas", "desc": "Troque ideias com especialistas de 23 países africanos" },
+        "practices": { "title": "Boas Práticas", "desc": "Descubra soluções comprovadas pelos seus pares" },
+        "watch": { "title": "Fique Informado", "desc": "Mantenha-se a par das últimas notícias do FSU" },
+        "support": { "title": "Suporte", "desc": "Obtenha ajuda da comunidade" }
+      },
+      "categoriesSlugs": {
+        "connectivity": {
+          "name": "Conectividade",
+          "desc": "Discussões sobre infraestruturas de conectividade e acesso à Internet"
+        },
+        "financing": {
+          "name": "Financiamento",
+          "desc": "Trocas sobre mecanismos de financiamento e orçamentos"
+        },
+        "regulation": {
+          "name": "Regulamentação",
+          "desc": "Quadro regulamentar e políticas digitais"
+        },
+        "general": {
+          "name": "Geral",
+          "desc": "Discussões gerais e tópicos diversos"
+        }
+      },
+      "searchPlaceholder": "Pesquisar um tópico, uma etiqueta...",
+      "categoryPlaceholder": "Categoria",
+      "allCategories": "Todas as categorias",
+      "tabs": {
+        "all": "Todos",
+        "pinned": "Fixados",
+        "recent": "Recentes"
+      },
+      "pinnedTopics": "Tópicos fixados",
+      "recentDiscussions": "Discussões recentes",
+      "noTopicsFound": "Nenhum tópico encontrado",
+      "tryOtherSearch": "Tente outros critérios de pesquisa",
+      "categories": "Categorias",
+      "topContributors": "Principais Contribuidores",
+      "popularTags": "Tags populares",
+      "newsletter": {
+        "title": "Mantenha-se informado",
+        "description": "Receba as últimas discussões por email",
+        "placeholder": "O seu email",
+        "subscribe": "Subscrever"
+      },
+      "status": {
+        "pinned": "Fixado",
+        "solved": "Resolvido",
+        "active": "Ativo"
+      },
+      "views": "visualizações",
+      "posts": "mensagens"
     },
     "calls": {
       "title": "Projetos",
@@ -1183,25 +1327,168 @@
     "forum": {
       "title": "Fórum Público",
       "description": "Discussões e trocas sobre o Serviço Universal",
-      "joinToParticipate": "Junte-se para participar",
-      "readOnlyMode": "Modo apenas leitura",
-      "readOnlyDesc": "Está a navegar no fórum público em modo apenas leitura. Para participar nas discussões, crie uma conta ou entre.",
+      "joinToParticipate": "Aderir para participar",
+      "readOnlyMode": "Modo Leitura",
+      "readOnlyDesc": "Está a navegar no fórum público em modo de leitura. Para participar nas discussões, crie uma conta ou inicie sessão.",
       "searchPlaceholder": "Pesquisar...",
       "allCategories": "Todas as categorias",
+      "categories": {
+        "announcements": "Anúncios",
+        "announcementsDesc": "Comunicações oficiais da UAT",
+        "introductions": "Apresentações",
+        "introductionsDesc": "Apresente-se e o seu país",
+        "help": "Ajuda e Suporte",
+        "helpDesc": "Perguntas sobre a plataforma USF-ADC",
+        "bestPractices": "Boas Práticas",
+        "bestPracticesDesc": "Partilha de experiências bem-sucedidas",
+        "regulation": "Regulamentação",
+        "regulationDesc": "Discussões sobre quadros regulamentares",
+        "technical": "Técnico",
+        "technicalDesc": "Aspectos técnicos da implementação"
+      },
+      "categoriesSlugs": {
+        "connectivity": {
+          "name": "Conectividade",
+          "desc": "Discussões sobre infraestruturas de conectividade e acesso à Internet"
+        },
+        "financing": {
+          "name": "Financiamento",
+          "desc": "Trocas sobre mecanismos de financiamento e orçamentos"
+        },
+        "regulation": {
+          "name": "Regulamentação",
+          "desc": "Quadro regulamentar e políticas digitais"
+        },
+        "general": {
+          "name": "Geral",
+          "desc": "Discussões gerais e tópicos diversos"
+        }
+      },
       "noTopics": "Nenhum tópico público encontrado",
       "replies": "respostas",
       "askQuestion": {
         "title": "Tem uma pergunta?",
-        "desc": "Entre para participar nas discussões ou contacte-nos diretamente."
+        "desc": "Inicie sessão para participar nas discussões ou contacte-nos diretamente."
       },
       "login": "Entrar",
       "register": "Criar conta",
       "mock": {
         "t1": "Bem-vindo ao fórum USF-ADC",
         "d1": "Apresentação das regras e boas práticas do fórum.",
-        "t2": "Partilha de melhores práticas FSU",
+        "t2": "Partilha das melhores práticas FSU",
         "d2": "Discuta estratégias eficazes para o Serviço Universal."
-      }
+      },
+      "newTopic": "Novo tópico",
+      "createFirst": "Criar primeiro tópico",
+      "timeAgo": {
+        "minutes": "há {{count}}m",
+        "hours": "há {{count}}h",
+        "days": "há {{count}}d"
+      },
+      "anonymous": "Anónimo",
+      "all": "Todos",
+      "topic": {
+        "notFound": "Tópico não encontrado.",
+        "backToForum": "Voltar ao fórum",
+        "dateLocale": "pt-PT",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "saving": "A guardar…",
+        "titlePlaceholder": "Título do tópico",
+        "replies": "Respostas ({{count}})",
+        "noReplies": "Ainda sem respostas.",
+        "reply": "Responder",
+        "deleteConfirmTitle": "Eliminar este tópico?",
+        "deleteConfirmDesc": "Esta ação é irreversível. O tópico e todas as suas respostas serão definitivamente eliminados."
+      },
+      "post": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "edited": "(editado)",
+        "deleteConfirmTitle": "Eliminar esta resposta?",
+        "deleteConfirmDesc": "Esta ação é irreversível. A resposta será definitivamente eliminada.",
+        "placeholder": "Escrever uma resposta…",
+        "success": "Resposta publicada",
+        "error": "Erro",
+        "errorDesc": "Não foi possível publicar a resposta."
+      },
+      "new": {
+        "title": "Novo tópico de discussão",
+        "titleLabel": "Título",
+        "titlePlaceholder": "Título do tópico",
+        "categoryLabel": "Categoria",
+        "categoryPlaceholder": "Escolher uma categoria",
+        "contentLabel": "Conteúdo",
+        "contentPlaceholder": "Descreva o seu tópico…",
+        "cancel": "Cancelar",
+        "publish": "Publicar tópico",
+        "publishing": "A publicar…",
+        "success": "Tópico criado com sucesso",
+        "error": "Erro",
+        "errorDesc": "Não foi possível criar o tópico."
+      },
+      "report": {
+        "button": "Denunciar",
+        "title": "Denunciar este conteúdo",
+        "placeholder": "Descreva o motivo da denúncia…",
+        "cancel": "Cancelar",
+        "submit": "Denunciar"
+      },
+      "moderation": {
+        "title": "Moderação do fórum",
+        "all": "Todos",
+        "pending": "Pendente",
+        "reviewed": "Revisto",
+        "dismissed": "Rejeitado",
+        "noReports": "Nenhuma denúncia",
+        "markReviewed": "Marcar como revisto",
+        "dismiss": "Rejeitar denúncia",
+        "status": {
+          "pending": "Pendente",
+          "reviewed": "Revisto",
+          "dismissed": "Rejeitado"
+        }
+      },
+      "pinned": "Fixado",
+      "locked": "Bloqueado",
+      "readOnlyFullDesc": "Está a navegar no fórum público em modo apenas leitura. Para participar nas discussões, inicie sessão na sua conta.",
+      "benefits": {
+        "network": { "title": "Rede de Especialistas", "desc": "Troque ideias com especialistas de 23 países africanos" },
+        "practices": { "title": "Boas Práticas", "desc": "Descubra soluções comprovadas pelos seus pares" },
+        "watch": { "title": "Fique Informado", "desc": "Mantenha-se a par das últimas notícias do FSU" },
+        "support": { "title": "Suporte", "desc": "Obtenha ajuda da comunidade" }
+      },
+      "searchPlaceholder": "Pesquisar um tópico, uma etiqueta...",
+      "categoryPlaceholder": "Categoria",
+      "tabs": {
+        "all": "Todos",
+        "pinned": "Fixados",
+        "recent": "Recentes"
+      },
+      "pinnedTopics": "Tópicos fixados",
+      "recentDiscussions": "Discussões recentes",
+      "noTopicsFound": "Nenhum tópico encontrado",
+      "tryOtherSearch": "Tente outros critérios de pesquisa",
+      "categories": "Categorias",
+      "topContributors": "Principais Contribuidores",
+      "popularTags": "Tags populares",
+      "newsletter": {
+        "title": "Mantenha-se informado",
+        "description": "Receba as últimas discussões por email",
+        "placeholder": "O seu email",
+        "subscribe": "Subscrever"
+      },
+      "status": {
+        "pinned": "Fixado",
+        "solved": "Resolvido",
+        "active": "Ativo"
+      },
+      "views": "visualizações",
+      "posts": "mensagens"
     },
     "calls": {
       "title": "Projetos",

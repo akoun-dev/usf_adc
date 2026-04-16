@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Newspaper, Search, Calendar, Filter, Mail, Share2, Clock, User, Tag, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
@@ -10,6 +10,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import PageHero from '@/components/PageHero';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -220,19 +229,32 @@ export default function NewsPage() {
   const [category, setCategory] = useState('all');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
-  const filtered = (news || []).filter((article) => {
-    const matchSearch = !search ||
-      article.title.toLowerCase().includes(search.toLowerCase()) ||
-      (article.content && article.content.toLowerCase().includes(search.toLowerCase())) ||
-      (article.tags && article.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase())));
-    const matchSource = source === 'all' || article.source === source;
-    const matchCategory = category === 'all' || article.category === category;
-    return matchSearch && matchSource && matchCategory;
-  });
+  const filtered = useMemo(() => {
+    return (news || []).filter((article) => {
+      const matchSearch = !search ||
+        article.title.toLowerCase().includes(search.toLowerCase()) ||
+        (article.content && article.content.toLowerCase().includes(search.toLowerCase())) ||
+        (article.tags && article.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase())));
+      const matchSource = source === 'all' || article.source === source;
+      const matchCategory = category === 'all' || article.category === category;
+      return matchSearch && matchSource && matchCategory;
+    });
+  }, [news, search, source, category]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [search, source, category]);
 
   const featured = filtered.slice(0, 3);
   const regular = filtered.slice(3);
+
+  const totalPages = Math.ceil(Math.max(0, (regular.length - 1)) / itemsPerPage) + 1;
+  const regularStartIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedRegular = regular.slice(regularStartIndex, regularStartIndex + itemsPerPage);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -374,10 +396,56 @@ export default function NewsPage() {
                   {t('public.news.moreNews')}
                 </h2>
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                  {regular.map((article) => (
+                  {paginatedRegular.map((article) => (
                     <NewsCard key={article.id} article={article} />
                   ))}
                 </div>
+
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationPrevious
+                          onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                          className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                          if (
+                            page === 1 ||
+                            page === totalPages ||
+                            (page >= currentPage - 1 && page <= currentPage + 1)
+                          ) {
+                            return (
+                              <PaginationItem key={page}>
+                                <PaginationLink
+                                  onClick={() => setCurrentPage(page)}
+                                  isActive={page === currentPage}
+                                  className="cursor-pointer"
+                                >
+                                  {page}
+                                </PaginationLink>
+                              </PaginationItem>
+                            );
+                          } else if (
+                            page === currentPage - 2 ||
+                            page === currentPage + 2
+                          ) {
+                            return (
+                            <PaginationEllipsis key={page} />
+                          );
+                          }
+                          return null;
+                        })}
+
+                        <PaginationNext
+                          onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                          className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
               </section>
             )}
           </>

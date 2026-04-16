@@ -75,11 +75,11 @@ create index idx_projects_location on public.projects(latitude, longitude);
 -- =====================================================
 -- note: policies are granular - one per operation per role
 
--- policy: select - all authenticated users can view projects
--- rationale: project information is meant to be shared across the platform
-create policy "projects_select_authenticated"
+-- policy: select - all users can view projects
+-- rationale: project information is meant to be publicly accessible
+create policy "projects_select_anon"
   on public.projects for select
-  to authenticated
+  to anon, authenticated
   using (true);
 
 -- policy: insert - country admins can create projects for their country
@@ -229,9 +229,9 @@ alter table public.project_images enable row level security;
 -- note: access to images is derived from access to the parent project
 
 -- policy: select - users can view images of projects they can access
-create policy "project_images_select_from_projects"
+create policy "project_images_select_anon"
   on public.project_images for select
-  to authenticated
+  to anon, authenticated
   using (true);
 
 -- policy: insert - admins can insert images for projects they can modify
@@ -289,9 +289,9 @@ alter table public.project_tags enable row level security;
 -- note: access to tags is derived from access to the parent project
 
 -- policy: select - users can view tags of projects they can access
-create policy "project_tags_select_from_projects"
+create policy "project_tags_select_anon"
   on public.project_tags for select
-  to authenticated
+  to anon, authenticated
   using (true);
 
 -- policy: insert - admins can insert tags for projects they can modify

@@ -10,8 +10,10 @@ import { useCategories } from '../hooks/useTopics';
 import { useCreateTopic } from '../hooks/useCreateTopic';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { toast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 export function NewTopicForm() {
+  const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -28,11 +30,11 @@ export function NewTopicForm() {
       { title: title.trim(), content: content.trim(), category_id: categoryId, created_by: user.id },
       {
         onSuccess: (topic) => {
-          toast({ title: 'Sujet créé avec succès' });
+          toast({ title: t('forum.new.success') });
           navigate(`/forum/${topic.id}`);
         },
         onError: () => {
-          toast({ title: 'Erreur', description: 'Impossible de créer le sujet.', variant: 'destructive' });
+          toast({ title: t('forum.new.error'), description: t('forum.new.errorDesc'), variant: 'destructive' });
         },
       }
     );
@@ -41,26 +43,26 @@ export function NewTopicForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Nouveau sujet de discussion</CardTitle>
+        <CardTitle>{t('forum.new.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Titre</Label>
+            <Label htmlFor="title">{t('forum.new.titleLabel')}</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Titre du sujet"
+              placeholder={t('forum.new.titlePlaceholder')}
               required
               maxLength={200}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="category">Catégorie</Label>
+            <Label htmlFor="category">{t('forum.new.categoryLabel')}</Label>
             <Select value={categoryId} onValueChange={setCategoryId} required>
               <SelectTrigger>
-                <SelectValue placeholder="Choisir une catégorie" />
+                <SelectValue placeholder={t('forum.new.categoryPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {(categories || []).map((cat) => (
@@ -70,21 +72,21 @@ export function NewTopicForm() {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="content">Contenu</Label>
+            <Label htmlFor="content">{t('forum.new.contentLabel')}</Label>
             <Textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Décrivez votre sujet…"
+              placeholder={t('forum.new.contentPlaceholder')}
               className="min-h-[150px]"
               required
               maxLength={5000}
             />
           </div>
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => navigate('/forum')}>Annuler</Button>
+            <Button type="button" variant="outline" onClick={() => navigate('/forum')}>{t('forum.new.cancel')}</Button>
             <Button type="submit" disabled={isPending}>
-              {isPending ? 'Publication…' : 'Publier le sujet'}
+              {isPending ? t('forum.new.publishing') : t('forum.new.publish')}
             </Button>
           </div>
         </form>

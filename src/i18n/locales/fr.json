@@ -868,6 +868,38 @@
       "readOnlyDesc": "Vous naviguez sur le forum public en mode lecture seule. Pour participer aux discussions, créez un compte ou connectez-vous.",
       "searchPlaceholder": "Rechercher...",
       "allCategories": "Toutes catégories",
+      "categories": {
+        "announcements": "Annonces",
+        "announcementsDesc": "Communications officielles de l'UAT",
+        "introductions": "Présentations",
+        "introductionsDesc": "Présentez-vous et votre pays",
+        "help": "Aide et Support",
+        "helpDesc": "Questions sur la plateforme USF-ADC",
+        "bestPractices": "Bonnes Pratiques",
+        "bestPracticesDesc": "Partage d'expériences réussies",
+        "regulation": "Règlementation",
+        "regulationDesc": "Discussions sur les cadres réglementaires",
+        "technical": "Technique",
+        "technicalDesc": "Aspects techniques du déploiement"
+      },
+      "categoriesSlugs": {
+        "connectivity": {
+          "name": "Connectivité",
+          "desc": "Discussions sur les infrastructures de connectivité et accès Internet"
+        },
+        "financing": {
+          "name": "Financement",
+          "desc": "Échanges sur les mécanismes de financement et budgets"
+        },
+        "regulation": {
+          "name": "Réglementation",
+          "desc": "Cadre réglementaire et politiques numériques"
+        },
+        "general": {
+          "name": "Général",
+          "desc": "Discussions générales et sujets divers"
+        }
+      },
       "noTopics": "Aucun sujet public trouvé",
       "replies": "réponses",
       "askQuestion": {
@@ -881,7 +913,119 @@
         "d1": "Présentation des règles et bonnes pratiques du forum.",
         "t2": "Partage des meilleures pratiques FSU",
         "d2": "Discutez des stratégies efficaces pour le Service Universel."
-      }
+      },
+      "newTopic": "Nouveau sujet",
+      "createFirst": "Créer le premier sujet",
+      "timeAgo": {
+        "minutes": "il y a {{count}}m",
+        "hours": "il y a {{count}}h",
+        "days": "il y a {{count}}j"
+      },
+      "anonymous": "Anonyme",
+      "all": "Tous",
+      "topic": {
+        "notFound": "Sujet introuvable.",
+        "backToForum": "Retour au forum",
+        "dateLocale": "fr-FR",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "save": "Sauvegarder",
+        "cancel": "Annuler",
+        "saving": "Enregistrement…",
+        "titlePlaceholder": "Titre du sujet",
+        "replies": "Réponses ({{count}})",
+        "noReplies": "Aucune réponse pour le moment.",
+        "reply": "Répondre",
+        "deleteConfirmTitle": "Supprimer ce sujet ?",
+        "deleteConfirmDesc": "Cette action est irréversible. Le sujet et toutes ses réponses seront définitivement supprimés."
+      },
+      "post": {
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "save": "Sauvegarder",
+        "cancel": "Annuler",
+        "edited": "(modifié)",
+        "deleteConfirmTitle": "Supprimer cette réponse ?",
+        "deleteConfirmDesc": "Cette action est irréversible. La réponse sera définitivement supprimée.",
+        "placeholder": "Écrire une réponse…",
+        "success": "Réponse publiée",
+        "error": "Erreur",
+        "errorDesc": "Impossible de publier la réponse."
+      },
+      "new": {
+        "title": "Nouveau sujet de discussion",
+        "titleLabel": "Titre",
+        "titlePlaceholder": "Titre du sujet",
+        "categoryLabel": "Catégorie",
+        "categoryPlaceholder": "Choisir une catégorie",
+        "contentLabel": "Contenu",
+        "contentPlaceholder": "Décrivez votre sujet…",
+        "cancel": "Annuler",
+        "publish": "Publier le sujet",
+        "publishing": "Publication…",
+        "success": "Sujet créé avec succès",
+        "error": "Erreur",
+        "errorDesc": "Impossible de créer le sujet."
+      },
+      "report": {
+        "button": "Signaler",
+        "title": "Signaler ce contenu",
+        "placeholder": "Décrivez la raison du signalement…",
+        "cancel": "Annuler",
+        "submit": "Signaler"
+      },
+      "moderation": {
+        "title": "Modération du forum",
+        "all": "Tous",
+        "pending": "En attente",
+        "reviewed": "Traités",
+        "dismissed": "Rejetés",
+        "noReports": "Aucun signalement",
+        "markReviewed": "Marquer comme traité",
+        "dismiss": "Rejeter le signalement",
+        "status": {
+          "pending": "En attente",
+          "reviewed": "Traité",
+          "dismissed": "Rejeté"
+        }
+      },
+      "pinned": "Épinglé",
+      "locked": "Verrouillé",
+      "readOnlyFullDesc": "Vous naviguez sur le forum public en mode lecture seule. Pour participer aux discussions, connectez-vous à votre compte.",
+      "benefits": {
+        "network": { "title": "Réseau Expert", "desc": "Échangez avec des experts de 23 pays africains" },
+        "practices": { "title": "Bonnes Pratiques", "desc": "Découvrez des solutions éprouvées par vos pairs" },
+        "watch": { "title": "Veille", "desc": "Restez informé des dernières actualités du FSU" },
+        "support": { "title": "Support", "desc": "Bénéficiez de l'aide de la communauté" }
+      },
+      "searchPlaceholder": "Rechercher un sujet, un tag...",
+      "categoryPlaceholder": "Catégorie",
+      "allCategories": "Toutes catégories",
+      "tabs": {
+        "all": "Tous",
+        "pinned": "Épinglés",
+        "recent": "Récents"
+      },
+      "pinnedTopics": "Sujets épinglés",
+      "recentDiscussions": "Discussions récentes",
+      "noTopicsFound": "Aucun sujet trouvé",
+      "tryOtherSearch": "Essayez d'autres critères de recherche",
+      "categories": "Catégories",
+      "topContributors": "Top Contributeurs",
+      "popularTags": "Tags populaires",
+      "newsletter": {
+        "title": "Restez informé",
+        "description": "Recevez les dernières discussions par email",
+        "placeholder": "Votre email",
+        "subscribe": "S'abonner"
+      },
+      "status": {
+        "pinned": "Épinglé",
+        "solved": "Résolu",
+        "active": "Actif"
+      },
+      "views": "vues",
+      "posts": "messages"
     },
     "calls": {
       "title": "Projets",

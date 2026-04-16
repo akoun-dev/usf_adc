@@ -5,6 +5,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { Clock, Download, Filter, FolderOpen, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHero from '@/components/PageHero';
@@ -41,6 +50,8 @@ export default function PublicDocumentsPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [language, setLanguage] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const allDocuments = useMemo(() => documents ?? [], [documents]);
 
@@ -57,6 +68,17 @@ export default function PublicDocumentsPage() {
       return matchSearch && matchCategory && matchLanguage;
     });
   }, [allDocuments, category, language, search]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [search, category, language]);
+
+  const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
+  const paginatedDocuments = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredDocuments.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredDocuments, currentPage, itemsPerPage]);
 
   return (
     <PublicLayout>
@@ -141,10 +163,56 @@ export default function PublicDocumentsPage() {
               {t('public.documents.title')}
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredDocuments.map((document) => (
+              {paginatedDocuments.map((document) => (
                 <LibraryDocumentCard key={document.id} document={document} />
               ))}
             </div>
+
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationEllipsis key={page} />
+                        );
+                      }
+                      return null;
+                    })}
+
+                    <PaginationNext
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </section>
         )}
       </div>

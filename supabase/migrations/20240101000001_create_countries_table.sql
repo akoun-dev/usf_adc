@@ -41,11 +41,11 @@ alter table public.countries enable row level security;
 -- note: policies are granular - one per operation per role
 -- countries are public reference data, so all authenticated users can read them
 
--- policy: select - authenticated users can read all countries
--- rationale: countries are reference data needed for dropdowns, filters, etc.
-create policy "countries_select_authenticated"
+-- policy: select - all users can read all countries
+-- rationale: countries are public reference data needed for dropdowns, filters, etc.
+create policy "countries_select_anon"
   on public.countries for select
-  to authenticated
+  to anon, authenticated
   using (true);
 
 -- =====================================================

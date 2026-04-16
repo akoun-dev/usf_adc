@@ -1,118 +1,113 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import {
+  fetchUpcomingEvents,
+  fetchPastEvents,
+  fetchEventById,
+  fetchEventsByType,
+  fetchEventsByCountry,
+  type EventWithTags,
+  type EventType,
+} from '../services';
 import { mockEvents, mockPastEvents } from '../data/mockEvents';
 
-export interface PublicEvent {
-  id: string;
-  title: string;
-  description: string | null;
-  start_date: string;
-  end_date: string | null;
-  location: string | null;
-  event_type: 'webinar' | 'conference' | 'workshop' | 'meeting';
-  registration_url: string | null;
-  max_participants: number | null;
-  is_public: boolean;
-  created_at: string;
-  image_url?: string;
-  organizer?: string;
-  status?: string;
-  price?: string;
-  tags?: string[];
-}
+// Re-export types from service
+export type { EventWithTags as PublicEvent, EventType, EventStatus };
 
+/**
+ * Hook to fetch all upcoming public events
+ */
 export function usePublicEvents() {
   return useQuery({
     queryKey: ['public-events'],
     queryFn: async () => {
-      // Always return mock data for now
-      // TODO: Remove this when database is properly populated
-      return mockEvents;
-
-      /* const { data, error } = await supabase
-        .from('events' as any)
-        .select('*')
-        .eq('is_public', true)
-        .gte('start_date', new Date().toISOString())
-        .order('start_date', { ascending: true });
-
-      if (error) {
-        if (error.code === '42P01') {
-          return mockEvents;
-        }
-        throw error;
+      try {
+        return await fetchUpcomingEvents();
+      } catch (error) {
+        // Fallback to mock data if database is not available
+        console.warn('Failed to fetch events from database, using mock data:', error);
+        return mockEvents as unknown as EventWithTags[];
       }
-
-      // If table exists but is empty, return mock data
-      if (!data || data.length === 0) {
-        return mockEvents;
-      }
-
-      return data as PublicEvent[];
-      */
     },
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
 }
 
+/**
+ * Hook to fetch a single event by ID
+ */
 export function useEvent(id: string) {
   return useQuery({
     queryKey: ['public-event', id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .from('events' as any)
-        .select('*')
-        .eq('id', id)
-        .eq('is_public', true)
-        .single();
-
-      if (error) {
-        if (error.code === '42P01') {
-          return mockEvents.find(e => e.id === id);
-        }
-        throw error;
+      try {
+        const event = await fetchEventById(id);
+        if (event) return event;
+        // Fallback to mock data if not found in database
+        return mockEvents.find(e => e.id === id) as unknown as EventWithTags | undefined;
+      } catch (error) {
+        console.warn('Failed to fetch event from database, using mock data:', error);
+        return mockEvents.find(e => e.id === id) as unknown as EventWithTags | undefined;
       }
-
-      return data as unknown as PublicEvent;
     },
     enabled: !!id,
     staleTime: 15 * 60 * 1000,
   });
 }
 
+/**
+ * Hook to fetch past events
+ */
 export function usePastEvents() {
   return useQuery({
     queryKey: ['public-events-past'],
     queryFn: async () => {
-      // Always return mock data for now
-      // TODO: Remove this when database is properly populated
-      return mockPastEvents;
-
-      /* const { data, error } = await supabase
-        .from('events' as any)
-        .select('*')
-        .eq('is_public', true)
-        .lt('start_date', new Date().toISOString())
-        .order('start_date', { ascending: false })
-        .limit(10);
-
-      if (error) {
-        if (error.code === '42P01') {
-          return mockPastEvents;
-        }
-        throw error;
+      try {
+        return await fetchPastEvents();
+      } catch (error) {
+        // Fallback to mock data if database is not available
+        console.warn('Failed to fetch past events from database, using mock data:', error);
+        return mockPastEvents as unknown as EventWithTags[];
       }
-
-      // If table exists but is empty, return mock data
-      if (!data || data.length === 0) {
-        return mockPastEvents;
-      }
-
-      return data as PublicEvent[];
-      */
     },
     staleTime: 15 * 60 * 1000,
+  });
+}
+
+/**
+ * Hook to fetch events by type
+ */
+export function useEventsByType(eventType: EventType) {
+  return useQuery({
+    queryKey: ['public-events', 'type', eventType],
+    queryFn: async () => {
+      try {
+        return await fetchEventsByType(eventType);
+      } catch (error) {
+        console.warn('Failed to fetch events by type from database:', error);
+        return mockEvents.filter(e => e.event_type === eventType) as unknown as EventWithTags[];
+      }
+    },
+    enabled: !!eventType,
+    staleTime: 10 * 60 * 1000,
+  });
+}
+
+/**
+ * Hook to fetch events by country
+ */
+export function useEventsByCountry(countryId: string) {
+  return useQuery({
+    queryKey: ['public-events', 'country', countryId],
+    queryFn: async () => {
+      try {
+        return await fetchEventsByCountry(countryId);
+      } catch (error) {
+        console.warn('Failed to fetch events by country from database:', error);
+        return [] as EventWithTags[];
+      }
+    },
+    enabled: !!countryId,
+    staleTime: 10 * 60 * 1000,
   });
 }
 

@@ -6,6 +6,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger,
 } from '@/components/ui/dialog';
 import { useReportContent } from '../hooks/useReportContent';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   targetType: 'post' | 'topic';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function ReportButton({ targetType, targetId, reporterId }: Props) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState('');
   const { mutate, isPending } = useReportContent();
@@ -31,23 +33,23 @@ export function ReportButton({ targetType, targetId, reporterId }: Props) {
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-destructive h-7 px-2">
           <Flag className="h-3.5 w-3.5 mr-1" />
-          Signaler
+          {t('forum.report.button')}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Signaler ce contenu</DialogTitle>
+          <DialogTitle>{t('forum.report.title')}</DialogTitle>
         </DialogHeader>
         <Textarea
-          placeholder="Décrivez la raison du signalement…"
+          placeholder={t('forum.report.placeholder')}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           rows={3}
         />
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Annuler</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>{t('forum.report.cancel')}</Button>
           <Button variant="destructive" onClick={handleSubmit} disabled={isPending || !reason.trim()}>
-            Signaler
+            {t('forum.report.submit')}
           </Button>
         </DialogFooter>
       </DialogContent>

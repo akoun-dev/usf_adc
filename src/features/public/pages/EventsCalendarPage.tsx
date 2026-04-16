@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket, X } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicEvents, usePastEvents } from '../hooks/usePublicEvents';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,20 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import PageHero from '@/components/PageHero';
 import {
   Select,
@@ -244,6 +258,13 @@ export default function EventsCalendarPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedType, setSelectedType] = useState('all');
   const [search, setSearch] = useState('');
+  const [upcomingPage, setUpcomingPage] = useState(1);
+  const [pastPage, setPastPage] = useState(1);
+  const itemsPerPage = 9;
+
+  // State for popover
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
 
   const EVENT_TYPES = [
     { value: 'all', label: t('public.calendar.allTypes'), icon: CalendarIcon },
@@ -252,21 +273,44 @@ export default function EventsCalendarPage() {
     { value: 'workshop', label: t('public.eventTypes.workshop'), icon: Users },
   ];
 
-  const filteredEvents = (upcomingEvents || []).filter((event) => {
-    const matchType = selectedType === 'all' || event.event_type === selectedType;
-    const matchSearch = !search ||
-      event.title.toLowerCase().includes(search.toLowerCase()) ||
-      (event.description && event.description.toLowerCase().includes(search.toLowerCase())) ||
-      (event.location && event.location.toLowerCase().includes(search.toLowerCase())) ||
-      (event.tags && event.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())));
-    return matchType && matchSearch;
-  });
+  const filteredEvents = useMemo(() => {
+    return (upcomingEvents || []).filter((event) => {
+      const matchType = selectedType === 'all' || event.event_type === selectedType;
+      const matchSearch = !search ||
+        event.title.toLowerCase().includes(search.toLowerCase()) ||
+        (event.description && event.description.toLowerCase().includes(search.toLowerCase())) ||
+        (event.location && event.location.toLowerCase().includes(search.toLowerCase())) ||
+        (event.tags && event.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())));
+      return matchType && matchSearch;
+    });
+  }, [upcomingEvents, selectedType, search]);
 
-  const filteredPast = (pastEvents || []).filter((event) => {
-    return !search ||
-      event.title.toLowerCase().includes(search.toLowerCase()) ||
-      (event.description && event.description.toLowerCase().includes(search.toLowerCase()));
-  });
+  const filteredPast = useMemo(() => {
+    return (pastEvents || []).filter((event) => {
+      return !search ||
+        event.title.toLowerCase().includes(search.toLowerCase()) ||
+        (event.description && event.description.toLowerCase().includes(search.toLowerCase()));
+    });
+  }, [pastEvents, search]);
+
+  // Reset pages when filters change
+  useMemo(() => {
+    setUpcomingPage(1);
+    setPastPage(1);
+  }, [search, selectedType]);
+
+  const upcomingTotalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const pastTotalPages = Math.ceil(filteredPast.length / itemsPerPage);
+
+  const paginatedUpcoming = useMemo(() => {
+    const startIndex = (upcomingPage - 1) * itemsPerPage;
+    return filteredEvents.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredEvents, upcomingPage, itemsPerPage]);
+
+  const paginatedPast = useMemo(() => {
+    const startIndex = (pastPage - 1) * itemsPerPage;
+    return filteredPast.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredPast, pastPage, itemsPerPage]);
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
@@ -419,24 +463,106 @@ export default function EventsCalendarPage() {
                     <div className="grid grid-cols-7 gap-1">
                       {daysInMonth.map((day) => {
                         const events = getEventsForDay(day);
+                        const dateKey = format(day, 'yyyy-MM-dd');
+                        const hasEvents = events.length > 0;
                         return (
-                          <div
+                          <Popover
                             key={day.toISOString()}
-                            className={`
-                              aspect-square p-1 text-center rounded-md transition-colors
-                              ${!isSameMonth(day, currentMonth) ? 'text-muted-foreground/30' : 'hover:bg-muted'}
-                              ${events.length > 0 ? 'bg-primary/10 hover:bg-primary/20 cursor-pointer' : ''}
-                            `}
+                            open={popoverOpen && selectedDateKey === dateKey}
+                            onOpenChange={(open) => {
+                              setPopoverOpen(open);
+                              if (open) {
+                                setSelectedDateKey(dateKey);
+                              } else {
+                                setSelectedDateKey(null);
+                              }
+                            }}
                           >
-                            <span className="text-sm">{format(day, 'd')}</span>
-                            {events.length > 0 && (
-                              <div className="flex justify-center mt-1 gap-0.5">
-                                {events.slice(0, 3).map((_, i) => (
-                                  <div key={i} className="h-1.5 w-1.5 rounded-full bg-primary" />
-                                ))}
+                            <PopoverTrigger asChild>
+                              <div
+                                className={`
+                                  aspect-square p-1 text-center rounded-md transition-colors
+                                  ${!isSameMonth(day, currentMonth) ? 'text-muted-foreground/30' : 'hover:bg-muted'}
+                                  ${hasEvents ? 'bg-primary/10 hover:bg-primary/20 cursor-pointer' : ''}
+                                `}
+                              >
+                                <span className="text-sm">{format(day, 'd')}</span>
+                                {hasEvents && (
+                                  <div className="flex justify-center mt-1 gap-0.5">
+                                    {events.slice(0, 3).map((_, i) => (
+                                      <div key={i} className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-[450px] p-0"
+                              align="start"
+                              sideOffset={4}
+                            >
+                              {events.length > 0 && (
+                                <div className="p-5">
+                                  <div className="flex items-center justify-between mb-4">
+                                    <h4 className="font-semibold text-base flex items-center gap-2">
+                                      <CalendarIcon className="h-5 w-5 text-primary" />
+                                      {format(day, 'd MMMM yyyy', { locale: getDateFnsLocale(i18n.language) })}
+                                    </h4>
+                                    <Badge variant="secondary" className="text-sm">
+                                      {events.length} événement{events.length > 1 ? 's' : ''}
+                                    </Badge>
+                                  </div>
+                                  <div className="space-y-4 max-h-96 overflow-y-auto pr-1">
+                                    {events.map((event) => {
+                                      const TypeIcon = getEventTypeIcon(event.event_type);
+                                      const startDate = new Date(event.start_date);
+                                      return (
+                                        <Link
+                                          key={event.id}
+                                          to={`/calendrier/${event.id}`}
+                                          className="block group"
+                                          onClick={() => setPopoverOpen(false)}
+                                        >
+                                          <Card className="hover:shadow-md transition-shadow border-primary/10">
+                                            <CardContent className="p-4">
+                                              <div className="flex items-start gap-4">
+                                                <div className={`h-12 w-12 rounded-xl flex items-center justify-center shrink-0 ${getEventTypeColor(event.event_type).split(' ')[0]}`}>
+                                                  <TypeIcon className="h-6 w-6" />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                  <Badge className={`mb-2 ${getEventTypeColor(event.event_type)}`}>
+                                                    {t(`public.eventTypes.${event.event_type}`)}
+                                                  </Badge>
+                                                  <h5 className="font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+                                                    {event.title}
+                                                  </h5>
+                                                  {event.description && (
+                                                    <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                                                      {event.description}
+                                                    </p>
+                                                  )}
+                                                  <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
+                                                    <Clock className="h-4 w-4" />
+                                                    {startDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                                  </div>
+                                                  {event.location && (
+                                                    <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
+                                                      <MapPin className="h-4 w-4" />
+                                                      <span className="line-clamp-1">{event.location}</span>
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </CardContent>
+                                          </Card>
+                                        </Link>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </PopoverContent>
+                          </Popover>
                         );
                       })}
                     </div>
@@ -453,14 +579,14 @@ export default function EventsCalendarPage() {
                 <div className="space-y-3">
                   {upcomingLoading ? (
                     [1, 2, 3].map((i) => <Skeleton key={i} className="h-32" />)
-                  ) : filteredEvents.length === 0 ? (
+                  ) : paginatedUpcoming.length === 0 ? (
                     <Card>
                       <CardContent className="py-8 text-center text-muted-foreground text-sm">
                         {t('public.calendar.noEvents')}
                       </CardContent>
                     </Card>
                   ) : (
-                    filteredEvents.slice(0, 5).map((event) => (
+                    paginatedUpcoming.map((event) => (
                       <Card key={event.id} className="hover:shadow-md transition-shadow">
                         <CardContent className="p-4">
                           <Badge className="mb-2" variant="secondary">
@@ -520,7 +646,7 @@ export default function EventsCalendarPage() {
                       </Card>
                     ))}
                   </div>
-                ) : filteredEvents.length === 0 ? (
+                ) : paginatedUpcoming.length === 0 ? (
                   <Card>
                     <CardContent className="py-16 text-center text-muted-foreground">
                       <CalendarIcon className="mx-auto h-16 w-16 mb-4 opacity-30" />
@@ -533,11 +659,59 @@ export default function EventsCalendarPage() {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {filteredEvents.map((event) => (
-                      <EventCard key={event.id} event={event} />
-                    ))}
-                  </div>
+                  <>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {paginatedUpcoming.map((event) => (
+                        <EventCard key={event.id} event={event} />
+                      ))}
+                    </div>
+
+                    {upcomingTotalPages > 1 && (
+                      <div className="mt-8 flex justify-center">
+                        <Pagination>
+                          <PaginationContent>
+                            <PaginationPrevious
+                              onClick={() => setUpcomingPage(p => Math.max(1, p - 1))}
+                              className={upcomingPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+
+                            {Array.from({ length: upcomingTotalPages }, (_, i) => i + 1).map((page) => {
+                              if (
+                                page === 1 ||
+                                page === upcomingTotalPages ||
+                                (page >= upcomingPage - 1 && page <= upcomingPage + 1)
+                              ) {
+                                return (
+                                  <PaginationItem key={page}>
+                                    <PaginationLink
+                                      onClick={() => setUpcomingPage(page)}
+                                      isActive={page === upcomingPage}
+                                      className="cursor-pointer"
+                                    >
+                                      {page}
+                                    </PaginationLink>
+                                  </PaginationItem>
+                                );
+                              } else if (
+                                page === upcomingPage - 2 ||
+                                page === upcomingPage + 2
+                              ) {
+                                return (
+                                  <PaginationEllipsis key={page} />
+                                );
+                              }
+                              return null;
+                            })}
+
+                            <PaginationNext
+                              onClick={() => setUpcomingPage(p => Math.min(upcomingTotalPages, p + 1))}
+                              className={upcomingPage === upcomingTotalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+                          </PaginationContent>
+                        </Pagination>
+                      </div>
+                    )}
+                  </>
                 )}
               </TabsContent>
 
@@ -554,7 +728,7 @@ export default function EventsCalendarPage() {
                       </Card>
                     ))}
                   </div>
-                ) : filteredPast.length === 0 ? (
+                ) : paginatedPast.length === 0 ? (
                   <Card>
                     <CardContent className="py-16 text-center text-muted-foreground">
                       <CalendarIcon className="mx-auto h-16 w-16 mb-4 opacity-30" />
@@ -564,11 +738,59 @@ export default function EventsCalendarPage() {
                     </CardContent>
                   </Card>
                 ) : (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {filteredPast.map((event) => (
-                      <EventCard key={event.id} event={event} past />
-                    ))}
-                  </div>
+                  <>
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {paginatedPast.map((event) => (
+                        <EventCard key={event.id} event={event} past />
+                      ))}
+                    </div>
+
+                    {pastTotalPages > 1 && (
+                      <div className="mt-8 flex justify-center">
+                        <Pagination>
+                          <PaginationContent>
+                            <PaginationPrevious
+                              onClick={() => setPastPage(p => Math.max(1, p - 1))}
+                              className={pastPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+
+                            {Array.from({ length: pastTotalPages }, (_, i) => i + 1).map((page) => {
+                              if (
+                                page === 1 ||
+                                page === pastTotalPages ||
+                                (page >= pastPage - 1 && page <= pastPage + 1)
+                              ) {
+                                return (
+                                  <PaginationItem key={page}>
+                                    <PaginationLink
+                                      onClick={() => setPastPage(page)}
+                                      isActive={page === pastPage}
+                                      className="cursor-pointer"
+                                    >
+                                      {page}
+                                    </PaginationLink>
+                                  </PaginationItem>
+                                );
+                              } else if (
+                                page === pastPage - 2 ||
+                                page === pastPage + 2
+                              ) {
+                                return (
+                                  <PaginationEllipsis key={page} />
+                                );
+                              }
+                              return null;
+                            })}
+
+                            <PaginationNext
+                              onClick={() => setPastPage(p => Math.min(pastTotalPages, p + 1))}
+                              className={pastPage === pastTotalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            />
+                          </PaginationContent>
+                        </Pagination>
+                      </div>
+                    )}
+                  </>
                 )}
               </TabsContent>
             </Tabs>

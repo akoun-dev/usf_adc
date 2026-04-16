@@ -32,18 +32,10 @@ import { useUpdatePost } from '../hooks/useUpdatePost';
 import { useDeletePost } from '../hooks/useDeletePost';
 import { PostItem } from '../components/PostItem';
 import { PostForm } from '../components/PostForm';
-
-function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `il y a ${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) return `il y a ${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `il y a ${days}j`;
-}
+import { useTranslation } from 'react-i18next';
 
 export default function ForumTopicPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { user, hasRole } = useAuth();
   const { topic: topicQuery, posts: postsQuery } = useTopic(id!);
@@ -65,10 +57,20 @@ export default function ForumTopicPage() {
   }
 
   const topic = topicQuery.data;
-  if (!topic) return <p className="text-muted-foreground">Sujet introuvable.</p>;
+  if (!topic) return <p className="text-muted-foreground">{t('forum.topic.notFound')}</p>;
 
   const canManageTopic = currentUserId === topic.created_by || isAdmin;
   const initials = (topic.author?.full_name || 'A').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  const timeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return t('forum.timeAgo.minutes', { count: mins });
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return t('forum.timeAgo.hours', { count: hours });
+    const days = Math.floor(hours / 24);
+    return t('forum.timeAgo.days', { count: days });
+  };
 
   const handleStartEditTopic = () => {
     setEditTitle(topic.title);
@@ -87,20 +89,20 @@ export default function ForumTopicPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       <Button variant="ghost" size="sm" asChild>
-        <Link to="/forum"><ArrowLeft className="mr-2 h-4 w-4" />Retour au forum</Link>
+        <Link to="/forum"><ArrowLeft className="mr-2 h-4 w-4" />{t('forum.topic.backToForum')}</Link>
       </Button>
 
       <Card>
         <CardContent className="p-6">
           {isEditingTopic ? (
             <div className="space-y-3">
-              <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder="Titre du sujet" />
+              <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder={t('forum.topic.titlePlaceholder')} />
               <Textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} className="min-h-[100px]" />
               <div className="flex gap-2">
                 <Button size="sm" onClick={handleSaveTopic} disabled={!editTitle.trim() || !editContent.trim() || updateTopic.isPending}>
-                  {updateTopic.isPending ? 'Enregistrement…' : 'Sauvegarder'}
+                  {updateTopic.isPending ? t('forum.topic.saving') : t('forum.topic.save')}
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setIsEditingTopic(false)}>Annuler</Button>
+                <Button size="sm" variant="outline" onClick={() => setIsEditingTopic(false)}>{t('forum.topic.cancel')}</Button>
               </div>
             </div>
           ) : (
@@ -118,13 +120,13 @@ export default function ForumTopicPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={handleStartEditTopic}>
-                        <Pencil className="mr-2 h-4 w-4" />Modifier
+                        <Pencil className="mr-2 h-4 w-4" />{t('forum.topic.edit')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         onClick={() => setShowDeleteTopicDialog(true)}
                       >
-                        <Trash2 className="mr-2 h-4 w-4" />Supprimer
+                        <Trash2 className="mr-2 h-4 w-4" />{t('forum.topic.delete')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -136,7 +138,7 @@ export default function ForumTopicPage() {
                   <Avatar className="h-5 w-5">
                     <AvatarFallback className="text-[10px] bg-muted">{initials}</AvatarFallback>
                   </Avatar>
-                  <span>{topic.author?.full_name ?? 'Anonyme'}</span>
+                  <span>{topic.author?.full_name ?? t('forum.anonymous')}</span>
                 </div>
                 <span>{timeAgo(topic.created_at)}</span>
               </div>
@@ -148,7 +150,7 @@ export default function ForumTopicPage() {
 
       <div>
         <h2 className="text-lg font-semibold text-foreground mb-4">
-          Réponses ({postsQuery.data?.length ?? 0})
+          {t('forum.topic.replies', { count: postsQuery.data?.length ?? 0 })}
         </h2>
         {postsQuery.isLoading ? (
           <div className="space-y-3">{[1, 2].map(i => <Skeleton key={i} className="h-16" />)}</div>
@@ -168,13 +170,13 @@ export default function ForumTopicPage() {
             </CardContent>
           </Card>
         ) : (
-          <p className="text-sm text-muted-foreground">Aucune réponse pour le moment.</p>
+          <p className="text-sm text-muted-foreground">{t('forum.topic.noReplies')}</p>
         )}
       </div>
 
       {!topic.is_locked && (
         <div>
-          <h3 className="text-sm font-medium text-foreground mb-2">Répondre</h3>
+          <h3 className="text-sm font-medium text-foreground mb-2">{t('forum.topic.reply')}</h3>
           <PostForm topicId={topic.id} />
         </div>
       )}
@@ -182,18 +184,18 @@ export default function ForumTopicPage() {
       <AlertDialog open={showDeleteTopicDialog} onOpenChange={setShowDeleteTopicDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Supprimer ce sujet ?</AlertDialogTitle>
+            <AlertDialogTitle>{t('forum.topic.deleteConfirmTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irréversible. Le sujet et toutes ses réponses seront définitivement supprimés.
+              {t('forum.topic.deleteConfirmDesc')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel>{t('forum.topic.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => deleteTopic.mutate(topic.id)}
             >
-              Supprimer
+              {t('forum.topic.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

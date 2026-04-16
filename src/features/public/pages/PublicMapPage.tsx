@@ -12,7 +12,7 @@ import PageHero from '@/components/PageHero';
 import { PublicLayout } from '../components/PublicLayout';
 import { mockMemberCountries, REGIONS } from '../data/mockCountries';
 import { usePublicProjects } from '../hooks/usePublicProjects';
-import type { PublicProject } from '../data/mockProjects';
+import type { ProjectWithDetails } from '../services/projects.service';
 import { Card, CardContent } from '@/components/ui/card';
 import { CountriesMap } from '../components/CountriesMap';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -38,8 +38,8 @@ const PROJECT_THEMES: Record<ProjectTheme, { icon: string; color: string; labelK
 };
 
 // Detect project theme from title/description
-function detectProjectTheme(project: PublicProject): ProjectTheme {
-    const text = `${project.title} ${project.description}`.toLowerCase();
+function detectProjectTheme(project: ProjectWithDetails): ProjectTheme {
+    const text = `${project.title} ${project.description || ''} ${project.thematic || ''}`.toLowerCase();
 
     if (text.match(/santé|health|médical|hôpital|clinique|soins/)) return 'health';
     if (text.match(/éducation|education|école|écol|school|université|formation|teacher/)) return 'education';
@@ -48,7 +48,10 @@ function detectProjectTheme(project: PublicProject): ProjectTheme {
     return 'connectivity';
 }
 
-function parseBudgetToNumber(budget: string): number | null {
+function parseBudgetToNumber(budget: string | number | null | undefined): number | null {
+    if (budget === null || budget === undefined) return null;
+    if (typeof budget === 'number') return budget;
+
     const match = budget.match(/(\d+(?:[.,]\d+)?)/);
     if (!match) return null;
 
@@ -61,25 +64,25 @@ function parseBudgetToNumber(budget: string): number | null {
     return value;
 }
 
-function mapPublicProjectToProject(project: PublicProject): Project {
+function mapPublicProjectToProject(project: ProjectWithDetails): Project {
     return {
         id: project.id,
-        country_id: project.countryCode,
+        country_id: project.country?.code_iso || project.country_id,
         title: project.title,
-        description: project.description,
+        description: project.description || '',
         status: project.status === 'completed' ? 'completed' : 'in_progress',
         budget: parseBudgetToNumber(project.budget),
         beneficiaire: project.beneficiaries,
-        latitude: project.location.lat,
-        longitude: project.location.lng,
-        region: project.location.region,
+        latitude: project.latitude ?? 0,
+        longitude: project.longitude ?? 0,
+        region: project.region || project.country?.region || 'Unknown',
         created_by: null,
-        created_at: project.startDate,
-        updated_at: project.endDate,
+        created_at: project.created_at,
+        updated_at: project.updated_at,
         countries: {
-            name_fr: project.countryName,
-            name_en: project.countryName,
-            code_iso: project.countryCode,
+            name_fr: project.country?.name_fr || '',
+            name_en: project.country?.name_en || '',
+            code_iso: project.country?.code_iso || '',
         },
     };
 }
@@ -120,11 +123,13 @@ export default function PublicMapPage() {
     const { data: publicProjects = [], isLoading } = usePublicProjects();
     const { t } = useTranslation();
 
-    const activeProjects = useMemo(() => {
+    // First, filter the projects (keeping the original type)
+    const filteredProjects = useMemo(() => {
         return publicProjects
-            .filter((project) => project.status === 'active' || project.status === 'completed')
+            .filter((project) => project.status === 'in_progress' || project.status === 'completed')
             .filter((project) => {
                 if (statusFilter === 'all') return true;
+                if (statusFilter === 'active') return project.status === 'in_progress';
                 return project.status === statusFilter;
             })
             .filter((project) => {
@@ -133,8 +138,11 @@ export default function PublicMapPage() {
             })
             .filter((project) => {
                 if (regionFilter === 'all') return true;
-                const country = mockMemberCountries.find(c => c.code === project.countryCode);
-                return country?.region === regionFilter;
+                return project.country?.region === regionFilter;
+            })
+            .filter((project) => {
+                // Filter out projects without valid location data
+                return project.latitude != null && project.longitude != null;
             })
             .filter((project) => {
                 const query = search.trim().toLowerCase();
@@ -143,12 +151,17 @@ export default function PublicMapPage() {
                 return [
                     project.title,
                     project.description,
-                    project.countryName,
-                    project.location.region,
-                ].some((value) => value.toLowerCase().includes(query));
-            })
-            .map(mapPublicProjectToProject);
+                    project.country?.name_fr,
+                    project.country?.name_en,
+                    project.region,
+                ].some((value) => value?.toLowerCase().includes(query) ?? false);
+            });
     }, [publicProjects, search, statusFilter, themeFilter, regionFilter]);
+
+    // Then, map to the Project type for the map component
+    const activeProjects = useMemo(() => {
+        return filteredProjects.map(mapPublicProjectToProject);
+    }, [filteredProjects]);
 
     const projectsByCountry = useMemo(() => {
         return activeProjects.reduce((acc, project) => {
@@ -202,28 +215,26 @@ export default function PublicMapPage() {
 
     // Calculate counts for filters
     const themeCounts = useMemo(() => {
-        const counts: Record<string, number> = { all: activeProjects.length };
+        const counts: Record<string, number> = { all: filteredProjects.length };
         Object.entries(PROJECT_THEMES).forEach(([key]) => {
             if (key !== 'all') {
-                counts[key] = activeProjects.filter(p => {
-                    const projectTheme = detectProjectTheme(publicProjects.find(proj => proj.id === p.id) || publicProjects[0]);
-                    return projectTheme === key;
+                counts[key] = filteredProjects.filter(p => {
+                    return detectProjectTheme(p) === key;
                 }).length;
             }
         });
         return counts;
-    }, [activeProjects, publicProjects]);
+    }, [filteredProjects]);
 
     const regionCounts = useMemo(() => {
-        const counts: Record<string, number> = { all: activeProjects.length };
+        const counts: Record<string, number> = { all: filteredProjects.length };
         REGIONS.forEach(region => {
-            counts[region] = activeProjects.filter(p => {
-                const country = mockMemberCountries.find(c => c.code === p.country_id);
-                return country?.region === region;
+            counts[region] = filteredProjects.filter(p => {
+                return p.country?.region === region;
             }).length;
         });
         return counts;
-    }, [activeProjects]);
+    }, [filteredProjects]);
 
     const activeFiltersCount = useMemo(() => {
         return [
@@ -414,16 +425,6 @@ export default function PublicMapPage() {
                             </div>
                         </CardContent>
                     </Card>
-
-          {/* Dashboard Stats */}
-          <Card className="mb-4 border-2 border-primary/10 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-                <TrendingUp className="h-5 w-5 text-primary" />
-
-
-
-
-
-
 
                     {/* Filters Panel */}
                     {showFilters && (

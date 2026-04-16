@@ -4,10 +4,19 @@ import { ArrowLeft, Building2, Calendar, Flag, Mail, MapPin, Phone, TrendingUp, 
 import { PublicLayout } from '../components/PublicLayout';
 import { mockMemberCountries } from '../data/mockCountries';
 import { usePublicProjectsByCountry } from '../hooks/usePublicProjects';
-import { STATUS_LABELS, type PublicProject } from '../data/mockProjects';
+import type { ProjectWithDetails } from '../services/projects.service';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -19,10 +28,17 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type CountryStatusFilter = 'all' | 'active' | 'completed';
 
-function ProjectCard({ project }: { project: PublicProject }) {
-  const statusInfo = STATUS_LABELS[project.status];
-  const startDate = new Date(project.startDate);
-  const endDate = new Date(project.endDate);
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  'planned': { label: 'Planifié', color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
+  'in_progress': { label: 'En cours', color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
+  'completed': { label: 'Terminé', color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
+  'suspended': { label: 'Suspendu', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
+};
+
+function ProjectCard({ project }: { project: ProjectWithDetails }) {
+  const statusInfo = STATUS_LABELS[project.status] || STATUS_LABELS['planned'];
+  const startDate = new Date(project.created_at);
+  const endDate = new Date(project.updated_at);
 
   return (
     <Card className="hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -30,7 +46,7 @@ function ProjectCard({ project }: { project: PublicProject }) {
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
             <h3 className="font-bold text-lg mb-1">{project.title}</h3>
-            <p className="text-sm text-muted-foreground">{project.location.region}</p>
+            <p className="text-sm text-muted-foreground">{project.region || project.country?.region || ''}</p>
           </div>
           <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
         </div>
@@ -42,24 +58,28 @@ function ProjectCard({ project }: { project: PublicProject }) {
         <div className="space-y-2 text-sm mb-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <TrendingUp className="h-4 w-4" />
-            <span>Budget : {project.budget}</span>
+            <span>Budget : {project.budget ? `${project.budget.toLocaleString('fr-FR')} FCFA` : 'N/A'}</span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Users className="h-4 w-4" />
-            <span>{project.beneficiaries.toLocaleString('fr-FR')} beneficiaires</span>
-          </div>
+          {project.beneficiaries && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span>{project.beneficiaries} bénéficiaires</span>
+            </div>
+          )}
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
             <span>
               {startDate.toLocaleDateString('fr-FR')} - {endDate.toLocaleDateString('fr-FR')}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="h-4 w-4" />
-            <span>
-              {project.location.lat.toFixed(4)}, {project.location.lng.toFixed(4)}
-            </span>
-          </div>
+          {project.latitude && project.longitude && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <MapPin className="h-4 w-4" />
+              <span>
+                {project.latitude.toFixed(4)}, {project.longitude.toFixed(4)}
+              </span>
+            </div>
+          )}
         </div>
 
         <Button asChild variant="outline" className="w-full">
@@ -74,32 +94,49 @@ export default function CountryProjectsPage() {
   const { countryCode } = useParams<{ countryCode: string }>();
   const [selectedStatus, setSelectedStatus] = useState<CountryStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<CountryStatusFilter>('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const country = mockMemberCountries.find((item) => item.code === countryCode);
   const { data: rawProjects = [], isLoading } = usePublicProjectsByCountry(countryCode ?? '');
 
   const visibleProjects = useMemo(
-    () => rawProjects.filter((project) => project.status === 'active' || project.status === 'completed'),
+    () => rawProjects.filter((project) => project.status === 'in_progress' || project.status === 'completed'),
     [rawProjects],
   );
 
   const projects = useMemo(() => {
     let result = visibleProjects;
 
-    if (selectedStatus !== 'all') {
-      result = result.filter((project) => project.status === selectedStatus);
+    if (selectedStatus === 'active') {
+      result = result.filter((project) => project.status === 'in_progress');
+    } else if (selectedStatus === 'completed') {
+      result = result.filter((project) => project.status === 'completed');
     }
 
-    if (activeTab !== 'all') {
-      result = result.filter((project) => project.status === activeTab);
+    if (activeTab === 'active') {
+      result = result.filter((project) => project.status === 'in_progress');
+    } else if (activeTab === 'completed') {
+      result = result.filter((project) => project.status === 'completed');
     }
 
     return result;
   }, [activeTab, selectedStatus, visibleProjects]);
 
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [selectedStatus, activeTab]);
+
+  const totalPages = Math.ceil(projects.length / itemsPerPage);
+  const paginatedProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return projects.slice(startIndex, startIndex + itemsPerPage);
+  }, [projects, currentPage, itemsPerPage]);
+
   const stats = useMemo(() => ({
     total: visibleProjects.length,
-    enCours: visibleProjects.filter((project) => project.status === 'active').length,
+    enCours: visibleProjects.filter((project) => project.status === 'in_progress').length,
     termines: visibleProjects.filter((project) => project.status === 'completed').length,
   }), [visibleProjects]);
 
@@ -272,11 +309,59 @@ export default function CountryProjectsPage() {
             </CardContent>
           </Card>
         ) : projects.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {paginatedProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationEllipsis key={page} />
+                        );
+                      }
+                      return null;
+                    })}
+
+                    <PaginationNext
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+          </>
         ) : (
           <Card>
             <CardContent className="py-16 text-center text-muted-foreground">

@@ -10,40 +10,40 @@ import { useTranslation } from 'react-i18next';
 
 // Project themes with icons and colors
 const PROJECT_THEMES = {
-  connectivity: { icon: '📡', color: '#3b82f6' },
-  health: { icon: '🏥', color: '#ef4444' },
-  education: { icon: '🎓', color: '#f59e0b' },
-  energy: { icon: '⚡', color: '#10b981' },
-  agriculture: { icon: '🌾', color: '#84cc16' },
-  default: { icon: '📍', color: '#6366f1' },
+    connectivity: { icon: '📡', color: '#3b82f6' },
+    health: { icon: '🏥', color: '#ef4444' },
+    education: { icon: '🎓', color: '#f59e0b' },
+    energy: { icon: '⚡', color: '#10b981' },
+    agriculture: { icon: '🌾', color: '#84cc16' },
+    default: { icon: '📍', color: '#6366f1' },
 };
 
 // Detect project theme from title/description
 function detectProjectTheme(project: Project): keyof typeof PROJECT_THEMES {
-  const text = `${project.title} ${project.description || ''}`.toLowerCase();
+    const text = `${project.title} ${project.description || ''}`.toLowerCase();
 
-  if (text.match(/santé|health|médical|hôpital|clinique|soins/)) return 'health';
-  if (text.match(/éducation|education|école|écol|school|université|formation|teacher/)) return 'education';
-  if (text.match(/énergie|energy|solaire|electric|électr|power/)) return 'energy';
-  if (text.match(/agricultur|pêche|ferm|rural|crop|livestock/)) return 'agriculture';
-  return 'connectivity';
+    if (text.match(/santé|health|médical|hôpital|clinique|soins/)) return 'health';
+    if (text.match(/éducation|education|école|écol|school|université|formation|teacher/)) return 'education';
+    if (text.match(/énergie|energy|solaire|electric|électr|power/)) return 'energy';
+    if (text.match(/agricultur|pêche|ferm|rural|crop|livestock/)) return 'agriculture';
+    return 'connectivity';
 }
 
 function createPopupContent(project: Project, t: (key: string) => string): string {
-  const statusLabels: Record<string, string> = {
-    planned: t('public.map.status.planned'),
-    in_progress: t('public.map.status.in_progress'),
-    completed: t('public.map.status.completed'),
-    suspended: t('public.map.status.suspended'),
-  };
-  const budget = project.budget
-    ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(project.budget)
-    : '—';
+    const statusLabels: Record<string, string> = {
+        planned: t('public.map.status.planned'),
+        in_progress: t('public.map.status.in_progress'),
+        completed: t('public.map.status.completed'),
+        suspended: t('public.map.status.suspended'),
+    };
+    const budget = project.budget
+        ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(project.budget)
+        : '—';
 
-  const theme = detectProjectTheme(project);
-  const themeInfo = PROJECT_THEMES[theme];
+    const theme = detectProjectTheme(project);
+    const themeInfo = PROJECT_THEMES[theme];
 
-  return `
+    return `
     <div style="min-width:280px;font-family:system-ui,sans-serif">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:24px;">${themeInfo.icon}</span>
@@ -86,20 +86,20 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
 }
 
 function createThemedIcon(project: Project, mapMode: 'carte' | 'satellite' = 'carte') {
-  const theme = detectProjectTheme(project);
-  const themeInfo = PROJECT_THEMES[theme];
-  const statusColor = PROJECT_STATUS_COLORS[project.status];
+    const theme = detectProjectTheme(project);
+    const themeInfo = PROJECT_THEMES[theme];
+    const statusColor = PROJECT_STATUS_COLORS[project.status];
 
-  // Enhanced contrast for satellite mode
-  const isSatellite = mapMode === 'satellite';
-  const borderWidth = isSatellite ? 4 : 3;
-  const boxShadow = isSatellite
-    ? '0 4px 16px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,255,0.8), 0 0 0 4px rgba(0,0,0,0.3)'
-    : '0 3px 10px rgba(0,0,0,0.3)';
+    // Enhanced contrast for satellite mode
+    const isSatellite = mapMode === 'satellite';
+    const borderWidth = isSatellite ? 4 : 3;
+    const boxShadow = isSatellite
+        ? '0 4px 16px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,255,0.8), 0 0 0 4px rgba(0,0,0,0.3)'
+        : '0 3px 10px rgba(0,0,0,0.3)';
 
-  return L.divIcon({
-    className: 'custom-marker',
-    html: `
+    return L.divIcon({
+        className: 'custom-marker',
+        html: `
       <div style="
         position: relative;
         width: 36px;
@@ -135,114 +135,116 @@ function createThemedIcon(project: Project, mapMode: 'carte' | 'satellite' = 'ca
         ">${themeInfo.icon}</div>
       </div>
     `,
-    iconSize: [36, 36],
-    iconAnchor: [18, 36],
-    popupAnchor: [0, -36],
-  });
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+        popupAnchor: [0, -36],
+    });
 }
 
 interface Props {
-  projects: Project[];
-  selectedProjectId?: string | null;
-  onProjectClick?: (project: Project) => void;
-  mapMode?: 'carte' | 'satellite';
+    projects: Project[];
+    selectedProjectId?: string | null;
+    onProjectClick?: (project: Project) => void;
+    mapMode?: 'carte' | 'satellite';
 }
 
 export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMode = 'carte' }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<L.Map | null>(null);
-  const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
-  const tileLayerRef = useRef<L.TileLayer | null>(null);
-  const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
-  const { t } = useTranslation();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<L.Map | null>(null);
+    const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
+    const tileLayerRef = useRef<L.TileLayer | null>(null);
+    const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
+    const { t } = useTranslation();
 
-  useEffect(() => {
-    if (!containerRef.current || mapRef.current) return;
+    useEffect(() => {
+        if (!containerRef.current || mapRef.current) return;
 
-    mapRef.current = L.map(containerRef.current).setView([5, 20], 3);
+        mapRef.current = L.map(containerRef.current).setView([5, 20], 3);
 
-    // Create tile layer based on map mode
-    const tileUrl = mapMode === 'satellite'
-      ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    const attribution = mapMode === 'satellite'
-      ? '&copy; <a href="https://www.esri.com/">Esri</a>'
-      : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+        // Create tile layer based on map mode
+        const tileUrl = mapMode === 'satellite'
+            ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const attribution = mapMode === 'satellite'
+            ? '&copy; <a href="https://www.esri.com/">Esri</a>'
+            : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
-    tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(mapRef.current);
+        tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(mapRef.current);
 
-    clusterRef.current = L.markerClusterGroup({
-      maxClusterRadius: 50,
-      spiderfyOnMaxZoom: true,
-      showCoverageOnHover: false,
-    });
-    mapRef.current.addLayer(clusterRef.current);
+        clusterRef.current = L.markerClusterGroup({
+            maxClusterRadius: 50,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+        });
+        mapRef.current.addLayer(clusterRef.current);
 
-    return () => {
-      mapRef.current?.remove();
-      mapRef.current = null;
-      clusterRef.current = null;
-      tileLayerRef.current = null;
-    };
-  }, [mapMode]);
+        return () => {
+            mapRef.current?.remove();
+            mapRef.current = null;
+            clusterRef.current = null;
+            tileLayerRef.current = null;
+        };
+    }, [mapMode]);
 
-  // Update tile layer when map mode changes
-  useEffect(() => {
-    const map = mapRef.current;
-    const tileLayer = tileLayerRef.current;
-    if (!map || !tileLayer) return;
+    // Update tile layer when map mode changes
+    useEffect(() => {
+        const map = mapRef.current;
+        const tileLayer = tileLayerRef.current;
+        if (!map || !tileLayer) return;
 
-    const tileUrl = mapMode === 'satellite'
-      ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tileUrl = mapMode === 'satellite'
+            ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    tileLayer.setUrl(tileUrl);
-  }, [mapMode]);
+        tileLayer.setUrl(tileUrl);
+    }, [mapMode]);
 
-  useEffect(() => {
-    const map = mapRef.current;
-    const cluster = clusterRef.current;
-    if (!map || !cluster) return;
+    useEffect(() => {
+        const map = mapRef.current;
+        const cluster = clusterRef.current;
+        if (!map || !cluster) return;
 
-    cluster.clearLayers();
-    markersMapRef.current.clear();
+        cluster.clearLayers();
+        markersMapRef.current.clear();
 
-    const geoProjects = projects.filter((p) => p.latitude && p.longitude);
+        const geoProjects = projects.filter((p) => p.latitude && p.longitude);
 
-    geoProjects.forEach((project) => {
-      const marker = L.marker([project.latitude!, project.longitude!], {
-        icon: createThemedIcon(project, mapMode),
-      }).bindPopup(createPopupContent(project, t), {
-        maxWidth: 350,
-        className: 'custom-popup'
-      });
+        geoProjects.forEach((project) => {
+            const marker = L.marker([project.latitude!, project.longitude!], {
+                icon: createThemedIcon(project, mapMode),
+            }).bindPopup(createPopupContent(project, t), {
+                maxWidth: 350,
+                className: 'custom-popup'
+            });
 
-      if (onProjectClick) {
-        marker.on('click', () => onProjectClick(project));
-      }
+            if (onProjectClick) {
+                marker.on('click', () => onProjectClick(project));
+            }
 
-      cluster.addLayer(marker);
-      markersMapRef.current.set(project.id, marker);
-    });
+            cluster.addLayer(marker);
+            markersMapRef.current.set(project.id, marker);
+        });
 
-    if (geoProjects.length > 0) {
-      const bounds = L.latLngBounds(geoProjects.map((p) => [p.latitude!, p.longitude!] as L.LatLngTuple));
+        if (geoProjects.length > 0) {
+            const bounds = L.latLngBounds(geoProjects.map((p) => [p.latitude!, p.longitude!] as L.LatLngTuple));
             //map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
             map.fitBounds(bounds, {
                 paddingTopLeft: [40, 40],
                 paddingBottomRight: [40, 120], // 👈 plus d’espace en bas
                 maxZoom: 6,
             });
-    }
-  }, [projects, onProjectClick, mapMode, t]);
+        }
+    }, [projects, onProjectClick, mapMode, t]);
 
-  // Fly to selected project
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !selectedProjectId) return;
-    const marker = markersMapRef.current.get(selectedProjectId);
-    if (marker) {
-      const latLng = marker.getLatLng();
+
+
+    // Fly to selected project
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map || !selectedProjectId) return;
+        const marker = markersMapRef.current.get(selectedProjectId);
+        if (marker) {
+            const latLng = marker.getLatLng();
             const offsetY = 100; // pixels (ajuste ici)
 
             const point = map.project(latLng, 8);
@@ -250,9 +252,9 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
             const newLatLng = map.unproject(newPoint, 8);
 
             map.flyTo(newLatLng, 8, { duration: 0.8 });
-      marker.openPopup();
-    }
-  }, [selectedProjectId]);
+            marker.openPopup();
+        }
+    }, [selectedProjectId]);
 
-  return <div ref={containerRef} className="h-full w-full rounded-lg" style={{ minHeight: '400px' }} />;
+    return <div ref={containerRef} className="h-full w-full rounded-lg" style={{ minHeight: '400px' }} />;
 }

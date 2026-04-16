@@ -6,185 +6,186 @@ import { AFRICAN_COUNTRIES_GEOJSON, getCountryGeoJSON } from '../data/africanCou
 import type { Project } from '@/features/projects-map/types';
 
 interface Props {
-  projectsByCountry: Record<string, Project[]>;
-  onCountryClick?: (countryCode: string) => void;
-  selectedCountryCode?: string | null;
-  mapMode?: 'carte' | 'satellite';
+    projectsByCountry: Record<string, Project[]>;
+    onCountryClick?: (countryCode: string) => void;
+    selectedCountryCode?: string | null;
+    mapMode?: 'carte' | 'satellite';
 }
 
 const COUNTRY_COLORS = {
-  member: '#3388ff',
-  selected: '#ff6b35',
-  hover: '#6699ff',
-  noProjects: '#cccccc',
+    member: '#3388ff',
+    selected: '#ff6b35',
+    hover: '#6699ff',
+    noProjects: '#cccccc',
 };
 
 // Calculate marker size based on project count
 function getMarkerSize(projectCount: number): number {
-  if (projectCount === 0) return 8;
-  if (projectCount <= 3) return 12;
-  if (projectCount <= 10) return 18;
-  if (projectCount <= 20) return 25;
-  return 32;
+    if (projectCount === 0) return 8;
+    if (projectCount <= 3) return 12;
+    if (projectCount <= 10) return 18;
+    if (projectCount <= 20) return 25;
+    return 32;
 }
+
 
 // Get centroid from GeoJSON polygon
 function getCountryCentroid(geoData: GeoJSON.Feature): { lat: number; lng: number } | null {
-  if (!geoData.geometry || geoData.geometry.type !== 'Polygon') return null;
+    if (!geoData.geometry || geoData.geometry.type !== 'Polygon') return null;
 
-  const coords = geoData.geometry.coordinates[0];
-  let totalLat = 0;
-  let totalLng = 0;
-  let count = 0;
+    const coords = geoData.geometry.coordinates[0];
+    let totalLat = 0;
+    let totalLng = 0;
+    let count = 0;
 
-  for (const coord of coords) {
-    totalLng += coord[0];
-    totalLat += coord[1];
-    count++;
-  }
+    for (const coord of coords) {
+        totalLng += coord[0];
+        totalLat += coord[1];
+        count++;
+    }
 
-  return { lat: totalLat / count, lng: totalLng / count };
+    return { lat: totalLat / count, lng: totalLng / count };
 }
 
 export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountryCode, mapMode = 'carte' }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<L.Map | null>(null);
-  const tileLayerRef = useRef<L.TileLayer | null>(null);
-  const layerGroupRef = useRef<L.LayerGroup | null>(null);
-  const [isReady, setIsReady] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<L.Map | null>(null);
+    const tileLayerRef = useRef<L.TileLayer | null>(null);
+    const layerGroupRef = useRef<L.LayerGroup | null>(null);
+    const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container || mapRef.current) return;
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container || mapRef.current) return;
 
-    // Vérifier que le conteneur a une taille
-    const rect = container.getBoundingClientRect();
-    console.log('[CountriesMap] Container size:', rect.width, 'x', rect.height);
+        // Vérifier que le conteneur a une taille
+        const rect = container.getBoundingClientRect();
+        console.log('[CountriesMap] Container size:', rect.width, 'x', rect.height);
 
-    if (rect.width === 0 || rect.height === 0) {
-      console.error('[CountriesMap] Container has no size!');
-      return;
-    }
+        if (rect.width === 0 || rect.height === 0) {
+            console.error('[CountriesMap] Container has no size!');
+            return;
+        }
 
-    try {
-      const map = L.map(container, {
-        center: [5, 20] as L.LatLngExpression,
-        zoom: 3,
-        minZoom: 2,
-        zoomControl: true,
-      });
+        try {
+            const map = L.map(container, {
+                center: [5, 20] as L.LatLngExpression,
+                zoom: 3,
+                minZoom: 2,
+                zoomControl: true,
+            });
 
-      // Create tile layer based on map mode
-      const tileUrl = mapMode === 'satellite'
-        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-        : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-      const attribution = mapMode === 'satellite'
-        ? '&copy; <a href="https://www.esri.com/">Esri</a>'
-        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+            // Create tile layer based on map mode
+            const tileUrl = mapMode === 'satellite'
+                ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const attribution = mapMode === 'satellite'
+                ? '&copy; <a href="https://www.esri.com/">Esri</a>'
+                : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
-      tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(map);
+            tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(map);
 
-      const layerGroup = L.layerGroup().addTo(map);
-      mapRef.current = map;
-      layerGroupRef.current = layerGroup;
-      setIsReady(true);
+            const layerGroup = L.layerGroup().addTo(map);
+            mapRef.current = map;
+            layerGroupRef.current = layerGroup;
+            setIsReady(true);
 
-      console.log('[CountriesMap] ✅ Map initialized successfully at', [5, 20]);
-    } catch (error) {
-      console.error('[CountriesMap] ❌ Error initializing map:', error);
-    }
+            console.log('[CountriesMap] ✅ Map initialized successfully at', [5, 20]);
+        } catch (error) {
+            console.error('[CountriesMap] ❌ Error initializing map:', error);
+        }
 
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-        tileLayerRef.current = null;
-        layerGroupRef.current = null;
-        setIsReady(false);
-      }
-    };
-  }, [mapMode]);
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
+                tileLayerRef.current = null;
+                layerGroupRef.current = null;
+                setIsReady(false);
+            }
+        };
+    }, [mapMode]);
 
-  // Update tile layer when map mode changes
-  useEffect(() => {
-    const map = mapRef.current;
-    const tileLayer = tileLayerRef.current;
-    if (!map || !tileLayer) return;
+    // Update tile layer when map mode changes
+    useEffect(() => {
+        const map = mapRef.current;
+        const tileLayer = tileLayerRef.current;
+        if (!map || !tileLayer) return;
 
-    const tileUrl = mapMode === 'satellite'
-      ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-      : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tileUrl = mapMode === 'satellite'
+            ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    tileLayer.setUrl(tileUrl);
-  }, [mapMode]);
+        tileLayer.setUrl(tileUrl);
+    }, [mapMode]);
 
-  useEffect(() => {
-    const map = mapRef.current;
-    const layerGroup = layerGroupRef.current;
-    if (!map || !layerGroup || !isReady) {
-      console.log('[CountriesMap] Waiting for map to be ready...');
-      return;
-    }
+    useEffect(() => {
+        const map = mapRef.current;
+        const layerGroup = layerGroupRef.current;
+        if (!map || !layerGroup || !isReady) {
+            console.log('[CountriesMap] Waiting for map to be ready...');
+            return;
+        }
 
-    console.log('[CountriesMap] 🗺️ Rendering countries map with points...');
-    console.log('[CountriesMap] Countries with projects:', Object.keys(projectsByCountry));
+        console.log('[CountriesMap] 🗺️ Rendering countries map with points...');
+        console.log('[CountriesMap] Countries with projects:', Object.keys(projectsByCountry));
 
-    layerGroup.clearLayers();
+        layerGroup.clearLayers();
 
-    const bounds: L.LatLngBoundsExpression = [];
-    let countriesRendered = 0;
+        const bounds: L.LatLngBoundsExpression = [];
+        let countriesRendered = 0;
 
-    mockMemberCountries.forEach((country) => {
-      const geoData = getCountryGeoJSON(country.code);
-      if (!geoData) {
-        console.warn(`[CountriesMap] ⚠️ No GeoJSON for ${country.code}`);
-        return;
-      }
+        mockMemberCountries.forEach((country) => {
+            const geoData = getCountryGeoJSON(country.code);
+            if (!geoData) {
+                console.warn(`[CountriesMap] ⚠️ No GeoJSON for ${country.code}`);
+                return;
+            }
 
-      const countryProjects = projectsByCountry[country.code] || [];
-      const projectCount = countryProjects.length;
-      const isSelected = selectedCountryCode === country.code;
+            const countryProjects = projectsByCountry[country.code] || [];
+            const projectCount = countryProjects.length;
+            const isSelected = selectedCountryCode === country.code;
 
-      console.log(`[CountriesMap] 📍 ${country.code}: ${projectCount} projects`);
+            console.log(`[CountriesMap] 📍 ${country.code}: ${projectCount} projects`);
 
-      const centroid = getCountryCentroid(geoData.geojson);
-      if (!centroid) {
-        console.warn(`[CountriesMap] ⚠️ No centroid for ${country.code}`);
-        return;
-      }
+            const centroid = getCountryCentroid(geoData.geojson);
+            if (!centroid) {
+                console.warn(`[CountriesMap] ⚠️ No centroid for ${country.code}`);
+                return;
+            }
 
-      try {
-        const markerSize = getMarkerSize(projectCount);
-        const fillColor = projectCount > 0 ? COUNTRY_COLORS.member : COUNTRY_COLORS.noProjects;
+            try {
+                const markerSize = getMarkerSize(projectCount);
+                const fillColor = projectCount > 0 ? COUNTRY_COLORS.member : COUNTRY_COLORS.noProjects;
 
-        // Enhanced contrast for satellite mode
-        const isSatellite = mapMode === 'satellite';
-        const strokeColor = isSelected
-          ? COUNTRY_COLORS.selected
-          : (isSatellite ? '#ffeb3b' : '#ffffff'); // Yellow stroke on satellite for visibility
-        const strokeWidth = isSelected ? 4 : (isSatellite ? 3 : 2);
-        const fillOpacity = isSelected ? 0.9 : (isSatellite ? 0.85 : 0.7);
+                // Enhanced contrast for satellite mode
+                const isSatellite = mapMode === 'satellite';
+                const strokeColor = isSelected
+                    ? COUNTRY_COLORS.selected
+                    : (isSatellite ? '#ffeb3b' : '#ffffff'); // Yellow stroke on satellite for visibility
+                const strokeWidth = isSelected ? 4 : (isSatellite ? 3 : 2);
+                const fillOpacity = isSelected ? 0.9 : (isSatellite ? 0.85 : 0.7);
 
-        // Create circle marker
-        const marker = L.circleMarker([centroid.lat, centroid.lng], {
-          radius: markerSize,
-          fillColor: fillColor,
-          color: strokeColor,
-          weight: strokeWidth,
-          opacity: 1,
-          fillOpacity: fillOpacity,
-        });
+                // Create circle marker
+                const marker = L.circleMarker([centroid.lat, centroid.lng], {
+                    radius: markerSize,
+                    fillColor: fillColor,
+                    color: strokeColor,
+                    weight: strokeWidth,
+                    opacity: 1,
+                    fillOpacity: fillOpacity,
+                });
 
-        // Calculate project stats for this country
-        const countryProjects = projectsByCountry[country.code] || [];
-        const activeCount = countryProjects.filter(p => p.status === 'in_progress').length;
-        const completedCount = countryProjects.filter(p => p.status === 'completed').length;
-        const totalBudget = countryProjects.reduce((sum, p) => sum + (p.budget || 0), 0);
+                // Calculate project stats for this country
+                const countryProjects = projectsByCountry[country.code] || [];
+                const activeCount = countryProjects.filter(p => p.status === 'in_progress').length;
+                const completedCount = countryProjects.filter(p => p.status === 'completed').length;
+                const totalBudget = countryProjects.reduce((sum, p) => sum + (p.budget || 0), 0);
 
-        // Create popup content with enhanced information
-        const popupContent = document.createElement('div');
-        popupContent.style.cssText = 'min-width: 280px; font-family: system-ui, sans-serif;';
-        popupContent.innerHTML = `
+                // Create popup content with enhanced information
+                const popupContent = document.createElement('div');
+                popupContent.style.cssText = 'min-width: 280px; font-family: system-ui, sans-serif;';
+                popupContent.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
             <img src="${country.flagUrl}" alt="${country.name}" style="width: 48px; height: 32px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);" />
             <div style="flex: 1;">
@@ -232,47 +233,47 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
           </a>
         `;
 
-        marker.bindPopup(popupContent, { maxWidth: 300 });
+                marker.bindPopup(popupContent, { maxWidth: 300 });
 
-        // Click handler
-        marker.on('click', () => {
-          console.log(`[CountriesMap] 🖱️ Clicked on ${country.code}`);
-          onCountryClick?.(country.code);
+                // Click handler
+                marker.on('click', () => {
+                    console.log(`[CountriesMap] 🖱️ Clicked on ${country.code}`);
+                    onCountryClick?.(country.code);
+                });
+
+                // Hover effect
+                marker.on('mouseover', function () {
+                    if (!isSelected && projectCount > 0) {
+                        this.setStyle({
+                            fillColor: COUNTRY_COLORS.hover,
+                            fillOpacity: 0.9,
+                            weight: 4
+                        });
+                    }
+                });
+
+                marker.on('mouseout', function () {
+                    this.setStyle({
+                        fillColor: fillColor,
+                        fillOpacity: fillOpacity,
+                        weight: strokeWidth,
+                        color: strokeColor
+                    });
+                });
+
+                marker.addTo(layerGroup);
+                countriesRendered++;
+                bounds.push([centroid.lat, centroid.lng]);
+
+            } catch (error) {
+                console.error(`[CountriesMap] ❌ Error rendering ${country.code}:`, error);
+            }
         });
 
-        // Hover effect
-        marker.on('mouseover', function () {
-          if (!isSelected && projectCount > 0) {
-            this.setStyle({
-              fillColor: COUNTRY_COLORS.hover,
-              fillOpacity: 0.9,
-              weight: 4
-            });
-          }
-        });
+        console.log(`[CountriesMap] ✅ Rendered ${countriesRendered} country points`);
 
-        marker.on('mouseout', function () {
-          this.setStyle({
-            fillColor: fillColor,
-            fillOpacity: fillOpacity,
-            weight: strokeWidth,
-            color: strokeColor
-          });
-        });
-
-        marker.addTo(layerGroup);
-        countriesRendered++;
-        bounds.push([centroid.lat, centroid.lng]);
-
-      } catch (error) {
-        console.error(`[CountriesMap] ❌ Error rendering ${country.code}:`, error);
-      }
-    });
-
-    console.log(`[CountriesMap] ✅ Rendered ${countriesRendered} country points`);
-
-    if (bounds.length > 0) {
-      try {
+        if (bounds.length > 0) {
+            try {
                 //map.fitBounds(bounds, { padding: [50, 50], maxZoom: 5 });
                 map.fitBounds(bounds, {
                     paddingTopLeft: [50, 50],
@@ -291,27 +292,27 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
 
                 map.setView(newCenter, zoom);*/
 
-        console.log('[CountriesMap] ✅ Bounds fitted');
-      } catch (error) {
-        console.error('[CountriesMap] ❌ Error fitting bounds:', error);
-      }
-    }
-  }, [selectedCountryCode, onCountryClick, projectsByCountry, isReady, mapMode]);
+                console.log('[CountriesMap] ✅ Bounds fitted');
+            } catch (error) {
+                console.error('[CountriesMap] ❌ Error fitting bounds:', error);
+            }
+        }
+    }, [selectedCountryCode, onCountryClick, projectsByCountry, isReady, mapMode]);
 
-  return (
-    <div className="relative w-full h-full">
-      <div
-        ref={containerRef}
-        className="w-full h-full rounded-lg overflow-hidden"
-      />
-      {!isReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted/20 rounded-lg">
-          <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-2" />
-            <p className="text-sm text-muted-foreground">Chargement de la carte...</p>
-          </div>
+    return (
+        <div className="relative w-full h-full">
+            <div
+                ref={containerRef}
+                className="w-full h-full rounded-lg overflow-hidden"
+            />
+            {!isReady && (
+                <div className="absolute inset-0 flex items-center justify-center bg-muted/20 rounded-lg">
+                    <div className="text-center">
+                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-2" />
+                        <p className="text-sm text-muted-foreground">Chargement de la carte...</p>
+                    </div>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }

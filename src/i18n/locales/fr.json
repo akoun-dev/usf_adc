@@ -1,0 +1,1678 @@
+{
+  "mfa": {
+    "title": "Vérification en deux étapes",
+    "emailDesc": "Un code de vérification a été envoyé à {{hint}}",
+    "smsDesc": "Un code de vérification a été envoyé par SMS",
+    "telegramDesc": "Un code de vérification a été envoyé via Telegram",
+    "codeSent": "Code de vérification envoyé",
+    "sendError": "Erreur lors de l'envoi du code",
+    "verify": "Vérifier",
+    "verifying": "Vérification...",
+    "verified": "Vérification réussie",
+    "invalidCode": "Code invalide ou expiré",
+    "verifyError": "Erreur de vérification",
+    "resend": "Renvoyer le code",
+    "resendIn": "Renvoyer dans {{seconds}}s",
+    "cancel": "Se déconnecter",
+    "settings": "Authentification à deux facteurs",
+    "settingsDesc": "Sécurisez votre compte avec un code à chaque connexion",
+    "method": "Méthode de vérification",
+    "methodEmail": "Par email",
+    "methodSms": "Par SMS",
+    "enabled": "2FA activée",
+    "required": "La 2FA est obligatoire pour les comptes admin"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "yes": "Oui",
+    "no": "Non",
+    "none": "Aucun",
+    "error": "Erreur",
+    "success": "Succès",
+    "noData": "Aucune donnée disponible",
+    "projects_count": "{{count}} projet",
+    "projects_count_plural": "{{count}} projets",
+    "users_count": "{{count}} utilisateur",
+    "users_count_plural": "{{count}} utilisateurs",
+    "confirm": "Confirmer",
+    "actions": "Actions",
+    "add": "Ajouter",
+    "update": "Mettre à jour",
+    "updated": "mis à jour",
+    "deleteConfirm": "Supprimer ce {{item}} ?"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "fsu": "Saisie FSU",
+    "validation": "Validation",
+    "users": "Utilisateurs",
+    "reports": "Rapports",
+    "map": "Carte des projets",
+    "forum": "Forum",
+    "notifications": "Notifications",
+    "support": "Support",
+    "admin": "Administration",
+    "profile": "Profil",
+    "signOut": "Se déconnecter",
+    "myAccount": "Mon compte",
+    "invitations": "Invitations",
+    "faq": "FAQ",
+    "newsletters": "Bulletins",
+    "newslettersAdmin": "Gérer les bulletins",
+    "documents": "Documents",
+    "training": "Formation",
+    "chat": "Chat en direct",
+    "feeds": "Veille stratégique",
+    "groups": "Groupes",
+    "alertSettings": "Alertes",
+    "sectionData": "Données",
+    "sectionCommunication": "Communication",
+    "sectionSupport": "Aide & Formation",
+    "sectionAdmin": "Administration"
+  },
+  "auth": {
+    "login": "Connexion",
+    "loginDesc": "Entrez vos identifiants pour accéder à votre espace",
+    "email": "Adresse email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion...",
+    "loginSuccess": "Connexion réussie",
+    "loginSuccessDesc": "Bienvenue sur la plateforme.",
+    "loginError": "Erreur de connexion",
+    "platformTitle": "USF-ADC",
+    "platformSubtitle": "Plateforme Africaine FSU — ANSUT/UAT",
+    "inviteOnly": "L'inscription se fait uniquement sur invitation.",
+    "contactAdmin": "Contactez votre administrateur pour obtenir un accès.",
+    "forgotPasswordTitle": "Mot de passe oublié",
+    "forgotPasswordDesc": "Entrez votre email pour recevoir un lien de réinitialisation",
+    "resetPassword": "Réinitialisation du mot de passe",
+    "sendLink": "Envoyer le lien",
+    "sending": "Envoi...",
+    "emailSent": "Email envoyé",
+    "emailSentDesc": "Vérifiez votre boîte de réception.",
+    "emailSentMessage": "Si un compte existe avec l'adresse <strong>{{email}}</strong>, vous recevrez un lien de réinitialisation.",
+    "backToLogin": "Retour à la connexion",
+    "unauthorized": "Accès non autorisé",
+    "unauthorizedDesc": "Vous n'avez pas les droits pour accéder à cette page.",
+    "heroTitle": "Connecter l'Afrique au numérique",
+    "heroSubtitle": "Plateforme de suivi du Fonds de Service Universel — Accès au numérique pour tous les citoyens africains.",
+    "heroPill1": "Sécurisé 2FA",
+    "heroPill2": "54 pays connectés",
+    "heroPill3": "Rapports en temps réel"
+  },
+  "dashboard": {
+    "hello": "Bonjour, {{name}}",
+    "pfDesc": "Votre tableau de bord — Vue d'ensemble de vos activités FSU",
+    "totalEntries": "Saisies totales",
+    "noEntries": "Aucune saisie pour le moment",
+    "pending": "En attente",
+    "pendingDesc": "Soumissions en cours de validation",
+    "approved": "Approuvées",
+    "approvedDesc": "Soumissions validées",
+    "alerts": "Alertes",
+    "alertsDesc": "Données manquantes ou échéances",
+    "quickActions": "Actions rapides",
+    "quickActionsDesc": "Accédez rapidement aux fonctionnalités principales",
+    "newEntry": "Nouvelle saisie",
+    "newEntryDesc": "Créer une soumission FSU",
+    "myDrafts": "Mes brouillons",
+    "myDraftsDesc": "Reprendre une saisie en cours",
+    "history": "Historique",
+    "historyDesc": "Voir toutes mes soumissions",
+    "viewReports": "Rapports",
+    "viewReportsDesc": "Consulter les rapports",
+    "adminPays": "Administration Pays",
+    "welcomeAdmin": "Bienvenue {{name}} — Pilotage de votre pays",
+    "activeUsers": "Utilisateurs actifs",
+    "pendingValidation": "En attente de validation",
+    "validationRate": "Taux de validation",
+    "alertsTitle": "Alertes",
+    "alertsNeedAttention": "Éléments nécessitant votre attention",
+    "noAlerts": "Aucune alerte pour le moment",
+    "validateSubmissions": "Valider les soumissions",
+    "manageUsers": "Gérer les utilisateurs",
+    "viewReportsShort": "Consulter les rapports",
+    "globalAdmin": "Administration Globale ANSUT/UAT",
+    "globalDesc": "Vue d'ensemble de la plateforme FSU à l'échelle continentale",
+    "activeCountries": "Pays actifs",
+    "outOf54": "sur 54 pays",
+    "totalUsers": "Utilisateurs totaux",
+    "fsuProjects": "Projets FSU",
+    "platformActivity": "Activité plateforme",
+    "criticalAlerts": "Alertes critiques",
+    "criticalAlertsDesc": "Problèmes techniques et contenus signalés",
+    "noCriticalAlerts": "Aucune alerte critique",
+    "supervision": "Supervision",
+    "supervisionDesc": "Actions d'administration",
+    "userManagement": "Gestion des utilisateurs",
+    "validationSupervision": "Supervision des validations",
+    "globalReports": "Rapports globaux",
+    "projectMap": "Carte des projets",
+    "welcomePublicDesc": "Bienvenue sur la plateforme USF-ADC — Accédez aux ressources publiques",
+    "publicDocuments": "Documents publics",
+    "publicDocumentsDesc": "Consultez les documents et rapports disponibles",
+    "projectsMap": "Carte des projets",
+    "projectsMapDesc": "Explorez les projets FSU sur la carte interactive",
+    "notificationsDesc": "Consultez vos notifications récentes",
+    "faqDesc": "Questions fréquentes et guides d'utilisation",
+    "latestNews": "Dernières actualités",
+    "latestNewsletters": "Derniers bulletins",
+    "seeAll": "Voir tout"
+  },
+  "fsu": {
+    "title": "Saisie FSU",
+    "historyDesc": "Historique de vos soumissions de données FSU",
+    "newEntry": "Nouvelle saisie",
+    "newSubmission": "Nouvelle saisie FSU",
+    "newSubmissionDesc": "Remplissez les données pour la période sélectionnée",
+    "submissionDetail": "Détail de la soumission",
+    "submissionNotFound": "Soumission introuvable",
+    "backToHistory": "Retour à l'historique",
+    "createdAt": "Créée le",
+    "submissionPeriod": "Soumission : {{start}} → {{end}}",
+    "steps": {
+      "connectivity": "Connectivité",
+      "connectivityDesc": "Données réseau",
+      "financing": "Financement",
+      "financingDesc": "Budget FSU",
+      "quality": "Qualité",
+      "qualityDesc": "Indicateurs QoS",
+      "preview": "Prévisualisation",
+      "previewDesc": "Vérification"
+    },
+    "formNav": "Étapes du formulaire",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "saveDraft": "Enregistrer brouillon",
+    "submit": "Soumettre",
+    "draftSaved": "Brouillon enregistré",
+    "draftError": "Impossible de sauvegarder le brouillon",
+    "submitted": "Soumission envoyée",
+    "submittedDesc": "Votre saisie FSU a été soumise pour validation",
+    "submitError": "Impossible de soumettre",
+    "formIncomplete": "Formulaire incomplet",
+    "fillRequired": "Veuillez remplir tous les champs obligatoires",
+    "profileError": "Profil incomplet — pays requis",
+    "connectivity": {
+      "title": "Connectivité",
+      "desc": "Données de connectivité réseau pour la période",
+      "periodStart": "Période début",
+      "periodEnd": "Période fin",
+      "populationCovered": "Population couverte",
+      "mobilePenetration": "Taux de pénétration mobile (%)",
+      "internetPenetration": "Taux de pénétration internet (%)",
+      "numOperators": "Nombre d'opérateurs",
+      "mobileSubscribers": "Abonnés mobiles",
+      "internetSubscribers": "Abonnés internet"
+    },
+    "financing": {
+      "title": "Financement",
+      "desc": "Données budgétaires du Fonds de Service Universel",
+      "annualBudget": "Budget FSU annuel (USD)",
+      "contributions": "Contributions collectées (USD)",
+      "expenses": "Dépenses engagées (USD)",
+      "balance": "Solde (USD)",
+      "fundedProjects": "Nombre de projets financés"
+    },
+    "quality": {
+      "title": "Qualité de service",
+      "desc": "Indicateurs de qualité de service réseau",
+      "latency": "Latence moyenne (ms)",
+      "availability": "Disponibilité réseau (%)",
+      "geoCoverage": "Couverture géographique (%)",
+      "popCoverage": "Couverture population (%)",
+      "downloadSpeed": "Débit moyen descendant (Mbps)"
+    },
+    "preview": {
+      "title": "Prévisualisation",
+      "desc": "Vérifiez les données avant soumission",
+      "period": "Période",
+      "populationCovered": "Population couverte",
+      "mobilePenetration": "Pénétration mobile",
+      "internetPenetration": "Pénétration internet",
+      "operators": "Opérateurs",
+      "mobileSubscribers": "Abonnés mobiles",
+      "internetSubscribers": "Abonnés internet",
+      "annualBudget": "Budget FSU annuel",
+      "contributions": "Contributions collectées",
+      "expenses": "Dépenses engagées",
+      "balance": "Solde",
+      "fundedProjects": "Projets financés",
+      "latency": "Latence moyenne",
+      "availability": "Disponibilité réseau",
+      "geoCoverage": "Couverture géographique",
+      "popCoverage": "Couverture population",
+      "downloadSpeed": "Débit descendant"
+    },
+    "attachments": {
+      "title": "Pièces jointes",
+      "dropHere": "Glissez vos fichiers ici ou",
+      "browse": "parcourir",
+      "hint": "PDF, Excel — max 5 Mo",
+      "typeError": "Type non accepté",
+      "typeErrorDesc": "{{name}} — seuls PDF et Excel sont acceptés",
+      "sizeError": "Fichier trop volumineux",
+      "sizeErrorDesc": "{{name}} dépasse 5 Mo",
+      "uploaded": "Fichier uploadé",
+      "uploadError": "Erreur upload",
+      "deleted": "Fichier supprimé"
+    },
+    "history": {
+      "allStatuses": "Tous les statuts",
+      "since": "Depuis",
+      "until": "Jusqu'à",
+      "period": "Période",
+      "status": "Statut",
+      "submittedAt": "Soumis le",
+      "lastModified": "Dernière modification",
+      "noSubmissions": "Aucune soumission trouvée"
+    },
+    "status": {
+      "draft": "Brouillon",
+      "submitted": "Soumis",
+      "under_review": "En revue",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "revision_requested": "Révision demandée",
+      "validated": "Validé"
+    }
+  },
+  "validation": {
+    "title": "Validation des soumissions",
+    "desc": "Examinez et traitez les soumissions FSU en attente de validation.",
+    "validationTitle": "Validation de la soumission",
+    "notFound": "Soumission introuvable",
+    "backToValidation": "Retour à la validation",
+    "actionsTitle": "Actions de validation",
+    "alreadyProcessed": "Cette soumission a déjà été traitée (statut actuel : {{status}}).",
+    "commentPlaceholder": "Commentaire (obligatoire pour rejet ou demande de révision)...",
+    "commentRequired": "Le commentaire est obligatoire pour cette action.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "requestRevision": "Demander révision",
+    "comment": "Commenter",
+    "historyTitle": "Historique de validation",
+    "noActions": "Aucune action de validation enregistrée.",
+    "by": "par",
+    "user": "Utilisateur",
+    "noPending": "Aucune soumission en attente de validation.",
+    "period": "Période",
+    "status": "Statut",
+    "submittedAt": "Soumise le",
+    "action": "Action",
+    "review": "Examiner",
+    "actionLabels": {
+      "approve": "Approuvé",
+      "reject": "Rejeté",
+      "request_revision": "Révision demandée",
+      "comment": "Commentaire"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "desc": "Vos tickets de support",
+    "newTicket": "Nouveau ticket",
+    "newTicketTitle": "Nouveau ticket",
+    "newTicketDesc": "Décrivez votre problème et nous reviendrons vers vous.",
+    "ticketNotFound": "Ticket introuvable.",
+    "back": "Retour",
+    "createdAt": "Créé le",
+    "assignedTo": "Assigné à",
+    "changeStatus": "Changer le statut",
+    "assignTo": "Assigner à",
+    "unassigned": "Non assigné",
+    "statusUpdated": "Statut mis à jour",
+    "ticketAssigned": "Ticket assigné",
+    "assignRemoved": "Assignation retirée",
+    "form": {
+      "title": "Titre",
+      "titlePlaceholder": "Résumé du problème",
+      "titleRequired": "Le titre est requis",
+      "description": "Description",
+      "descriptionPlaceholder": "Décrivez votre problème en détail…",
+      "descriptionRequired": "La description est requise",
+      "priority": "Priorité",
+      "creating": "Création…",
+      "submit": "Créer le ticket",
+      "created": "Ticket créé",
+      "createdDesc": "Votre demande de support a été enregistrée.",
+      "createError": "Impossible de créer le ticket."
+    },
+    "comments": {
+      "title": "Commentaires",
+      "noComments": "Aucun commentaire pour le moment.",
+      "placeholder": "Ajouter un commentaire…",
+      "added": "Commentaire ajouté",
+      "addError": "Impossible d'ajouter le commentaire."
+    },
+    "noTickets": "Aucun ticket de support.",
+    "priority": {
+      "low": "Basse",
+      "medium": "Moyenne",
+      "high": "Haute",
+      "urgent": "Urgente",
+      "critical": "Critique"
+    },
+    "ticketStatus": {
+      "open": "Ouvert",
+      "in_progress": "En cours",
+      "resolved": "Résolu",
+      "closed": "Fermé"
+    },
+    "tableHeaders": {
+      "title": "Titre",
+      "status": "Statut",
+      "priority": "Priorité",
+      "date": "Date"
+    }
+  },
+  "admin": {
+    "title": "Administration système",
+    "descAdmin": "Gérez les paramètres de la plateforme",
+    "descView": "Consultez les paramètres de la plateforme",
+    "settings": "Paramètres",
+    "countries": "Pays",
+    "fsuSubmissions": "Soumissions FSU",
+    "auditLog": "Journal d'audit",
+    "generalSettings": "Paramètres généraux",
+    "settingUpdated": "\"{{label}}\" mis à jour",
+    "saveError": "Erreur lors de la sauvegarde",
+    "countriesTitle": "Gestion des pays ({{count}})",
+    "addCountry": "Ajouter",
+    "editCountry": "Modifier le pays",
+    "addCountryTitle": "Ajouter un pays",
+    "nameFr": "Nom (FR)",
+    "nameEn": "Nom (EN)",
+    "codeIso": "Code ISO",
+    "region": "Région",
+    "countryUpdated": "Pays mis à jour",
+    "countryAdded": "Pays ajouté",
+    "countryDeleted": "Pays supprimé",
+    "deleteCountryConfirm": "Supprimer ce pays ?",
+    "deleteCountryError": "Erreur : des données y sont associées",
+    "fsuSettings": "Paramètres FSU",
+    "submissionPeriods": "Périodes de soumission",
+    "newPeriod": "Nouvelle période",
+    "createPeriod": "Créer une période de soumission",
+    "periodLabel": "Libellé",
+    "periodLabelPlaceholder": "Ex: T1 2026",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "reminderDays": "Rappel (jours avant)",
+    "periodCreated": "Période créée",
+    "periodActivated": "Période activée",
+    "periodDeactivated": "Période désactivée",
+    "periodDeleted": "Période supprimée",
+    "deletePeriodConfirm": "Supprimer cette période ?",
+    "noPeriods": "Aucune période définie.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "reminder": "Rappel",
+    "start": "Début",
+    "end": "Fin",
+    "label": "Libellé",
+    "auditLogTitle": "Journal d'audit",
+    "noAuditLogs": "Aucune entrée dans le journal d'audit.",
+    "auditDate": "Date",
+    "auditAction": "Action",
+    "auditTable": "Table",
+    "auditDetails": "Détails",
+    "auditActions": {
+      "login": "Connexion",
+      "logout": "Déconnexion",
+      "create": "Création",
+      "update": "Modification",
+      "delete": "Suppression",
+      "approve": "Approbation",
+      "reject": "Rejet",
+      "submit": "Soumission"
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "desc": "Gérez vos informations personnelles et préférences",
+    "personalInfo": "Informations personnelles",
+    "role": "Rôle",
+    "noRole": "Aucun rôle attribué",
+    "email": "Adresse email",
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Votre nom complet",
+    "phone": "Téléphone",
+    "phonePlaceholder": "+225 XX XX XX XX",
+    "language": "Langue",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications",
+    "saved": "Profil mis à jour",
+    "savedDesc": "Vos modifications ont été enregistrées.",
+    "mfaActive": "2FA activée",
+    "mfaMethod": "Méthode de vérification 2FA",
+    "mfaMethodDesc": "Choisissez comment recevoir votre code de vérification à chaque connexion.",
+    "mfaEmail": "Par email",
+    "mfaSms": "Par SMS",
+    "mfaTelegram": "Par Telegram",
+    "telegramChatId": "Telegram Chat ID",
+    "telegramChatIdPlaceholder": "Ex : 123456789",
+    "telegramChatIdRequired": "Un Chat ID Telegram est requis pour la vérification par Telegram.",
+    "phoneRequiredForSms": "Un numéro de téléphone est requis pour la vérification par SMS."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oups ! Page introuvable",
+    "backHome": "Retour à l'accueil"
+  },
+  "invitations": {
+    "title": "Invitations",
+    "desc": "Gérez les invitations envoyées aux nouveaux utilisateurs",
+    "invite": "Inviter",
+    "inviteUser": "Inviter un utilisateur",
+    "role": "Rôle",
+    "selectCountry": "Sélectionner un pays",
+    "sendInvitation": "Envoyer l'invitation",
+    "created": "Invitation envoyée avec succès",
+    "cancelled": "Invitation annulée",
+    "linkCopied": "Lien d'invitation copié",
+    "copyLink": "Copier le lien",
+    "noInvitations": "Aucune invitation envoyée.",
+    "expiresAt": "Expire le",
+    "invalidToken": "Lien d'invitation invalide ou expiré",
+    "createAccount": "Créer votre compte",
+    "createAndAccept": "Créer le compte et accepter",
+    "accepting": "Activation de votre compte...",
+    "accepted": "Invitation acceptée !",
+    "acceptedDesc": "Votre compte est prêt. Vous pouvez accéder à la plateforme.",
+    "acceptError": "Impossible d'accepter l'invitation",
+    "status": {
+      "pending": "En attente",
+      "accepted": "Acceptée",
+      "expired": "Expirée",
+      "cancelled": "Annulée"
+    },
+    "roles": {
+      "public_external": "Public externe",
+      "point_focal": "Point focal",
+      "country_admin": "Admin pays",
+      "global_admin": "Admin global"
+    }
+  },
+  "languages": {
+    "fr": "Français",
+    "en": "English",
+    "pt": "Português"
+  },
+  "roles": {
+    "public_external": "Public Externe",
+    "point_focal": "Point Focal National",
+    "country_admin": "Administrateur Pays",
+    "global_admin": "Administrateur Global ANSUT/UAT"
+  },
+  "documents": {
+    "title": "Bibliothèque documentaire",
+    "desc": "Accédez et gérez les documents partagés",
+    "upload": "Téléverser un document",
+    "noDocuments": "Aucun document disponible",
+    "category": "Catégorie",
+    "allCategories": "Toutes les catégories",
+    "download": "Télécharger",
+    "uploadSuccess": "Document téléversé",
+    "deleteSuccess": "Document supprimé",
+    "size": "Taille",
+    "uploadedBy": "Téléversé par",
+    "public": "Public",
+    "private": "Privé"
+  },
+  "training": {
+    "title": "Formation",
+    "desc": "Ressources de formation et tutoriels",
+    "modules": "Modules de formation",
+    "noModules": "Aucun module de formation disponible",
+    "progress": "Progression",
+    "start": "Commencer",
+    "resume": "Reprendre",
+    "completed": "Terminé"
+  },
+  "chat": {
+    "title": "Chat en direct",
+    "desc": "Discussion en temps réel avec l'équipe",
+    "placeholder": "Tapez votre message…",
+    "send": "Envoyer",
+    "noMessages": "Aucun message pour le moment",
+    "online": "En ligne",
+    "offline": "Hors ligne"
+  },
+  "feeds": {
+    "title": "Veille stratégique",
+    "desc": "Flux RSS et intelligence stratégique",
+    "noFeeds": "Aucun flux configuré",
+    "addFeed": "Ajouter un flux",
+    "refresh": "Actualiser",
+    "lastUpdate": "Dernière mise à jour"
+  },
+  "groups": {
+    "title": "Groupes de travail",
+    "desc": "Groupes de discussion thématiques",
+    "noGroups": "Aucun groupe disponible",
+    "members": "Membres",
+    "createGroup": "Créer un groupe",
+    "joinGroup": "Rejoindre",
+    "leaveGroup": "Quitter"
+  },
+  "alerts": {
+    "title": "Paramètres d'alerte",
+    "desc": "Configurez vos préférences de notification",
+    "emailNotifications": "Notifications par email",
+    "pushNotifications": "Notifications push",
+    "frequency": "Fréquence des notifications",
+    "immediate": "Immédiat",
+    "daily": "Résumé quotidien",
+    "weekly": "Résumé hebdomadaire",
+    "categories": "Catégories d'alerte",
+    "saved": "Préférences enregistrées"
+  },
+  "reportBuilder": {
+    "title": "Générateur de rapports",
+    "desc": "Créez des rapports personnalisés",
+    "selectIndicators": "Sélectionner les indicateurs",
+    "selectCountries": "Sélectionner les pays",
+    "selectPeriod": "Sélectionner la période",
+    "generate": "Générer le rapport",
+    "generating": "Génération…",
+    "exportPdf": "Exporter PDF",
+    "exportCsv": "Exporter CSV",
+    "noData": "Aucune donnée pour cette sélection"
+  },
+  "newsletters": {
+    "title": "Bulletins",
+    "desc": "{{count}} bulletin(s) disponible(s)",
+    "adminTitle": "Gestion des bulletins",
+    "adminDesc": "Créer, modifier et publier des bulletins pour les utilisateurs",
+    "newNewsletter": "Nouveau bulletin",
+    "noNewsletters": "Aucun bulletin disponible pour le moment.",
+    "noNewslettersAdmin": "Aucun bulletin créé.",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "emailSent": "Email envoyé",
+    "publishedOn": "Publié le",
+    "createdOn": "Créé le",
+    "edit": "Modifier",
+    "publish": "Publier",
+    "unpublish": "Dépublier",
+    "exportEmail": "Exporter pour email",
+    "exportedSuccess": "Bulletin exporté pour envoi email externe",
+    "formTitle": "Titre",
+    "formSummary": "Résumé",
+    "formSummaryPlaceholder": "Résumé court affiché dans la liste",
+    "formContent": "Contenu",
+    "formTargetRoles": "Rôles ciblés",
+    "formSaving": "Enregistrement…",
+    "formCreate": "Créer",
+    "formUpdate": "Mettre à jour",
+    "formEditTitle": "Modifier le bulletin",
+    "formNewTitle": "Nouveau bulletin"
+  },
+  "admin_extra": {
+    "backups": {
+      "title": "Sauvegardes automatiques",
+      "desc": "Les sauvegardes sont effectuées quotidiennement à 03:00 UTC",
+      "active": "Sauvegardes actives",
+      "lastSuccess": "Dernière sauvegarde réussie : {{date}} UTC",
+      "success": "Succès",
+      "restoreInfo": "Restauration disponible via le panneau d'administration backend"
+    },
+    "apiKeys": {
+      "title": "Clés API",
+      "desc": "Gérez les clés d'accès à l'API de la plateforme",
+      "newKey": "Nouvelle clé",
+      "keyCreated": "Nouvelle clé créée",
+      "keyCopied": "Clé copiée",
+      "keyDeleted": "Clé supprimée",
+      "created": "Créée",
+      "lastUsed": "Dernière utilisation",
+      "calls": "{{count}} appels",
+      "apiLog": "Journal d'appels API",
+      "apiLogDesc": "Dernières requêtes effectuées via l'API"
+    },
+    "ipRestrictions": {
+      "title": "Restriction d'accès par IP",
+      "desc": "Limitez l'accès à la plateforme à des plages IP spécifiques",
+      "enable": "Activer les restrictions IP",
+      "enableDesc": "Seules les adresses IP autorisées pourront accéder à la plateforme",
+      "enabled": "Restrictions activées",
+      "disabled": "Restrictions désactivées",
+      "allowedRanges": "Plages IP autorisées",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "ruleAdded": "Règle IP ajoutée",
+      "ruleDeleted": "Règle supprimée",
+      "cidrPlaceholder": "Ex: 192.168.1.0/24",
+      "descPlaceholder": "Description"
+    },
+    "quarterlyReports": {
+      "recipientsGlobalAdmin": "Admin Global uniquement",
+      "recipientsAllAdmins": "Tous les admins",
+      "recipientsAllUsers": "Tous les utilisateurs"
+    }
+  },
+  "public": {
+    "nav": {
+      "home": "Accueil",
+      "map": "Carte",
+      "membership": "Adhésion",
+      "memberStates": "États membres",
+      "associatedMembers": "Membres associés",
+      "countries": "États membres",
+      "documents": "Documents",
+      "news": "Actualités",
+      "forum": "Forum",
+      "calls": "Projets",
+      "calendar": "Événements",
+      "sutel": "SUTEL",
+      "about": "À propos",
+      "ourHistory": "Notre histoire",
+      "leadership": "Équipe de direction",
+      "elections": "Élections CPL-2026",
+      "candidates": "Candidats ATU SG",
+      "faq": "FAQ",
+      "login": "Connexion",
+      "register": "Créer un compte"
+    },
+    "header": {
+      "login": "Connexion",
+      "register": "Créer un compte"
+    },
+    "footer": {
+      "platform": "Plateforme",
+      "community": "Communauté",
+      "support": "Support",
+      "description": "Plateforme panafricaine de suivi du Fonds de Service Universel",
+      "rights": "ANSUT/UAT. Tous droits réservés.",
+      "legal": "Mentions légales",
+      "privacy": "Confidentialité",
+      "about": "À propos"
+    },
+    "hero": {
+      "badge": "Plateforme panafricaine FSU",
+      "title": "Connecter l'Afrique",
+      "subtitle": "au numérique",
+      "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
+      "register": "Créer un compte",
+      "viewMap": "Voir la carte"
+    },
+    "stats": {
+      "countries": "Pays africains",
+      "security": "Sécurité renforcée",
+      "availability": "Disponibilité",
+      "traceability": "Traçabilité"
+    },
+    "features": {
+      "badge": "Fonctionnalités",
+      "title": "Une plateforme complète",
+      "description": "Tous les outils nécessaires pour piloter le Fonds du Service Universel à l'échelle du continent",
+      "map": {
+        "title": "Carte interactive",
+        "desc": "Visualisez les projets FSU sur une carte panafricaine"
+      },
+      "documents": {
+        "title": "Bibliothèque documentaire",
+        "desc": "Accédez aux rapports, guides et documents publics"
+      },
+      "news": {
+        "title": "Actualités et Veille",
+        "desc": "Suivez l'actualité du Service Universel en Afrique"
+      },
+      "forum": {
+        "title": "Forum public",
+        "desc": "Participez aux discussions et échanges thématiques"
+      },
+      "calls": {
+        "title": "Projets",
+        "desc": "Consultez les projets FSU realises"
+      },
+      "calendar": {
+        "title": "Calendrier événements",
+        "desc": "Webinaires, conférences et ateliers"
+      }
+    },
+    "news": {
+      "badge": "Dernières actualités",
+      "title": "Actualités et Veille",
+      "viewAll": "Voir tout",
+      "readMore": "Lire la suite",
+      "noNews": "Aucune actualité trouvée",
+      "pageTitle": "Actualités et Veille",
+      "pageDesc": "Suivez l'actualité du Service Universel en Afrique",
+      "subscribeTitle": "Restez informé",
+      "subscribeDesc": "Recevez les dernières actualités par email",
+      "emailPlaceholder": "votre@email.com",
+      "subscribed": "Inscrit!",
+      "subscribe": "S'abonner",
+      "searchPlaceholder": "Rechercher...",
+      "allSources": "Toutes sources",
+      "allCategories": "Toutes catégories",
+      "tryOtherFilters": "Essayez d'autres filtres de recherche",
+      "featured": "À la une",
+      "moreNews": "Plus d'actualités"
+    },
+    "events": {
+      "badge": "Événements à venir",
+      "title": "Événements à venir",
+      "viewAll": "Voir tout",
+      "noEvents": "Aucun événement à venir"
+    },
+    "authorities": {
+      "dgName": "John Doe",
+      "dgTitle": "Directeur Général, ANSUT",
+      "dgMessage": "Le Service Universel est un levier essentiel pour l'inclusion numérique en Afrique. Cette plateforme va renforcer la coopération entre nos États membres.",
+      "sgName": "Jane Smith",
+      "sgTitle": "Secrétaire Général, UAT",
+      "sgMessage": "Ensemble, nous construisons une Afrique connectée où chaque citoyen peut accéder aux services numériques essentiels."
+    },
+    "cta": {
+      "title": "Prêt à contribuer au numérique africain ?",
+      "description": "Rejoignez la plateforme USF-ADC et participez à la transformation digitale du continent.",
+      "register": "Créer un compte",
+      "contact": "Nous contacter"
+    },
+    "map": {
+      "title": "Carte des projets FSU",
+      "description": "Explorez les projets de service universel à travers l'Afrique",
+      "onMap": "sur la carte",
+      "export": "Exporter",
+      "exportSuccess": "Export réussi",
+      "exportCSV": "Exporter en CSV",
+      "exportPNG": "Exporter en PNG",
+      "fullscreen": "Plein écran",
+      "exitFullscreen": "Quitter",
+      "projects": "Projets",
+      "countries": "Pays",
+      "map": "Carte",
+      "satellite": "Satellite",
+      "searchPlaceholder": "Rechercher un projet, un pays...",
+      "filters": "Filtres",
+      "filtersButton": "Filtres",
+      "active": "actifs",
+      "activeOne": "actif",
+      "none": "Aucun",
+      "reset": "Réinitialiser",
+      "dashboard": {
+        "title": "Tableau de bord en temps réel",
+        "projects": "Projets",
+        "inProgress": "En cours",
+        "completed": "Terminés",
+        "countries": "Pays",
+        "millions": "Millions $"
+      },
+      "status": {
+        "label": "Statut",
+        "planned": "Planifié",
+        "in_progress": "En cours",
+        "completed": "Terminé",
+        "suspended": "Suspendu"
+      },
+      "allProjects": "Tous les projets",
+      "allRegions": "Toutes les régions",
+      "themesLabel": "Thématique",
+      "region": "Région",
+      "projectsView": "Vue Projets",
+      "countriesView": "Vue Pays",
+      "displayed": "affichés",
+      "noProjectFound": "Aucun projet trouvé",
+      "tryFilters": "Essayez de modifier vos filtres pour voir plus de résultats",
+      "resetFilters": "Réinitialiser les filtres",
+      "legend": "Légende",
+      "budget": "Budget",
+      "country": "Pays",
+      "beneficiaries": "Bénéficiaires",
+      "fsuBudget": "Budget FSU",
+      "population": "Population",
+      "established": "Établi en",
+      "coordinator": "Coordinateur",
+      "viewAllProjects": "Voir tous les projets",
+      "project": "projet",
+      "viewProject": "Voir le projet",
+      "themes": {
+        "connectivity": "Connectivité",
+        "health": "Santé",
+        "education": "Éducation",
+        "energy": "Énergie",
+        "agriculture": "Agriculture",
+        "project": "Projet"
+      }
+    },
+    "documents": {
+      "title": "Bibliothèque documentaire",
+      "description": "Documents publics disponibles",
+      "search": "Rechercher...",
+      "allCategories": "Toutes catégories",
+      "allLanguages": "Toutes langues",
+      "featured": "À la une",
+      "empty": "Aucun document public trouvé"
+    },
+    "forum": {
+      "title": "Forum Public",
+      "description": "Discussions et échanges sur le Service Universel",
+      "joinToParticipate": "Rejoindre pour participer",
+      "readOnlyMode": "Mode Lecture Seule",
+      "readOnlyDesc": "Vous naviguez sur le forum public en mode lecture seule. Pour participer aux discussions, créez un compte ou connectez-vous.",
+      "searchPlaceholder": "Rechercher...",
+      "allCategories": "Toutes catégories",
+      "noTopics": "Aucun sujet public trouvé",
+      "replies": "réponses",
+      "askQuestion": {
+        "title": "Vous avez une question ?",
+        "desc": "Connectez-vous pour participer aux discussions ou contactez-nous directement."
+      },
+      "login": "Connexion",
+      "register": "Créer un compte",
+      "mock": {
+        "t1": "Bienvenue sur le forum USF-ADC",
+        "d1": "Présentation des règles et bonnes pratiques du forum.",
+        "t2": "Partage des meilleures pratiques FSU",
+        "d2": "Discutez des stratégies efficaces pour le Service Universel."
+      }
+    },
+    "calls": {
+      "title": "Projets",
+      "description": "Consultez la liste des projets FSU realises",
+      "about": {
+        "title": "A propos des projets realises",
+        "description": "Cette page presente les projets FSU deja realises dans les pays membres, avec leur thematique, leur impact et leur localisation."
+      },
+      "allThematics": "Toutes thématiques",
+      "noCalls": "Aucun projet realise trouve",
+      "noDeadline": "Pas de date",
+      "closed": "Termine",
+      "urgent": "Recent - {{days}}j",
+      "soon": "{{days}} jours",
+      "open": "Publie",
+      "objectives": "Objectifs",
+      "eligibility": "Eligibilite",
+      "criteria": "criteres",
+      "apply": "Voir",
+      "contact": "Contact"
+    },
+    "calendar": {
+      "title": "Calendrier des Événements",
+      "description": "Participez aux webinaires, conférences et ateliers",
+      "allTypes": "Tous types",
+      "upcoming": "À venir",
+      "noEvents": "Aucun événement à venir",
+      "noPastEvents": "Aucun événement passé",
+      "register": "S'inscrire",
+      "export": "Exporter",
+      "past": "Événements passés",
+      "searchPlaceholder": "Rechercher un événement...",
+      "calendarTab": "Calendrier",
+      "listTab": "Liste des événements",
+      "weekdays": {
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mer",
+        "thu": "Jeu",
+        "fri": "Ven",
+        "sat": "Sam",
+        "sun": "Dim"
+      },
+      "conferencesUpcoming": "Conférences à venir",
+      "webinarsScheduled": "Webinaires planifiés",
+      "workshopsTraining": "Ateliers de formation",
+      "online": "En ligne",
+      "days": "jours",
+      "comingSoon": "Revenez bientôt pour découvrir nos prochains événements"
+    },
+    "eventTypes": {
+      "webinar": "Webinaire",
+      "conference": "Conférence",
+      "workshop": "Atelier",
+      "meeting": "Réunion"
+    },
+    "about": {
+      "badge": "À propos",
+      "title": "Plateforme USF-ADC",
+      "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
+      "viewMap": "Voir la carte",
+      "join": "Rejoindre",
+      "whatIs": {
+        "title": "Qu'est-ce que USF-ADC ?",
+        "p1": "USF-ADC (Universal Service Fund - African Digital Connection) est une plateforme panafricaine développée sous l'égide de l'Union Africaine des Télécommunications (UAT).",
+        "p2": "Elle permet aux 54 pays membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel, assurant une meilleure coordination et un impact maximal sur l'inclusion numérique."
+      },
+      "objectives": {
+        "title": "Nos Objectifs",
+        "description": "USF-ADC s'articule autour de quatre objectifs principaux",
+        "universal": {
+          "title": "Service Universel",
+          "desc": "Garantir l'accès universel aux services de télécommunications"
+        },
+        "inclusion": {
+          "title": "Inclusion Numérique",
+          "desc": "Réduire la fracture numérique entre zones urbaines et rurales"
+        },
+        "monitoring": {
+          "title": "Suivi et Pilotage",
+          "desc": "Assurer un suivi efficace des projets et politiques FSU"
+        },
+        "collaboration": {
+          "title": "Collaboration",
+          "desc": "Faciliter les échanges entre États membres et partenaires"
+        }
+      },
+      "leadership": {
+        "title": "Structure de Direction",
+        "description": "L'équipe dirigeante de l'Union Africaine des Télécommunications",
+        "secretaryGeneral": {
+          "title": "Secrétaire Général",
+          "name": "M. John Omo",
+          "since": "En poste depuis janvier 2019",
+          "description": "Juriste avec 33 ans d'expérience, il dirige l'organe continental chargé de développer les politiques et services TIC en Afrique et de coordonner la participation africaine aux instances internationales."
+        },
+        "directors": {
+          "title": "Directeurs",
+          "mwale": {
+            "name": "Eng. Kezias Kazuba Mwale",
+            "role": "Directeur - Radiocommunications (Spectre)",
+            "description": "En poste depuis 2012. Expert en gestion du spectre, il a contribué à l'attribution de 2477 MHz pour le haut débit et à la récupération de ressources orbitales satellitaires pour 31 pays africains."
+          },
+          "slimani": {
+            "name": "Mme. Meriem Slimani",
+            "role": "Directrice - Développement",
+            "description": "Rejoint l'UAT en 2015. Ingénieure de l'École Nationale Polytechnique d'Alger, elle a piloté des projets d'e-gouvernement en Algérie avant de se concentrer sur le mandat de développement de l'UAT."
+          },
+          "boateng": {
+            "name": "M. Isaac Boateng",
+            "role": "Directeur - Normalisation",
+            "description": "Plus de 23 ans d'expérience en TIC. Ancien de l'Autorité ghanéenne des communications, expert à l'UIT depuis 2008, il supervise les initiatives de normalisation et représente l'Afrique dans les instances techniques internationales."
+          },
+          "ballo": {
+            "name": "M. Djibrilla Ballo",
+            "role": "Directeur - Finances et Administration",
+            "description": "En poste depuis août 2012. Comptable agréé avec plusieurs masters en finance et économie, il supervise la gestion financière, la planification stratégique et le contrôle interne de l'Union."
+          }
+        }
+      },
+      "partners": {
+        "title": "Nos Partenaires",
+        "description": "Nous collaborons avec les institutions clés du continent africain"
+      },
+      "history": {
+        "title": "Historique du Projet",
+        "phase1": "Lancement (2024)",
+        "phase1Desc": "Initiative de l'UAT pour créer une plateforme harmonisée de suivi du FSU.",
+        "phase2": "Développement (2025)",
+        "phase2Desc": "Conception et développement de la plateforme avec les pays pilotes.",
+        "phase3": "Déploiement (2026)",
+        "phase3Desc": "Déploiement progressif dans les 54 pays membres de l'UAT."
+      },
+      "contact": {
+        "title": "Contactez-nous"
+      }
+    },
+    "sutel": {
+      "hero": {
+        "badge": "Service Universel",
+        "title": "SUTEL",
+        "subtitle": "Service Universel des Télécommunications",
+        "description": "Garantir l'accès de tous les citoyens aux services de communication électroniques, pour une inclusion numérique et une réduction de la fracture digitale.",
+        "uat": "UAT",
+        "uatFullName": "Union Africaine des Télécommunications",
+        "website": "Site Web"
+      },
+      "definition": {
+        "title": "Définition et Cadre Réglementaire",
+        "p1": "Le <strong>Service Universel des Télécommunications (SUTEL)</strong> est un mécanisme visant à garantir l'accès de tous les citoyens à des services de communication électroniques de base, indépendamment de leur localisation géographique ou de leur situation socio-économique.",
+        "p2": "Il s'inscrit dans une démarche d'<strong>inclusion numérique</strong> et de <strong>réduction de la fracture digitale</strong>, en particulier dans les zones rurales et mal desservies. Le SUTEL est encadré par des textes nationaux et régionaux, souvent inspirés des directives internationales et adaptés au contexte africain."
+      },
+      "funding": {
+        "title": "Financement",
+        "description": "Contributions des opérateurs télécoms (pourcentage du chiffre d'affaires)"
+      },
+      "management": {
+        "title": "Gestion",
+        "description": "Agences nationales (ANSUT) en collaboration avec l'UAT et partenaires"
+      },
+      "objectiveCard": {
+        "title": "Objectif",
+        "description": "Projets d'infrastructures dans les zones non rentables pour le privé"
+      },
+      "missionsSection": {
+        "title": "Missions et Objectifs",
+        "subtitle": "Les piliers du Service Universel",
+        "specificObjectives": "Objectifs Spécifiques",
+        "obj1": "Élargir la couverture réseau dans les zones blanches",
+        "obj2": "Améliorer la qualité des services (débit minimal)",
+        "obj3": "Renforcer la gouvernance des fonds",
+        "obj4": "Promouvoir l'innovation technologique",
+        "obj5": "Mobiliser les investissements privés"
+      },
+      "missions": {
+        "universal": {
+          "title": "Accès Universel",
+          "desc": "Garantir l'accès de tous les citoyens aux services télécoms de base, quel que soit leur lieu de résidence"
+        },
+        "inclusion": {
+          "title": "Inclusion Numérique",
+          "desc": "Réduire la fracture digitale entre populations urbaines et rurales et entre groupes socio-économiques"
+        },
+        "economic": {
+          "title": "Développement Économique",
+          "desc": "Faciliter l'accès à l'éducation, la santé et les services financiers via les TIC"
+        },
+        "innovation": {
+          "title": "Innovation",
+          "desc": "Soutenir des solutions technologiques adaptées aux besoins locaux (énergie solaire, low-cost)"
+        }
+      },
+      "actorsSection": {
+        "title": "Acteurs Clés et Collaboration",
+        "subtitle": "Les partenaires du Service Universel"
+      },
+      "actors": {
+        "ansut": {
+          "name": "ANSUT",
+          "fullName": "Agence Nationale du Service Universel des Télécommunications-TIC",
+          "role": "Autorité Nationale",
+          "country": "Côte d'Ivoire",
+          "desc": "Gestion du FSU et mise en œuvre des projets SUTEL",
+          "website": "ansut.ci"
+        },
+        "uat": {
+          "name": "UAT",
+          "fullName": "Union Africaine des Télécommunications",
+          "role": "Coordination Régionale",
+          "country": "Afrique",
+          "desc": "Coordonne les initiatives régionales et favorise le partage d'expériences",
+          "website": "atuuat.africa"
+        },
+        "gsma": {
+          "name": "GSMA",
+          "fullName": "Global System for Mobile Communications Association",
+          "role": "Partenaire Technique",
+          "country": "International",
+          "desc": "Évaluation et optimisation des FSU",
+          "website": "gsma.com"
+        },
+        "uit": {
+          "name": "UIT",
+          "fullName": "Union Internationale des Télécommunications",
+          "role": "Support Normatif",
+          "country": "International",
+          "desc": "Définition des politiques et normes techniques",
+          "website": "itu.int"
+        }
+      },
+      "event": {
+        "badge": "Événement Phare",
+        "title": "SUTEL 2025 - Abidjan",
+        "description": "Atelier régional réunissant des représentants de plusieurs pays africains pour renforcer la collaboration et partager les bonnes pratiques. Protocole d'accord signé entre l'UAT et l'ANSUT pour promouvoir le service universel comme moteur de la transformation numérique.",
+        "tag1": "Collaboration Régionale",
+        "tag2": "Partage d'Expertise",
+        "tag3": "Transformation Numérique"
+      },
+      "projectsSection": {
+        "title": "Projets et Réalisations",
+        "subtitle": "Initiatives concrètes en Côte d'Ivoire"
+      },
+      "projects": {
+        "budget": "Budget",
+        "impact": "Impact",
+        "fiber": {
+          "title": "Déploiement Fibre Optique",
+          "budget": "400 milliards FCFA",
+          "impact": "Extension couverture haut débit",
+          "status": "En cours"
+        },
+        "financial": {
+          "title": "Inclusion Financière",
+          "budget": "Variable",
+          "impact": "Augmentation taux de pénétration Internet & Mobile Money",
+          "status": "Actif"
+        },
+        "rural": {
+          "title": "Connectivité Zones Rurales",
+          "budget": "FSU + Partenariats",
+          "impact": "Connexion écoles, centres de santé, communautés",
+          "status": "En déploiement"
+        }
+      },
+      "challengesSection": {
+        "title": "Défis",
+        "subtitle": "Obstacles à surmonter"
+      },
+      "challenges": {
+        "underutilization": {
+          "title": "Sous-utilisation des fonds",
+          "desc": "Moins de 50% des fonds collectés sont utilisés en Afrique",
+          "solution": "Réforme de la gouvernance et transparence"
+        },
+        "complexity": {
+          "title": "Complexité des projets",
+          "desc": "Topographie difficile et viabilité économique",
+          "solution": "Solutions innovantes et adaptées"
+        },
+        "harmonization": {
+          "title": "Harmonisation régionale",
+          "desc": "Coordination insuffisante entre pays",
+          "solution": "Renforcement collaboration via UAT"
+        }
+      },
+      "perspectivesSection": {
+        "title": "Perspectives",
+        "subtitle": "Voies d'avenir",
+        "p1": "Réformes des FSU pour une meilleure gouvernance",
+        "p2": "Partenariats public-privé élargis",
+        "p3": "Adoption de solutions innovantes (réseaux low-cost, énergie renouvelable)",
+        "p4": "Harmonisation régionale des politiques",
+        "p5": "Renforcement des capacités locales"
+      },
+      "resourcesSection": {
+        "title": "Ressources et Documentation",
+        "subtitle": "Rapports et références utiles",
+        "gsma": {
+          "title": "Rapport GSMA 2024",
+          "desc": "Les Fonds de Service Universel en Afrique"
+        },
+        "uat": {
+          "title": "Rapport UAT",
+          "desc": "2e réunion en vue de la CMDT-25"
+        }
+      },
+      "cta": {
+        "title": "Vous avez un projet ?",
+        "description": "L'ANSUT lance régulièrement des appels à projets pour l'inclusion numérique",
+        "projectsButton": "Voir les appels à projets",
+        "contactButton": "Nous contacter"
+      }
+    },
+    "associatedMembers": {
+      "title": "Membres Associés",
+      "description": "Découvrez nos membres associés et partenaires qui contribuent au développement du Service Universel en Afrique",
+      "membersList": "Liste des membres",
+      "membersListDesc": "Organisations et partenaires impliqués dans les initiatives du Service Universel",
+      "members": "membres",
+      "since": "Membre depuis",
+      "viewProfile": "Voir le profil",
+      "visitWebsite": "Visiter le site",
+      "projects": "Projets",
+      "fullDetails": "Voir les détails complets",
+      "becomeMember": {
+        "title": "Devenir membre associé",
+        "description": "Rejoignez notre réseau de membres associés et contribuez à l'inclusion numérique en Afrique",
+        "contactButton": "Nous contacter"
+      },
+      "types": {
+        "agency": "Agence Nationale",
+        "operator": "Opérateur Télécoms",
+        "vendor": "Équipementier",
+        "tech": "Technologie",
+        "satellite": "Satellites",
+        "organization": "Organisation"
+      },
+      "benefits": {
+        "network": {
+          "title": "Réseau pan-africain",
+          "desc": "Accès à un réseau exclusif de décideurs et d'experts en télécommunications"
+        },
+        "collaboration": {
+          "title": "Collaboration stratégique",
+          "desc": "Opportunités de collaboration sur des projets d'envergure continentale"
+        },
+        "partnerships": {
+          "title": "Partenariats durables",
+          "desc": "Développement de partenariats avec les régulateurs et opérateurs africains"
+        }
+      }
+    },
+    "ourHistory": {
+      "title": "Notre Histoire",
+      "description": "Découvrez l'histoire et l'évolution de l'ATU-UAT à travers les années",
+      "hero": {
+        "badge": "À propos",
+        "title": "Union Africaine des Télécommunications",
+        "subtitle": "L'évolution de l'ATU-UAT",
+        "description": "Bref historique et mission de l'ATU-UAT"
+      },
+      "header": {
+        "title": "Union Africaine des Télécommunications",
+        "founded": "Fondée le 7 décembre 1999",
+        "description": "Organisation continentale favorisant le développement des infrastructures et services TIC en Afrique"
+      },
+      "keyFigures": {
+        "memberStates": {
+          "value": "52",
+          "label": "États membres",
+          "description": "Pays africains membres"
+        },
+        "associateMembers": {
+          "value": "53",
+          "label": "Membres associés",
+          "description": "Opérateurs télécoms"
+        },
+        "foundingYear": {
+          "value": "1977",
+          "label": "Année de création",
+          "description": "Fondée il y a 47 ans"
+        },
+        "transformation": {
+          "value": "1999",
+          "label": "ATU-UAT",
+          "description": "Transformation officielle"
+        }
+      },
+      "video": {
+        "title": "Vidéo présentation",
+        "description": "Découvrez l'ATU-UAT en vidéo"
+      },
+      "mission": {
+        "title": "Notre Mission",
+        "description": "Promouvoir le développement rapide des technologies de l'information et de la communication en Afrique afin de garantir un accès universel et une connectivité interétatique complète."
+      },
+      "vision": {
+        "title": "Notre Vision",
+        "description": "Une Afrique pleinement intégrée et active au sein de la société mondiale de l'information et du savoir."
+      },
+      "briefHistory": {
+        "title": "Bref historique",
+        "1977": "Fondée en 1977 en tant qu'agence spécialisée de l'Organisation de l'unité africaine, devenue Union africaine, dans le domaine des télécommunications.",
+        "1999": "En 1999, l'Union africaine des télécommunications (ATU-UAT) prend son nom actuel et se transforme en un partenariat entre acteurs publics et privés du secteur des TIC.",
+        "today": "Aujourd'hui, l'ATU-UAT offre aux acteurs du secteur des TIC un espace d'échange pour élaborer des politiques et stratégies efficaces, représente les intérêts de ses membres lors de conférences internationales, et promeut des initiatives pour intégrer les marchés régionaux, attirer les investissements et renforcer les capacités institutionnelles et humaines."
+      },
+      "whatWeDo": {
+        "title": "Ce que nous faisons",
+        "ticExchange": {
+          "title": "Espace d'échange TIC",
+          "description": "Élaboration de politiques et stratégies efficaces pour améliorer l'accès aux infrastructures"
+        },
+        "internationalRepresentation": {
+          "title": "Représentation internationale",
+          "description": "Représentation des intérêts des membres lors des conférences internationales"
+        },
+        "sustainableDevelopment": {
+          "title": "Développement durable",
+          "description": "Intégration des marchés régionaux et investissements dans les infrastructures TIC"
+        }
+      },
+      "timelineSection": {
+        "title": "Moments clés",
+        "description": "L'évolution de l'ATU-UAT à travers les années"
+      },
+      "timeline": {
+        "1977": {
+          "year": "1977",
+          "title": "Fondation de l'ATU",
+          "description": "Créée en tant qu'agence spécialisée de l'Organisation de l'unité africaine (devenue Union africaine) dans le domaine des télécommunications."
+        },
+        "1999": {
+          "year": "1999",
+          "title": "Transformation en ATU-UAT",
+          "description": "L'agence prend son nom actuel et se transforme en un partenariat entre acteurs publics et privés du secteur des TIC."
+        },
+        "today": {
+          "year": "Aujourd'hui",
+          "title": "52 États membres",
+          "description": "L'ATU compte aujourd'hui 52 États membres et 53 membres associés (opérateurs de télécommunications fixes et mobiles)."
+        }
+      }
+    },
+    "leadership": {
+      "title": "Équipe de Direction",
+      "description": "Rencontrer les leaders qui guident notre mission",
+      "hero": {
+        "badge": "À propos",
+        "title": "Équipe de Direction",
+        "subtitle": "Nos leaders",
+        "description": "Une équipe expérimentée dédiée à la transformation numérique de l'Afrique."
+      },
+      "secretaryGeneral": {
+        "title": "Secrétaire Général",
+        "name": "À nommer",
+        "description": "Leader visionnaire guiding notre mission panafricaine"
+      },
+      "directors": {
+        "title": "Directeurs",
+        "description": "Notre équipe de direction régionale"
+      },
+      "organizationalStructure": {
+        "title": "Structure organisationnelle",
+        "description": "L'équipe de direction de l'ATU-UAT est composée du Secrétaire Général et de quatre directeurs régionaux couvrant l'Afrique de l'Ouest, l'Afrique Centrale, l'Afrique de l'Est et l'Afrique Australe. Ensemble, ils travaillent à promouvoir le développement des télécommunications et à garantir l'accès universel aux services TIC sur le continent africain."
+      },
+      "contactCTA": {
+        "title": "Contacter la direction",
+        "description": "Pour toute question relative aux activités de l'ATU-UAT",
+        "button": "Nous contacter"
+      },
+      "role": "Rôle",
+      "region": "Région",
+      "contact": "Contacter"
+    },
+    "elections": {
+      "title": "Élections CPL-2026",
+      "description": "Consultez les informations sur les prochaines élections du Conseil Permanent de la Ligue",
+      "hero": {
+        "badge": "Élections",
+        "title": "Élections CPL-2026",
+        "subtitle": "Conseil Permanent de la Ligue",
+        "description": "Informations officielles sur les élections à venir"
+      },
+      "overview": {
+        "title": "Aperçu des élections",
+        "description": "Le processus électoral pour le Conseil Permanent de la Ligue 2026"
+      },
+      "timeline": {
+        "title": "Calendrier électoral",
+        "announcement": "Annonce des candidatures",
+        "campaign": "Campagne électorale",
+        "voting": "Période de vote",
+        "results": "Annonce des résultats"
+      },
+      "eligibility": {
+        "title": "Éligibilité",
+        "description": "Critères pour les candidats et votants"
+      },
+      "process": {
+        "title": "Processus électoral",
+        "description": "Comment se déroulent les élections"
+      },
+      "documents": {
+        "title": "Documents officiels",
+        "description": "Téléchargez les documents électoraux officiels"
+      }
+    },
+    "candidates": {
+      "title": "Candidats ATU SG",
+      "description": "Candidats au poste de Secrétaire Général de l'ATU",
+      "hero": {
+        "badge": "Élections",
+        "title": "Candidats ATU SG",
+        "subtitle": "Secrétaire Général",
+        "description": "Rencontrez les candidats au poste de Secrétaire Général de l'ATU"
+      },
+      "candidatesList": "Liste des candidats",
+      "viewProfile": "Voir le profil",
+      "manifesto": "Manifeste",
+      "vision": "Vision",
+      "experience": "Expérience",
+      "nomination": {
+        "title": "Processus de nomination",
+        "description": "Comment les candidats sont nommés"
+      },
+      "voting": {
+        "title": "Processus de vote",
+        "description": "Comment le vote se déroulera"
+      }
+    },
+    "faq": {
+      "title": "Questions Fréquentes",
+      "description": "Trouvez rapidement des réponses à vos questions",
+      "searchPlaceholder": "Rechercher dans la FAQ…",
+      "noResults": "Aucun résultat pour cette recherche",
+      "empty": "Aucun article disponible",
+      "noMatchTitle": "Pas de réponse ?",
+      "noMatchDesc": "Notre équipe est là pour vous aider. Contactez-nous directement.",
+      "contactUs": "Nous contacter",
+      "mock": {
+        "q1": "Qu'est-ce que le Fonds de Service Universel ?",
+        "a1": "Le Fonds de Service Universel (FSU) est un mécanisme de financement destiné à promouvoir l'accès aux services de télécommunications dans les zones mal desservies ou non rentables commercialement.",
+        "q2": "Comment accéder à la plateforme ?",
+        "a2": "L'accès à la plateforme se fait sur invitation. Contactez votre administrateur national ou l'UAT pour obtenir un compte.",
+        "q3": "Qui peut s'inscrire ?",
+        "a3": "Les points focaux nationaux, les administrateurs pays et les partenaires de l'UAT peuvent s'inscrire. Le public peut accéder aux pages de consultation."
+      }
+    },
+    "register": {
+      "title": "Créer un compte",
+      "description": "Rejoignez la plateforme USF-ADC",
+      "errors": {
+        "required": "Veuillez remplir tous les champs obligatoires",
+        "email": "Adresse email invalide",
+        "motivation": "Veuillez fournir une motivation d'au moins 50 caractères",
+        "terms": "Vous devez accepter les conditions d'utilisation",
+        "emailExists": "Cette adresse email est déjà utilisée"
+      },
+      "steps": {
+        "identity": "Identité",
+        "role": "Rôle",
+        "motivation": "Motivation"
+      },
+      "step1": {
+        "title": "Informations personnelles"
+      },
+      "step2": {
+        "title": "Rôle et Pays"
+      },
+      "step3": {
+        "title": "Motivation"
+      },
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Jean Kouassi",
+      "email": "Adresse email",
+      "organization": "Organisation",
+      "organizationPlaceholder": "Ministère des Télécommunications",
+      "role": "Rôle souhaité",
+      "selectRole": "Sélectionnez un rôle",
+      "country": "Pays",
+      "selectCountry": "Sélectionnez votre pays",
+      "motivation": "Pourquoi souhaitez-vous rejoindre la plateforme ?",
+      "motivationPlaceholder": "Décrivez vos motivations et ce que vous souhaitez accomplir...",
+      "characters": "caractères",
+      "review": {
+        "title": "Votre demande sera examinée",
+        "description": "Un administrateur examinera votre demande. Vous recevrez une réponse par email sous quelques jours."
+      },
+      "terms": "J'accepte les conditions d'utilisation et la politique de confidentialité de la plateforme USF-ADC",
+      "previous": "Précédent",
+      "submitting": "Soumission...",
+      "submit": "Soumettre",
+      "next": "Suivant",
+      "success": "Votre demande a été soumise avec succès. Vous recevrez un email dès qu'elle sera traitée.",
+      "error": "Une erreur est survenue",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "login": "Se connecter"
+    }
+  },
+  "users": {
+    "title": "Gestion des utilisateurs",
+    "searchPlaceholder": "Rechercher un utilisateur…",
+    "noUsers": "Aucun utilisateur trouvé",
+    "user": "Utilisateur",
+    "country": "Pays",
+    "roles": "Rôles",
+    "status": "Statut",
+    "noName": "Sans nom",
+    "promote": "Promouvoir",
+    "promoteConfirm": "Promouvoir cet utilisateur en Point Focal National ?",
+    "promoteDesc": "L'utilisateur aura accès à la saisie FSU, au forum et aux rapports de son pays.",
+    "promoteCancel": "Annuler"
+  },
+  "index": {
+    "nav": {
+      "home": "Accueil",
+      "map": "Carte",
+      "countries": "Pays membres",
+      "documents": "Documents",
+      "news": "Actualités",
+      "forum": "Forum",
+      "projects": "Projets",
+      "events": "Événements",
+      "sutel": "SUTEL",
+      "about": "À propos",
+      "login": "Se connecter"
+    },
+    "features": {
+      "auth": {
+        "title": "Authentification sécurisée",
+        "desc": "Contrôle d'accès par rôle avec vérification 2FA obligatoire pour les administrateurs."
+      },
+      "fsu": {
+        "title": "Collecte FSU structurée",
+        "desc": "Saisie multi-étapes, brouillons automatiques, validation et suivi complet des soumissions."
+      },
+      "map": {
+        "title": "Cartographie interactive",
+        "desc": "Visualisez les projets FSU sur une carte panafricaine dynamique et filtrable."
+      },
+      "reports": {
+        "title": "Rapports & KPIs",
+        "desc": "Tableaux de bord en temps réel, export CSV/PDF et indicateurs de performance."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "desc": "Forum thématique, partage de connaissances et gestion d'équipe par pays."
+      },
+      "notifications": {
+        "title": "Notifications & Support",
+        "desc": "Alertes en temps réel, système de tickets et suivi de résolution."
+      }
+    },
+    "stats": {
+      "countries": "Pays africains",
+      "security": "Sécurité renforcée",
+      "availability": "Disponibilité",
+      "traceability": "Traçabilité"
+    },
+    "roles": {
+      "public": {
+        "label": "Public / Externe",
+        "desc": "Consulter les projets publiés et la cartographie."
+      },
+      "focal": {
+        "label": "Point Focal",
+        "desc": "Saisir, soumettre et suivre les données FSU de son pays."
+      },
+      "countryAdmin": {
+        "label": "Admin Pays",
+        "desc": "Valider les soumissions et piloter au niveau national."
+      },
+      "globalAdmin": {
+        "label": "Admin Global",
+        "desc": "Superviser l'ensemble du continent et gérer la plateforme."
+      }
+    },
+    "hero": {
+      "badge": "Plateforme panafricaine FSU",
+      "title": "Connecter l'Afrique",
+      "subtitle": "au numérique",
+      "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
+      "accessPlatform": "Accéder à la plateforme",
+      "discover": "Découvrir",
+      "scroll": "Défiler"
+    },
+    "featuresSection": {
+      "badge": "Fonctionnalités",
+      "title": "Une plateforme complète",
+      "description": "Tous les outils nécessaires pour piloter le Fonds du Service Universel à l'échelle du continent",
+      "learnMore": "En savoir plus"
+    },
+    "quickAccess": {
+      "map": {
+        "title": "Carte des projets",
+        "desc": "Visualisez les projets FSU"
+      },
+      "documents": {
+        "title": "Documents",
+        "desc": "Bibliothèque documentaire"
+      },
+      "forum": {
+        "title": "Forum",
+        "desc": "Échanges thématiques"
+      },
+      "projects": {
+        "title": "Projets",
+        "desc": "Projets realises"
+      }
+    },
+    "newsEvents": {
+      "badge": "Actualités & Événements",
+      "title": "Restez informé",
+      "description": "Suivez l'actualité du Service Universel et les événements à venir",
+      "latestNews": "Dernières actualités",
+      "upcomingEvents": "Événements à venir",
+      "viewAll": "Tout voir",
+      "noNews": "Aucune actualité disponible",
+      "noEvents": "Aucun événement à venir",
+      "featured": "À la une",
+      "readMore": "Lire la suite",
+      "register": "S'inscrire",
+      "joinCommunity": "Rejoignez la communauté USF-ADC",
+      "joinCommunityDesc": "Consultez les dernières actualités du Service Universel et ne manquez aucun événement important",
+      "viewNews": "Voir les actualités",
+      "calendar": "Calendrier"
+    },
+    "about": {
+      "badge": "À propos de la plateforme",
+      "title": "Piloter le numérique africain ensemble",
+      "description": "La plateforme USF-ADC est un outil de collaboration panafricain développé sous l'égide de l'Union Africaine des Télécommunications (UAT). Elle permet aux 54 pays membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel.",
+      "items": {
+        "standardized": "Collecte standardisée des données FSU",
+        "validation": "Validation multi-niveaux avec traçabilité",
+        "dashboards": "Tableaux de bord et rapports en temps réel",
+        "forum": "Forum d'échange entre points focaux"
+      },
+      "connectedCountries": "pays connectés",
+      "learnMore": "En savoir plus",
+      "carousel": {
+        "universal": {
+          "title": "Service Universel",
+          "desc": "Garantir l'accès universel aux services de télécommunications pour tous les citoyens africains, sans laisser personne de côté."
+        },
+        "dashboard": {
+          "title": "Tableaux de bord",
+          "desc": "Visualisez les indicateurs clés de performance et suivez l'évolution des projets FSU en temps réel à travers le continent."
+        },
+        "collaboration": {
+          "title": "Collaboration",
+          "desc": "Un espace d'échange et de coopération entre les 54 pays membres pour partager les meilleures pratiques et innover ensemble."
+        },
+        "innovation": {
+          "title": "Innovation Technologique",
+          "desc": "Promouvoir l'adoption de technologies innovantes et de solutions numériques de pointe pour accélérer le développement des télécommunications en Afrique."
+        }
+      }
+    },
+    "rolesSection": {
+      "badge": "Rôles & Accès",
+      "title": "4 niveaux d'accès",
+      "description": "Chaque rôle dispose d'un tableau de bord et de permissions adaptés à ses missions"
+    },
+    "cta": {
+      "title": "Prêt à contribuer au numérique africain ?",
+      "description": "Rejoignez la plateforme USF-ADC pour accéder aux ressources de collaboration et de suivi du Fonds de Service Universel.",
+      "login": "Se connecter",
+      "contact": "Contacter l'UAT"
+    },
+    "footer": {
+      "platform": "Plateforme panafricaine FSU",
+      "navigation": "Navigation",
+      "features": "Fonctionnalités",
+      "map": "Carte",
+      "about": "À propos",
+      "documents": "Documents",
+      "news": "Actualités",
+      "forum": "Forum",
+      "projects": "Projets",
+      "events": "Événements",
+      "account": "Compte",
+      "login": "Connexion",
+      "faq": "FAQ",
+      "copyright": "© {{year}} ANSUT / Union Africaine des Télécommunications — Tous droits réservés",
+      "legal": "Mentions légales",
+      "privacy": "Confidentialité"
+    },
+    "imageAlt": {
+      "hero": "Connectivité numérique africaine",
+      "collaboration": "Équipe africaine collaborant sur la plateforme"
+    },
+    "atu": "ATU / UAT"
+  }
+}

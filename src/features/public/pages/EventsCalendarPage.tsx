@@ -1,0 +1,578 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket } from 'lucide-react';
+import { PublicLayout } from '../components/PublicLayout';
+import { usePublicEvents, usePastEvents } from '../hooks/usePublicEvents';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import PageHero from '@/components/PageHero';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO } from 'date-fns';
+// @ts-ignore
+import fr from 'date-fns/locale/fr';
+// @ts-ignore
+import enUS from 'date-fns/locale/en-US';
+// @ts-ignore
+import pt from 'date-fns/locale/pt';
+
+// Available locales
+const locales: Record<string, any> = { fr, en: enUS, pt };
+
+const getEventTypeColor = (type: string) => {
+  const colors: Record<string, string> = {
+    'conference': 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20',
+    'webinar': 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20',
+    'workshop': 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20',
+    'meeting': 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
+  };
+  return colors[type] || 'bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20';
+};
+
+const getEventTypeIcon = (type: string) => {
+  const icons: Record<string, React.ComponentType<{ className?: string }>> = {
+    'conference': Building,
+    'webinar': Video,
+    'workshop': Users,
+    'meeting': CalendarIcon,
+  };
+  return icons[type] || CalendarIcon;
+};
+
+const getDateFnsLocale = (lang: string) => {
+  return locales[lang] || fr;
+};
+
+function EventCard({ event, past = false }: { event: any; past?: boolean }) {
+  const { t } = useTranslation();
+  const TypeIcon = getEventTypeIcon(event.event_type);
+  const startDate = new Date(event.start_date);
+  const endDate = event.end_date ? new Date(event.end_date) : null;
+
+  const isMultiDay = endDate && endDate.getDate() !== startDate.getDate();
+
+  const downloadICS = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const formatDate = (date: Date) => {
+      return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
+    };
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//USF-ADC//Events//FR',
+      'BEGIN:VEVENT',
+      `DTSTART:${formatDate(startDate)}`,
+      `DTEND:${formatDate(endDate || startDate)}`,
+      `SUMMARY:${event.title}`,
+      `DESCRIPTION:${event.description || ''}`,
+      event.location ? `LOCATION:${event.location}` : '',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].filter(Boolean).join('\r\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${event.title.replace(/\s+/g, '_')}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <Link to={`/calendrier/${event.id}`} className="block">
+      <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group h-full">
+      {event.image_url && (
+        <div className="relative h-40 overflow-hidden">
+          <img
+            src={event.image_url}
+            alt={event.title}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute top-3 right-3">
+            <Badge className={getEventTypeColor(event.event_type)}>
+              <TypeIcon className="h-3 w-3 mr-1" />
+              {event.event_type}
+            </Badge>
+          </div>
+          <div className="absolute bottom-3 left-3">
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-white/90 backdrop-blur-sm text-foreground">
+                <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
+                <span className="text-lg font-bold">{startDate.getDate()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <CardContent className="p-5">
+        {!event.image_url && (
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex flex-col items-center justify-center h-14 w-14 rounded-xl bg-primary/10 text-primary">
+              <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
+              <span className="text-2xl font-bold">{startDate.getDate()}</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+                {event.title}
+              </h3>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                {event.location ? (
+                  <span className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3" />
+                    {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1">
+                    <Video className="h-3 w-3" />
+                    {t('public.calendar.online')}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {event.image_url && (
+          <>
+            <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+              {event.title}
+            </h3>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              {event.location ? (
+                <span className="flex items-center gap-1">
+                  <MapPin className="h-3 w-3" />
+                  {event.location.length > 40 ? event.location.substring(0, 40) + '...' : event.location}
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Video className="h-3 w-3" />
+                  {t('public.calendar.online')}
+                </span>
+              )}
+              {isMultiDay && (
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {Math.ceil((endDate!.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))} {t('public.calendar.days')}
+                </span>
+              )}
+            </div>
+          </>
+        )}
+
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+          {event.description}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          {event.tags && event.tags.slice(0, 3).map((tag: string, i: number) => (
+            <Badge key={i} variant="outline" className="text-xs">
+              <TagIcon className="h-3 w-3 mr-1" />
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-between pt-3 border-t text-sm">
+          <div className="flex items-center gap-4">
+            {event.max_participants && (
+              <span className="flex items-center gap-1 text-muted-foreground">
+                <Users className="h-4 w-4" />
+                {event.max_participants} places
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {event.price && (
+              <Badge variant="outline" className="text-xs">
+                <Ticket className="h-3 w-3 mr-1" />
+                {event.price}
+              </Badge>
+            )}
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-7 w-7"
+              onClick={downloadICS}
+              title="Exporter au format .ics"
+            >
+              📅
+            </Button>
+          </div>
+        </div>
+
+        {event.registration_url && !past && (
+          <Button
+            className="w-full mt-4"
+            variant={event.price === 'Gratuit' ? 'default' : 'outline'}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              window.open(event.registration_url, '_blank', 'noopener,noreferrer');
+            }}
+          >
+            {event.price === 'Gratuit' ? "S'inscrire gratuitement" : 'S\'inscrire'}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        )}
+      </CardContent>
+    </Card>
+    </Link>
+  );
+}
+
+export default function EventsCalendarPage() {
+  const { t, i18n } = useTranslation();
+  const { data: upcomingEvents, isLoading: upcomingLoading } = usePublicEvents();
+  const { data: pastEvents, isLoading: pastLoading } = usePastEvents();
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedType, setSelectedType] = useState('all');
+  const [search, setSearch] = useState('');
+
+  const EVENT_TYPES = [
+    { value: 'all', label: t('public.calendar.allTypes'), icon: CalendarIcon },
+    { value: 'conference', label: t('public.eventTypes.conference'), icon: Building },
+    { value: 'webinar', label: t('public.eventTypes.webinar'), icon: Video },
+    { value: 'workshop', label: t('public.eventTypes.workshop'), icon: Users },
+  ];
+
+  const filteredEvents = (upcomingEvents || []).filter((event) => {
+    const matchType = selectedType === 'all' || event.event_type === selectedType;
+    const matchSearch = !search ||
+      event.title.toLowerCase().includes(search.toLowerCase()) ||
+      (event.description && event.description.toLowerCase().includes(search.toLowerCase())) ||
+      (event.location && event.location.toLowerCase().includes(search.toLowerCase())) ||
+      (event.tags && event.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())));
+    return matchType && matchSearch;
+  });
+
+  const filteredPast = (pastEvents || []).filter((event) => {
+    return !search ||
+      event.title.toLowerCase().includes(search.toLowerCase()) ||
+      (event.description && event.description.toLowerCase().includes(search.toLowerCase()));
+  });
+
+  const monthStart = startOfMonth(currentMonth);
+  const monthEnd = endOfMonth(currentMonth);
+  const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+  const hasEventOnDay = (day: Date) => {
+    return filteredEvents.some(event => {
+      const eventDate = parseISO(event.start_date);
+      return isSameDay(eventDate, day);
+    });
+  };
+
+  const getEventsForDay = (day: Date) => {
+    return filteredEvents.filter(event => {
+      const eventDate = parseISO(event.start_date);
+      return isSameDay(eventDate, day);
+    });
+  };
+
+  const previousMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  const upcomingConference = filteredEvents.filter(e => e.event_type === 'conference');
+  const upcomingWebinars = filteredEvents.filter(e => e.event_type === 'webinar');
+  const upcomingWorkshops = filteredEvents.filter(e => e.event_type === 'workshop');
+
+  return (
+    <PublicLayout>
+      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <PageHero
+          title={t('public.calendar.title')}
+          description={t('public.calendar.description')}
+          icon={<CalendarIcon className="h-6 w-6 text-secondary" />}
+        />
+
+        {/* Stats Cards */}
+        <div className="grid gap-4 sm:grid-cols-3 mb-8">
+          <Card className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/20">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                  <Building className="h-6 w-6 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{upcomingConference.length}</p>
+                  <p className="text-sm text-muted-foreground">{t('public.calendar.conferencesUpcoming')}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border-purple-500/20">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                  <Video className="h-6 w-6 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{upcomingWebinars.length}</p>
+                  <p className="text-sm text-muted-foreground">{t('public.calendar.webinarsScheduled')}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-br from-green-500/10 to-green-500/5 border-green-500/20">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-4">
+                <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                  <Users className="h-6 w-6 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{upcomingWorkshops.length}</p>
+                  <p className="text-sm text-muted-foreground">{t('public.calendar.workshopsTraining')}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <div className="relative flex-1 min-w-[250px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={t('public.calendar.searchPlaceholder')}
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <Select value={selectedType} onValueChange={setSelectedType}>
+            <SelectTrigger className="w-[180px]">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {EVENT_TYPES.map((et) => {
+                const Icon = et.icon;
+                return (
+                  <SelectItem key={et.value} value={et.value}>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4" />
+                      {et.label}
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Tabs */}
+        <Tabs defaultValue="calendar" className="space-y-6">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="calendar">{t('public.calendar.calendarTab')}</TabsTrigger>
+            <TabsTrigger value="list">{t('public.calendar.listTab')}</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="calendar" className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-6">
+              {/* Calendar View */}
+              <div className="lg:col-span-2">
+                <Card>
+                  <CardContent className="p-6">
+                    {/* Month Navigation */}
+                    <div className="flex items-center justify-between mb-6">
+                      <Button variant="outline" size="icon" onClick={previousMonth}>
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <h3 className="text-lg font-semibold capitalize">
+                        {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale(i18n.language) })}
+                      </h3>
+                      <Button variant="outline" size="icon" onClick={nextMonth}>
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {/* Calendar Grid */}
+                    <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                        <div key={day} className="text-xs font-medium text-muted-foreground py-2">
+                          {t(`public.calendar.weekdays.${day.toLowerCase()}`)}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-7 gap-1">
+                      {daysInMonth.map((day) => {
+                        const events = getEventsForDay(day);
+                        return (
+                          <div
+                            key={day.toISOString()}
+                            className={`
+                              aspect-square p-1 text-center rounded-md transition-colors
+                              ${!isSameMonth(day, currentMonth) ? 'text-muted-foreground/30' : 'hover:bg-muted'}
+                              ${events.length > 0 ? 'bg-primary/10 hover:bg-primary/20 cursor-pointer' : ''}
+                            `}
+                          >
+                            <span className="text-sm">{format(day, 'd')}</span>
+                            {events.length > 0 && (
+                              <div className="flex justify-center mt-1 gap-0.5">
+                                {events.slice(0, 3).map((_, i) => (
+                                  <div key={i} className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Upcoming Events List */}
+              <div>
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <CalendarIcon className="h-5 w-5 text-primary" />
+                  {t('public.calendar.upcoming')}
+                </h3>
+                <div className="space-y-3">
+                  {upcomingLoading ? (
+                    [1, 2, 3].map((i) => <Skeleton key={i} className="h-32" />)
+                  ) : filteredEvents.length === 0 ? (
+                    <Card>
+                      <CardContent className="py-8 text-center text-muted-foreground text-sm">
+                        {t('public.calendar.noEvents')}
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    filteredEvents.slice(0, 5).map((event) => (
+                      <Card key={event.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <Badge className="mb-2" variant="secondary">
+                            {t(`public.eventTypes.${event.event_type}`)}
+                          </Badge>
+                          <h4 className="font-semibold text-sm mb-2">{event.title}</h4>
+                          <div className="space-y-1 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {new Date(event.start_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                            {event.location && (
+                              <div className="flex items-center gap-1">
+                                <MapPin className="h-3 w-3" />
+                                {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                              </div>
+                            )}
+                          </div>
+                          {event.registration_url && (
+                            <Button size="sm" variant="outline" className="w-full mt-3 text-xs h-7" asChild>
+                              <a href={event.registration_url} target="_blank" rel="noopener noreferrer">
+                                {t('public.calendar.register')}
+                              </a>
+                            </Button>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="list" className="space-y-6">
+            <Tabs defaultValue="upcoming" className="space-y-4">
+              <TabsList className="grid w-full max-w-md grid-cols-2">
+                <TabsTrigger value="upcoming">
+                  {t('public.calendar.upcoming')} ({filteredEvents.length})
+                </TabsTrigger>
+                <TabsTrigger value="past">
+                  {t('public.calendar.past')} ({filteredPast.length})
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="upcoming" className="space-y-4">
+                {upcomingLoading ? (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <Card key={i}>
+                        <CardContent className="p-5">
+                          <Skeleton className="h-40 w-full mb-4" />
+                          <Skeleton className="h-6 w-3/4 mb-3" />
+                          <Skeleton className="h-4 w-full mb-2" />
+                          <Skeleton className="h-4 w-2/3" />
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : filteredEvents.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-16 text-center text-muted-foreground">
+                      <CalendarIcon className="mx-auto h-16 w-16 mb-4 opacity-30" />
+                      <p className="text-lg font-medium mb-2">
+                        {t('public.calendar.noEvents')}
+                      </p>
+                      <p className="text-sm">
+                        {t('public.calendar.comingSoon')}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredEvents.map((event) => (
+                      <EventCard key={event.id} event={event} />
+                    ))}
+                  </div>
+                )}
+              </TabsContent>
+
+              <TabsContent value="past" className="space-y-4">
+                {pastLoading ? (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {[1, 2, 3].map((i) => (
+                      <Card key={i}>
+                        <CardContent className="p-5">
+                          <Skeleton className="h-40 w-full mb-4" />
+                          <Skeleton className="h-6 w-3/4 mb-3" />
+                          <Skeleton className="h-4 w-full mb-2" />
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : filteredPast.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-16 text-center text-muted-foreground">
+                      <CalendarIcon className="mx-auto h-16 w-16 mb-4 opacity-30" />
+                      <p className="text-lg font-medium">
+                        {t('public.calendar.noPastEvents')}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {filteredPast.map((event) => (
+                      <EventCard key={event.id} event={event} past />
+                    ))}
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </PublicLayout>
+  );
+}

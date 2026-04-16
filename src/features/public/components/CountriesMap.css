@@ -1,0 +1,399 @@
+/* Custom styles for CountriesMap popups */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  min-width: 250px;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Country polygon hover effects */
+.leaflet-interactive {
+  transition: fill-opacity 0.2s ease, stroke-width 0.2s ease;
+}
+
+/* Custom popup styles */
+.country-popup a {
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.country-popup a:hover {
+  transform: translateY(-1px);
+}
+
+/* Prevent text selection on map */
+.leaflet-container {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Smooth zoom transitions */
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+}
+
+/* Improve marker visibility */
+.leaflet-marker-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Popup close button styling */
+.leaflet-popup-close-button {
+  padding: 4px 8px !important;
+  font-size: 18px !important;
+  color: #666 !important;
+  transition: color 0.2s ease;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #333 !important;
+}
+
+/* Country info card styling */
+.country-info-card {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Gradient backgrounds for project count badges */
+.project-count-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.project-count-number {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.project-count-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Country header styling */
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.country-flag {
+  width: 40px;
+  height: 27px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.country-info {
+  flex: 1;
+}
+
+.country-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.country-region {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Button styling in popups */
+.popup-button {
+  display: block;
+  text-align: center;
+  background: #3388ff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.popup-button:hover {
+  background: #2277dd;
+  transform: translateY(-1px);
+}
+
+/* Map container styling */
+.countries-map-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Loading overlay */
+.map-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1000;
+}
+
+.map-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Themed project markers */
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Enhanced popup styling for projects */
+.custom-popup .leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.custom-popup .leaflet-popup-content {
+  border-radius: 16px;
+}
+
+/* Marker cluster styling */
+.marker-cluster {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  color: white;
+}
+
+.marker-cluster div {
+  background: transparent;
+  color: white;
+  font-weight: 600;
+}
+
+.marker-cluster span {
+  line-height: 30px;
+}
+
+/* Marker cluster colors based on count */
+.marker-cluster-small {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.marker-cluster-medium {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.marker-cluster-large {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+/* Smooth popup animations */
+.leaflet-popup {
+  animation: popupFadeIn 0.2s ease-out;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced tooltip for country markers */
+.leaflet-tooltip {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-tooltip:before {
+  border-top-color: rgba(0, 0, 0, 0.85);
+}
+
+/* Project status badges */
+.status-badge-planned {
+  background: #64748b;
+}
+
+.status-badge-in_progress {
+  background: #f59e0b;
+}
+
+.status-badge-completed {
+  background: #10b981;
+}
+
+.status-badge-suspended {
+  background: #ef4444;
+}
+
+/* Theme badges */
+.theme-badge-connectivity {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.theme-badge-health {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.theme-badge-education {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.theme-badge-energy {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.theme-badge-agriculture {
+  background: #ecfccb;
+  color: #3f6212;
+}
+
+/* Fullscreen mode styles */
+.map-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.map-fullscreen .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Loading state for map */
+.map-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.map-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: mapSpin 1s linear infinite;
+}
+
+@keyframes mapSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Stats dashboard cards */
+.map-stats-card {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.map-stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter buttons */
+.map-filter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.map-filter-button:hover {
+  transform: translateY(-1px);
+}
+
+.map-filter-button-active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #1e40af;
+}
+
+/* Legend styles */
+.map-legend {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.map-legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,1661 @@
+{
+  "mfa": {
+    "title": "التحقق بخطوتين",
+    "emailDesc": "تم إرسال رمز التحقق إلى {{hint}}",
+    "smsDesc": "تم إرسال رمز التحقق عبر SMS",
+    "telegramDesc": "تم إرسال رمز التحقق عبر Telegram",
+    "codeSent": "تم إرسال رمز التحقق",
+    "sendError": "خطأ في إرسال الرمز",
+    "verify": "التحقق",
+    "verifying": "جاري التحقق...",
+    "verified": "التحقق ناجح",
+    "invalidCode": "رمز غير صالح أو منتهي الصلاحية",
+    "verifyError": "خطأ في التحقق",
+    "resend": "إعادة إرسال الرمز",
+    "resendIn": "إعادة الإرسال خلال {{seconds}} ثانية",
+    "cancel": "تسجيل الخروج",
+    "settings": "المصادقة الثنائية",
+    "settingsDesc": "قفل حسابك برمز عند كل تسجيل دخول",
+    "method": "طريقة التحقق",
+    "methodEmail": "عبر البريد الإلكتروني",
+    "methodSms": "عبر SMS",
+    "enabled": "2FA مفعّل",
+    "required": "2FA مطلوب لحسابات المسؤول"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "yes": "نعم",
+    "no": "لا",
+    "none": "لا شيء",
+    "error": "خطأ",
+    "success": "نجح",
+    "noData": "لا توجد بيانات متاحة",
+    "projects_count": "{{count}} مشروع",
+    "projects_count_plural": "{{count}} مشروع",
+    "users_count": "{{count}} مستخدم",
+    "users_count_plural": "{{count}} مستخدم",
+    "confirm": "تأكيد",
+    "actions": "الإجراءات",
+    "add": "إضافة",
+    "update": "تحديث",
+    "updated": "تم التحديث",
+    "deleteConfirm": "حذف {{item}} هذا؟"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "fsu": "إدخال بيانات ص الخدمة الشاملة",
+    "validation": "التحقق",
+    "users": "المستخدمون",
+    "reports": "التقارير",
+    "map": "خريطة المشاريع",
+    "forum": "المنتدى",
+    "notifications": "الإشعارات",
+    "support": "الدعم",
+    "admin": "الإدارة",
+    "profile": "الملف الشخصي",
+    "signOut": "تسجيل الخروج",
+    "myAccount": "حسابي",
+    "invitations": "الدعوات",
+    "faq": "الأسئلة الشائعة",
+    "newsletters": "النشرة الإخبارية",
+    "newslettersAdmin": "إدارة النشرات",
+    "documents": "الوثائق",
+    "training": "التدريب",
+    "chat": "الدردشة المباشرة",
+    "feeds": "الرصد الاستراتيجي",
+    "groups": "المجموعات",
+    "alertSettings": "التنبيهات",
+    "sectionData": "البيانات",
+    "sectionCommunication": "التواصل",
+    "sectionSupport": "المساعدة والتدريب",
+    "sectionAdmin": "الإدارة"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "loginDesc": "أدخل بيانات الاعتماد الخاصة بك للوصول إلى مساحة العمل",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginSuccessDesc": "مرحباً بك في المنصة.",
+    "loginError": "خطأ في تسجيل الدخول",
+    "platformTitle": "ص الخدمة الشاملة - ADC",
+    "platformSubtitle": "منصة ص الخدمة الشاملة الأفريقية — ANSUT/UAT",
+    "inviteOnly": "التسجيل عن طريق الدعوة فقط.",
+    "contactAdmin": "اتصل بالمسؤول للحصول على حق الوصول.",
+    "forgotPasswordTitle": "نسيت كلمة المرور",
+    "forgotPasswordDesc": "أدخل بريدك الإلكتروني لتلقي رابط إعادة التعيين",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "sendLink": "إرسال الرابط",
+    "sending": "جاري الإرسال...",
+    "emailSent": "تم إرسال البريد الإلكتروني",
+    "emailSentDesc": "تحقق من صندوق الوارد.",
+    "emailSentMessage": "إذا كان هناك حساب لـ <strong>{{email}}</strong>، فستتلقى رابط إعادة التعيين.",
+    "backToLogin": "العودة إلى تسجيل الدخول",
+    "unauthorized": "وصول غير مصرح به",
+    "unauthorizedDesc": "ليس لديك إذن للوصول إلى هذه الصفحة.",
+    "heroTitle": "ربط إفريقيا بالعالم الرقمي",
+    "heroSubtitle": "منصة مراقبة ص الخدمة الشاملة — الوصول الرقمي لجميع المواطنين الأفارقة.",
+    "heroPill1": "2FA محمي",
+    "heroPill2": "54 دولة متصلة",
+    "heroPill3": "تقارير في الوقت الفعلي"
+  },
+  "dashboard": {
+    "hello": "مرحباً، {{name}}",
+    "pfDesc": "لوحة التحكم الخاصة بك — نظرة عامة على أنشطة ص الخدمة الشاملة",
+    "totalEntries": "إجمالي الإدخالات",
+    "noEntries": "لا توجد إدخالات حتى الآن",
+    "pending": "قيد الانتظار",
+    "pendingDesc": "عمليات الإرسال بانتظار التحقق",
+    "approved": "تمت الموافقة عليها",
+    "approvedDesc": "عمليات إرسال تم التحقق منها",
+    "alerts": "التنبيهات",
+    "alertsDesc": "بيانات مفقودة أو مواعيد نهائية",
+    "quickActions": "إجراءات سريعة",
+    "quickActionsDesc": "وصول سريع إلى الميزات الرئيسية",
+    "newEntry": "إدخال جديد",
+    "newEntryDesc": "إنشاء إرسال ص الخدمة الشاملة",
+    "myDrafts": "مسوداتي",
+    "myDraftsDesc": "استئناف إدخال مسودة",
+    "history": "السجل",
+    "historyDesc": "عرض جميع عمليات الإرسال الخاصة بي",
+    "viewReports": "التقارير",
+    "viewReportsDesc": "عرض التقارير",
+    "adminPays": "إدارة الدولة",
+    "welcomeAdmin": "مرحباً {{name}} — نظرة عامة على الدولة",
+    "activeUsers": "المستخدمون النشطون",
+    "pendingValidation": "قيد التحقق",
+    "validationRate": "معدل التحقق",
+    "alertsTitle": "التنبيهات",
+    "alertsNeedAttention": "عناصر تحتاج إلى اهتمامك",
+    "noAlerts": "لا توجد تنبيهات في الوقت الحالي",
+    "validateSubmissions": "التحقق من عمليات الإرسال",
+    "manageUsers": "إدارة المستخدمين",
+    "viewReportsShort": "عرض التقارير",
+    "globalAdmin": "الإدارة العامة ANSUT/UAT",
+    "globalDesc": "نظرة عامة على المنصة على مستوى القارة",
+    "activeCountries": "ال دول النشطة",
+    "outOf54": "من أصل 54 دولة",
+    "totalUsers": "إجمالي المستخدمين",
+    "fsuProjects": "مشاريع ص الخدمة الشاملة",
+    "platformActivity": "نشاط المنصة",
+    "criticalAlerts": "تنبيهات حرجة",
+    "criticalAlertsDesc": "مشاكل تقنية ومحتوى تم الإبلاغ عنه",
+    "noCriticalAlerts": "لا توجد تنبيهات حرجة",
+    "supervision": "الإشراف",
+    "supervisionDesc": "إجراءات الإدارة",
+    "userManagement": "إدارة المستخدمين",
+    "validationSupervision": "إشراف التحقق",
+    "globalReports": "التقارير العامة",
+    "projectMap": "خريطة المشاريع",
+    "welcomePublicDesc": "مرحباً بك في منصة USF-ADC — الوصول إلى الموارد العامة",
+    "publicDocuments": "الوثائق العامة",
+    "publicDocumentsDesc": "تصفح الوثائق والتقارير المتاحة",
+    "projectsMap": "خريطة المشاريع",
+    "projectsMapDesc": "استكشف مشاريع ص الخدمة الشاملة على الخريطة التفاعلية",
+    "notificationsDesc": "عرض إشعاراتك الأخيرة",
+    "faqDesc": "الأسئلة الشائعة وأدلة المستخدم",
+    "latestNews": "آخر الأخبار",
+    "latestNewsletters": "أحدث النشرات",
+    "seeAll": "عرض الكل"
+  },
+  "fsu": {
+    "title": "إدخال بيانات ص الخدمة الشاملة",
+    "historyDesc": "سجل عمليات إرسال بيانات ص الخدمة الشاملة",
+    "newEntry": "إدخال جديد",
+    "newSubmission": "إدخال ص الخدمة الشاملة جديد",
+    "newSubmissionDesc": "املأ البيانات للفترة المحددة",
+    "submissionDetail": "تفاصيل الإرسال",
+    "submissionNotFound": "لم يتم العثور على الإرسال",
+    "backToHistory": "العودة إلى السجل",
+    "createdAt": "تم الإنشاء في",
+    "submissionPeriod": "الإرسال: {{start}} → {{end}}",
+    "steps": {
+      "connectivity": "الربط",
+      "connectivityDesc": "بيانات الشبكة",
+      "financing": "التمويل",
+      "financingDesc": "ميزانية ص الخدمة الشاملة",
+      "quality": "الجودة",
+      "qualityDesc": "مؤشرات جودة الخدمة",
+      "preview": "معاينة",
+      "previewDesc": "التحقق"
+    },
+    "formNav": "خطوات النموذج",
+    "previous": "السابق",
+    "next": "التالي",
+    "saveDraft": "حفظ المسودة",
+    "submit": "إرسال",
+    "draftSaved": "تم حفظ المسودة",
+    "draftError": "تعذر حفظ المسودة",
+    "submitted": "تم إرسال الإرسال",
+    "submittedDesc": "تم إرسال إدخال ص الخدمة الشاملة للتحقق",
+    "submitError": "تعذر الإرسال",
+    "formIncomplete": "نموذج غير مكتمل",
+    "fillRequired": "يرجى ملء جميع الحقول المطلوبة",
+    "profileError": "ملف شخصي غير مكتمل — الدولة مطلوبة",
+    "connectivity": {
+      "title": "الربط",
+      "desc": "بيانات ربط الشبكة للفترة",
+      "periodStart": "بداية الفترة",
+      "periodEnd": "نهاية الفترة",
+      "populationCovered": "السكان المشمولون",
+      "mobilePenetration": "معدل انتشار الهاتف المحمول (%)",
+      "internetPenetration": "معدل انتشار الإنترنت (%)",
+      "numOperators": "عدد المشغلين",
+      "mobileSubscribers": "مشتركو الهاتف المحمول",
+      "internetSubscribers": "مشتركو الإنترنت"
+    },
+    "financing": {
+      "title": "التمويل",
+      "desc": "بيانات ميزانية ص الخدمة الشاملة",
+      "annualBudget": "ميزانية ص الخدمة الشاملة السنوية (USD)",
+      "contributions": "المساهمات المحصلة (USD)",
+      "expenses": "المصروفات المتكبدة (USD)",
+      "balance": "الرصيد (USD)",
+      "fundedProjects": "عدد المشاريع الممولة"
+    },
+    "quality": {
+      "title": "جودة الخدمة",
+      "desc": "مؤشرات جودة خدمة الشبكة",
+      "latency": "متوسط زمن الاستجابة (ms)",
+      "availability": "توفر الشبكة (%)",
+      "geoCoverage": "التغطية الجغرافية (%)",
+      "popCoverage": "تغطية السكان (%)",
+      "downloadSpeed": "متوسط سرعة التنزيل (Mbps)"
+    },
+    "preview": {
+      "title": "معاينة",
+      "desc": "راجع البيانات قبل الإرسال",
+      "period": "الفترة",
+      "populationCovered": "السكان المشمولون",
+      "mobilePenetration": "انتشار الهاتف المحمول",
+      "internetPenetration": "انتشار الإنترنت",
+      "operators": "المشغلون",
+      "mobileSubscribers": "مشتركو الهاتف المحمول",
+      "internetSubscribers": "مشتركو الإنترنت",
+      "annualBudget": "ميزانية ص الخدمة الشاملة السنوية",
+      "contributions": "المساهمات المحصلة",
+      "expenses": "المصروفات المتكبدة",
+      "balance": "الرصيد",
+      "fundedProjects": "المشاريع الممولة",
+      "latency": "متوسط زمن الاستجابة",
+      "availability": "توفر الشبكة",
+      "geoCoverage": "التغطية الجغرافية",
+      "popCoverage": "تغطية السكان",
+      "downloadSpeed": "سرعة التنزيل"
+    },
+    "attachments": {
+      "title": "المرفقات",
+      "dropHere": "اسحب ملفاتك هنا أو",
+      "browse": "تصفح",
+      "hint": "PDF, Excel — حد أقصى 5 ميجابايت",
+      "typeError": "نوع غير مقبول",
+      "typeErrorDesc": "{{name}} — فقط PDF و Excel مقبولان",
+      "sizeError": "الملف كبير جداً",
+      "sizeErrorDesc": "{{name}} يتجاوز 5 ميجابايت",
+      "uploaded": "تم رفع الملف",
+      "uploadError": "خطأ في الرفع",
+      "deleted": "تم حذف الملف"
+    },
+    "history": {
+      "allStatuses": "جميع الحالات",
+      "since": "منذ",
+      "until": "حتى",
+      "period": "الفترة",
+      "status": "الحالة",
+      "submittedAt": "تم الإرسال في",
+      "lastModified": "آخر تعديل",
+      "noSubmissions": "لم يتم العثور على عمليات إرسال"
+    },
+    "status": {
+      "draft": "مسودة",
+      "submitted": "تم الإرسال",
+      "under_review": "قيد المراجعة",
+      "approved": "تمت الموافقة",
+      "rejected": "مرفوض",
+      "revision_requested": "تم طلب المراجعة",
+      "validated": "تم التحقق"
+    }
+  },
+  "validation": {
+    "title": "التحقق من عمليات الإرسال",
+    "desc": "راجع واعالج عمليات إرسال ص الخدمة الشاملة المعلقة.",
+    "validationTitle": "التحقق من الإرسال",
+    "notFound": "لم يتم العثور على الإرسال",
+    "backToValidation": "العودة إلى التحقق",
+    "actionsTitle": "إجراءات التحقق",
+    "alreadyProcessed": "تم بالفعل معالجة هذا الإرسال (الحالة الحالية: {{status}}).",
+    "commentPlaceholder": "تعليق (مطلوب للرفض أو طلب المراجعة)...",
+    "commentRequired": "التعليق مطلوب لهذا الإجراء.",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "requestRevision": "طلب مراجعة",
+    "comment": "تعليق",
+    "historyTitle": "سجل التحقق",
+    "noActions": "لم يتم تسجيل أي إجراءات تحقق.",
+    "by": "بواسطة",
+    "user": "المستخدم",
+    "noPending": "لا توجد عمليات إرسال معلقة.",
+    "period": "الفترة",
+    "status": "الحالة",
+    "submittedAt": "تم الإرسال في",
+    "action": "الإجراء",
+    "review": "مراجعة",
+    "actionLabels": {
+      "approve": "تمت الموافقة",
+      "reject": "مرفوض",
+      "request_revision": "تم طلب المراجعة",
+      "comment": "تعليق"
+    }
+  },
+  "support": {
+    "title": "الدعم",
+    "desc": "تذاكر الدعم الخاصة بك",
+    "newTicket": "تذكرة جديدة",
+    "newTicketTitle": "تذكرة جديدة",
+    "newTicketDesc": "صف مشكلتك وسنعود إليك.",
+    "ticketNotFound": "لم يتم العثور على التذكرة.",
+    "back": "رجوع",
+    "createdAt": "تم الإنشاء في",
+    "assignedTo": "مسند إلى",
+    "changeStatus": "تغيير الحالة",
+    "assignTo": "إسناد إلى",
+    "unassigned": "غير مسند",
+    "statusUpdated": "تم تحديث الحالة",
+    "ticketAssigned": "تم إسناد التذكرة",
+    "assignRemoved": "تم إزالة الإسناد",
+    "form": {
+      "title": "العنوان",
+      "titlePlaceholder": "ملخص المشكلة",
+      "titleRequired": "العنوان مطلوب",
+      "description": "الوصف",
+      "descriptionPlaceholder": "صف مشكلتك بالتفصيل...",
+      "descriptionRequired": "الوصف مطلوب",
+      "priority": "الأولوية",
+      "creating": "جاري الإنشاء...",
+      "submit": "إنشاء التذكرة",
+      "created": "تم إنشاء التذكرة",
+      "createdDesc": "تم تسجيل طلب الدعم الخاص بك.",
+      "createError": "تعذر إنشاء التذكرة."
+    },
+    "comments": {
+      "title": "التعليقات",
+      "noComments": "لا توجد تعليقات بعد.",
+      "placeholder": "أضف تعليقاً...",
+      "added": "تم إضافة التعليق",
+      "addError": "تعذر إضافة التعليق."
+    },
+    "noTickets": "لا توجد تذاكر دعم.",
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة",
+      "critical": "حرجة"
+    },
+    "ticketStatus": {
+      "open": "مفتوح",
+      "in_progress": "قيد التقدم",
+      "resolved": "تم الحل",
+      "closed": "مغلق"
+    },
+    "tableHeaders": {
+      "title": "العنوان",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "date": "التاريخ"
+    }
+  },
+  "admin": {
+    "title": "إدارة النظام",
+    "descAdmin": "إدارة إعدادات المنصة",
+    "descView": "عرض إعدادات المنصة",
+    "settings": "الإعدادات",
+    "countries": "ال دول",
+    "fsuSubmissions": "عمليات إرسال ص الخدمة الشاملة",
+    "auditLog": "سجل التدقيق",
+    "generalSettings": "الإعدادات العامة",
+    "settingUpdated": "تم تحديث \"{{label}}\"",
+    "saveError": "خطأ في الحفظ",
+    "countriesTitle": "إدارة الدولة ({{count}})",
+    "addCountry": "إضافة",
+    "editCountry": "تعديل الدولة",
+    "addCountryTitle": "إضافة دولة",
+    "nameFr": "الاسم (FR)",
+    "nameEn": "الاسم (EN)",
+    "codeIso": "رمز ISO",
+    "region": "المنطقة",
+    "countryUpdated": "تم تحديث الدولة",
+    "countryAdded": "تمت إضافة الدولة",
+    "countryDeleted": "تم حذف الدولة",
+    "deleteCountryConfirm": "حذف هذه الدولة؟",
+    "deleteCountryError": "خطأ: البيانات المرتبطة موجودة",
+    "fsuSettings": "إعدادات ص الخدمة الشاملة",
+    "submissionPeriods": "فترات الإرسال",
+    "newPeriod": "فترة جديدة",
+    "createPeriod": "إنشاء فترة إرسال",
+    "periodLabel": "التسمية",
+    "periodLabelPlaceholder": "مثال: Q1 2026",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "reminderDays": "التذكير (أيام قبل)",
+    "periodCreated": "تم إنشاء الفترة",
+    "periodActivated": "تم تفعيل الفترة",
+    "periodDeactivated": "تم إلغاء تفعيل الفترة",
+    "periodDeleted": "تم حذف الفترة",
+    "deletePeriodConfirm": "حذف هذه الفترة؟",
+    "noPeriods": "لم يتم تحديد فترات.",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "reminder": "تذكير",
+    "start": "البداية",
+    "end": "النهاية",
+    "label": "التسمية",
+    "auditLogTitle": "سجل التدقيق",
+    "noAuditLogs": "لا توجد إدخالات في سجل التدقيق.",
+    "auditDate": "التاريخ",
+    "auditAction": "الإجراء",
+    "auditTable": "الجدول",
+    "auditDetails": "التفاصيل",
+    "auditActions": {
+      "login": "تسجيل الدخول",
+      "logout": "تسجيل الخروج",
+      "create": "إنشاء",
+      "update": "تحديث",
+      "delete": "حذف",
+      "approve": "موافقة",
+      "reject": "رفض",
+      "submit": "إرسال"
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "desc": "إدارة معلوماتك وتفضيلاتك",
+    "personalInfo": "المعلومات الشخصية",
+    "role": "الدور",
+    "noRole": "لم يتم تعيين دور",
+    "email": "عنوان البريد الإلكتروني",
+    "fullName": "الاسم الكامل",
+    "fullNamePlaceholder": "اسمك الكامل",
+    "phone": "الهاتف",
+    "phonePlaceholder": "+225 XX XX XX XX",
+    "language": "اللغة",
+    "saving": "جاري الحفظ...",
+    "saveChanges": "حفظ التغييرات",
+    "saved": "تم تحديث الملف الشخصي",
+    "savedDesc": "تم حفظ التغييرات.",
+    "mfaActive": "2FA مفعّل",
+    "mfaMethod": "طريقة التحقق 2FA",
+    "mfaMethodDesc": "اختر كيفية استلام رمز التحقق في كل تسجيل دخول.",
+    "mfaEmail": "عبر البريد الإلكتروني",
+    "mfaSms": "عبر SMS",
+    "mfaTelegram": "عبر Telegram",
+    "telegramChatId": "معرف Telegram",
+    "telegramChatIdPlaceholder": "مثال: 123456789",
+    "telegramChatIdRequired": "معرف Telegram مطلوب للتحقق عبر Telegram.",
+    "phoneRequiredForSms": "رقم الهاتف مطلوب للتحقق عبر SMS."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "عذراً! الصفحة غير موجودة",
+    "backHome": "العودة إلى الرئيسية"
+  },
+  "invitations": {
+    "title": "الدعوات",
+    "desc": "إدارة الدعوات المرسلة للمستخدمين الجدد",
+    "invite": "دعوة",
+    "inviteUser": "دعوة مستخدم",
+    "role": "الدور",
+    "selectCountry": "اختر دولة",
+    "sendInvitation": "إرسال الدعوة",
+    "created": "تم إرسال الدعوة بنجاح",
+    "cancelled": "تم إلغاء الدعوة",
+    "linkCopied": "تم نسخ رابط الدعوة",
+    "copyLink": "نسخ الرابط",
+    "noInvitations": "لم يتم إرسال دعوات.",
+    "expiresAt": "تنتهي في",
+    "invalidToken": "رابط الدعوة غير صالح أو منتهي الصلاحية",
+    "createAccount": "إنشاء حسابك",
+    "createAndAccept": "إنشاء الحساب وقبول الدعوة",
+    "accepting": "جاري تنشيط حسابك...",
+    "accepted": "تم قبول الدعوة!",
+    "acceptedDesc": "حسابك جاهز. يمكنك الآن الوصول إلى المنصة.",
+    "acceptError": "تعذر قبول الدعوة",
+    "status": {
+      "pending": "قيد الانتظار",
+      "accepted": "تم القبول",
+      "expired": "منتهية الصلاحية",
+      "cancelled": "ملغاة"
+    },
+    "roles": {
+      "public_external": "عام خارجي",
+      "point_focal": "نقطة اتصال",
+      "country_admin": "مسؤول الدولة",
+      "global_admin": "مسؤول عام"
+    }
+  },
+  "languages": {
+    "fr": "Français",
+    "en": "English",
+    "pt": "Português",
+    "ar": "العربية"
+  },
+  "roles": {
+    "public_external": "عام خارجي",
+    "point_focal": "نقطة اتصال وطنية",
+    "country_admin": "مسؤول الدولة",
+    "global_admin": "مسؤول عام ANSUT/UAT"
+  },
+  "documents": {
+    "title": "مكتبة الوثائق",
+    "desc": "الوصول وإدارة الوثائق المشتركة",
+    "upload": "رفع وثيقة",
+    "noDocuments": "لا توجد وثائق متاحة",
+    "category": "الفئة",
+    "allCategories": "جميع الفئات",
+    "download": "تنزيل",
+    "uploadSuccess": "تم رفع الوثيقة",
+    "deleteSuccess": "تم حذف الوثيقة",
+    "size": "الحجم",
+    "uploadedBy": "تم الرفع بواسطة",
+    "public": "عام",
+    "private": "خاص"
+  },
+  "training": {
+    "title": "التدريب",
+    "desc": "موارد التدريب والبرامج التعليمية",
+    "modules": "وحدات التدريب",
+    "noModules": "لا توجد وحدات تدريب متاحة",
+    "progress": "التقدم",
+    "start": "ابدأ",
+    "resume": "استئناف",
+    "completed": "مكتمل"
+  },
+  "chat": {
+    "title": "الدردشة المباشرة",
+    "desc": "مناقشة في الوقت الفعلي مع الفريق",
+    "placeholder": "اكتب رسالتك...",
+    "send": "إرسال",
+    "noMessages": "لا توجد رسائل بعد",
+    "online": "متصل",
+    "offline": "غير متصل"
+  },
+  "feeds": {
+    "title": "الرصد الاستراتيجي",
+    "desc": "تلقيمات RSS والذكاء الاستراتيجي",
+    "noFeeds": "لم يتم تكوين تلقيمات",
+    "addFeed": "إضافة تلقيمة",
+    "refresh": "تحديث",
+    "lastUpdate": "آخر تحديث"
+  },
+  "groups": {
+    "title": "مجموعات العمل",
+    "desc": "مجموعات النقاش الموضوعية",
+    "noGroups": "لا توجد مجموعات متاحة",
+    "members": "الأعضاء",
+    "createGroup": "إنشاء مجموعة",
+    "joinGroup": "انضمام",
+    "leaveGroup": "مغادرة"
+  },
+  "alerts": {
+    "title": "إعدادات التنبيهات",
+    "desc": "تكوين تفضيلات الإشعارات",
+    "emailNotifications": "إشعارات البريد الإلكتروني",
+    "pushNotifications": "الإشعارات الفورية",
+    "frequency": "تكرار الإشعارات",
+    "immediate": "فوري",
+    "daily": "ملخص يومي",
+    "weekly": "ملخص أسبوعي",
+    "categories": "فئات التنبيهات",
+    "saved": "تم حفظ التفضيلات"
+  },
+  "reportBuilder": {
+    "title": "منشئ التقارير",
+    "desc": "إنشاء تقارير مخصصة",
+    "selectIndicators": "اختر المؤشرات",
+    "selectCountries": "اختر ال دول",
+    "selectPeriod": "اختر الفترة",
+    "generate": "إنشاء التقرير",
+    "generating": "جاري الإنشاء...",
+    "exportPdf": "تصدير PDF",
+    "exportCsv": "تصدير CSV",
+    "noData": "لا توجد بيانات لهذا الاختيار"
+  },
+  "newsletters": {
+    "title": "النشرة الإخبارية",
+    "desc": "{{count}} نشرة إخبارية متاحة",
+    "adminTitle": "إدارة النشرات الإخبارية",
+    "adminDesc": "إنشاء وتعديل ونشر النشرات للمستخدمين",
+    "newNewsletter": "نشرة جديدة",
+    "noNewsletters": "لا توجد نشرات إخبارية متاحة.",
+    "noNewslettersAdmin": "لم يتم إنشاء أي نشرة.",
+    "published": "منشور",
+    "draft": "مسودة",
+    "emailSent": "تم إرسال البريد الإلكتروني",
+    "publishedOn": "تم النشر في",
+    "createdOn": "تم الإنشاء في",
+    "edit": "تعديل",
+    "publish": "نشر",
+    "unpublish": "إلغاء النشر",
+    "exportEmail": "تصدير للبريد الإلكتروني",
+    "exportedSuccess": "تم تصدير النشرة للبريد الإلكتروني الخارجي",
+    "formTitle": "العنوان",
+    "formSummary": "الملخص",
+    "formSummaryPlaceholder": "ملخص قصير يظهر في القائمة",
+    "formContent": "المحتوى",
+    "formTargetRoles": "الأدوار المستهدفة",
+    "formSaving": "جاري الحفظ...",
+    "formCreate": "إنشاء",
+    "formUpdate": "تحديث",
+    "formEditTitle": "تعديل النشرة",
+    "formNewTitle": "نشرة جديدة"
+  },
+  "admin_extra": {
+    "backups": {
+      "title": "النسخ الاحتياطي التلقائي",
+      "desc": "يتم إجراء النسخ الاحتياطي يومياً الساعة 03:00 UTC",
+      "active": "النسخ الاحتياطي نشط",
+      "lastSuccess": "آخر نسخة احتياطية ناجحة: {{date}} UTC",
+      "success": "نجح",
+      "restoreInfo": "الاستعادة متاحة عبر لوحة إدارة الخلفية"
+    },
+    "apiKeys": {
+      "title": "مفاتيح API",
+      "desc": "إدارة مفاتيح الوصول إلى API للمنصة",
+      "newKey": "مفتاح جديد",
+      "keyCreated": "تم إنشاء مفتاح جديد",
+      "keyCopied": "تم نسخ المفتاح",
+      "keyDeleted": "تم حذف المفتاح",
+      "created": "تم الإنشاء",
+      "lastUsed": "آخر استخدام",
+      "calls": "{{count}} استدعاء",
+      "apiLog": "سجل استدعاءات API",
+      "apiLogDesc": "أحدث الطلبات عبر API"
+    },
+    "ipRestrictions": {
+      "title": "تقييد الوصول عبر IP",
+      "desc": "تقييد وصول المنصة إلى نطاقات IP محددة",
+      "enable": "تفعيل قيود IP",
+      "enableDesc": "فقط عناوين IP المصرح بها يمكنها الوصول إلى المنصة",
+      "enabled": "القيود مفعّلة",
+      "disabled": "القيود معطّلة",
+      "allowedRanges": "نطاقات IP المسموح بها",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "ruleAdded": "تمت إضافة قاعدة IP",
+      "ruleDeleted": "تم حذف القاعدة",
+      "cidrPlaceholder": "مثال: 192.168.1.0/24",
+      "descPlaceholder": "الوصف"
+    },
+    "quarterlyReports": {
+      "recipientsGlobalAdmin": "المسؤول العام فقط",
+      "recipientsAllAdmins": "جميع المسؤولين",
+      "recipientsAllUsers": "جميع المستخدمين"
+    }
+  },
+  "public": {
+    "nav": {
+      "home": "الرئيسية",
+      "map": "الخريطة",
+      "membership": "العضوية",
+      "memberStates": "ال دول الأعضاء",
+      "associatedMembers": "الأعضاء المنتسبون",
+      "countries": "ال دول الأعضاء",
+      "documents": "الوثائق",
+      "news": "الأخبار",
+      "forum": "المنتدى",
+      "calls": "المشاريع",
+      "calendar": "الأحداث",
+      "sutel": "SUTEL",
+      "about": "حول",
+      "ourHistory": "تاريخنا",
+      "leadership": "فريق القيادة",
+      "elections": "انتخابات CPL-2026",
+      "candidates": "مرشحو ATU SG",
+      "faq": "الأسئلة الشائعة",
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب"
+    },
+    "header": {
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب"
+    },
+    "footer": {
+      "platform": "المنصة",
+      "community": "المجتمع",
+      "support": "الدعم",
+      "description": "منصة إفريقية لرصد ص الخدمة الشاملة",
+      "rights": "ATU/UAT. جميع الحقوق محفوظة.",
+      "legal": "إشعار قانوني",
+      "privacy": "الخصوصية",
+      "about": "حول"
+    },
+    "hero": {
+      "badge": "منصة ص الخدمة الشاملة الأفريقية",
+      "title": "ربط إفريقيا",
+      "subtitle": "بالعالم الرقمي",
+      "description": "المنصة المرجعية لرصد وجمع وإدارة ص الخدمة الشاملة في جميع أنحاء القارة الأفريقية.",
+      "register": "إنشاء حساب",
+      "viewMap": "عرض الخريطة"
+    },
+    "stats": {
+      "countries": "الدول الأفريقية",
+      "security": "أمان معزز",
+      "availability": "التوفر",
+      "traceability": "قابلية التتبع"
+    },
+    "features": {
+      "badge": "الميزات",
+      "title": "منصة كاملة",
+      "description": "جميع الأدوات اللازمة لإدارة ص الخدمة الشاملة على مستوى القارة",
+      "map": {
+        "title": "خريطة تفاعلية",
+        "desc": "عرض مشاريع ص الخدمة الشاملة على خريطة إفريقية"
+      },
+      "documents": {
+        "title": "مكتبة الوثائق",
+        "desc": "الوصول إلى التقارير والأدلة والوثائق العامة"
+      },
+      "news": {
+        "title": "الأخبار والرصد",
+        "desc": "تابع أخبار الخدمة الشاملة في إفريقيا"
+      },
+      "forum": {
+        "title": "المنتدى العام",
+        "desc": "انضم إلى المناقشات والتبادات الموضوعية"
+      },
+      "calls": {
+        "title": "المشاريع",
+        "desc": "تصفح مشاريع ص الخدمة الشاملة المنجزة"
+      },
+      "calendar": {
+        "title": "تقويم الأحداث",
+        "desc": "الندوات الإلكترونية والمؤتمرات وورش العمل"
+      }
+    },
+    "news": {
+      "badge": "آخر الأخبار",
+      "title": "الأخبار والرصد",
+      "viewAll": "عرض الكل",
+      "readMore": "اقرأ المزيد",
+      "noNews": "لا توجد أخبار",
+      "pageTitle": "الأخبار والرصد",
+      "pageDesc": "تابع أخبار الخدمة الشاملة في إفريقيا",
+      "subscribeTitle": "ابق على اطلاع",
+      "subscribeDesc": "احصل على آخر الأخبار عبر البريد الإلكتروني",
+      "emailPlaceholder": "بريدك@الإلكتروني.com",
+      "subscribed": "مشترك!",
+      "subscribe": "اشترك",
+      "searchPlaceholder": "بحث...",
+      "allSources": "جميع المصادر",
+      "allCategories": "جميع الفئات",
+      "tryOtherFilters": "جرب فلاتر بحث أخرى",
+      "featured": "المميزة",
+      "moreNews": "المزيد من الأخبار"
+    },
+    "events": {
+      "badge": "الأحداث القادمة",
+      "title": "الأحداث القادمة",
+      "viewAll": "عرض الكل",
+      "noEvents": "لا توجد أحداث قادمة"
+    },
+    "authorities": {
+      "dgName": "جون دو",
+      "dgTitle": "المدير العام، ATU",
+      "dgMessage": "الخدمة الشاملة رافعة أساسية للشمول الرقمي في إفريقيا. هذه المنصة ستعزز التعاون بين الدول الأعضاء.",
+      "sgName": "جين سميث",
+      "sgTitle": "الأمين العام، ATU",
+      "sgMessage": "معاً، نبني إفريقيا متصلة حيث يمكن لكل مواطن الوصول إلى الخدمات الرقمية الأساسية."
+    },
+    "cta": {
+      "title": "هل أنت مستعد للمساهمة في التحول الرقمي الأفريقي؟",
+      "description": "انضم إلى منصة USF-ADC وشارك في التحول الرقمي للقارة.",
+      "register": "إنشاء حساب",
+      "contact": "اتصل بنا"
+    },
+    "map": {
+      "title": "خريطة مشاريع ص الخدمة الشاملة",
+      "description": "استكشف مشاريع الخدمة الشاملة في جميع أنحاء إفريقيا",
+      "onMap": "على الخريطة",
+      "export": "تصدير",
+      "exportSuccess": "تم التصدير بنجاح",
+      "exportCSV": "تصدير كـ CSV",
+      "exportPNG": "تصدير كـ PNG",
+      "fullscreen": "ملء الشاشة",
+      "exitFullscreen": "خروج",
+      "projects": "المشاريع",
+      "countries": "الدول",
+      "map": "الخريطة",
+      "satellite": "القمر الصناعي",
+      "searchPlaceholder": "البحث عن مشروع، دولة...",
+      "filters": "ال فلاتر",
+      "filtersButton": "ال فلاتر",
+      "active": "نشطة",
+      "activeOne": "نشط",
+      "none": "لا شيء",
+      "reset": "إعادة تعيين",
+      "dashboard": {
+        "title": "لوحة التحكم في الوقت الفعلي",
+        "projects": "المشاريع",
+        "inProgress": "قيد التقدم",
+        "completed": "مكتملة",
+        "countries": "الدول",
+        "millions": "ملايين $"
+      },
+      "status": {
+        "label": "الحالة",
+        "planned": "مخطط",
+        "in_progress": "قيد التقدم",
+        "completed": "مكتمل",
+        "suspended": "معلق"
+      },
+      "allProjects": "جميع المشاريع",
+      "allRegions": "جميع المناطق",
+      "themesLabel": "موضوعي",
+      "region": "المنطقة",
+      "projectsView": "عرض المشاريع",
+      "countriesView": "عرض الدول",
+      "displayed": "معروض",
+      "noProjectFound": "لم يتم العثور على مشروع",
+      "tryFilters": "جرب تعديل فلاترك لرؤية المزيد من النتائج",
+      "resetFilters": "إعادة تعيين الفلاتر",
+      "legend": "مفتاح الخريطة",
+      "budget": "الميزانية",
+      "country": "الدولة",
+      "beneficiaries": "المستفيدون",
+      "fsuBudget": "ميزانية ص الخدمة الشاملة",
+      "population": "السكان",
+      "established": "تأسس في",
+      "coordinator": "المنسق",
+      "viewAllProjects": "عرض جميع المشاريع",
+      "project": "مشروع",
+      "viewProject": "عرض المشروع",
+      "themes": {
+        "connectivity": "الربط",
+        "health": "الصحة",
+        "education": "التعليم",
+        "energy": "الطاقة",
+        "agriculture": "الزراعة",
+        "project": "المشروع"
+      }
+    },
+    "documents": {
+      "title": "مكتبة الوثائق",
+      "description": "الوثائق العامة المتاحة",
+      "search": "بحث...",
+      "allCategories": "جميع الفئات",
+      "allLanguages": "جميع اللغات",
+      "featured": "المميزة",
+      "empty": "لم يتم العثور على وثائق عامة"
+    },
+    "forum": {
+      "title": "المنتدى العام",
+      "description": "مناقشات وتبادات حول الخدمة الشاملة",
+      "joinToParticipate": "انضم للمشاركة",
+      "readOnlyMode": "وضع القراءة فقط",
+      "readOnlyDesc": "أنت تتصفح المنتدى العام في وضع القراءة فقط. للمشاركة في المناقشات، أنشئ حساباً أو سجل الدخول.",
+      "searchPlaceholder": "بحث...",
+      "allCategories": "جميع الفئات",
+      "noTopics": "لم يتم العثور على مواضيع عامة",
+      "replies": "ردود",
+      "askQuestion": {
+        "title": "لديك سؤال؟",
+        "desc": "سجل الدخول للمشاركة في المناقشات أو اتصل بنا مباشرة."
+      },
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب",
+      "mock": {
+        "t1": "مرحباً بك في منتدى USF-ADC",
+        "d1": "مقدمة لقواعد وأفضل ممارسات المنتدى.",
+        "t2": "مشاركة أفضل ممارسات ص الخدمة الشاملة",
+        "d2": "ناقش الاستراتيجيات الفعالة للخدمة الشاملة."
+      }
+    },
+    "calls": {
+      "title": "المشاريع",
+      "description": "تصفح قائمة مشاريع ص الخدمة الشاملة المنجزة",
+      "about": {
+        "title": "حول المشاريع المنجزة",
+        "description": "تعرض هذه الصفحة مشاريع ص الخدمة الشاملة المنجزة بالفعل في الدول الأعضاء، بما في ذلك مجالات التركيز والتأثير والموقع."
+      },
+      "allThematics": "جميع الموضوعات",
+      "noCalls": "لم يتم العثور على مشاريع منجزة",
+      "noDeadline": "لا يوجد موعد نهائي",
+      "closed": "مكتمل",
+      "urgent": "عاجل - {{days}} يوم",
+      "soon": "{{days}} يوم متبقي",
+      "open": "منشور",
+      "objectives": "الأهداف",
+      "eligibility": "الأهلية",
+      "criteria": "المعايير",
+      "apply": "عرض",
+      "contact": "اتصال"
+    },
+    "calendar": {
+      "title": "تقويم الأحداث",
+      "description": "انضم إلى الندوات الإلكترونية والمؤتمرات وورش العمل",
+      "allTypes": "جميع الأنواع",
+      "upcoming": "قادمة",
+      "noEvents": "لا توجد أحداث قادمة",
+      "noPastEvents": "لا توجد أحداث سابقة",
+      "register": "التسجيل",
+      "export": "تصدير",
+      "past": "الأحداث السابقة",
+      "searchPlaceholder": "البحث عن حدث...",
+      "calendarTab": "التقويم",
+      "listTab": "قائمة الأحداث",
+      "weekdays": {
+        "mon": "الإثنين",
+        "tue": "الثلاثاء",
+        "wed": "الأربعاء",
+        "thu": "الخميس",
+        "fri": "الجمعة",
+        "sat": "السبت",
+        "sun": "الأحد"
+      },
+      "conferencesUpcoming": "مؤتمرات قادمة",
+      "webinarsScheduled": "ندوات إلكترونية مجدولة",
+      "workshopsTraining": "ورش عمل تدريبية",
+      "online": "عبر الإنترنت",
+      "days": "أيام",
+      "comingSoon": "عد قريباً لاكتشاف أحداثنا القادمة"
+    },
+    "eventTypes": {
+      "webinar": "ندوة إلكترونية",
+      "conference": "مؤتمر",
+      "workshop": "ورشة عمل",
+      "meeting": "اجتماع"
+    },
+    "about": {
+      "badge": "حول",
+      "title": "منصة USF-ADC",
+      "description": "المنصة المرجعية لرصد وجمع وإدارة ص الخدمة الشاملة في جميع أنحاء القارة الأفريقية.",
+      "viewMap": "عرض الخريطة",
+      "join": "انضمام",
+      "whatIs": {
+        "title": "ما هي USF-ADC؟",
+        "p1": "USF-ADC (ص الخدمة الشاملة - الربط الرقمي الأفريقي) هي منصة إفريقية تم تطويرها تحت رعاية الاتحاد الأفريقي للاتصالات (ATU).",
+        "p2": "تمكن الـ 54 دولة عضو من جمع وتتبع وإدارة مبادرات ص الخدمة الشاملة، مما يضمن تنسيقاً أفضل وتأثيراً أقصى على الشمول الرقمي."
+      },
+      "objectives": {
+        "title": "أهدافنا",
+        "description": "USF-ADC مبني على أربعة أهداف رئيسية",
+        "universal": {
+          "title": "الخدمة الشاملة",
+          "desc": "ضمان الوصول الشامل إلى خدمات الاتصالات"
+        },
+        "inclusion": {
+          "title": "الشمول الرقمي",
+          "desc": "تقليل الفجوة الرقمية بين المناطق الحضرية والريفية"
+        },
+        "monitoring": {
+          "title": "الرصد والإدارة",
+          "desc": "ضمان التتبع الفعال لمشاريع وسياسات ص الخدمة الشاملة"
+        },
+        "collaboration": {
+          "title": "التعاون",
+          "desc": "تسهيل التبادل بين الدول الأعضاء والشركاء"
+        }
+      },
+      "leadership": {
+        "title": "هيكل القيادة",
+        "description": "فريق قيادة الاتحاد الأفريقي للاتصالات",
+        "secretaryGeneral": {
+          "title": "الأمين العام",
+          "name": "السيد جون أومو",
+          "since": "في المنصب منذ يناير 2019",
+          "description": "محامٍ مع 33 عاماً من الخبرة، يقود الهيئة القارية المسؤولة عن تطوير سياسات وخدمات تكنولوجيا المعلومات والاتصالات في إفريقيا وتنسيق المشاركة الأفريقية في المنتديات الدولية."
+        },
+        "directors": {
+          "title": "المديرون",
+          "mwale": {
+            "name": "المهندز كيزياس كازوبا مبالي",
+            "role": "مدير - الاتصالات اللاسلكية (الطيف)",
+            "description": "في المنصب منذ 2012. خبير في إدارة الطيف، ساهم في تخصيص 2477 MHz للنطاق العريض واستعادة موارد المدارات السatelية لـ 31 دولة أفريقية."
+          },
+          "slimani": {
+            "name": "السيدة مريم سليماني",
+            "role": "مديرة - التنمية",
+            "description": "انضمت إلى ATU في 2015. مهندسة من المدرسة الوطنية المتعددة التقنيات بالجزائر، قادت مشاريع الحكومة الإلكترونية في الجزائر قبل التركيز على ولاية التنمية في ATU."
+          },
+          "boateng": {
+            "name": "السيد إسحاق بوتنغ",
+            "role": "مدير - التقييس",
+            "description": "أكثر من 23 عاماً من الخبرة في تكنولوجيا المعلومات والاتصالات. مسؤول سابق في هيئة الاتصالات الغانية، خبير في الاتحاد الدولي للاتصالات منذ 2008، يشرف مبادرات التقييس ويمثل إفريقيا في المنتديات التقنية الدولية."
+          },
+          "ballo": {
+            "name": "السيد جبريلا بالو",
+            "role": "مدير - المالية والإدارة",
+            "description": "في المنصب منذ أغسطس 2012. محاسب قانوني مع درجات ماجستير متعددة في المالية والاقتصاد، يشرف على الإدارة المالية للاتحاد والتخطيط الاستراتيجي والرقابة الداخلية."
+          }
+        }
+      },
+      "partners": {
+        "title": "شركاؤنا",
+        "description": "نتعاون مع المؤسسات الرئيسية في جميع أنحاء القارة الأفريقية"
+      },
+      "history": {
+        "title": "تاريخ المشروع",
+        "phase1": "الإطلاق (2024)",
+        "phase1Desc": "مبادرة ATU لإنشاء منصة موحدة لرصد ص الخدمة الشاملة.",
+        "phase2": "التطوير (2025)",
+        "phase2Desc": "تصميم وتطوير المنصة مع الدول التجريبية.",
+        "phase3": "النشر (2026)",
+        "phase3Desc": "النشر التدريجي في الـ 54 دولة عضو في ATU."
+      },
+      "contact": {
+        "title": "اتصل بنا"
+      }
+    },
+    "sutel": {
+      "hero": {
+        "badge": "الخدمة الشاملة",
+        "title": "SUTEL",
+        "subtitle": "خدمة الاتصالات الشاملة",
+        "description": "ضمان وصول جميع المواطنين إلى خدمات الاتصال الإلكتروني، للشمول الرقمي وتقليل الفجوة الرقمية.",
+        "uat": "ATU",
+        "uatFullName": "الاتحاد الأفريقي للاتصالات",
+        "website": "الموقع الإلكتروني"
+      },
+      "definition": {
+        "title": "التعريف والإطار التنظيمي",
+        "p1": "<strong>خدمة الاتصالات الشاملة (SUTEL)</strong> هي آية تهدف إلى ضمان وصول جميع المواطنين إلى خدمات الاتصال الإلكتروني الأساسية، بغض النظر عن موقعهم الجغرافي أو وضعهم الاجتماعي والاقتصادي.",
+        "p2": "جزء من نهج <strong>الشمول الرقمي</strong> و<strong>تقليل الفجوة الرقمية</strong>، لا سيما في المناطق الريفية والخدمة بشكل سيء. SUTEL يحكمه نصوص وطنية وإقليمية، وغالباً ما تكون مستوحاة من التوجيهات الدولية ومتكيفة مع السياق الأفريقي."
+      },
+      "funding": {
+        "title": "التمويل",
+        "description": "مساهمات مشغلي الاتصالات (نسبة من الإيرادات)"
+      },
+      "management": {
+        "title": "الإدارة",
+        "description": "الوكالات الوطنية (ANSUT) بالتعاون مع ATU والشركاء"
+      },
+      "objectiveCard": {
+        "title": "الهدف",
+        "description": "مشاريع البنية التحتية في المناطق غير مربحة للقطاع الخاص"
+      },
+      "missionsSection": {
+        "title": "المهام والأهداف",
+        "subtitle": "ركائز الخدمة الشاملة",
+        "specificObjectives": "أهداف محددة",
+        "obj1": "توسيع تغطية الشبكة في المناطق البيضاء",
+        "obj2": "تحسين جودة الخدمة (الحد الأدنى للإنتاجية)",
+        "obj3": "تعزيز حوكمة الصندوق",
+        "obj4": "تعزيز الابتكار التكنولوجي",
+        "obj5": "تحمیل الاستثمارات الخاصة"
+      },
+      "missions": {
+        "universal": {
+          "title": "الوصول الشامل",
+          "desc": "ضمان وصول جميع المواطنين إلى خدمات الاتصالات الأساسية، بغض النظر عن مكان إقامتهم"
+        },
+        "inclusion": {
+          "title": "الشمول الرقمي",
+          "desc": "تقليل الفجوة الرقمية بين السكان الحضر والريفيين والمجموعات الاجتماعية والاقتصادية"
+        },
+        "economic": {
+          "title": "التنمية الاقتصادية",
+          "desc": "تسهيل الوصول إلى التعليم والصحة والخدمات المالية عبر تكنولوجيا المعلومات والاتصالات"
+        },
+        "innovation": {
+          "title": "الابتكار",
+          "desc": "دعم الحلول التكنولوجية المتكيفة مع الاحتياجات المحلية (الطاقة الشمسية، منخفضة التكلفة)"
+        }
+      },
+      "actorsSection": {
+        "title": "الجهات الفاعلة الرئيسية والتعاون",
+        "subtitle": "شركاء الخدمة الشاملة"
+      },
+      "actors": {
+        "ansut": {
+          "name": "ANSUT",
+          "fullName": "الوكالة الوطنية لخدمة الاتصالات الشاملة-تكنولوجيا المعلومات والاتصالات",
+          "role": "السلطة الوطنية",
+          "country": "ساحل العاج",
+          "desc": "إدارة ص الخدمة الشاملة وتنفيذ مشاريع SUTEL",
+          "website": "ansut.ci"
+        },
+        "uat": {
+          "name": "ATU",
+          "fullName": "الاتحاد الأفريقي للاتصالات",
+          "role": "التنسيق الإقليمي",
+          "country": "إفريقيا",
+          "desc": "ينسق المبادرات الإقليمية ويعزز مشاركة الخبرات",
+          "website": "atuuat.africa"
+        },
+        "gsma": {
+          "name": "GSMA",
+          "fullName": "رابطة أنظمة المحمول العالمية",
+          "role": "الشريك التقني",
+          "country": "دولي",
+          "desc": "تقييم وتحسين ص funds الخدمة الشاملة",
+          "website": "gsma.com"
+        },
+        "uit": {
+          "name": "ITU",
+          "fullName": "الاتحاد الدولي للاتصالات",
+          "role": "الدعم التنظيمي",
+          "country": "دولي",
+          "desc": "تعريف السياسات والمعايير التقنية",
+          "website": "itu.int"
+        }
+      },
+      "event": {
+        "badge": "الحدث الرئيسي",
+        "title": "SUTEL 2025 - أبيدجان",
+        "description": "ورشة عمل إقليمية تجمع ممثلين من عدة دول أفريقية لتعزيز التعاون ومشاركة أفضل الممارسات. تم توقيع مذكرة تفاهم بين ATU و ANSUT لتعزيز الخدمة الشاملة كمحرك للتحول الرقمي.",
+        "tag1": "التعاون الإقليمي",
+        "tag2": "مشاركة الخبرات",
+        "tag3": "التحول الرقمي"
+      },
+      "projectsSection": {
+        "title": "المشاريع والإنجازات",
+        "subtitle": "مبادرات ملموسة في ساحل العاج"
+      },
+      "projects": {
+        "budget": "الميزانية",
+        "impact": "التأثير",
+        "fiber": {
+          "title": "نشر الألياف البصرية",
+          "budget": "400 مليار فرنك CFA",
+          "impact": "توسيع تغطية النطاق العريض",
+          "status": "قيد التنفيذ"
+        },
+        "financial": {
+          "title": "الشمول المالي",
+          "budget": "متغير",
+          "impact": "زيادة معدل انتشار الإنترنت والهاتف المحمول",
+          "status": "نشط"
+        },
+        "rural": {
+          "title": "ربط المناطق الريفية",
+          "budget": "ص الخدمة الشاملة + الشراكات",
+          "impact": "ربط المدارس ومراكز الصحة والمجتمعات",
+          "status": "جاري النشر"
+        }
+      },
+      "challengesSection": {
+        "title": "التحديات",
+        "subtitle": "العقبات التي يجب التغلب عليها"
+      },
+      "challenges": {
+        "underutilization": {
+          "title": "الاستخدام غير الكافي للأموال",
+          "desc": "أقل من 50% من الأموال المحصلة تُستخدم في إفريقيا",
+          "solution": "إصلاح الحوكمة والشفافية"
+        },
+        "complexity": {
+          "title": "تعقيد المشاريع",
+          "desc": "تضاريس صعبة والجدوى الاقتصادية",
+          "solution": "حلول مبتكرة ومتكيفة"
+        },
+        "harmonization": {
+          "title": "التنسيق الإقليمي",
+          "desc": "تنسيق غير كافٍ بين الدول",
+          "solution": "تعزيز التعاون عبر ATU"
+        }
+      },
+      "perspectivesSection": {
+        "title": "الآفاق",
+        "subtitle": "الطرق المستقبلية",
+        "p1": "إصلاحات ص الخدمة الشاملة لحوكمة أفضل",
+        "p2": "شراكات عامة خاصة موسعة",
+        "p3": "اعتماد حلول مبتكرة (شبكات منخفضة التكلفة، الطاقة المتجددة)",
+        "p4": "التنسيق الإقليمي للسياسات",
+        "p5": "تعزيز القدرات المحلية"
+      },
+      "resourcesSection": {
+        "title": "الموارد والوثائق",
+        "subtitle": "تقارير ومراجع مفيدة",
+        "gsma": {
+          "title": "تقرير GSMA 2024",
+          "desc": "صناديق الخدمة الشاملة في إفريقيا"
+        },
+        "uat": {
+          "title": "تقرير ATU",
+          "desc": "الاجتماع الثاني باتجاه WCIT-25"
+        }
+      },
+      "cta": {
+        "title": "لديك مشروع؟",
+        "description": "ANSUT تطلق بانتظام دعوات للمشاريع للشمول الرقمي",
+        "projectsButton": "عرض الدعوات للمشاريع",
+        "contactButton": "اتصل بنا"
+      }
+    },
+    "associatedMembers": {
+      "title": "الأعضاء المنتسبون",
+      "description": "اكتشف أعضاءنا المنتسبين والشركاء المساهمين في تطوير الخدمة الشاملة في إفريقيا",
+      "membersList": "قائمة الأعضاء",
+      "membersListDesc": "المنظمات والشركاء المشاركون في مبادرات الخدمة الشاملة",
+      "members": "أعضاء",
+      "since": "عضو منذ",
+      "viewProfile": "عرض الملف الشخصي",
+      "visitWebsite": "زيارة الموقع",
+      "projects": "المشاريع",
+      "fullDetails": "عرض التفاصيل الكاملة",
+      "becomeMember": {
+        "title": "كن عضواً منتسباً",
+        "description": "انضم إلى شبكة أعضائنا المنتسبين وساهم في الشمول الرقمي في إفريقيا",
+        "contactButton": "اتصل بنا"
+      },
+      "types": {
+        "agency": "وكالة وطنية",
+        "operator": "مشغل اتصالات",
+        "vendor": "بائع معدات",
+        "tech": "تكنولوجيا",
+        "satellite": "الأقمار الصناعية",
+        "organization": "منظمة"
+      },
+      "benefits": {
+        "network": {
+          "title": "شبكة إفريقية",
+          "desc": "الوصول إلى شبكة حصرية من صانعي القرار والخبراء في الاتصالات"
+        },
+        "collaboration": {
+          "title": "التعاون الاستراتيجي",
+          "desc": "فرص التعاون على مشاريع على مستوى القارة"
+        },
+        "partnerships": {
+          "title": "شراكات مستدامة",
+          "desc": "تطوير شراكات مع المنظمين ومشغلي الاتصالات الأفارقة"
+        }
+      }
+    },
+    "ourHistory": {
+      "title": "تاريخنا",
+      "description": "اكتشف تاريخ وتطور ATU-UAT عبر السنوات",
+      "hero": {
+        "badge": "حول",
+        "title": "الاتحاد الأفريقي للاتصالات",
+        "subtitle": "تطور ATU-UAT",
+        "description": "نبذة تاريخية ومهمة ATU-UAT"
+      },
+      "header": {
+        "title": "الاتحاد الأفريقي للاتصالات",
+        "founded": "تأسس في 7 ديسمبر 1999",
+        "description": "منظمة قارية تعزز تطوير البنية التحتية وخدمات تكنولوجيا المعلومات والاتصالات في إفريقيا"
+      },
+      "keyFigures": {
+        "memberStates": {
+          "value": "52",
+          "label": "الدول الأعضاء",
+          "description": "الدول الأفريقية الأعضاء"
+        },
+        "associateMembers": {
+          "value": "53",
+          "label": "الأعضاء المنتسبون",
+          "description": "مشغلو الاتصالات"
+        },
+        "foundingYear": {
+          "value": "1977",
+          "label": "سنة التأسيس",
+          "description": "تأسس منذ 47 عاماً"
+        },
+        "transformation": {
+          "value": "1999",
+          "label": "ATU-UAT",
+          "description": "التحول الرسمي"
+        }
+      },
+      "video": {
+        "title": "فيديو تقديمي",
+        "description": "اكتشف ATU-UAT بالفيديو"
+      },
+      "mission": {
+        "title": "مهمتنا",
+        "description": "تعزيز التطوير السريع لتقنيات المعلومات والاتصالات في إفريقيا من أجل ضمان الوصول الشامل والربط الكامل بين الدول."
+      },
+      "vision": {
+        "title": "رؤيتنا",
+        "description": "إفريقيا متكاملة بالكامل ونشطة في مجتمع المعلومات والمعرفة العالمي."
+      },
+      "briefHistory": {
+        "title": "نبذة تاريخية",
+        "1977": "تأسس في 1977 كوكالة متخصصة لمنظمة الوحدة الأفريقية (الآن الاتحاد الأفريقي) في مجال الاتصالات.",
+        "1999": "في 1999، الاتحاد الأفريقي للاتصالات (ATU-UAT) يأخذ اسمه الحالي ويتحول إلى شراكة بين الفاعلين العام والخاص في قطاع تكنولوجيا المعلومات والاتصالات.",
+        "today": "اليوم، ATU-UAT يوفر لفاعلي تكنولوجيا المعلومات والاتصالات مساحة للتبادل لتطوير سياسات واستراتيجيات فعالة، ويمثل مصالح أعضائه في المؤتمرات الدولية، ويعزز المبادرات لدمج الأسواق الإقليمية وجذب الاستثمارات وتعزيز القدرات المؤسسية والبشرية."
+      },
+      "whatWeDo": {
+        "title": "ما نفعله",
+        "ticExchange": {
+          "title": "مساحة تبادل تكنولوجيا المعلومات والاتصالات",
+          "description": "تطوير سياسات واستراتيجيات فعالة لتحسين الوصول إلى البنية التحتية"
+        },
+        "internationalRepresentation": {
+          "title": "التمثيل الدولي",
+          "description": "تمثيل مصالح الأعضاء في المؤتمرات الدولية"
+        },
+        "sustainableDevelopment": {
+          "title": "التنمية المستدامة",
+          "description": "دمج الأسواق الإقليمية والاستثمار في البنية التحتية لتكنولوجيا المعلومات والاتصالات"
+        }
+      },
+      "timelineSection": {
+        "title": "اللحظات الرئيسية",
+        "description": "تطور ATU-UAT عبر السنوات"
+      },
+      "timeline": {
+        "1977": {
+          "year": "1977",
+          "title": "تأسيس ATU",
+          "description": "تم إنشاؤه كوكالة متخصصة لمنظمة الوحدة الأفريقية (الآن الاتحاد الأفريقي) في مجال الاتصالات."
+        },
+        "1999": {
+          "year": "1999",
+          "title": "التحول إلى ATU-UAT",
+          "description": "تأخذ الوكالة اسمها الحالي وتتحول إلى شراكة بين الفاعلين العام والخاص في قطاع تكنولوجيا المعلومات والاتصالات."
+        },
+        "today": {
+          "year": "اليوم",
+          "title": "52 دولة عضو",
+          "description": "ATU لديه حالياً 52 دولة عضو و53 عضواً منتسباً (مشغلو الاتصالات الثابتة والمتنقلة)."
+        }
+      }
+    },
+    "leadership": {
+      "title": "فريق القيادة",
+      "description": "تعرف على القادة الذين يقودون مهمتنا",
+      "hero": {
+        "badge": "حول",
+        "title": "فريق القيادة",
+        "subtitle": "قادتنا",
+        "description": "فريق ذو خبرة مكرس للتحول الرقمي لإفريقيا."
+      },
+      "secretaryGeneral": {
+        "title": "الأمين العام",
+        "name": "سيتم تعيينه",
+        "description": "قائد ذو رؤية يقود مهمتنا الإفريقية"
+      },
+      "directors": {
+        "title": "المديرون",
+        "description": "فريق قيادتنا الإقليمي"
+      },
+      "organizationalStructure": {
+        "title": "الهيكل التنظيمي",
+        "description": "فريق قيادة ATU-UAT يتكون من الأمين العام وأربعة مديرين إقليميين يغطون إفريقيا الغربية وإفريقيا الوسطى وإفريقيا الشرقية وإفريقيا الجنوبية. معاً، يعملون على تعزيز تطوير الاتصالات وضمان الوصول الشامل إلى خدمات تكنولوجيا المعلومات والاتصالات في جميع أنحاء القارة الأفريقية."
+      },
+      "contactCTA": {
+        "title": "اتصل بالقيادة",
+        "description": "لأي أسئلة حول أنشطة ATU-UAT",
+        "button": "اتصل بنا"
+      },
+      "role": "الدور",
+      "region": "المنطقة",
+      "contact": "اتصال"
+    },
+    "elections": {
+      "title": "انتخابات CPL-2026",
+      "description": "عرض المعلومات حول الانتخابات القادمة للمجلس الدائم للرابطة",
+      "hero": {
+        "badge": "الانتخابات",
+        "title": "انتخابات CPL-2026",
+        "subtitle": "المجلس الدائم للرابطة",
+        "description": "معلومات رسمية حول الانتخابات القادمة"
+      },
+      "overview": {
+        "title": "نظرة عامة على الانتخابات",
+        "description": "العملية الانتخابية للمجلس الدائم للرابطة 2026"
+      },
+      "timeline": {
+        "title": "التقويم الانتخابي",
+        "announcement": "الإعلان عن الترشيحات",
+        "campaign": "الحملة الانتخابية",
+        "voting": "فترة التصويت",
+        "results": "الإعلان عن النتائج"
+      },
+      "eligibility": {
+        "title": "الأهلية",
+        "description": "معايير المرشحين والناخبين"
+      },
+      "process": {
+        "title": "العملية الانتخابية",
+        "description": "كيف تجرى الانتخابات"
+      },
+      "documents": {
+        "title": "الوثائق الرسمية",
+        "description": "تنزيل الوثائق الانتخابية الرسمية"
+      }
+    },
+    "candidates": {
+      "title": "مرشحو ATU SG",
+      "description": "المرشحون لمنصب الأمين العام لـ ATU",
+      "hero": {
+        "badge": "الانتخابات",
+        "title": "مرشحو ATU SG",
+        "subtitle": "الأمين العام",
+        "description": "تعرف على المرشحين لمنصب الأمين العام لـ ATU"
+      },
+      "candidatesList": "قائمة المرشحين",
+      "viewProfile": "عرض الملف الشخصي",
+      "manifesto": "البيان",
+      "vision": "الرؤية",
+      "experience": "الخبرة",
+      "nomination": {
+        "title": "عملية الترشيح",
+        "description": "كيف يتم ترشيح المرشحين"
+      },
+      "voting": {
+        "title": "عملية التصويت",
+        "description": "كيف سيتم التصويت"
+      }
+    },
+    "faq": {
+      "title": "الأسئلة الشائعة",
+      "description": "ابحث بسرعة عن إجابات لأسئلتك",
+      "searchPlaceholder": "البحث في الأسئلة الشائعة...",
+      "noResults": "لم يتم العثور على نتائج لهذا البحث",
+      "empty": "لا توجد مقالات متاحة",
+      "noMatchTitle": "لا توجد إجابة؟",
+      "noMatchDesc": "فريقنا هنا للمساعدة. اتصل بنا مباشرة.",
+      "contactUs": "اتصل بنا",
+      "mock": {
+        "q1": "ما هو ص الخدمة الشاملة؟",
+        "a1": "ص الخدمة الشاملة (USF) هو آية تمويل تهدف إلى تعزيز الوصول إلى خدمات الاتصالات في المناطق المحرومة أو غير مربحة تجارياً.",
+        "q2": "كيف الوصول إلى المنصة؟",
+        "a2": "الوصول إلى المنصة عن طريق الدعوة. اتصل بالمسؤول الوطني أو ATU للحصول على حساب.",
+        "q3": "من يمكنه التسجيل؟",
+        "a3": "النقاط الوطنية ومسؤولو الدول وشركاء ATU يمكنهم التسجيل. يمكن للجميع الوصول إلى صفحات الاستشارة."
+      }
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "description": "انضم إلى منصة USF-ADC",
+      "errors": {
+        "required": "يرجى ملء جميع الحقول المطلوبة",
+        "email": "عنوان البريد الإلكتروني غير صالح",
+        "motivation": "يرجى تقديم دافع لا يقل عن 50 حرفاً",
+        "terms": "يجب قبول شروط الاستخدام",
+        "emailExists": "عنوان البريد الإلكتروني هذا مستخدم بالفعل"
+      },
+      "steps": {
+        "identity": "الهوية",
+        "role": "الدور",
+        "motivation": "الدافع"
+      },
+      "step1": {
+        "title": "المعلومات الشخصية"
+      },
+      "step2": {
+        "title": "الدور والدولة"
+      },
+      "step3": {
+        "title": "الدافع"
+      },
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "محمد أحمد",
+      "email": "عنوان البريد الإلكتروني",
+      "organization": "المنظمة",
+      "organizationPlaceholder": "وزارة الاتصالات",
+      "role": "الدور المطلوب",
+      "selectRole": "اختر دوراً",
+      "country": "الدولة",
+      "selectCountry": "اختر دولتك",
+      "motivation": "لماذا تريد الانضمام إلى المنصة؟",
+      "motivationPlaceholder": "صف دوافعك وما تأمل في تحقيقه...",
+      "characters": "أحرف",
+      "review": {
+        "title": "سيتم مراجعة طلبك",
+        "description": "سيقوم مسؤول بمراجعة طلبك. ستتلقى رداً بالبريد الإلكتروني في غضون بضعة أيام."
+      },
+      "terms": "أوافق على شروط الاستخدام وسياسة الخصوصية لمنصة USF-ADC",
+      "previous": "السابق",
+      "submitting": "جاري الإرسال...",
+      "submit": "إرسال",
+      "next": "التالي",
+      "success": "تم إرسال طلبك بنجاح. ستتلقى بريداً إلكترونياً بمجرد معالجته.",
+      "error": "حدث خطأ",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول"
+    }
+  },
+  "users": {
+    "title": "إدارة المستخدمين",
+    "searchPlaceholder": "البحث عن مستخدم...",
+    "noUsers": "لم يتم العثور على مستخدمين",
+    "user": "المستخدم",
+    "country": "الدولة",
+    "roles": "الأدوار",
+    "status": "الحالة",
+    "noName": "بدون اسم",
+    "promote": "ترقية",
+    "promoteConfirm": "ترقية هذا المستخدم إلى نقطة اتصال وطنية؟",
+    "promoteDesc": "سيحصل المستخدم على الوصول إلى إدخال بيانات ص الخدمة الشاملة والمنتدى وتقارير دولته.",
+    "promoteCancel": "إلغاء"
+  },
+  "index": {
+    "nav": {
+      "home": "الرئيسية",
+      "map": "الخريطة",
+      "countries": "الدول الأعضاء",
+      "documents": "الوثائق",
+      "news": "الأخبار",
+      "forum": "المنتدى",
+      "projects": "المشاريع",
+      "events": "الأحداث",
+      "sutel": "SUTEL",
+      "about": "حول",
+      "login": "تسجيل الدخول"
+    },
+    "features": {
+      "auth": {
+        "title": "مصادقة آمنة",
+        "desc": "التحكم في الوصول المستند إلى الدور مع التحقق 2FA إلزامي للمسؤولين."
+      },
+      "fsu": {
+        "title": "جمع ص الخدمة الشامل منظم",
+        "desc": "إدخال متعدد الخطوات، مسودات تلقائية، تحقق وتتبع كامل لعمليات الإرسال."
+      },
+      "map": {
+        "title": "خرائط تفاعلية",
+        "desc": "تصور مشاريع ص الخدمة الشاملة على خريطة إفريقية ديناميكية وقابلة للتصفية."
+      },
+      "reports": {
+        "title": "التقارير ومؤشرات الأداء",
+        "desc": "لوحات تحكم في الوقت الفعلي وتصدير CSV/PDF ومؤشرات الأداء."
+      },
+      "collaboration": {
+        "title": "التعاون",
+        "desc": "منتدى موضوعي ومشاركة المعرفة وإدارة الفريق حسب الدولة."
+      },
+      "notifications": {
+        "title": "الإشعارات والدعم",
+        "desc": "تنبيهات في الوقت الفعلي ونظام تذاكر وتتبع الحلول."
+      }
+    },
+    "stats": {
+      "countries": "الدول الأفريقية",
+      "security": "أمان معزز",
+      "availability": "التوفر",
+      "traceability": "قابلية التتبع"
+    },
+    "roles": {
+      "public": {
+        "label": "عام / خارجي",
+        "desc": "عرض المشاريع المنشورة والخرائط."
+      },
+      "focal": {
+        "label": "نقطة اتصال",
+        "desc": "أدخل وارسل وتتبع بيانات ص الخدمة الشاملة لدولتك."
+      },
+      "countryAdmin": {
+        "label": "مسؤول الدولة",
+        "desc": "تحقق من عمليات الإرسال ونسق على المستوى الوطني."
+      },
+      "globalAdmin": {
+        "label": "مسؤول عام",
+        "desc": "أشرف على القارة بأكملها وأدر المنصة."
+      }
+    },
+    "hero": {
+      "badge": "منصة ص الخدمة الشاملة الأفريقية",
+      "title": "ربط إفريقيا",
+      "subtitle": "بالعالم الرقمي",
+      "description": "المنصة المرجعية لرصد وجمع وإدارة ص الخدمة الشاملة في جميع أنحاء القارة الأفريقية.",
+      "accessPlatform": "الوصول إلى المنصة",
+      "discover": "اكتشف",
+      "scroll": "مرر"
+    },
+    "featuresSection": {
+      "badge": "الميزات",
+      "title": "منصة كاملة",
+      "description": "جميع الأدوات اللازمة لإدارة ص الخدمة الشاملة على مستوى القارة",
+      "learnMore": "اعرف المزيد"
+    },
+    "quickAccess": {
+      "map": {
+        "title": "خريطة المشاريع",
+        "desc": "عرض مشاريع ص الخدمة الشاملة"
+      },
+      "documents": {
+        "title": "الوثائق",
+        "desc": "مكتبة الوثائق"
+      },
+      "forum": {
+        "title": "المنتدى",
+        "desc": "المناقشات الموضوعية"
+      },
+      "projects": {
+        "title": "المشاريع",
+        "desc": "المشاريع المنجزة"
+      }
+    },
+    "newsEvents": {
+      "badge": "الأخبار والأحداث",
+      "title": "ابق على اطلاع",
+      "description": "تابع أخبار الخدمة الشاملة والأحداث القادمة",
+      "latestNews": "آخر الأخبار",
+      "upcomingEvents": "الأحداث القادمة",
+      "viewAll": "عرض الكل",
+      "noNews": "لا توجد أخبار",
+      "noEvents": "لا توجد أحداث قادمة",
+      "featured": "المميزة",
+      "readMore": "اقرأ المزيد",
+      "register": "التسجيل",
+      "joinCommunity": "انضم إلى مجتمع USF-ADC",
+      "joinCommunityDesc": "تحقق من آخر أخبار الخدمة الشاملة ولا تفوت أي حدث مهم",
+      "viewNews": "عرض الأخبار",
+      "calendar": "التقويم"
+    },
+    "about": {
+      "badge": "حول المنصة",
+      "title": "قيادة إفريقيا الرقمية معاً",
+      "description": "منصة USF-ADC هي أداة تعاون إفريقية تم تطويرها تحت رعاية الاتحاد الأفريقي للاتصالات (ATU). تمكن الـ 54 دولة عضو من جمع ورصد وإدارة مبادرات ص الخدمة الشاملة.",
+      "items": {
+        "standardized": "جمع بيانات ص الخدمة الشاملة الموحدة",
+        "validation": "تحقق متعدد المستويات مع قابلية التتبع",
+        "dashboards": "لوحات تحكم وتقارير في الوقت الفعلي",
+        "forum": "منتدى التبادل بين نقاط الاتصال"
+      },
+      "connectedCountries": "دولة متصلة",
+      "learnMore": "اعرف المزيد"
+    },
+    "rolesSection": {
+      "badge": "الأدوار والوصول",
+      "title": "4 مستويات الوصول",
+      "description": "كل دور لديه لوحة تحكم وأذونات مكيفة مع مهمته"
+    },
+    "cta": {
+      "title": "هل أنت مستعد للمساهمة في إفريقيا الرقمية؟",
+      "description": "انضم إلى منصة USF-ADC للوصول إلى موارد التعاون ورصد ص الخدمة الشاملة.",
+      "login": "تسجيل الدخول",
+      "contact": "اتصل بـ ATU"
+    },
+    "footer": {
+      "platform": "منصة ص الخدمة الشاملة الأفريقية",
+      "navigation": "التنقل",
+      "features": "الميزات",
+      "map": "الخريطة",
+      "about": "حول",
+      "documents": "الوثائق",
+      "news": "الأخبار",
+      "forum": "المنتدى",
+      "projects": "المشاريع",
+      "events": "الأحداث",
+      "account": "الحساب",
+      "login": "تسجيل الدخول",
+      "faq": "الأسئلة الشائعة",
+      "copyright": "© {{year}} ANSUT / الاتحاد الأفريقي للاتصالات — جميع الحقوق محفوظة",
+      "legal": "إشعار قانوني",
+      "privacy": "الخصوصية"
+    },
+    "imageAlt": {
+      "hero": "الربط الرقمي الأفريقي",
+      "collaboration": "فريق أفريقي يتعاون على المنصة"
+    },
+    "atu": "ATU / UAT"
+  }
+}

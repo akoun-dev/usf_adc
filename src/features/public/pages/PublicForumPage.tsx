@@ -42,6 +42,7 @@ function getAvatarColor(name: string) {
 }
 
 // Enhanced Topic Card with better visual hierarchy
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: boolean }) {
   const { t } = useTranslation();
   const statusBadge = getStatusBadge(topic.status || 'active');
@@ -150,6 +151,7 @@ function TopicCard({ topic, showCategory = true }: { topic: any; showCategory?: 
 
 // Category Card Component
 function CategoryCard({ category, topicCount, onClick, isSelected }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   category: any;
   topicCount: number;
   onClick: () => void;
@@ -183,6 +185,7 @@ function CategoryCard({ category, topicCount, onClick, isSelected }: {
 }
 
 // Top Contributor Card
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ContributorCard({ contributor }: { contributor: any }) {
   return (
     <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors">

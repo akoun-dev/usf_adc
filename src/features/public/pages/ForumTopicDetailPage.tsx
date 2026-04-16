@@ -172,7 +172,7 @@ export default function ForumTopicDetailPage() {
                     <p key={i} className="italic text-muted-foreground mb-4">
                       {paragraph.replace(/^\*/, '').trim()}
                     </p>
-                  );https://chat.deepseek.com/
+                  );
                 }
                 if (paragraph.trim() === '') {
                   return <br key={i} />;

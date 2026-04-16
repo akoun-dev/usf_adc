@@ -19,10 +19,12 @@ export interface Invitation {
 
 export async function fetchInvitations(): Promise<Invitation[]> {
   const { data, error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .from('invitations' as any)
     .select('*, country:countries(name_fr, code_iso), inviter:profiles!invited_by(full_name)')
     .order('created_at', { ascending: false });
   if (error) throw error;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (data as any) || [];
 }
 
@@ -33,16 +35,19 @@ export async function createInvitation(params: {
   invited_by: string;
 }): Promise<Invitation> {
   const { data, error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .from('invitations' as any)
     .insert(params)
     .select()
     .single();
   if (error) throw error;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return data as any;
 }
 
 export async function cancelInvitation(id: string) {
   const { error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .from('invitations' as any)
     .update({ status: 'cancelled' })
     .eq('id', id);

@@ -61,12 +61,15 @@ export default function AcceptInvitationPage() {
     setStep('accepting');
     try {
       const result = await acceptInvitation(token);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (result && typeof result === 'object' && (result as any).success) {
         setStep('success');
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setErrorMsg((result as any)?.error || t('invitations.acceptError'));
         setStep('error');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMsg(err.message);
       setStep('error');

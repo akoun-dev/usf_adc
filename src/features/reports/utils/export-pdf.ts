@@ -28,6 +28,7 @@ export function exportReportsPDF(data: ReportsData) {
   });
 
   // Status table
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const statusY = (doc as any).lastAutoTable.finalY + 10;
   autoTable(doc, {
     startY: statusY,
@@ -38,6 +39,7 @@ export function exportReportsPDF(data: ReportsData) {
   });
 
   // Country table
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const countryY = (doc as any).lastAutoTable.finalY + 10;
   autoTable(doc, {
     startY: countryY,

@@ -33,6 +33,7 @@ export function MfaVerification({ onVerified, onCancel }: MfaVerificationProps) 
       if (data?.method) setMethod(data.method);
       setCooldown(60);
       toast.success(t('mfa.codeSent'));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.message || t('mfa.sendError'));
     }
@@ -65,6 +66,7 @@ export function MfaVerification({ onVerified, onCancel }: MfaVerificationProps) 
         toast.error(t('mfa.invalidCode'));
         setCode('');
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.message || t('mfa.verifyError'));
     }

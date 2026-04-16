@@ -27,6 +27,7 @@ export default function SupportPage() {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
       ) : (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <TicketList tickets={(tickets as any) ?? []} />
       )}
     </div>

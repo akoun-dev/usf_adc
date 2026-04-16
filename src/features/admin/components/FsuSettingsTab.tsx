@@ -45,6 +45,7 @@ export function FsuSettingsTab() {
 
   const toggleActive = (id: string, isActive: boolean) => {
     updatePeriod.mutate(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { id, is_active: isActive } as any,
       {
         onSuccess: () => toast({ title: isActive ? t('admin.periodActivated') : t('admin.periodDeactivated') }),

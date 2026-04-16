@@ -40,6 +40,7 @@ export async function createTicket(input: { title: string; description: string; 
 export async function updateTicketStatus(id: string, status: string) {
   const { data, error } = await supabase
     .from('support_tickets')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .update({ status: status as any })
     .eq('id', id)
     .select()

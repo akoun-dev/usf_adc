@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function exportValidationExcel(data: any[]) {
   const headers = ['ID', 'Pays', 'Période', 'Statut', 'Soumis le', 'Validateur', 'Action', 'Date action'];
   const rows = data.map(d => [

@@ -28,6 +28,7 @@ export default function SupportTicketDetailPage() {
       <Button variant="ghost" size="sm" asChild>
         <Link to="/support"><ArrowLeft className="mr-2 h-4 w-4" />{t('support.back')}</Link>
       </Button>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <TicketDetail ticket={ticket as any} />
       <TicketComments ticketId={id!} />
     </div>

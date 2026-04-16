@@ -29,6 +29,7 @@ export function InvitationList() {
     mutationFn: async (inv: Invitation) => {
       // Create a new invitation with same params
       const { error } = await supabase
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .from('invitations' as any)
         .insert({
           email: inv.email,

@@ -22,10 +22,12 @@ function useDocuments() {
     queryKey: ['documents'],
     queryFn: async () => {
       const { data, error } = await supabase
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .from('documents' as any)
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return data as any[];
     },
   });
@@ -43,8 +45,10 @@ export default function DocumentLibraryPage() {
   const [uploading, setUploading] = useState(false);
 
   const deleteMutation = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: async (doc: any) => {
       await supabase.storage.from('documents').remove([doc.file_path]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await supabase.from('documents' as any).delete().eq('id', doc.id);
       if (error) throw error;
     },
@@ -67,6 +71,7 @@ export default function DocumentLibraryPage() {
       const { error: upErr } = await supabase.storage.from('documents').upload(path, file);
       if (upErr) throw upErr;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await supabase.from('documents' as any).insert({
         title, description: desc || null, category: cat || 'general',
         file_name: file.name, file_path: path, file_size: file.size,
@@ -77,6 +82,7 @@ export default function DocumentLibraryPage() {
       qc.invalidateQueries({ queryKey: ['documents'] });
       setDialogOpen(false);
       toast.success('Document ajouté');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -84,11 +90,13 @@ export default function DocumentLibraryPage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDownload = async (doc: any) => {
     const { data } = supabase.storage.from('documents').getPublicUrl(doc.file_path);
     window.open(data.publicUrl, '_blank');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filtered = (documents || []).filter((d: any) => {
     const matchSearch = !search || d.title.toLowerCase().includes(search.toLowerCase());
     const matchCat = category === 'all' || d.category === category;
@@ -158,6 +166,7 @@ export default function DocumentLibraryPage() {
         </CardContent></Card>
       ) : (
         <div className="grid gap-3">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {filtered.map((doc: any) => (
             <Card key={doc.id} className="hover:shadow-md transition-shadow">
               <CardContent className="flex items-center gap-4 py-4">

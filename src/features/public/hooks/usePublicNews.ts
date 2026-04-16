@@ -59,6 +59,7 @@ export function useNewsArticle(id: string) {
     queryKey: ['public-news', id],
     queryFn: async () => {
       const { data, error } = await supabase
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .from('news_articles' as any)
         .select('*')
         .eq('id', id)

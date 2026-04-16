@@ -30,6 +30,7 @@ export const forumService = {
     if (error) throw error;
 
     // Fetch post counts
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const topicIds = (data || []).map((t: any) => t.id);
     const { data: postCounts } = await supabase
       .from('forum_posts')
@@ -37,10 +38,12 @@ export const forumService = {
       .in('topic_id', topicIds);
 
     const countMap: Record<string, number> = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (postCounts || []).forEach((p: any) => {
       countMap[p.topic_id] = (countMap[p.topic_id] || 0) + 1;
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data || []).map((t: any) => ({
       ...t,
       author: Array.isArray(t.author) ? t.author[0] : t.author,
@@ -59,6 +62,7 @@ export const forumService = {
       .eq('id', id)
       .single();
     if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const topic = data as any;
     return {
       ...topic,
@@ -76,6 +80,7 @@ export const forumService = {
       .eq('topic_id', topicId)
       .order('created_at');
     if (error) throw error;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data || []).map((p: any) => ({
       ...p,
       author: Array.isArray(p.author) ? p.author[0] : p.author,

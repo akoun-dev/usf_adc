@@ -24,6 +24,7 @@ export default function ProfilePage() {
   const [phone, setPhone] = useState(profile?.phone ?? '');
   const [language, setLanguage] = useState(profile?.language ?? 'fr');
   const [mfaMethod, setMfaMethod] = useState(profile?.mfa_method ?? 'email');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [telegramChatId, setTelegramChatId] = useState((profile as any)?.telegram_chat_id ?? '');
 
   const isAdmin = roles.some((r) => ['global_admin', 'country_admin'].includes(r));

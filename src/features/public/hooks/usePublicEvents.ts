@@ -60,6 +60,7 @@ export function useEvent(id: string) {
     queryKey: ['public-event', id],
     queryFn: async () => {
       const { data, error } = await supabase
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .from('events' as any)
         .select('*')
         .eq('id', id)

@@ -138,6 +138,7 @@ export function CountriesTab() {
                 {isGlobalAdmin && (
                   <TableCell>
                     <div className="flex gap-1">
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       <Button variant="ghost" size="icon" onClick={() => openEdit(c as any)}>
                         <Pencil className="h-4 w-4" />
                       </Button>

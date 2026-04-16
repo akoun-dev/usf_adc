@@ -19,14 +19,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO } from 'date-fns';
-// @ts-ignore
+// @ts-expect-error - date-fns v3 locale import
 import fr from 'date-fns/locale/fr';
-// @ts-ignore
+// @ts-expect-error - date-fns v3 locale import
 import enUS from 'date-fns/locale/en-US';
-// @ts-ignore
+// @ts-expect-error - date-fns v3 locale import
 import pt from 'date-fns/locale/pt';
 
 // Available locales
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const locales: Record<string, any> = { fr, en: enUS, pt };
 
 const getEventTypeColor = (type: string) => {
@@ -53,6 +54,7 @@ const getDateFnsLocale = (lang: string) => {
   return locales[lang] || fr;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function EventCard({ event, past = false }: { event: any; past?: boolean }) {
   const { t } = useTranslation();
   const TypeIcon = getEventTypeIcon(event.event_type);

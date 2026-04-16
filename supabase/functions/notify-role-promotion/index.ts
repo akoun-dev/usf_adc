@@ -145,7 +145,7 @@ Deno.serve(async (req) => {
       .in("role", rolesToNotify);
 
     // Also fetch country_admins of the same country
-    let countryAdminRoles: { user_id: string }[] = [];
+    const countryAdminRoles: { user_id: string }[] = [];
     if (profile?.country_id) {
       const { data: caRoles } = await adminClient
         .from("user_roles")

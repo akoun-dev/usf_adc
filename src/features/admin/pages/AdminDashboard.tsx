@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import PageHero from "@/components/PageHero"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import {
     Globe,
@@ -242,15 +241,6 @@ export default function AdminDashboard() {
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <PageHero
-                title={t("admin.title", "Administration")}
-                description={t(
-                    "admin.descAdmin",
-                    "Gérez le contenu et les paramètres de la plateforme"
-                )}
-                icon={<BarChart3 className="h-6 w-6 text-secondary" />}
-            />
-
             {/* KPI Cards - Main Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">

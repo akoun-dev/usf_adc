@@ -2,6 +2,44 @@ import { supabase } from '@/integrations/supabase/client';
 import type { PlatformSetting, SubmissionPeriod, Country, AuditLogEntry } from '../types';
 import type { Json } from '@/integrations/supabase/types';
 
+// File upload function for logos
+async function uploadLogoFile(file: File, entityType: 'members' | 'partners', entityId: string): Promise<string> {
+    try {
+        // Validate file type and size
+        if (!file.type.startsWith('image/')) {
+            throw new Error('Only image files are allowed');
+        }
+        
+        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            throw new Error('File size exceeds 5MB limit');
+        }
+        
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${entityType}/${entityId}/logo.${fileExt}`;
+        
+        const { data, error } = await supabase
+            .storage
+            .from('logos')
+            .upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: true
+            });
+            
+        if (error) throw error;
+        
+        // Get public URL
+        const { data: { publicUrl } } = supabase
+            .storage
+            .from('logos')
+            .getPublicUrl(fileName);
+            
+        return publicUrl;
+    } catch (error) {
+        console.error('Error uploading logo:', error);
+        throw error;
+    }
+}
+
 // Platform Settings
 export async function getSettings(): Promise<PlatformSetting[]> {
   const { data, error } = await supabase
@@ -239,4 +277,252 @@ export async function updateForumCategory(id: string, input: Partial<{ name: str
 export async function deleteForumCategory(id: string) {
   const { error } = await supabase.from('forum_categories').delete().eq('id', id);
   if (error) throw error;
+}
+
+// Forum Topics Management
+export async function getForumTopics() {
+  const { data, error } = await supabase
+    .from('forum_topics')
+    .select('*, forum_categories (*)')
+    .order('created_at', { ascending: false });
+  
+  if (error) throw error;
+  
+  // Fetch authors separately
+  const authorIds = data?.map(topic => topic.author_id).filter((id): id is string => !!id) ?? [];
+  const { data: authors } = await supabase
+    .from('profiles')
+    .select('*')
+    .in('id', authorIds);
+  
+  return data?.map(topic => ({
+    ...topic,
+    category: topic.forum_categories,
+    author: authors?.find(a => a.id === topic.author_id) || {
+      id: topic.author_id,
+      name: 'Utilisateur supprimé',
+      avatar_url: null
+    }
+  })) ?? [];
+}
+
+export async function updateForumTopic(id: string, input: Partial<{ status: string; title: string }>) {
+  const { data, error } = await supabase
+    .from('forum_topics')
+    .update(input)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteForumTopic(id: string) {
+  const { error } = await supabase.from('forum_topics').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// Associated Members Management
+export async function getAssociatedMembers() {
+  const { data, error } = await supabase
+    .from('membres_associes')
+    .select('*, countries (id, name_fr, name_en, flag_url)')
+    .order('nom', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function createAssociatedMember(input: Omit<AssociatedMember, 'id' | 'date_creation' | 'date_mise_a_jour'> & { logo_file?: File }) {
+  // Separate the logo_file from the database input
+  const { logo_file, ...dbInput } = input;
+  
+  if (logo_file) {
+    // First create the member to get the ID
+    const { data: newMember, error: createError } = await supabase
+      .from('membres_associes')
+      .insert({ ...dbInput, logo_url: null })
+      .select()
+      .single();
+      
+    if (createError) throw createError;
+    
+    // Upload the logo file
+    const logoUrl = await uploadLogoFile(logo_file, 'members', newMember.id);
+    
+    // Update the member with the logo URL
+    const { data, error: updateError } = await supabase
+      .from('membres_associes')
+      .update({ logo_url: logoUrl })
+      .eq('id', newMember.id)
+      .select()
+      .single();
+      
+    if (updateError) throw updateError;
+    return data;
+  } else {
+    // Regular creation without file upload
+    const { data, error } = await supabase
+      .from('membres_associes')
+      .insert(dbInput)
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  }
+}
+
+export async function updateAssociatedMember(id: string, input: Partial<AssociatedMember> & { logo_file?: File }) {
+  // Separate the logo_file from the database input
+  const { logo_file, ...dbInput } = input;
+  
+  let logoUrl = dbInput.logo_url;
+  
+  if (logo_file) {
+    // Upload the logo file
+    logoUrl = await uploadLogoFile(logo_file, 'members', id);
+  }
+  
+  // Update the member
+  const { data, error } = await supabase
+    .from('membres_associes')
+    .update({ ...dbInput, logo_url: logoUrl })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteAssociatedMember(id: string) {
+  const { error } = await supabase.from('membres_associes').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// Partners Management
+export async function getPartners() {
+  const { data, error } = await supabase
+    .from('partenaires')
+    .select('*, countries (id, name_fr, name_en, flag_url)')
+    .order('nom', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function createPartner(input: Omit<Partner, 'id' | 'date_creation' | 'date_mise_a_jour'> & { logo_file?: File }) {
+  // Separate the logo_file from the database input
+  const { logo_file, ...dbInput } = input;
+  
+  if (logo_file) {
+    // First create the partner to get the ID
+    const { data: newPartner, error: createError } = await supabase
+      .from('partenaires')
+      .insert({ ...dbInput, logo_url: null })
+      .select()
+      .single();
+      
+    if (createError) throw createError;
+    
+    // Upload the logo file
+    const logoUrl = await uploadLogoFile(logo_file, 'partners', newPartner.id);
+    
+    // Update the partner with the logo URL
+    const { data, error: updateError } = await supabase
+      .from('partenaires')
+      .update({ logo_url: logoUrl })
+      .eq('id', newPartner.id)
+      .select()
+      .single();
+      
+    if (updateError) throw updateError;
+    return data;
+  } else {
+    // Regular creation without file upload
+    const { data, error } = await supabase
+      .from('partenaires')
+      .insert(dbInput)
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  }
+}
+
+export async function updatePartner(id: string, input: Partial<Partner> & { logo_file?: File }) {
+  // Separate the logo_file from the database input
+  const { logo_file, ...dbInput } = input;
+  
+  let logoUrl = dbInput.logo_url;
+  
+  if (logo_file) {
+    // Upload the logo file
+    logoUrl = await uploadLogoFile(logo_file, 'partners', id);
+  }
+  
+  // Update the partner
+  const { data, error } = await supabase
+    .from('partenaires')
+    .update({ ...dbInput, logo_url: logoUrl })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deletePartner(id: string) {
+  const { error } = await supabase.from('partenaires').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// Type definitions
+export interface AssociatedMember {
+  id: string;
+  nom: string;
+  nom_complet?: string;
+  pays_id?: string;
+  logo_url?: string;
+  type: 'agence' | 'operateur' | 'institution' | 'association';
+  secteur?: string;
+  depuis?: string;
+  site_web?: string;
+  description?: string;
+  projets?: string[];
+  email_contact?: string;
+  telephone_contact?: string;
+  adresse?: string;
+  est_actif?: boolean;
+  date_creation?: string;
+  date_mise_a_jour?: string;
+  countries?: {
+    id: string;
+    name_fr: string;
+    name_en: string;
+    flag_url?: string;
+  };
+}
+
+export interface Partner {
+  id: string;
+  nom: string;
+  nom_complet?: string;
+  pays_id?: string;
+  logo_url?: string;
+  type: 'institutionnel' | 'prive' | 'ong' | 'international';
+  domaine?: string;
+  depuis?: string;
+  site_web?: string;
+  description?: string;
+  projets?: string[];
+  email_contact?: string;
+  telephone_contact?: string;
+  adresse?: string;
+  est_actif?: boolean;
+  date_creation?: string;
+  date_mise_a_jour?: string;
+  countries?: {
+    id: string;
+    name_fr: string;
+    name_en: string;
+    flag_url?: string;
+  };
 }

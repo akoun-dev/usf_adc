@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom"
-import { Menu, X, ArrowRight, ChevronDown } from "lucide-react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Menu, X, ArrowRight, ChevronDown, LogOut, User } from "lucide-react"
 import { useState } from "react"
 import React from "react"
 import { Button } from "@/components/ui/button"
@@ -7,11 +7,12 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageSwitcher } from "@/features/shell/components/LanguageSwitcher"
 import atuLogo from "@/assets/atu-uat-logo.png"
 import { useTranslation } from "react-i18next"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
 const navLinks = [
@@ -25,7 +26,6 @@ const navLinks = [
     { href: "/sutel", labelKey: "public.nav.sutel" },
     { href: "/a-propos", labelKey: "public.nav.about" },
     { href: "/faq-public", labelKey: "public.nav.faq" },
-
 ]
 
 interface PublicHeaderProps {
@@ -35,7 +35,9 @@ interface PublicHeaderProps {
 export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const location = useLocation()
+    const navigate = useNavigate()
     const { t } = useTranslation()
+    const { isAuthenticated, profile, signOut, user } = useAuth()
 
     const isTransparent = variant === "transparent"
 
@@ -99,24 +101,30 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                     <Link
                                                         to="/annuaire-pays-membres"
                                                         className={`cursor-pointer ${
-                                                            location.pathname === "/annuaire-pays-membres"
+                                                            location.pathname ===
+                                                            "/annuaire-pays-membres"
                                                                 ? "bg-accent"
                                                                 : ""
                                                         }`}
                                                     >
-                                                        {t("public.nav.memberStates")}
+                                                        {t(
+                                                            "public.nav.memberStates"
+                                                        )}
                                                     </Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem asChild>
                                                     <Link
                                                         to="/membres-associes"
                                                         className={`cursor-pointer ${
-                                                            location.pathname === "/membres-associes"
+                                                            location.pathname ===
+                                                            "/membres-associes"
                                                                 ? "bg-accent"
                                                                 : ""
                                                         }`}
                                                     >
-                                                        {t("public.nav.associatedMembers")}
+                                                        {t(
+                                                            "public.nav.associatedMembers"
+                                                        )}
                                                     </Link>
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
@@ -131,11 +139,18 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                     <DropdownMenu key={link.href}>
                                         <DropdownMenuTrigger
                                             className={`px-2 py-2 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex items-center gap-1 ${
-                                                location.pathname === link.href || location.pathname.startsWith("/notre-histoire") || location.pathname.startsWith("/equipe-direction")
+                                                location.pathname ===
+                                                    link.href ||
+                                                location.pathname.startsWith(
+                                                    "/notre-histoire"
+                                                ) ||
+                                                location.pathname.startsWith(
+                                                    "/equipe-direction"
+                                                )
                                                     ? "bg-primary text-primary-foreground"
                                                     : isTransparent
-                                                        ? "text-white/80 hover:text-white hover:bg-white/10"
-                                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                                      ? "text-white/80 hover:text-white hover:bg-white/10"
+                                                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                             }`}
                                         >
                                             {t("public.nav.about")}
@@ -146,7 +161,8 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                 <Link
                                                     to="/notre-histoire"
                                                     className={`cursor-pointer ${
-                                                        location.pathname === "/notre-histoire"
+                                                        location.pathname ===
+                                                        "/notre-histoire"
                                                             ? "bg-accent"
                                                             : ""
                                                     }`}
@@ -158,7 +174,8 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                 <Link
                                                     to="/equipe-direction"
                                                     className={`cursor-pointer ${
-                                                        location.pathname === "/equipe-direction"
+                                                        location.pathname ===
+                                                        "/equipe-direction"
                                                             ? "bg-accent"
                                                             : ""
                                                     }`}
@@ -193,19 +210,64 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                     <div className="hidden md:flex items-center gap-1 sm:gap-2">
                         <ThemeToggle variant="ghost" size="icon" />
                         <LanguageSwitcher />
-                        <Link to="/login">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className={
-                                    isTransparent
-                                        ? "text-white/80 hover:text-white hover:bg-white/10"
-                                        : ""
-                                }
-                            >
-                                {t("public.header.login")}
-                            </Button>
-                        </Link>
+                        {isAuthenticated && user ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className={
+                                            isTransparent
+                                                ? "text-white/80 hover:text-white hover:bg-white/10"
+                                                : ""
+                                        }
+                                    >
+                                        <User className="h-4 w-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to="/dashboard"
+                                            className="cursor-pointer"
+                                        >
+                                            {t("public.header.dashboard")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to="/profil"
+                                            className="cursor-pointer"
+                                        >
+                                            {t("public.header.profile")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={async () => {
+                                            await signOut()
+                                            navigate("/")
+                                        }}
+                                    >
+                                        <LogOut className="h-4 w-4 mr-2" />
+                                        {t("public.header.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            <Link to="/login">
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className={
+                                        isTransparent
+                                            ? "text-white/80 hover:text-white hover:bg-white/10"
+                                            : ""
+                                    }
+                                >
+                                    {t("public.header.login")}
+                                </Button>
+                            </Link>
+                        )}
                     </div>
 
                     {/* Mobile menu button - only on mobile */}
@@ -246,14 +308,20 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                             <div className="grid gap-1">
                                 {navLinks.map((link, index) => {
                                     // Insert Membership dropdown after Carte (index 1)
-                                    if (index === 1 && link.href === "/carte-public") {
+                                    if (
+                                        index === 1 &&
+                                        link.href === "/carte-public"
+                                    ) {
                                         return (
                                             <React.Fragment key={link.href}>
                                                 <Link
                                                     to={link.href}
-                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    onClick={() =>
+                                                        setMobileMenuOpen(false)
+                                                    }
                                                     className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                                                        location.pathname === link.href
+                                                        location.pathname ===
+                                                        link.href
                                                             ? "bg-primary text-primary-foreground"
                                                             : "hover:bg-muted"
                                                     }`}
@@ -270,31 +338,47 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                                 : "text-muted-foreground"
                                                         }`}
                                                     >
-                                                        {t("public.nav.membership")}
+                                                        {t(
+                                                            "public.nav.membership"
+                                                        )}
                                                         <ChevronDown className="h-4 w-4" />
                                                     </button>
                                                     <div className="ml-4 space-y-1">
                                                         <Link
                                                             to="/annuaire-pays-membres"
-                                                            onClick={() => setMobileMenuOpen(false)}
+                                                            onClick={() =>
+                                                                setMobileMenuOpen(
+                                                                    false
+                                                                )
+                                                            }
                                                             className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                                                location.pathname === "/annuaire-pays-membres"
+                                                                location.pathname ===
+                                                                "/annuaire-pays-membres"
                                                                     ? "bg-primary text-primary-foreground"
                                                                     : "hover:bg-muted"
                                                             }`}
                                                         >
-                                                            {t("public.nav.memberStates")}
+                                                            {t(
+                                                                "public.nav.memberStates"
+                                                            )}
                                                         </Link>
                                                         <Link
                                                             to="/membres-associes"
-                                                            onClick={() => setMobileMenuOpen(false)}
+                                                            onClick={() =>
+                                                                setMobileMenuOpen(
+                                                                    false
+                                                                )
+                                                            }
                                                             className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                                                location.pathname === "/membres-associes"
+                                                                location.pathname ===
+                                                                "/membres-associes"
                                                                     ? "bg-primary text-primary-foreground"
                                                                     : "hover:bg-muted"
                                                             }`}
                                                         >
-                                                            {t("public.nav.associatedMembers")}
+                                                            {t(
+                                                                "public.nav.associatedMembers"
+                                                            )}
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -305,14 +389,30 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                     // Convert About link to dropdown
                                     if (link.href === "/a-propos") {
                                         return (
-                                            <div key={link.href} className="space-y-1">
+                                            <div
+                                                key={link.href}
+                                                className="space-y-1"
+                                            >
                                                 <button
                                                     className={`w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors text-left flex items-center justify-between ${
-                                                        location.pathname === link.href || location.pathname.startsWith("/notre-histoire") || location.pathname.startsWith("/equipe-direction") || location.pathname.startsWith("/elections-cpl-2026") || location.pathname.startsWith("/candidats-atu-sg")
+                                                        location.pathname ===
+                                                            link.href ||
+                                                        location.pathname.startsWith(
+                                                            "/notre-histoire"
+                                                        ) ||
+                                                        location.pathname.startsWith(
+                                                            "/equipe-direction"
+                                                        ) ||
+                                                        location.pathname.startsWith(
+                                                            "/elections-cpl-2026"
+                                                        ) ||
+                                                        location.pathname.startsWith(
+                                                            "/candidats-atu-sg"
+                                                        )
                                                             ? "bg-primary text-primary-foreground"
                                                             : isTransparent
-                                                                ? "text-white/80"
-                                                                : "text-muted-foreground"
+                                                              ? "text-white/80"
+                                                              : "text-muted-foreground"
                                                     }`}
                                                 >
                                                     {t("public.nav.about")}
@@ -321,25 +421,39 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                 <div className="ml-4 space-y-1">
                                                     <Link
                                                         to="/notre-histoire"
-                                                        onClick={() => setMobileMenuOpen(false)}
+                                                        onClick={() =>
+                                                            setMobileMenuOpen(
+                                                                false
+                                                            )
+                                                        }
                                                         className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                                            location.pathname === "/notre-histoire"
+                                                            location.pathname ===
+                                                            "/notre-histoire"
                                                                 ? "bg-primary text-primary-foreground"
                                                                 : "hover:bg-muted"
                                                         }`}
                                                     >
-                                                        {t("public.nav.ourHistory")}
+                                                        {t(
+                                                            "public.nav.ourHistory"
+                                                        )}
                                                     </Link>
                                                     <Link
                                                         to="/equipe-direction"
-                                                        onClick={() => setMobileMenuOpen(false)}
+                                                        onClick={() =>
+                                                            setMobileMenuOpen(
+                                                                false
+                                                            )
+                                                        }
                                                         className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                                                            location.pathname === "/equipe-direction"
+                                                            location.pathname ===
+                                                            "/equipe-direction"
                                                                 ? "bg-primary text-primary-foreground"
                                                                 : "hover:bg-muted"
                                                         }`}
                                                     >
-                                                        {t("public.nav.leadership")}
+                                                        {t(
+                                                            "public.nav.leadership"
+                                                        )}
                                                     </Link>
                                                 </div>
                                             </div>
@@ -350,7 +464,9 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                         <Link
                                             key={link.href}
                                             to={link.href}
-                                            onClick={() => setMobileMenuOpen(false)}
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
                                             className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                                                 location.pathname === link.href
                                                     ? "bg-primary text-primary-foreground"
@@ -363,14 +479,41 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                 })}
 
                                 <div className="border-t my-2 pt-2">
-                                    <Link
-                                        to="/login"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="px-4 bg-primary py-3 text-sm font-medium hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-                                    >
-                                        {t("public.header.login")}
-                                        <ArrowRight className="h-4 w-4" />
-                                    </Link>
+                                    {isAuthenticated && user ? (
+                                        <>
+                                            <Link
+                                                to="/dashboard"
+                                                onClick={() =>
+                                                    setMobileMenuOpen(false)
+                                                }
+                                                className="px-4 py-3 text-sm font-medium hover:bg-muted rounded-lg transition-colors flex items-center gap-2 mb-2"
+                                            >
+                                                <User className="h-4 w-4" />
+                                            </Link>
+                                            <button
+                                                onClick={async () => {
+                                                    await signOut()
+                                                    setMobileMenuOpen(false)
+                                                    navigate("/")
+                                                }}
+                                                className="w-full px-4 bg-primary py-3 text-sm font-medium hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                                            >
+                                                <LogOut className="h-4 w-4" />
+                                                {t("public.header.logout")}
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <Link
+                                            to="/login"
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
+                                            className="px-4 bg-primary py-3 text-sm font-medium hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                                        >
+                                            {t("public.header.login")}
+                                            <ArrowRight className="h-4 w-4" />
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </nav>

@@ -89,6 +89,9 @@ const AdminEventsPage = lazy(
 const AdminForumPage = lazy(
     () => import("@/features/admin/pages/AdminForumPage")
 )
+const AdminMembersPage = lazy(
+    () => import("@/features/admin/pages/AdminMembersPage")
+)
 const AdminCountriesPage = lazy(
     () => import("@/features/admin/pages/AdminCountriesPage")
 )
@@ -316,6 +319,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         path: "/admin/forum",
         component: AdminForumPage,
         roles: ["super_admin"],
+    },
+    {
+        path: "/admin/membres-associes",
+        component: AdminMembersPage,
+        roles: ["super_admin", "country_admin"],
     },
     {
         path: "/admin/settings",

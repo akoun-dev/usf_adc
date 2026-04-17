@@ -33,7 +33,6 @@ import { DocumentsTab } from "../components/DocumentsTab"
 import { EventsTab } from "../components/EventsTab"
 import { ForumTab } from "../components/ForumTab"
 import { useTranslation } from "react-i18next"
-import PageHero from "@/components/PageHero"
 import { useLocation } from "react-router-dom"
 
 export default function AdminPage() {
@@ -70,22 +69,10 @@ export default function AdminPage() {
         "events",
         "forum",
     ].includes(pathTab || "")
-    const currentTitle = isMainAdmin
-        ? t("admin.title")
-        : t(tabTitles[defaultTab] || "admin.title")
 
     if (!isMainAdmin) {
         return (
             <div className="space-y-6 animate-fade-in">
-                <PageHero
-                    title={currentTitle}
-                    description={
-                        isGlobalAdmin
-                            ? t("admin.descAdmin")
-                            : t("admin.descView")
-                    }
-                    icon={<Settings className="h-6 w-6 text-secondary" />}
-                />
                 {defaultTab === "news" && <NewsTab />}
                 {defaultTab === "projects" && <ProjectsTab />}
                 {defaultTab === "documents" && <DocumentsTab />}
@@ -97,13 +84,6 @@ export default function AdminPage() {
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <PageHero
-                title={currentTitle}
-                description={
-                    isGlobalAdmin ? t("admin.descAdmin") : t("admin.descView")
-                }
-                icon={<Settings className="h-6 w-6 text-secondary" />}
-            />
 
             <Tabs defaultValue={defaultTab}>
                 <TabsList className="flex-wrap">

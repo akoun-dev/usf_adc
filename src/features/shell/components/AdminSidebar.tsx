@@ -28,6 +28,7 @@ const adminItems = [
     { labelKey: "nav.adminDocuments", path: "/admin/documents", icon: DocIcon },
     { labelKey: "nav.events", path: "/admin/events", icon: Calendar },
     { labelKey: "nav.forumCategories", path: "/admin/forum", icon: MessageSquare },
+    { labelKey: "nav.members", path: "/admin/membres-associes", icon: Users },
     { labelKey: "nav.newslettersAdmin", path: "/admin/newsletters", icon: Newspaper },
     { labelKey: "nav.settings", path: "/admin/settings", icon: Settings },
 ]

@@ -160,3 +160,94 @@ export function useDeleteForumCategory() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-categories'] }),
   });
 }
+
+// Forum Topics Management
+export function useForumTopics() {
+  return useQuery({
+    queryKey: ['admin-forum-topics'],
+    queryFn: adminService.getForumTopics,
+  });
+}
+
+export function useUpdateForumTopic() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; status?: string; title?: string }) =>
+      adminService.updateForumTopic(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-topics'] }),
+  });
+}
+
+export function useDeleteForumTopic() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteForumTopic,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-topics'] }),
+  });
+}
+
+// Associated Members Management
+export function useAssociatedMembers() {
+  return useQuery({
+    queryKey: ['admin-associated-members'],
+    queryFn: adminService.getAssociatedMembers,
+  });
+}
+
+export function useCreateAssociatedMember() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createAssociatedMember,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-associated-members'] }),
+  });
+}
+
+export function useUpdateAssociatedMember() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; [key: string]: any }) =>
+      adminService.updateAssociatedMember(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-associated-members'] }),
+  });
+}
+
+export function useDeleteAssociatedMember() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteAssociatedMember,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-associated-members'] }),
+  });
+}
+
+// Partners Management
+export function usePartners() {
+  return useQuery({
+    queryKey: ['admin-partners'],
+    queryFn: adminService.getPartners,
+  });
+}
+
+export function useCreatePartner() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createPartner,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-partners'] }),
+  });
+}
+
+export function useUpdatePartner() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; [key: string]: any }) =>
+      adminService.updatePartner(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-partners'] }),
+  });
+}
+
+export function useDeletePartner() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deletePartner,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-partners'] }),
+  });
+}

@@ -1,8 +1,6 @@
-import { Settings } from "lucide-react"
-import { useTranslation } from "react-i18next"
-import PageHero from "@/components/PageHero"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
+    Settings,
     Key,
     Database,
     ShieldAlert,
@@ -10,6 +8,7 @@ import {
     BookOpen,
     CalendarClock,
 } from "lucide-react"
+import { useTranslation } from "react-i18next"
 import { PlatformSettingsTab } from "../components/PlatformSettingsTab"
 import { ApiKeysTab } from "../components/ApiKeysTab"
 import { IpRestrictionsTab } from "../components/IpRestrictionsTab"
@@ -20,17 +19,8 @@ import { QuarterlyReportsTab } from "../components/QuarterlyReportsTab"
 
 export default function AdminSettingsPage() {
     const { t } = useTranslation()
-
     return (
         <div className="space-y-6 animate-fade-in">
-            <PageHero
-                title={t("admin.settings", "Settings")}
-                description={t(
-                    "admin.settingsDesc",
-                    "Manage platform settings and configuration"
-                )}
-                icon={<Settings className="h-6 w-6 text-secondary" />}
-            />
 
             <Tabs defaultValue="platform" className="w-full">
                 <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">

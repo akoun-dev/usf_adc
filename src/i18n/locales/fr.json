@@ -84,7 +84,8 @@
         "projects": "Projets",
         "adminDocuments": "Documents",
         "events": "Événements",
-        "forumCategories": "Catégories Forum",
+        "forumCategories": "Gestion de forums",
+        "members": "Membres & Partenaires",
         "settings": "Paramètres",
         "sectionData": "Données",
         "sectionCommunication": "Communication",
@@ -397,6 +398,56 @@
         "countries": "Pays",
         "fsuSubmissions": "Soumissions FSU",
         "auditLog": "Journal d'audit",
+        "newsTitle": "Actualités",
+        "newsDesc": "Gestion des actualités et annonces",
+        "projectsTitle": "Projets",
+        "projectsDesc": "Gestion des projets et initiatives",
+        "documentsTitle": "Documents",
+        "documentsDesc": "Gestion des documents et ressources",
+        "eventsTitle": "Événements",
+        "eventsDesc": "Gestion des événements et calendriers",
+        "forumTitle": "Forum",
+        "forumDesc": "Gestion des discussions et forums",
+        "membersTitle": "Membres & Partenaires",
+        "membersDesc": "Gestion des membres associés et partenaires",
+        "associatedMembers": "Membres Associés",
+        "associatedMembersDesc": "Gestion des membres associés et organisations partenaires",
+        "partners": "Partenaires",
+        "partnersDesc": "Gestion des organisations partenaires",
+        "createMember": "Créer un membre",
+        "editMember": "Modifier un membre",
+        "createPartner": "Créer un partenaire",
+        "editPartner": "Modifier un partenaire",
+        "member": {
+            "name": "Nom",
+            "fullName": "Nom complet",
+            "type": "Type",
+            "country": "Pays",
+            "sector": "Secteur",
+            "since": "Membre depuis",
+            "website": "Site web",
+            "description": "Description",
+            "email": "Email",
+            "phone": "Téléphone",
+            "address": "Adresse",
+            "active": "Membre actif",
+            "logo": "Logo"
+        },
+        "partner": {
+            "name": "Nom",
+            "fullName": "Nom complet",
+            "type": "Type",
+            "country": "Pays",
+            "domain": "Domaine",
+            "since": "Partenaire depuis",
+            "website": "Site web",
+            "description": "Description",
+            "email": "Email",
+            "phone": "Téléphone",
+            "address": "Adresse",
+            "active": "Partenaire actif",
+            "logo": "Logo"
+        },
         "generalSettings": "Paramètres généraux",
         "settingUpdated": "\"{{label}}\" mis à jour",
         "saveError": "Erreur lors de la sauvegarde",
@@ -475,7 +526,7 @@
         "editEvent": "Modifier un événement",
         "noEvents": "Aucun événement",
         "forum": "Forum",
-        "forumManagement": "Gestion du Forum",
+        "forumManagement": "Gestion des catégories",
         "forumManagementDesc": "Gérer les catégories du forum",
         "createCategory": "Créer une catégorie",
         "editCategory": "Modifier une catégorie",
@@ -555,7 +606,7 @@
     "roles": {
         "point_focal": "Point Focal National",
         "country_admin": "Administrateur Pays",
-        "super_admin": "Administrateur Global ANSUT/UAT"
+        "super_admin": "SUPER ADMINISTRATEUR"
     },
     "documents": {
         "title": "Bibliothèque documentaire",
@@ -729,7 +780,10 @@
         },
         "header": {
             "login": "Connexion",
-            "register": "Créer un compte"
+            "register": "Créer un compte",
+            "logout": "Déconnexion",
+            "dashboard": "Tableau de bord",
+            "profile": "Profil"
         },
         "footer": {
             "platform": "Plateforme",
@@ -1412,8 +1466,13 @@
                 "vendor": "Équipementier",
                 "tech": "Technologie",
                 "satellite": "Satellites",
-                "organization": "Organisation"
+                "organization": "Organisation",
+                "private": "Privé",
+                "ngo": "ONG",
+                "international": "International"
             },
+            "loadError": "Impossible de charger les membres. Veuillez réessayer.",
+            "noMembers": "Aucun membre associé trouvé.",
             "benefits": {
                 "network": {
                     "title": "Réseau pan-africain",

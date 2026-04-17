@@ -58,7 +58,7 @@ export function ForumTab() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>{t('admin.forumManagement', 'Gestion du Forum')}</CardTitle>
+            <CardTitle>{t('admin.forumManagement', 'Catégories')}</CardTitle>
             <CardDescription>{t('admin.forumManagementDesc', 'Gérer les catégories du forum')}</CardDescription>
           </div>
           <Dialog open={isOpen} onOpenChange={setIsOpen}>

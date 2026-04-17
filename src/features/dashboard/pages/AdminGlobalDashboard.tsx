@@ -101,7 +101,7 @@ export default function AdminGlobalDashboard() {
           ].map((a) => (
             <div
               key={a.label}
-              className="flex items-center gap-3 rounded-md border p-3 transition-all hover:bg-primary/5 hover:border-primary/20 cursor-pointer"
+              className="flex items-center gap-3 bg-primary rounded-md border p-3 transition-all hover:bg-primary/5 hover:border-primary/20 cursor-pointer"
               onClick={() => navigate(a.path)}
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">

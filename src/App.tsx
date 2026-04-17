@@ -24,7 +24,7 @@ const App = () => (
               <AppRouter />
             </AuthProvider>
           </BrowserRouter>
-          <Agentation {...agentationConfig} />
+          {/* <Agentation {...agentationConfig} /> */}
         </TooltipProvider>
       </RTLProvider>
     </ThemeProvider>

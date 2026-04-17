@@ -33,7 +33,7 @@ export const TICKET_STATUS = {
 export const ROLE_LABELS: Record<AppRole, string> = {
     point_focal: "Point Focal National",
     country_admin: "Administrateur Pays",
-    super_admin: "Administrateur Global ANSUT/UAT",
+    super_admin: "SUPER ADMINISTRATEUR",
 }
 
 export const STATUS_LABELS: Record<SubmissionStatus, string> = {

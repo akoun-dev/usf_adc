@@ -1,6 +1,6 @@
-import React, { lazy, Suspense, useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { lazy, Suspense, useState, useMemo, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import {
     Shield,
     FileText,
@@ -26,11 +26,14 @@ import {
     Clock,
     MapPin,
     ChevronLeft,
+    LogOut,
+    User,
 } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageSwitcher } from "@/features/shell/components/LanguageSwitcher"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -89,6 +92,8 @@ const roleConfigs = [
 
 const HeroSection = () => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
+    const { isAuthenticated, profile, signOut, user } = useAuth()
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
@@ -139,7 +144,6 @@ const HeroSection = () => {
                             ATU / UAT
                         </span>
                     </div>
-
 
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center gap-1">
@@ -234,13 +238,53 @@ const HeroSection = () => {
                     <div className="hidden md:flex items-center gap-2">
                         <ThemeToggle variant="ghost-white" />
                         <LanguageSwitcher />
-                        <Button
-                            asChild
-                            size="sm"
-                            className="bg-white text-primary hover:bg-white/90 backdrop-blur-sm border border-white/30 shadow-sm font-semibold"
-                        >
-                            <Link to="/login">{t("index.nav.login")}</Link>
-                        </Button>
+                        {isAuthenticated && user ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        size="icon"
+                                        className="bg-white text-primary hover:bg-white/90 backdrop-blur-sm border border-white/30 shadow-sm font-semibold"
+                                    >
+                                        <User className="h-4 w-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to="/dashboard"
+                                            className="cursor-pointer"
+                                        >
+                                            {t("public.header.dashboard")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to="/profil"
+                                            className="cursor-pointer"
+                                        >
+                                            {t("public.header.profile")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={async () => {
+                                            await signOut()
+                                            navigate("/")
+                                        }}
+                                    >
+                                        <LogOut className="h-4 w-4 mr-2" />
+                                        {t("public.header.logout")}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            <Button
+                                asChild
+                                size="sm"
+                                className="bg-white text-primary hover:bg-white/90 backdrop-blur-sm border border-white/30 shadow-sm font-semibold"
+                            >
+                                <Link to="/login">{t("index.nav.login")}</Link>
+                            </Button>
+                        )}
                     </div>
 
                     {/* Mobile menu button - only on mobile/tablet */}
@@ -426,14 +470,41 @@ const HeroSection = () => {
                                     )
                                 })}
                                 <div className="border-t border-white/20 dark:border-border my-2 pt-2">
-                                    <Link
-                                        to="/login"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2"
-                                    >
-                                        {t("index.nav.login")}
-                                        <ArrowRight className="h-4 w-4" />
-                                    </Link>
+                                    {isAuthenticated && user ? (
+                                        <>
+                                            <Link
+                                                to="/dashboard"
+                                                onClick={() =>
+                                                    setMobileMenuOpen(false)
+                                                }
+                                                className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2 mb-2"
+                                            >
+                                                <User className="h-4 w-4" />
+                                            </Link>
+                                            <button
+                                                onClick={async () => {
+                                                    await signOut()
+                                                    setMobileMenuOpen(false)
+                                                    navigate("/")
+                                                }}
+                                                className="w-full px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2"
+                                            >
+                                                <LogOut className="h-4 w-4" />
+                                                {t("public.header.logout")}
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <Link
+                                            to="/login"
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
+                                            className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2"
+                                        >
+                                            {t("index.nav.login")}
+                                            <ArrowRight className="h-4 w-4" />
+                                        </Link>
+                                    )}
                                 </div>
                             </div>
                         </nav>
@@ -659,7 +730,9 @@ const NewsCarousel = () => {
                     watchDrag: (_emblaApi, event) => {
                         const target = event.target as HTMLElement
                         // Autoriser le drag seulement si on ne clique pas sur un élément interactif
-                        return !target.closest("a, button, [role='button'], input, textarea, [data-no-drag]")
+                        return !target.closest(
+                            "a, button, [role='button'], input, textarea, [data-no-drag]"
+                        )
                     },
                 }}
                 plugins={[
@@ -813,7 +886,9 @@ const EventsCarousel = () => {
                     watchDrag: (_emblaApi, event) => {
                         const target = event.target as HTMLElement
                         // Autoriser le drag seulement si on ne clique pas sur un élément interactif
-                        return !target.closest("a, button, [role='button'], input, textarea, [data-no-drag]")
+                        return !target.closest(
+                            "a, button, [role='button'], input, textarea, [data-no-drag]"
+                        )
                     },
                 }}
                 plugins={[

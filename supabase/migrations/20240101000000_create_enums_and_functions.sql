@@ -13,8 +13,8 @@
 -- they provide a fixed set of allowed values for specific columns
 
 -- app_role: defines the hierarchy of user roles in the system
--- each role has increasing permissions: public_external < point_focal < country_admin < global_admin
-create type public.app_role as enum ('public_external', 'point_focal', 'country_admin', 'global_admin');
+-- each role has increasing permissions: point_focal < country_admin < global_admin
+create type public.app_role as enum ('point_focal', 'country_admin', 'global_admin');
 
 -- submission_status: tracks the lifecycle of fsu submissions
 -- workflow: draft -> submitted -> under_review -> (approved | rejected | revision_requested)
@@ -145,7 +145,7 @@ create policy "user_roles_delete_global_admin"
 -- =====================================================
 -- 8. create trigger function to auto-assign default role
 -- =====================================================
--- note: this function assigns the public_external role to new users
+-- note: this function assigns the point_focal role to new users
 -- this ensures every user has at least one role upon signup
 
 create or replace function public.assign_default_role()
@@ -155,7 +155,7 @@ set search_path = public
 as $$
 begin
   insert into public.user_roles (user_id, role)
-  values (new.id, 'public_external')
+  values (new.id, 'point_focal')
   on conflict (user_id, role) do nothing;
   return new;
 end;

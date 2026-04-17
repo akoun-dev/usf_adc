@@ -94,10 +94,10 @@ export default function AdminGlobalDashboard() {
         </CardHeader>
         <CardContent className="grid gap-2 sm:grid-cols-2">
           {[
-            { label: t('dashboard.userManagement'), icon: Users, path: '/users' },
-            { label: t('dashboard.validationSupervision'), icon: ShieldCheck, path: '/validation' },
-            { label: t('dashboard.globalReports'), icon: BarChart3, path: '/reports' },
-            { label: t('dashboard.projectMap'), icon: Map, path: '/map' },
+            { label: t('dashboard.userManagement'), icon: Users, path: '/admin/users' },
+            { label: t('dashboard.validationSupervision'), icon: ShieldCheck, path: '/admin/validation' },
+            { label: t('dashboard.globalReports'), icon: BarChart3, path: '/admin/reports' },
+            { label: t('dashboard.projectMap'), icon: Map, path: '/admin/map' },
           ].map((a) => (
             <div
               key={a.label}

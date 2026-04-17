@@ -38,7 +38,6 @@ create policy "authenticated_can_create_topics" on public.forum_topics
   for insert to authenticated
   with check (
     auth.uid() = created_by
-    and public.has_role(auth.uid(), 'public_external')
   );
 
 create policy "authors_can_update_own_topics" on public.forum_topics

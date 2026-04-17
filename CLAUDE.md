@@ -58,6 +58,7 @@ src/
 ```
 
 Each feature follows the pattern:
+
 ```
 features/[feature]/
 ├── components/      # Feature-specific components
@@ -74,14 +75,13 @@ Routes are defined in `src/app/router/routes.ts`:
 - **Public routes**: Accessible without authentication (home, news, events, map, etc.)
 - **Auth routes**: Login, password reset, invitation acceptance
 - **Authenticated routes**: Protected by `AuthGuard` component
-  - Some routes further protected by `RoleGuard` for role-based access
+    - Some routes further protected by `RoleGuard` for role-based access
 
 ### Role Hierarchy (lowest to highest)
 
-1. `public_external` - Read-only access to authenticated content
-2. `point_focal` - National focal point, can submit FSU content
-3. `country_admin` - Country administrator, can validate content
-4. `global_admin` - Full system access
+1. `point_focal` - National focal point, can submit FSU content
+2. `country_admin` - Country administrator, can validate content
+3. `global_admin` - Full system access
 
 ### State Management Patterns
 
@@ -95,10 +95,11 @@ Routes are defined in `src/app/router/routes.ts`:
 ### Date-fns v3 Locale Imports
 
 Due to a Vite alias resolution issue, date-fns locales must be imported directly:
+
 ```typescript
-import fr from 'date-fns/locale/fr';
-import enUS from 'date-fns/locale/en-US';  // Note: no generic 'en' in v3
-import pt from 'date-fns/locale/pt';
+import fr from "date-fns/locale/fr"
+import enUS from "date-fns/locale/en-US" // Note: no generic 'en' in v3
+import pt from "date-fns/locale/pt"
 ```
 
 ### Component Development
@@ -136,16 +137,18 @@ React requires lowercase DOM attributes. Use `fetchpriority` not `fetchPriority`
 ### Role Guards
 
 When adding protected routes, wrap with appropriate guards:
+
 ```tsx
 <AuthGuard>
-  <RoleGuard allowedRoles={['point_focal', 'country_admin', 'global_admin']}>
-    {/* Content */}
-  </RoleGuard>
+    <RoleGuard allowedRoles={["point_focal", "country_admin", "global_admin"]}>
+        {/* Content */}
+    </RoleGuard>
 </AuthGuard>
 ```
 
 ### Environment Variables
 
 Required in `.env`:
+
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`

@@ -1,0 +1,162 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import * as adminService from '../services/admin-service';
+
+export function useNews() {
+  return useQuery({
+    queryKey: ['admin-news'],
+    queryFn: adminService.getNews,
+  });
+}
+
+export function useCreateNews() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createNews,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+  });
+}
+
+export function useUpdateNews() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; category?: string; image_url?: string; is_public?: boolean }) =>
+      adminService.updateNews(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+  });
+}
+
+export function useDeleteNews() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteNews,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+  });
+}
+
+export function useProjects() {
+  return useQuery({
+    queryKey: ['admin-projects'],
+    queryFn: adminService.getProjects,
+  });
+}
+
+export function useCreateProject() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createProject,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
+  });
+}
+
+export function useUpdateProject() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; country_id?: string; status?: string; region?: string }) =>
+      adminService.updateProject(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
+  });
+}
+
+export function useDeleteProject() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteProject,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
+  });
+}
+
+export function useDocuments() {
+  return useQuery({
+    queryKey: ['admin-documents'],
+    queryFn: adminService.getDocuments,
+  });
+}
+
+export function useCreateDocument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createDocument,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
+  });
+}
+
+export function useUpdateDocument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; file_url?: string; document_type?: string }) =>
+      adminService.updateDocument(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
+  });
+}
+
+export function useDeleteDocument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteDocument,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
+  });
+}
+
+export function useEvents() {
+  return useQuery({
+    queryKey: ['admin-events'],
+    queryFn: adminService.getEvents,
+  });
+}
+
+export function useCreateEvent() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createEvent,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-events'] }),
+  });
+}
+
+export function useUpdateEvent() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; start_date?: string; end_date?: string; location?: string }) =>
+      adminService.updateEvent(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-events'] }),
+  });
+}
+
+export function useDeleteEvent() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteEvent,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-events'] }),
+  });
+}
+
+export function useForumCategories() {
+  return useQuery({
+    queryKey: ['admin-forum-categories'],
+    queryFn: adminService.getForumCategories,
+  });
+}
+
+export function useCreateForumCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createForumCategory,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-categories'] }),
+  });
+}
+
+export function useUpdateForumCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; name?: string; description?: string; color?: string }) =>
+      adminService.updateForumCategory(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-categories'] }),
+  });
+}
+
+export function useDeleteForumCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteForumCategory,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-categories'] }),
+  });
+}

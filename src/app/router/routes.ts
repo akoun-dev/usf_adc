@@ -73,6 +73,31 @@ const SupportTicketDetailPage = lazy(
     () => import("@/features/support/pages/SupportTicketDetailPage")
 )
 const AdminPage = lazy(() => import("@/features/admin/pages/AdminPage"))
+const AdminDashboard = lazy(
+    () => import("@/features/admin/pages/AdminDashboard")
+)
+const AdminNewsPage = lazy(() => import("@/features/admin/pages/AdminNewsPage"))
+const AdminProjectsPage = lazy(
+    () => import("@/features/admin/pages/AdminProjectsPage")
+)
+const AdminDocumentsPage = lazy(
+    () => import("@/features/admin/pages/AdminDocumentsPage")
+)
+const AdminEventsPage = lazy(
+    () => import("@/features/admin/pages/AdminEventsPage")
+)
+const AdminForumPage = lazy(
+    () => import("@/features/admin/pages/AdminForumPage")
+)
+const AdminCountriesPage = lazy(
+    () => import("@/features/admin/pages/AdminCountriesPage")
+)
+const AdminSettingsPage = lazy(
+    () => import("@/features/admin/pages/AdminSettingsPage")
+)
+const AdminSetupPage = lazy(
+    () => import("@/features/admin/pages/AdminSetupPage")
+)
 const FaqPage = lazy(() => import("@/features/support/pages/FaqPage"))
 const NewslettersPage = lazy(
     () => import("@/features/newsletters/pages/NewslettersPage")
@@ -132,9 +157,15 @@ const RegistrationPage = lazy(
     () => import("@/features/public/pages/RegistrationPage")
 )
 const SUTELPage = lazy(() => import("@/features/public/pages/SUTELPage"))
-const AssociatedMembersPage = lazy(() => import("@/features/public/pages/AssociatedMembersPage"))
-const OurHistoryPage = lazy(() => import("@/features/public/pages/OurHistoryPage"))
-const LeadershipTeamPage = lazy(() => import("@/features/public/pages/LeadershipTeamPage"))
+const AssociatedMembersPage = lazy(
+    () => import("@/features/public/pages/AssociatedMembersPage")
+)
+const OurHistoryPage = lazy(
+    () => import("@/features/public/pages/OurHistoryPage")
+)
+const LeadershipTeamPage = lazy(
+    () => import("@/features/public/pages/LeadershipTeamPage")
+)
 
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
@@ -142,7 +173,7 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/dashboard/public",
         component: PublicExternalDashboard,
-        roles: ["public_external", "point_focal", "country_admin", "global_admin"],
+        roles: ["point_focal", "country_admin", "global_admin"],
     },
     {
         path: "/dashboard/point-focal",
@@ -186,12 +217,12 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["country_admin", "global_admin"],
     },
     {
-        path: "/users",
+        path: "/admin/users",
         component: UsersPage,
         roles: ["country_admin", "global_admin"],
     },
     {
-        path: "/invitations",
+        path: "/admin/invitations",
         component: InvitationsPage,
         roles: ["country_admin", "global_admin"],
     },
@@ -236,21 +267,107 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/documents", component: DocumentLibraryPage },
     { path: "/training", component: TrainingPage },
     { path: "/feeds", component: RssFeedsPage },
-    { path: "/newsletters", component: NewslettersPage },
     {
-        path: "/newsletters/admin",
+        path: "/admin/newsletters",
+        component: NewslettersPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/newsletters/create",
+        component: NewslettersAdminPage,
+        roles: ["global_admin"],
+    },
+    {
+        path: "/admin/newsletters/:id",
         component: NewslettersAdminPage,
         roles: ["global_admin"],
     },
     {
         path: "/admin",
-        component: AdminPage,
+        component: AdminDashboard,
         roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/countries",
+        component: AdminCountriesPage,
+        roles: ["global_admin"],
+    },
+    {
+        path: "/admin/news",
+        component: AdminNewsPage,
+        roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/projects",
+        component: AdminProjectsPage,
+        roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/documents",
+        component: AdminDocumentsPage,
+        roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/events",
+        component: AdminEventsPage,
+        roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/forum",
+        component: AdminForumPage,
+        roles: ["global_admin"],
+    },
+    {
+        path: "/admin/settings",
+        component: AdminSettingsPage,
+        roles: ["global_admin"],
+    },
+    // Admin access to general features
+    {
+        path: "/admin/reports",
+        component: ReportsPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/validation",
+        component: ValidationListPage,
+        roles: ["country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/fsu",
+        component: FsuSubmissionsPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/map",
+        component: ProjectsMapPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/documents",
+        component: DocumentLibraryPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/forum",
+        component: ForumPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/notifications",
+        component: NotificationsPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
+    },
+    {
+        path: "/admin/support",
+        component: SupportPage,
+        roles: ["point_focal", "country_admin", "global_admin"],
     },
 ]
 
 /** Public routes accessible without authentication. */
 export const PUBLIC_ROUTES: AppRouteConfig[] = [
+    { path: "/setup-admin", component: AdminSetupPage },
     { path: "/", component: PublicHomePage },
     { path: "/carte-public", component: PublicMapPage },
     { path: "/documents-publics", component: PublicDocumentsPage },

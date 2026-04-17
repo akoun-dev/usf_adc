@@ -93,7 +93,7 @@ create policy "invitations_insert_global_admin"
   );
 
 -- policy: insert - country admins can create limited invitations for their country
--- rationale: country admins can invite point_focal and public_external users
+-- rationale: country admins can invite point_focal users
 -- warning: country admins cannot invite other admins (privilege escalation protection)
 create policy "invitations_insert_country_admin"
   on public.invitations for insert
@@ -102,7 +102,7 @@ create policy "invitations_insert_country_admin"
     invited_by = auth.uid()
     and public.has_role(auth.uid(), 'country_admin')
     and country_id = public.get_user_country(auth.uid())
-    and role in ('point_focal', 'public_external')
+    and role in ('point_focal')
   );
 
 -- policy: update - global admins can update any invitation

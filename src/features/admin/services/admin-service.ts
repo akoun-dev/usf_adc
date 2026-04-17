@@ -198,31 +198,255 @@ export async function deleteProject(id: string) {
   if (error) throw error;
 }
 
+export async function uploadDocumentFile(file: File): Promise<{
+  filePath: string;
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  url: string;
+}> {
+  try {
+    // Validate file type
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                        'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+    
+    if (!validTypes.includes(file.type)) {
+      throw new Error('Invalid file type. Only PDF, DOCX, XLSX, PPTX files are allowed.');
+    }
+    
+    // Validate file size (50MB limit)
+    if (file.size > 50 * 1024 * 1024) {
+      throw new Error('File size exceeds 50MB limit');
+    }
+    
+    // Generate unique file name
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+    const filePath = `documents/${fileName}`;
+    
+    // Upload file to Supabase storage
+    const { data, error } = await supabase
+      .storage
+      .from('documents')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      
+    if (error) throw error;
+    
+    // Get public URL
+    const { data: { publicUrl } } = supabase
+      .storage
+      .from('documents')
+      .getPublicUrl(filePath);
+    
+    return {
+      filePath,
+      fileName,
+      fileSize: file.size,
+      mimeType: file.type,
+      url: publicUrl
+    };
+  } catch (error) {
+    console.error('Error uploading document:', error);
+    throw error;
+  }
+}
+
 // Documents
 export async function getDocuments() {
   const { data, error } = await supabase
     .from('documents')
-    .select('*')
+    .select('*, document_tags(tag)')
     .order('created_at', { ascending: false });
   if (error) throw error;
-  return data ?? [];
+  
+  return (data ?? []).map(doc => ({
+    ...doc,
+    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
+  }));
 }
 
-export async function createDocument(input: { title: string; description?: string; category: string; file_name: string; file_path: string }) {
-  const { data, error } = await supabase.from('documents').insert(input).select().single();
-  if (error) throw error;
-  return data;
+export async function createDocument(input: { 
+  title: string; 
+  description?: string; 
+  category: string; 
+  file_name: string; 
+  file_path: string;
+  file_size: number;
+  mime_type: string;
+  type?: string;
+  language?: string;
+  is_public?: boolean;
+  tags?: string[]
+}) {
+  const { data: document, error: docError } = await supabase
+    .from('documents')
+    .insert({
+      title: input.title,
+      description: input.description,
+      category: input.category,
+      file_name: input.file_name,
+      file_path: input.file_path,
+      file_size: input.file_size,
+      mime_type: input.mime_type,
+      type: input.type,
+      language: input.language || 'fr',
+      is_public: input.is_public || false
+    })
+    .select()
+    .single();
+    
+  if (docError) throw docError;
+  
+  // Add tags if provided
+  if (input.tags && input.tags.length > 0) {
+    const tagInserts = input.tags.map(tag => ({
+      document_id: document.id,
+      tag: tag.trim()
+    }));
+    
+    const { error: tagError } = await supabase
+      .from('document_tags')
+      .insert(tagInserts);
+      
+    if (tagError) {
+      console.error('Error adding tags:', tagError);
+      // Don't fail the whole operation if tags fail
+    }
+  }
+  
+  return document;
 }
 
-export async function updateDocument(id: string, input: Partial<{ title: string; description: string; category: string; is_public: boolean }>) {
-  const { data, error } = await supabase.from('documents').update(input).eq('id', id).select().single();
-  if (error) throw error;
-  return data;
+export async function updateDocument(id: string, input: Partial<{ 
+  title: string; 
+  description: string; 
+  category: string; 
+  is_public: boolean;
+  tags?: string[]
+}>) {
+  const { data: document, error: docError } = await supabase
+    .from('documents')
+    .update({
+      title: input.title,
+      description: input.description,
+      category: input.category,
+      is_public: input.is_public
+    })
+    .eq('id', id)
+    .select()
+    .single();
+    
+  if (docError) throw docError;
+  
+  // Update tags if provided
+  if (input.tags !== undefined) {
+    // Delete existing tags
+    const { error: deleteError } = await supabase
+      .from('document_tags')
+      .delete()
+      .eq('document_id', id);
+      
+    if (deleteError) {
+      console.error('Error deleting tags:', deleteError);
+    }
+    
+    // Add new tags
+    if (input.tags && input.tags.length > 0) {
+      const tagInserts = input.tags.map(tag => ({
+        document_id: id,
+        tag: tag.trim()
+      }));
+      
+      const { error: tagError } = await supabase
+        .from('document_tags')
+        .insert(tagInserts);
+        
+      if (tagError) {
+        console.error('Error adding tags:', tagError);
+      }
+    }
+  }
+  
+  return document;
 }
 
 export async function deleteDocument(id: string) {
+  // First delete from storage
+  const { data: document } = await supabase
+    .from('documents')
+    .select('file_path')
+    .eq('id', id)
+    .single();
+  
+  if (document?.file_path) {
+    const { error: storageError } = await supabase
+      .storage
+      .from('documents')
+      .remove([document.file_path]);
+      
+    if (storageError) {
+      console.error('Error deleting file from storage:', storageError);
+    }
+  }
+  
+  // Then delete from database (tags will cascade)
   const { error } = await supabase.from('documents').delete().eq('id', id);
   if (error) throw error;
+}
+
+interface SearchDocumentsParams {
+  searchTerm?: string;
+  categories?: string[];
+  tags?: string[];
+}
+
+export async function searchDocuments({ searchTerm = '', categories = [], tags = [] }: SearchDocumentsParams) {
+  let query = supabase
+    .from('documents')
+    .select('*, document_tags(tag)');
+  
+  // Apply search term filter
+  if (searchTerm) {
+    query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+  }
+  
+  // Apply category filter
+  if (categories.length > 0) {
+    query = query.in('category', categories);
+  }
+  
+  // Apply tags filter (requires subquery)
+  if (tags.length > 0) {
+    query = query.in('id', {
+      text: `SELECT document_id FROM document_tags WHERE tag IN (${tags.map(t => `'${t}'`).join(',')})`
+    });
+  }
+  
+  const { data, error } = await query.order('created_at', { ascending: false });
+  
+  if (error) throw error;
+  
+  return (data ?? []).map(doc => ({
+    ...doc,
+    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
+  }));
+}
+
+export async function getDocumentTags() {
+  const { data, error } = await supabase
+    .from('document_tags')
+    .select('tag')
+    .order('tag');
+  
+  if (error) throw error;
+  
+  // Extract unique tags manually
+  const uniqueTags = Array.from(new Set(data.map((dt: { tag: string }) => dt.tag)));
+  return uniqueTags;
 }
 
 // Events

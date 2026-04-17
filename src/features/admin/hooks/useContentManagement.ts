@@ -83,8 +83,14 @@ export function useCreateDocument() {
 export function useUpdateDocument() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; file_url?: string; document_type?: string }) =>
-      adminService.updateDocument(id, input),
+    mutationFn: ({ id, ...input }: { 
+      id: string; 
+      title?: string; 
+      description?: string; 
+      category?: string; 
+      is_public?: boolean;
+      tags?: string[]
+    }) => adminService.updateDocument(id, input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
   });
 }
@@ -94,6 +100,36 @@ export function useDeleteDocument() {
   return useMutation({
     mutationFn: adminService.deleteDocument,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
+  });
+}
+
+export function useSearchDocuments() {
+  const queryClient = useQueryClient();
+  
+  const mutation = useMutation({
+    mutationFn: (params: { searchTerm?: string; categories?: string[]; tags?: string[] }) => 
+      adminService.searchDocuments(params),
+    onSuccess: (data) => {
+      // Update the query cache with search results
+      queryClient.setQueryData(['search-results'], data);
+    }
+  });
+  
+  const { data } = useQuery({
+    queryKey: ['search-results'],
+    initialData: []
+  });
+  
+  return {
+    ...mutation,
+    data
+  };
+}
+
+export function useDocumentTags() {
+  return useQuery({
+    queryKey: ['document-tags'],
+    queryFn: adminService.getDocumentTags,
   });
 }
 

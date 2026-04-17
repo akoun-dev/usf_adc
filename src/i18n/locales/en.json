@@ -512,7 +512,7 @@
         "roles": {
             "point_focal": "Focal point",
             "country_admin": "Country admin",
-            "global_admin": "Global admin"
+            "super_admin": "Global admin"
         }
     },
     "languages": {
@@ -523,7 +523,7 @@
     "roles": {
         "point_focal": "National Focal Point",
         "country_admin": "Country Administrator",
-        "global_admin": "Global Administrator ANSUT/UAT"
+        "super_admin": "Global Administrator ANSUT/UAT"
     },
     "documents": {
         "title": "Document Library",

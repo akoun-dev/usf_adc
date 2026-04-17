@@ -44,7 +44,7 @@ export default async (req: Request) => {
         // Assign role
         const { error: roleError } = await supabase.from("user_roles").insert({
             user_id: adminUser.id,
-            role: "global_admin",
+            role: "super_admin",
         })
 
         if (roleError && !roleError.message.includes("duplicate")) {

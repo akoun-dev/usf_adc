@@ -67,10 +67,10 @@ create index idx_invitations_expires_at on public.invitations(expires_at);
 
 -- policy: select - global admins can view all invitations
 -- rationale: global admins need full visibility into invitations
-create policy "invitations_select_global_admin"
+create policy "invitations_select_super_admin"
   on public.invitations for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: select - country admins can view invitations for their country
 -- rationale: country admins need to see invitations they sent
@@ -84,12 +84,12 @@ create policy "invitations_select_country_admin"
 
 -- policy: insert - global admins can create invitations for any role/country
 -- rationale: global admins can invite anyone with any role
-create policy "invitations_insert_global_admin"
+create policy "invitations_insert_super_admin"
   on public.invitations for insert
   to authenticated
   with check (
     invited_by = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: insert - country admins can create limited invitations for their country
@@ -107,18 +107,18 @@ create policy "invitations_insert_country_admin"
 
 -- policy: update - global admins can update any invitation
 -- rationale: global admins have full control over invitations
-create policy "invitations_update_global_admin"
+create policy "invitations_update_super_admin"
   on public.invitations for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete invitations
 -- rationale: global admins may need to revoke invitations
-create policy "invitations_delete_global_admin"
+create policy "invitations_delete_super_admin"
   on public.invitations for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 6. create trigger for updated_at

@@ -35,10 +35,10 @@ create policy "authenticated_users_can_view_all" on public.documents
   for select to authenticated using (true);
 
 create policy "only_admins_can_insert" on public.documents
-  for insert to authenticated with check (public.has_role(auth.uid(), 'global_admin'));
+  for insert to authenticated with check (public.has_role(auth.uid(), 'super_admin'));
 
 create policy "only_admins_can_update" on public.documents
-  for update to authenticated using (public.has_role(auth.uid(), 'global_admin'));
+  for update to authenticated using (public.has_role(auth.uid(), 'super_admin'));
 
 create policy "only_admins_can_delete" on public.documents
-  for delete to authenticated using (public.has_role(auth.uid(), 'global_admin'));
+  for delete to authenticated using (public.has_role(auth.uid(), 'super_admin'));

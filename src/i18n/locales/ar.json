@@ -505,7 +505,7 @@
         "roles": {
             "point_focal": "نقطة اتصال",
             "country_admin": "مسؤول الدولة",
-            "global_admin": "مسؤول عام"
+            "super_admin": "مسؤول عام"
         }
     },
     "languages": {
@@ -517,7 +517,7 @@
     "roles": {
         "point_focal": "نقطة اتصال وطنية",
         "country_admin": "مسؤول الدولة",
-        "global_admin": "مسؤول عام ANSUT/UAT"
+        "super_admin": "مسؤول عام ANSUT/UAT"
     },
     "documents": {
         "title": "مكتبة الوثائق",

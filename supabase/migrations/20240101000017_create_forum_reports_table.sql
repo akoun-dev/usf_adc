@@ -73,10 +73,10 @@ create policy "forum_reports_select_country_admin"
 
 -- policy: select - global admins can view all reports
 -- rationale: global admins need full visibility for moderation oversight
-create policy "forum_reports_select_global_admin"
+create policy "forum_reports_select_super_admin"
   on public.forum_reports for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - all authenticated users can create reports
 -- rationale: any user should be able to flag inappropriate content
@@ -101,11 +101,11 @@ create policy "forum_reports_update_country_admin"
 
 -- policy: update - global admins can update any report
 -- rationale: global admins have full moderation control
-create policy "forum_reports_update_global_admin"
+create policy "forum_reports_update_super_admin"
   on public.forum_reports for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 5. create validation_workflow_settings table
@@ -149,10 +149,10 @@ create policy "validation_workflow_settings_select_country_admin"
 
 -- policy: select - global admins can view all workflow settings
 -- rationale: global admins need full visibility for configuration oversight
-create policy "validation_workflow_settings_select_global_admin"
+create policy "validation_workflow_settings_select_super_admin"
   on public.validation_workflow_settings for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - country admins can update their country's workflow settings
 -- rationale: country admins can customize their validation process within limits
@@ -170,25 +170,25 @@ create policy "validation_workflow_settings_update_country_admin"
 
 -- policy: insert - global admins can create workflow settings
 -- rationale: global admins set up initial workflow configuration
-create policy "validation_workflow_settings_insert_global_admin"
+create policy "validation_workflow_settings_insert_super_admin"
   on public.validation_workflow_settings for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - global admins can update any workflow settings
 -- rationale: global admins have full control over workflow configuration
-create policy "validation_workflow_settings_update_global_admin"
+create policy "validation_workflow_settings_update_super_admin"
   on public.validation_workflow_settings for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete workflow settings
 -- rationale: global admins may remove workflow settings if needed
-create policy "validation_workflow_settings_delete_global_admin"
+create policy "validation_workflow_settings_delete_super_admin"
   on public.validation_workflow_settings for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 8. create trigger for updated_at

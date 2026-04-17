@@ -21,7 +21,7 @@ import type { Database } from "@/integrations/supabase/types"
 
 type AppRole = Database["public"]["Enums"]["app_role"]
 
-const ALL_ROLES: AppRole[] = ["point_focal", "country_admin", "global_admin"]
+const ALL_ROLES: AppRole[] = ["point_focal", "country_admin", "super_admin"]
 
 interface Props {
     open: boolean
@@ -55,7 +55,7 @@ export function NewsletterFormDialog({
                       target_roles: [
                           "point_focal",
                           "country_admin",
-                          "global_admin",
+                          "super_admin",
                       ],
                   },
         })

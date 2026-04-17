@@ -49,32 +49,32 @@ create policy "platform_settings_select_country_admin"
 
 -- policy: select - global admins can view all settings
 -- rationale: global admins need full access to all settings
-create policy "platform_settings_select_global_admin"
+create policy "platform_settings_select_super_admin"
   on public.platform_settings for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - global admins can update all settings
 -- rationale: only global admins should modify platform configuration
-create policy "platform_settings_update_global_admin"
+create policy "platform_settings_update_super_admin"
   on public.platform_settings for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - global admins can create new settings
 -- rationale: only global admins should add new configuration options
-create policy "platform_settings_insert_global_admin"
+create policy "platform_settings_insert_super_admin"
   on public.platform_settings for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete settings
 -- rationale: only global admins should remove configuration options
-create policy "platform_settings_delete_global_admin"
+create policy "platform_settings_delete_super_admin"
   on public.platform_settings for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 4. create trigger for updated_at
@@ -142,25 +142,25 @@ create policy "submission_periods_select_authenticated"
 
 -- policy: insert - global admins can create submission periods
 -- rationale: only global admins should define submission windows
-create policy "submission_periods_insert_global_admin"
+create policy "submission_periods_insert_super_admin"
   on public.submission_periods for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - global admins can update submission periods
 -- rationale: only global admins should modify submission windows
-create policy "submission_periods_update_global_admin"
+create policy "submission_periods_update_super_admin"
   on public.submission_periods for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete submission periods
 -- rationale: only global admins should remove submission windows
-create policy "submission_periods_delete_global_admin"
+create policy "submission_periods_delete_super_admin"
   on public.submission_periods for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 9. create trigger for updated_at

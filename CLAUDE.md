@@ -81,7 +81,7 @@ Routes are defined in `src/app/router/routes.ts`:
 
 1. `point_focal` - National focal point, can submit FSU content
 2. `country_admin` - Country administrator, can validate content
-3. `global_admin` - Full system access
+3. `super_admin` - Full system access
 
 ### State Management Patterns
 
@@ -140,7 +140,7 @@ When adding protected routes, wrap with appropriate guards:
 
 ```tsx
 <AuthGuard>
-    <RoleGuard allowedRoles={["point_focal", "country_admin", "global_admin"]}>
+    <RoleGuard allowedRoles={["point_focal", "country_admin", "super_admin"]}>
         {/* Content */}
     </RoleGuard>
 </AuthGuard>

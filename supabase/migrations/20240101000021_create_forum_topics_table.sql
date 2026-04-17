@@ -47,8 +47,8 @@ create policy "authors_can_update_own_topics" on public.forum_topics
 
 create policy "admins_can_manage_topics" on public.forum_topics
   for all to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- Create trigger for updated_at
 create trigger update_forum_topics_updated_at

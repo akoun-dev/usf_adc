@@ -82,10 +82,10 @@ create policy "fsu_submission_attachments_select_country_admin"
 
 -- policy: select - global admins can view all attachments
 -- rationale: global admins need full visibility into all attachments
-create policy "fsu_submission_attachments_select_global_admin"
+create policy "fsu_submission_attachments_select_super_admin"
   on public.fsu_submission_attachments for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - point focal can attach files to own draft submissions
 -- rationale: point focal users can upload files while working on submissions
@@ -120,7 +120,7 @@ create policy "fsu_submission_attachments_delete_point_focal_draft"
 
 -- policy: delete - global admins can delete any attachment
 -- rationale: global admins may need to remove inappropriate or erroneous files
-create policy "fsu_submission_attachments_delete_global_admin"
+create policy "fsu_submission_attachments_delete_super_admin"
   on public.fsu_submission_attachments for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));

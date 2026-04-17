@@ -85,10 +85,10 @@ create policy "profiles_select_own"
 
 -- policy: select - global admins can view all profiles
 -- rationale: global admins need access to all user profiles for administration
-create policy "profiles_select_global_admin"
+create policy "profiles_select_super_admin"
   on public.profiles for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: select - country admins can view profiles in their country
 -- rationale: country admins need to see users in their country for management
@@ -131,11 +131,11 @@ create policy "profiles_update_country_admin"
 
 -- policy: update - global admins can update any profile
 -- rationale: global admins need full control over all profiles
-create policy "profiles_update_global_admin"
+create policy "profiles_update_super_admin"
   on public.profiles for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 6. create trigger for updated_at
@@ -203,8 +203,8 @@ create policy "user_roles_insert_country_admin"
     and public.get_user_country(user_id) = public.get_user_country(auth.uid())
     -- admin must be a country_admin
     and public.has_role(auth.uid(), 'country_admin')
-    -- can only assign limited roles (not global_admin or country_admin)
-    and role not in ('global_admin', 'country_admin')
+    -- can only assign limited roles (not super_admin or country_admin)
+    and role not in ('super_admin', 'country_admin')
   );
 
 -- policy: update - country admins can update limited roles in their country
@@ -218,8 +218,8 @@ create policy "user_roles_update_country_admin"
     and public.get_user_country(user_id) = public.get_user_country(auth.uid())
     -- admin must be a country_admin
     and public.has_role(auth.uid(), 'country_admin')
-    -- can only modify limited roles (not global_admin or country_admin)
-    and role not in ('global_admin', 'country_admin')
+    -- can only modify limited roles (not super_admin or country_admin)
+    and role not in ('super_admin', 'country_admin')
   )
   with check (
     -- user must have a country
@@ -228,8 +228,8 @@ create policy "user_roles_update_country_admin"
     and public.get_user_country(user_id) = public.get_user_country(auth.uid())
     -- admin must be a country_admin
     and public.has_role(auth.uid(), 'country_admin')
-    -- can only assign limited roles (not global_admin or country_admin)
-    and role not in ('global_admin', 'country_admin')
+    -- can only assign limited roles (not super_admin or country_admin)
+    and role not in ('super_admin', 'country_admin')
   );
 
 -- policy: delete - country admins can delete limited roles in their country
@@ -243,6 +243,6 @@ create policy "user_roles_delete_country_admin"
     and public.get_user_country(user_id) = public.get_user_country(auth.uid())
     -- admin must be a country_admin
     and public.has_role(auth.uid(), 'country_admin')
-    -- can only delete limited roles (not global_admin or country_admin)
-    and role not in ('global_admin', 'country_admin')
+    -- can only delete limited roles (not super_admin or country_admin)
+    and role not in ('super_admin', 'country_admin')
   );

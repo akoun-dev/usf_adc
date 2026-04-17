@@ -23,6 +23,28 @@ create table public.countries (
   name_en text not null,
   -- region classification (e.g., 'CEDEAO', 'EAC', 'SADC', 'UMA', 'CEEAC')
   region text not null,
+  -- official country name (e.g., 'République de Côte d''Ivoire')
+  official_name text,
+  -- flag URL (external source like flagcdn.com)
+  flag_url text,
+  -- FSU description and activities in the country
+  description text,
+  -- population (text format: '27,5 millions')
+  population text,
+  -- capital city
+  capital text,
+  -- year FSU was established (text format: '2019')
+  fsu_established text,
+  -- FSU budget (text format: '20 milliards FCFA')
+  fsu_budget text,
+  -- FSU coordinator name
+  fsu_coordinator_name text,
+  -- FSU coordinator email
+  fsu_coordinator_email text,
+  -- FSU coordinator phone
+  fsu_coordinator_phone text,
+  -- logo path in Supabase Storage (for custom uploaded logos)
+  logo_path text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -48,6 +70,25 @@ create policy "countries_select_anon"
   to anon, authenticated
   using (true);
 
+-- policy: insert - super_admin can add countries
+create policy "countries_insert_super_admin"
+  on public.countries for insert
+  to authenticated
+  with check (public.has_role(auth.uid(), 'super_admin'));
+
+-- policy: update - super_admin can update countries
+create policy "countries_update_super_admin"
+  on public.countries for update
+  to authenticated
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
+
+-- policy: delete - super_admin can delete countries
+create policy "countries_delete_super_admin"
+  on public.countries for delete
+  to authenticated
+  using (public.has_role(auth.uid(), 'super_admin'));
+
 -- =====================================================
 -- 4. create indexes for performance
 -- =====================================================
@@ -71,22 +112,22 @@ create trigger update_countries_updated_at
 -- note: african countries organized by regional economic community (rec)
 
 -- cedeao (economic community of west african states)
-insert into public.countries (code_iso, name_fr, name_en, region) values
-  ('bj', 'Bénin', 'Benin', 'CEDEAO'),
-  ('bf', 'Burkina Faso', 'Burkina Faso', 'CEDEAO'),
-  ('cv', 'Cap-Vert', 'Cape Verde', 'CEDEAO'),
-  ('ci', 'Côte d''Ivoire', 'Ivory Coast', 'CEDEAO'),
-  ('gm', 'Gambie', 'Gambia', 'CEDEAO'),
-  ('gh', 'Ghana', 'Ghana', 'CEDEAO'),
-  ('gn', 'Guinée', 'Guinea', 'CEDEAO'),
-  ('gw', 'Guinée-Bissau', 'Guinea-Bissau', 'CEDEAO'),
-  ('lr', 'Libéria', 'Liberia', 'CEDEAO'),
-  ('ml', 'Mali', 'Mali', 'CEDEAO'),
-  ('ne', 'Niger', 'Niger', 'CEDEAO'),
-  ('ng', 'Nigeria', 'Nigeria', 'CEDEAO'),
-  ('sn', 'Sénégal', 'Senegal', 'CEDEAO'),
-  ('sl', 'Sierra Leone', 'Sierra Leone', 'CEDEAO'),
-  ('tg', 'Togo', 'Togo', 'CEDEAO');
+insert into public.countries (code_iso, name_fr, name_en, region, official_name, flag_url, description, population, capital, fsu_established, fsu_budget, fsu_coordinator_name, fsu_coordinator_email, fsu_coordinator_phone) values
+  ('bj', 'Bénin', 'Benin', 'CEDEAO', 'République du Bénin', 'https://flagcdn.com/w320/bj.png', null, null, null, null, null, null, null, null),
+  ('bf', 'Burkina Faso', 'Burkina Faso', 'CEDEAO', 'Burkina Faso', 'https://flagcdn.com/w320/bf.png', null, null, null, null, null, null, null, null),
+  ('cv', 'Cap-Vert', 'Cape Verde', 'CEDEAO', 'République du Cap-Vert', 'https://flagcdn.com/w320/cv.png', null, null, null, null, null, null, null, null),
+  ('ci', 'Côte d''Ivoire', 'Ivory Coast', 'CEDEAO', 'République de Côte d''Ivoire', 'https://flagcdn.com/w320/ci.png', 'La Côte d''Ivoire a établi son Fonds de Service Universel en 2019 avec pour mission de connecter 1000 localités rurales d''ici 2026. Le programme se concentre sur la connectivité scolaire, les centres de santé communautaires et l''inclusion numérique des femmes.', '27,5 millions', 'Yamoussoukro', '2019', '20 milliards FCFA', 'Dr. Amani Kouassi', 'fsu@gouv.ci', '+225 27 20 00 00 00'),
+  ('gm', 'Gambie', 'Gambia', 'CEDEAO', 'République de Gambie', 'https://flagcdn.com/w320/gm.png', null, null, null, null, null, null, null, null),
+  ('gh', 'Ghana', 'Ghana', 'CEDEAO', 'République du Ghana', 'https://flagcdn.com/w320/gh.png', 'Le Ghana a un FSU mature depuis 2017, avec un focus particulier sur l''éducation numérique et les télécentres communautaires. Le programme est cité comme modèle dans la sous-région.', '32,8 millions', 'Accra', '2017', '30 milliards FCFA', 'M. Kwame Mensah', 'fsu@ghana.gov', '+233 30 000 0000'),
+  ('gn', 'Guinée', 'Guinea', 'CEDEAO', 'République de Guinée', 'https://flagcdn.com/w320/gn.png', null, null, null, null, null, null, null, null),
+  ('gw', 'Guinée-Bissau', 'Guinea-Bissau', 'CEDEAO', 'République de Guinée-Bissau', 'https://flagcdn.com/w320/gw.png', null, null, null, null, null, null, null, null),
+  ('lr', 'Libéria', 'Liberia', 'CEDEAO', 'République du Libéria', 'https://flagcdn.com/w320/lr.png', null, null, null, null, null, null, null, null),
+  ('ml', 'Mali', 'Mali', 'CEDEAO', 'République du Mali', 'https://flagcdn.com/w320/ml.png', null, null, null, null, null, null, null, null),
+  ('ne', 'Niger', 'Niger', 'CEDEAO', 'République du Niger', 'https://flagcdn.com/w320/ne.png', null, null, null, null, null, null, null, null),
+  ('ng', 'Nigeria', 'Nigeria', 'CEDEAO', 'République Fédérale du Nigeria', 'https://flagcdn.com/w320/ng.png', null, null, null, null, null, null, null, null),
+  ('sn', 'Sénégal', 'Senegal', 'CEDEAO', 'République du Sénégal', 'https://flagcdn.com/w320/sn.png', 'Pionnier dans la région, le Sénégal a créé son FSU en 2018 et a obtenu la certification ISO 9001 en 2024. Le programme sénégalais est reconnu pour ses innovations dans les sites solaires autonomes et son modèle de subvention efficace.', '17,4 millions', 'Dakar', '2018', '25 milliards FCFA', 'Mme Fatou Diallo', 'fsu@senegal.gouv', '+221 33 800 00 00'),
+  ('sl', 'Sierra Leone', 'Sierra Leone', 'CEDEAO', 'République de Sierra Leone', 'https://flagcdn.com/w320/sl.png', null, null, null, null, null, null, null, null),
+  ('tg', 'Togo', 'Togo', 'CEDEAO', 'République Togolaise', 'https://flagcdn.com/w320/tg.png', null, null, null, null, null, null, null, null);
 
 -- eac (east african community)
 insert into public.countries (code_iso, name_fr, name_en, region) values
@@ -108,16 +149,16 @@ insert into public.countries (code_iso, name_fr, name_en, region) values
   ('zm', 'Zambie', 'Zambia', 'EAC');
 
 -- sadc (southern african development community)
-insert into public.countries (code_iso, name_fr, name_en, region) values
-  ('ao', 'Angola', 'Angola', 'SADC'),
-  ('bw', 'Botswana', 'Botswana', 'SADC'),
-  ('ls', 'Lesotho', 'Lesotho', 'SADC'),
-  ('sz', 'Eswatini', 'Eswatini', 'SADC'),
-  ('mg', 'Madagascar', 'Madagascar', 'SADC'),
-  ('mz', 'Mozambique', 'Mozambique', 'SADC'),
-  ('na', 'Namibie', 'Namibia', 'SADC'),
-  ('za', 'Afrique du Sud', 'South Africa', 'SADC'),
-  ('zw', 'Zimbabwe', 'Zimbabwe', 'SADC');
+insert into public.countries (code_iso, name_fr, name_en, region, official_name, flag_url, description, population, capital, fsu_established, fsu_budget, fsu_coordinator_name, fsu_coordinator_email, fsu_coordinator_phone) values
+  ('ao', 'Angola', 'Angola', 'SADC', 'République d''Angola', 'https://flagcdn.com/w320/ao.png', null, null, null, null, null, null, null, null),
+  ('bw', 'Botswana', 'Botswana', 'SADC', 'République du Botswana', 'https://flagcdn.com/w320/bw.png', null, null, null, null, null, null, null, null),
+  ('ls', 'Lesotho', 'Lesotho', 'SADC', 'Royaume du Lesotho', 'https://flagcdn.com/w320/ls.png', null, null, null, null, null, null, null, null),
+  ('sz', 'Eswatini', 'Eswatini', 'SADC', 'Royaume d''Eswatini', 'https://flagcdn.com/w320/sz.png', null, null, null, null, null, null, null, null),
+  ('mg', 'Madagascar', 'Madagascar', 'SADC', 'République de Madagascar', 'https://flagcdn.com/w320/mg.png', null, null, null, null, null, null, null, null),
+  ('mz', 'Mozambique', 'Mozambique', 'SADC', 'République du Mozambique', 'https://flagcdn.com/w320/mz.png', 'Le Mozambique a créé son FSU en 2021 pour connecter les zones rurales après les cyclones. Le programme finance des infrastructures résilientes.', '31,3 millions', 'Maputo', '2021', '22 milliards FCFA', 'M. Carlos Machava', 'fsu@mozambique.mz', '+258 20 00 00 00'),
+  ('na', 'Namibie', 'Namibia', 'SADC', 'République de Namibie', 'https://flagcdn.com/w320/na.png', null, null, null, null, null, null, null, null),
+  ('za', 'Afrique du Sud', 'South Africa', 'SADC', 'République d''Afrique du Sud', 'https://flagcdn.com/w320/za.png', 'L''Afrique du Sud dispose d''un FSU mature depuis 2016, finançant des projets de connectivité broadband et de centres numériques communautaires dans les townships.', '60,0 millions', 'Pretoria', '2016', '60 milliards FCFA', 'Mme Thandi Mbeki', 'fsu@southafrica.gov.za', '+27 10 000 0000'),
+  ('zw', 'Zimbabwe', 'Zimbabwe', 'SADC', 'République du Zimbabwe', 'https://flagcdn.com/w320/zw.png', null, null, null, null, null, null, null, null);
 
 -- uma (arab maghreb union)
 insert into public.countries (code_iso, name_fr, name_en, region) values

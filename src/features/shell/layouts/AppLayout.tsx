@@ -43,7 +43,7 @@ export default function AppLayout() {
     // Render appropriate sidebar based on role
     const renderSidebar = () => {
         switch (role) {
-            case "global_admin":
+            case "super_admin":
                 return <AdminSidebar onNavigate={() => setSidebarOpen(false)} />
             case "country_admin":
                 return (

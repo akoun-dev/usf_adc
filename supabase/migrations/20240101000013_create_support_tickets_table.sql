@@ -72,10 +72,10 @@ create policy "support_tickets_select_country_admin"
 
 -- policy: select - global admins can view all tickets
 -- rationale: global admins need full visibility for support oversight
-create policy "support_tickets_select_global_admin"
+create policy "support_tickets_select_super_admin"
   on public.support_tickets for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - all authenticated users can create tickets
 -- rationale: any user may need to request support
@@ -108,18 +108,18 @@ create policy "support_tickets_update_country_admin"
 
 -- policy: update - global admins can update any ticket
 -- rationale: global admins have full control over all tickets
-create policy "support_tickets_update_global_admin"
+create policy "support_tickets_update_super_admin"
   on public.support_tickets for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete tickets
 -- rationale: only global admins should delete tickets (for cleanup)
-create policy "support_tickets_delete_global_admin"
+create policy "support_tickets_delete_super_admin"
   on public.support_tickets for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 5. create trigger for updated_at
@@ -196,10 +196,10 @@ create policy "support_ticket_comments_select_country_admin"
 
 -- policy: select - global admins can view all comments
 -- rationale: global admins need full visibility into all discussions
-create policy "support_ticket_comments_select_global_admin"
+create policy "support_ticket_comments_select_super_admin"
   on public.support_ticket_comments for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - users can add comments to their own tickets
 -- rationale: users participate in the support discussion
@@ -232,10 +232,10 @@ create policy "support_ticket_comments_insert_country_admin"
 
 -- policy: insert - global admins can add comments to any ticket
 -- rationale: global admins can participate in any support discussion
-create policy "support_ticket_comments_insert_global_admin"
+create policy "support_ticket_comments_insert_super_admin"
   on public.support_ticket_comments for insert
   to authenticated
   with check (
     author_id = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );

@@ -32,9 +32,9 @@ export default function UsersPage() {
     const [search, setSearch] = useState("")
     const { t } = useTranslation()
 
-    const isGlobalAdmin = hasRole("global_admin")
+    const isGlobalAdmin = hasRole("super_admin")
     const allowedRoles: AppRole[] = isGlobalAdmin
-        ? ["point_focal", "country_admin", "global_admin"]
+        ? ["point_focal", "country_admin", "super_admin"]
         : ["point_focal"]
 
     const filtered = (users || []).filter(u =>

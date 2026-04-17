@@ -15,7 +15,7 @@ interface ImportResult {
     error?: string
 }
 
-const VALID_ROLES = ["point_focal", "country_admin", "global_admin"]
+const VALID_ROLES = ["point_focal", "country_admin", "super_admin"]
 
 Deno.serve(async req => {
     if (req.method === "OPTIONS") {
@@ -23,7 +23,7 @@ Deno.serve(async req => {
     }
 
     try {
-        // Verify caller is global_admin
+        // Verify caller is super_admin
         const authHeader = req.headers.get("Authorization")
         if (!authHeader) {
             return new Response(
@@ -56,18 +56,18 @@ Deno.serve(async req => {
             })
         }
 
-        // Check global_admin role
+        // Check super_admin role
         const adminClient = createClient(supabaseUrl, serviceRoleKey)
         const { data: roleCheck } = await adminClient
             .from("user_roles")
             .select("id")
             .eq("user_id", caller.id)
-            .eq("role", "global_admin")
+            .eq("role", "super_admin")
             .maybeSingle()
 
         if (!roleCheck) {
             return new Response(
-                JSON.stringify({ error: "Forbidden: global_admin required" }),
+                JSON.stringify({ error: "Forbidden: super_admin required" }),
                 {
                     status: 403,
                     headers: {

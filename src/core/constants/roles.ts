@@ -11,7 +11,7 @@ export type ValidationActionType = Enums<"validation_action_type">
 export const APP_ROLES = {
     POINT_FOCAL: "point_focal" as const,
     COUNTRY_ADMIN: "country_admin" as const,
-    GLOBAL_ADMIN: "global_admin" as const,
+    super_admin: "super_admin" as const,
 }
 
 export const SUBMISSION_STATUS = {
@@ -33,7 +33,7 @@ export const TICKET_STATUS = {
 export const ROLE_LABELS: Record<AppRole, string> = {
     point_focal: "Point Focal National",
     country_admin: "Administrateur Pays",
-    global_admin: "Administrateur Global ANSUT/UAT",
+    super_admin: "Administrateur Global ANSUT/UAT",
 }
 
 export const STATUS_LABELS: Record<SubmissionStatus, string> = {
@@ -49,12 +49,12 @@ export const STATUS_LABELS: Record<SubmissionStatus, string> = {
 export const ROLE_HIERARCHY: AppRole[] = [
     "point_focal",
     "country_admin",
-    "global_admin",
+    "super_admin",
 ]
 
 // Default redirect paths per role
 export const ROLE_DASHBOARD_PATHS: Record<AppRole, string> = {
     point_focal: "/dashboard/point-focal",
     country_admin: "/dashboard/admin-pays",
-    global_admin: "/admin",
+    super_admin: "/admin",
 }

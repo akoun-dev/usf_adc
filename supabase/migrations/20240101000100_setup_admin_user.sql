@@ -1,5 +1,5 @@
 -- Setup admin profile and role
--- This migration creates/updates the admin user profile and assigns the global_admin role
+-- This migration creates/updates the admin user profile and assigns the super_admin role
 
 BEGIN;
 
@@ -41,14 +41,14 @@ BEGIN
       is_active = true,
       updated_at = NOW();
 
-    -- Assign global_admin role
+    -- Assign super_admin role
     INSERT INTO public.user_roles (user_id, role)
-    VALUES (admin_id, 'global_admin')
+    VALUES (admin_id, 'super_admin')
     ON CONFLICT (user_id, role) DO NOTHING;
 
     RAISE NOTICE 'Admin user % configured successfully', admin_id;
   ELSE
-    RAISE EXCEPTION 'Admin user (admin@test.local) not found in auth.users';
+    RAISE NOTICE 'Admin user (admin@test.local) not found in auth.users - skipping admin setup. Create the admin user first using one of the setup-admin scripts.';
   END IF;
 END $$;
 

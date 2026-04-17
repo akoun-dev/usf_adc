@@ -24,7 +24,7 @@ import { useManageRole } from "../hooks/useManageRole"
 import { ROLE_LABELS, type AppRole } from "@/core/constants/roles"
 import { useTranslation } from "react-i18next"
 
-const ALL_ROLES: AppRole[] = ["point_focal", "country_admin", "global_admin"]
+const ALL_ROLES: AppRole[] = ["point_focal", "country_admin", "super_admin"]
 
 interface RoleManagerProps {
     userId: string

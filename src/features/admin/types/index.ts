@@ -27,6 +27,17 @@ export interface Country {
   name_en: string;
   code_iso: string;
   region: string;
+  official_name?: string;
+  flag_url?: string;
+  description?: string;
+  population?: string;
+  capital?: string;
+  fsu_established?: string;
+  fsu_budget?: string;
+  fsu_coordinator_name?: string;
+  fsu_coordinator_email?: string;
+  fsu_coordinator_phone?: string;
+  logo_path?: string;
   created_at: string;
   updated_at: string;
 }

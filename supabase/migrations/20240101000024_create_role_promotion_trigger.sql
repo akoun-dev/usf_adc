@@ -35,7 +35,7 @@ begin
   );
 
   for _target_user in
-    select distinct ur.user_id from public.user_roles ur where ur.role = 'global_admin'
+    select distinct ur.user_id from public.user_roles ur where ur.role = 'super_admin'
   loop
     insert into public.notifications (user_id, type, title, message, link)
     values (

@@ -57,10 +57,10 @@ create index idx_audit_logs_created_at on public.audit_logs(created_at);
 
 -- policy: select - global admins can view all audit logs
 -- rationale: global admins need full visibility into all system activity
-create policy "audit_logs_select_global_admin"
+create policy "audit_logs_select_super_admin"
   on public.audit_logs for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: select - country admins can view audit logs for their country users
 -- rationale: country admins need visibility into activity within their jurisdiction
@@ -80,7 +80,7 @@ create policy "audit_logs_select_country_admin"
 
 -- policy: insert - global admins can create audit logs
 -- rationale: global admins may need to create manual audit entries
-create policy "audit_logs_insert_global_admin"
+create policy "audit_logs_insert_super_admin"
   on public.audit_logs for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));

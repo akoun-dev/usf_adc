@@ -80,10 +80,10 @@ create policy "fsu_submission_versions_select_country_admin"
 
 -- policy: select - global admins can view all versions
 -- rationale: global admins need full visibility into all version history
-create policy "fsu_submission_versions_select_global_admin"
+create policy "fsu_submission_versions_select_super_admin"
   on public.fsu_submission_versions for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - point focal can create versions of own submissions
 -- rationale: versions are automatically created when submissions are modified
@@ -101,7 +101,7 @@ create policy "fsu_submission_versions_insert_point_focal_own"
 
 -- policy: insert - global admins can create versions for any submission
 -- rationale: global admins may need to manually create version records
-create policy "fsu_submission_versions_insert_global_admin"
+create policy "fsu_submission_versions_insert_super_admin"
   on public.fsu_submission_versions for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));

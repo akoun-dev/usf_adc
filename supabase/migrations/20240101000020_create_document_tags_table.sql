@@ -26,7 +26,7 @@ create policy "authenticated_can_view_all_tags" on public.document_tags
   for select to authenticated using (true);
 
 create policy "only_admins_can_insert" on public.document_tags
-  for insert to authenticated with check (public.has_role(auth.uid(), 'global_admin'));
+  for insert to authenticated with check (public.has_role(auth.uid(), 'super_admin'));
 
 create policy "only_admins_can_delete" on public.document_tags
-  for delete to authenticated using (public.has_role(auth.uid(), 'global_admin'));
+  for delete to authenticated using (public.has_role(auth.uid(), 'super_admin'));

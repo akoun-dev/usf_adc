@@ -70,17 +70,17 @@ create policy "notifications_update_own"
 
 -- policy: insert - global admins can create notifications for any user
 -- rationale: admins may need to send system-wide or targeted notifications
-create policy "notifications_insert_global_admin"
+create policy "notifications_insert_super_admin"
   on public.notifications for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete any notification
 -- rationale: admins may need to remove inappropriate notifications
-create policy "notifications_delete_global_admin"
+create policy "notifications_delete_super_admin"
   on public.notifications for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - users can delete their own notifications
 -- rationale: users may want to dismiss/remove notifications

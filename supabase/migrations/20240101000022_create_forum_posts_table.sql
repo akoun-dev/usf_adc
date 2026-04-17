@@ -61,8 +61,8 @@ create policy "topic_authors_can_mark_solution" on public.forum_posts
 
 create policy "admins_can_manage_posts" on public.forum_posts
   for all to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- Create trigger for updated_at
 create trigger update_forum_posts_updated_at

@@ -75,19 +75,19 @@ create policy "news_select_anon"
 
 -- policy: select - global admins can view all news
 -- rationale: global admins need to see draft articles
-create policy "news_select_global_admin"
+create policy "news_select_super_admin"
   on public.news for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - global admins can create news
 -- rationale: only admins should publish news articles
-create policy "news_insert_global_admin"
+create policy "news_insert_super_admin"
   on public.news for insert
   to authenticated
   with check (
     created_by = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: insert - country admins can create news for their country
@@ -102,11 +102,11 @@ create policy "news_insert_country_admin"
 
 -- policy: update - global admins can update any news
 -- rationale: global admins have full control
-create policy "news_update_global_admin"
+create policy "news_update_super_admin"
   on public.news for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - country admins can update news they created
 -- rationale: country admins can modify their own articles
@@ -124,10 +124,10 @@ create policy "news_update_country_admin_own"
 
 -- policy: delete - global admins can delete news
 -- rationale: only global admins should delete articles
-create policy "news_delete_global_admin"
+create policy "news_delete_super_admin"
   on public.news for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 5. create trigger for updated_at
@@ -178,7 +178,7 @@ create policy "news_tags_insert_admins"
       where n.id = news_tags.news_id
         and (
           (n.created_by = auth.uid() and public.has_role(auth.uid(), 'country_admin'))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );
@@ -193,7 +193,7 @@ create policy "news_tags_delete_admins"
       where n.id = news_tags.news_id
         and (
           (n.created_by = auth.uid() and public.has_role(auth.uid(), 'country_admin'))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );

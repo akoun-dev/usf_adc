@@ -97,10 +97,10 @@ create policy "events_select_anon"
 
 -- policy: select - global admins can view all events
 -- rationale: global admins need to see private events
-create policy "events_select_global_admin"
+create policy "events_select_super_admin"
   on public.events for select
   to anon, authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - country admins can create events for their country
 -- rationale: country admins manage events in their jurisdiction
@@ -115,12 +115,12 @@ create policy "events_insert_country_admin"
 
 -- policy: insert - global admins can create any event
 -- rationale: global admins can organize platform-wide events
-create policy "events_insert_global_admin"
+create policy "events_insert_super_admin"
   on public.events for insert
   to authenticated
   with check (
     created_by = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: update - country admins can update their country events
@@ -139,18 +139,18 @@ create policy "events_update_country_admin"
 
 -- policy: update - global admins can update any event
 -- rationale: global admins have full control
-create policy "events_update_global_admin"
+create policy "events_update_super_admin"
   on public.events for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete events
 -- rationale: only global admins should delete events
-create policy "events_delete_global_admin"
+create policy "events_delete_super_admin"
   on public.events for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 7. create trigger for updated_at
@@ -201,7 +201,7 @@ create policy "event_tags_insert_from_events"
       where e.id = event_tags.event_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and e.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );
@@ -216,7 +216,7 @@ create policy "event_tags_delete_from_events"
       where e.id = event_tags.event_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and e.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );

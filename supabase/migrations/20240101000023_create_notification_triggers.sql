@@ -34,7 +34,7 @@ begin
     select distinct ur.user_id
     from public.user_roles ur
     where ur.user_id <> new.created_by
-      and ur.role in ('point_focal', 'country_admin', 'global_admin')
+      and ur.role in ('point_focal', 'country_admin', 'super_admin')
   loop
     insert into public.notifications (user_id, type, title, message, link)
     values (
@@ -96,7 +96,7 @@ begin
     where ur.user_id <> new.submitted_by
       and (
         (ur.role = 'country_admin' and p.country_id = new.country_id)
-        or ur.role = 'global_admin'
+        or ur.role = 'super_admin'
       )
   loop
     insert into public.notifications (user_id, type, title, message, link)
@@ -217,7 +217,7 @@ begin
     where ur.user_id <> new.author_id
       and ur.user_id <> _ticket.created_by
       and (
-        ur.role = 'global_admin'
+        ur.role = 'super_admin'
         or (ur.role = 'country_admin' and p.country_id = public.get_user_country(_ticket.created_by))
       )
   loop

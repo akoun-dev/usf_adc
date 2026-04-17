@@ -45,12 +45,12 @@ create policy "attachments_select_own"
 
 -- policy: select - global admins can view all attachments
 -- rationale: global admins need full access to all files for administration
-create policy "attachments_select_global_admin"
+create policy "attachments_select_super_admin"
   on storage.objects for select
   to authenticated
   using (
     bucket_id = 'attachments'
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: delete - users can delete their own attachments
@@ -65,10 +65,10 @@ create policy "attachments_delete_own"
 
 -- policy: delete - global admins can delete any attachment
 -- rationale: global admins need full control over all files
-create policy "attachments_delete_global_admin"
+create policy "attachments_delete_super_admin"
   on storage.objects for delete
   to authenticated
   using (
     bucket_id = 'attachments'
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );

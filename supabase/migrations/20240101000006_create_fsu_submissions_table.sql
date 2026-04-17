@@ -84,10 +84,10 @@ create policy "fsu_submissions_select_country_admin"
 
 -- policy: select - global admins can view all submissions
 -- rationale: global admins need visibility into all submissions
-create policy "fsu_submissions_select_global_admin"
+create policy "fsu_submissions_select_super_admin"
   on public.fsu_submissions for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - point focal can create submissions for their country
 -- rationale: point focal users submit fsu data on behalf of their country
@@ -132,11 +132,11 @@ create policy "fsu_submissions_update_country_admin"
 
 -- policy: update - global admins can update any submission
 -- rationale: global admins need full control over all submissions
-create policy "fsu_submissions_update_global_admin"
+create policy "fsu_submissions_update_super_admin"
   on public.fsu_submissions for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - point focal can delete own draft submissions
 -- rationale: point focal users can discard draft submissions
@@ -152,10 +152,10 @@ create policy "fsu_submissions_delete_point_focal_draft"
 
 -- policy: delete - global admins can delete any submission
 -- rationale: global admins may need to remove test or erroneous data
-create policy "fsu_submissions_delete_global_admin"
+create policy "fsu_submissions_delete_super_admin"
   on public.fsu_submissions for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 5. create trigger for updated_at

@@ -94,10 +94,10 @@ create policy "projects_insert_country_admin"
 
 -- policy: insert - global admins can create projects for any country
 -- rationale: global admins may need to create projects anywhere
-create policy "projects_insert_global_admin"
+create policy "projects_insert_super_admin"
   on public.projects for insert
   to authenticated
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: update - country admins can update projects in their country
 -- rationale: country admins manage project data for their country
@@ -115,18 +115,18 @@ create policy "projects_update_country_admin"
 
 -- policy: update - global admins can update any project
 -- rationale: global admins have full control over all projects
-create policy "projects_update_global_admin"
+create policy "projects_update_super_admin"
   on public.projects for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete projects
 -- rationale: only global admins should delete projects (others should mark as suspended)
-create policy "projects_delete_global_admin"
+create policy "projects_delete_super_admin"
   on public.projects for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 6. create trigger for updated_at
@@ -244,7 +244,7 @@ create policy "project_images_insert_admins"
       where p.id = project_images.project_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and p.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );
@@ -259,7 +259,7 @@ create policy "project_images_delete_admins"
       where p.id = project_images.project_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and p.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );
@@ -304,7 +304,7 @@ create policy "project_tags_insert_admins"
       where p.id = project_tags.project_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and p.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );
@@ -319,7 +319,7 @@ create policy "project_tags_delete_admins"
       where p.id = project_tags.project_id
         and (
           (public.has_role(auth.uid(), 'country_admin') and p.country_id = public.get_user_country(auth.uid()))
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
         )
     )
   );

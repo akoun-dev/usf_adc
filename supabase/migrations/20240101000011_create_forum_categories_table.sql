@@ -101,7 +101,7 @@ create policy "forum_topics_select_authenticated"
   using (
     is_public = true
     or created_by = auth.uid()
-    or public.has_role(auth.uid(), 'global_admin')
+    or public.has_role(auth.uid(), 'super_admin')
     or public.has_role(auth.uid(), 'country_admin')
   );
 
@@ -115,7 +115,7 @@ create policy "forum_topics_insert_authorized"
     and (
       public.has_role(auth.uid(), 'point_focal')
       or public.has_role(auth.uid(), 'country_admin')
-      or public.has_role(auth.uid(), 'global_admin')
+      or public.has_role(auth.uid(), 'super_admin')
     )
   );
 
@@ -129,11 +129,11 @@ create policy "forum_topics_update_author"
 
 -- policy: update - global admins can update any topic
 -- rationale: global admins need moderation capabilities
-create policy "forum_topics_update_global_admin"
+create policy "forum_topics_update_super_admin"
   on public.forum_topics for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - authors can delete their own topics
 -- rationale: users should be able to remove their own discussions
@@ -144,10 +144,10 @@ create policy "forum_topics_delete_author"
 
 -- policy: delete - global admins can delete any topic
 -- rationale: global admins need moderation capabilities
-create policy "forum_topics_delete_global_admin"
+create policy "forum_topics_delete_super_admin"
   on public.forum_topics for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 7. create forum_posts table
@@ -202,11 +202,11 @@ create policy "forum_posts_update_author"
 
 -- policy: update - global admins can update any post
 -- rationale: global admins need moderation capabilities
-create policy "forum_posts_update_global_admin"
+create policy "forum_posts_update_super_admin"
   on public.forum_posts for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - authors can delete their own posts
 -- rationale: users should be able to remove their own replies
@@ -217,10 +217,10 @@ create policy "forum_posts_delete_author"
 
 -- policy: delete - global admins can delete any post
 -- rationale: global admins need moderation capabilities
-create policy "forum_posts_delete_global_admin"
+create policy "forum_posts_delete_super_admin"
   on public.forum_posts for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 10. create triggers for updated_at
@@ -290,7 +290,7 @@ create policy "forum_topic_tags_select_from_topics"
         and (
           t.is_public = true
           or t.created_by = auth.uid()
-          or public.has_role(auth.uid(), 'global_admin')
+          or public.has_role(auth.uid(), 'super_admin')
           or public.has_role(auth.uid(), 'country_admin')
         )
     )
@@ -321,10 +321,10 @@ create policy "forum_topic_tags_delete_owners"
   );
 
 -- policy: delete - global admins can delete any topic tags
-create policy "forum_topic_tags_delete_global_admin"
+create policy "forum_topic_tags_delete_super_admin"
   on public.forum_topic_tags for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 16. add public read access policies (anon users)

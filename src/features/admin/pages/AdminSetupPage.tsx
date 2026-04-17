@@ -36,7 +36,7 @@ export function AdminSetupPage() {
                 `✅ Admin user configured successfully!\n` +
                     `ID: ${data.adminId}\n` +
                     `Email: ${data.email}\n` +
-                    `Role: global_admin\n\n` +
+                    `Role: super_admin\n\n` +
                     `You can now login with:\n` +
                     `Email: admin@test.local\n` +
                     `Password: Admin123!`
@@ -57,7 +57,7 @@ export function AdminSetupPage() {
                 <div className="space-y-4">
                     <p className="text-sm text-muted-foreground">
                         Click the button below to configure the admin@test.local
-                        account with a profile and global_admin role.
+                        account with a profile and super_admin role.
                     </p>
 
                     <Button

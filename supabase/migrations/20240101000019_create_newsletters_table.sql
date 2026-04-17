@@ -23,7 +23,7 @@ create table public.newsletters (
   -- full newsletter content
   content text not null,
   -- which roles should see this newsletter (array for multi-targeting)
-  target_roles public.app_role[] not null default '{point_focal,country_admin,global_admin}',
+  target_roles public.app_role[] not null default '{point_focal,country_admin,super_admin}',
   -- whether this newsletter is visible to users
   is_published boolean not null default false,
   -- when this newsletter was published
@@ -73,35 +73,35 @@ create policy "newsletters_select_targeted"
 
 -- policy: select - global admins can view all newsletters
 -- rationale: global admins need to see draft newsletters
-create policy "newsletters_select_global_admin"
+create policy "newsletters_select_super_admin"
   on public.newsletters for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - global admins can create newsletters
 -- rationale: only global admins should create newsletters
-create policy "newsletters_insert_global_admin"
+create policy "newsletters_insert_super_admin"
   on public.newsletters for insert
   to authenticated
   with check (
     created_by = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: update - global admins can update any newsletter
 -- rationale: global admins manage all newsletter content
-create policy "newsletters_update_global_admin"
+create policy "newsletters_update_super_admin"
   on public.newsletters for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete newsletters
 -- rationale: only global admins should remove newsletters
-create policy "newsletters_delete_global_admin"
+create policy "newsletters_delete_super_admin"
   on public.newsletters for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- =====================================================
 -- 5. create trigger for updated_at

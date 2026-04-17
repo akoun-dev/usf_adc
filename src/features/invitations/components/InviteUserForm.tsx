@@ -33,15 +33,15 @@ export function InviteUserForm() {
     const [role, setRole] = useState<AppRole>("point_focal")
     const [countryId, setCountryId] = useState<string>("")
 
-    const isGlobalAdmin = hasRole("global_admin")
+    const isGlobalAdmin = hasRole("super_admin")
     const allowedRoles: AppRole[] = isGlobalAdmin
-        ? ["point_focal", "country_admin", "global_admin"]
+        ? ["point_focal", "country_admin", "super_admin"]
         : ["point_focal"]
 
     const roleLabels: Record<AppRole, string> = {
         point_focal: t("invitations.roles.point_focal", "Point focal"),
         country_admin: t("invitations.roles.country_admin", "Admin pays"),
-        global_admin: t("invitations.roles.global_admin", "Admin global"),
+        super_admin: t("invitations.roles.super_admin", "Admin global"),
     }
 
     const handleSubmit = (e: React.FormEvent) => {

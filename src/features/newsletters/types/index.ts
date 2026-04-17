@@ -26,5 +26,5 @@ export interface NewsletterInput {
 export const ROLE_LABELS_FR: Record<AppRole, string> = {
     point_focal: "Point focal",
     country_admin: "Admin pays",
-    global_admin: "Admin global",
+    super_admin: "Admin global",
 }

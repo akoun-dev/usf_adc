@@ -79,10 +79,10 @@ create policy "fsu_validation_actions_select_country_admin"
 
 -- policy: select - global admins can view all actions
 -- rationale: global admins need full visibility into all validation activity
-create policy "fsu_validation_actions_select_global_admin"
+create policy "fsu_validation_actions_select_super_admin"
   on public.fsu_validation_actions for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - country admins can create validation actions for country submissions
 -- rationale: country admins perform validation actions on submissions from their country
@@ -101,12 +101,12 @@ create policy "fsu_validation_actions_insert_country_admin"
 
 -- policy: insert - global admins can create validation actions for any submission
 -- rationale: global admins may perform validation actions on any submission
-create policy "fsu_validation_actions_insert_global_admin"
+create policy "fsu_validation_actions_insert_super_admin"
   on public.fsu_validation_actions for insert
   to authenticated
   with check (
     performed_by = auth.uid()
-    and public.has_role(auth.uid(), 'global_admin')
+    and public.has_role(auth.uid(), 'super_admin')
   );
 
 -- =====================================================

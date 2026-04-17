@@ -13,8 +13,8 @@
 -- they provide a fixed set of allowed values for specific columns
 
 -- app_role: defines the hierarchy of user roles in the system
--- each role has increasing permissions: point_focal < country_admin < global_admin
-create type public.app_role as enum ('point_focal', 'country_admin', 'global_admin');
+-- each role has increasing permissions: point_focal < country_admin < super_admin
+create type public.app_role as enum ('point_focal', 'country_admin', 'super_admin');
 
 -- submission_status: tracks the lifecycle of fsu submissions
 -- workflow: draft -> submitted -> under_review -> (approved | rejected | revision_requested)
@@ -114,31 +114,31 @@ create policy "user_roles_select_own"
   using (user_id = auth.uid());
 
 -- policy: select - global admins can view all roles
-create policy "user_roles_select_global_admin"
+create policy "user_roles_select_super_admin"
   on public.user_roles for select
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: insert - global admins can assign any role
-create policy "user_roles_insert_global_admin"
+create policy "user_roles_insert_super_admin"
   on public.user_roles for insert
   to authenticated
   with check (
-    public.has_role(auth.uid(), 'global_admin')
+    public.has_role(auth.uid(), 'super_admin')
   );
 
 -- policy: update - global admins can update any role assignment
-create policy "user_roles_update_global_admin"
+create policy "user_roles_update_super_admin"
   on public.user_roles for update
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'))
-  with check (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'))
+  with check (public.has_role(auth.uid(), 'super_admin'));
 
 -- policy: delete - global admins can delete any role assignment
-create policy "user_roles_delete_global_admin"
+create policy "user_roles_delete_super_admin"
   on public.user_roles for delete
   to authenticated
-  using (public.has_role(auth.uid(), 'global_admin'));
+  using (public.has_role(auth.uid(), 'super_admin'));
 
 -- note: country admin policies are added in migration 00002 after profiles table exists
 
@@ -160,5 +160,3 @@ begin
   return new;
 end;
 $$;
-
-drop trigger if exists on_profile_created_assign_role on public.profiles;

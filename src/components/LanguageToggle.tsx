@@ -12,6 +12,7 @@ const LANGUAGES = [
     { code: 'fr', label: 'Français', flag: '🇫🇷' },
     { code: 'en', label: 'English', flag: '🇬🇧' },
     { code: 'pt', label: 'Português', flag: '🇵🇹' },
+    { code: 'ar', label: 'العربية', flag: '🇸🇦' },
 ];
 
 export function LanguageToggle() {

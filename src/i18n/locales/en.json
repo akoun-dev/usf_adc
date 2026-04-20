@@ -569,7 +569,8 @@
     "languages": {
         "fr": "Français",
         "en": "English",
-        "pt": "Português"
+        "pt": "Português",
+        "ar": "العربية"
     },
     "roles": {
         "point_focal": "National Focal Point",

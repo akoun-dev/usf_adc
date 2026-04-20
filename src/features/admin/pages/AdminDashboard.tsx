@@ -507,7 +507,7 @@ export default function AdminDashboard() {
             <Card className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                     <CardTitle>
-                        {t("admin.quickAccess", "Accès Rapide")}
+                        {t("admin.quickAccess", "Accès rapide")}
                     </CardTitle>
                     <CardDescription>
                         {t(

@@ -200,6 +200,9 @@ export default function ProfilePage() {
                                     <SelectItem value="pt">
                                         {t("languages.pt")}
                                     </SelectItem>
+                                    <SelectItem value="ar">
+                                        {t("languages.ar")}
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>

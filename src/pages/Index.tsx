@@ -539,7 +539,7 @@ const HeroSection = () => {
                         <Button
                             asChild
                             size="lg"
-                            className="h-13 px-8 text-base bg-secondary hover:bg-secondary/90 text-white border-2 border-white/30 shadow-xl backdrop-blur-sm font-semibold"
+                            className="h-13 px-8 text-base bg-secondary hover:bg-secondary/90 text-gray-900 border-2 border-white/30 shadow-xl backdrop-blur-sm font-semibold"
                         >
                             <Link to="/login">
                                 {t("index.hero.accessPlatform")}
@@ -924,7 +924,7 @@ const EventsCarousel = () => {
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                                             {event.event_type && (
                                                 // ✅ CORRECTION : pointer-events-none sur le badge décoratif
-                                                <Badge className="absolute top-3 left-3 bg-secondary text-white text-xs pointer-events-none">
+                                                <Badge className="absolute top-3 left-3 bg-secondary text-gray-900 text-xs pointer-events-none">
                                                     {event.event_type}
                                                 </Badge>
                                             )}
@@ -933,7 +933,7 @@ const EventsCarousel = () => {
                                     <CardContent className="p-4">
                                         {event.start_date && (
                                             <div className="flex items-center gap-2 mb-2">
-                                                <div className="flex shrink-0 flex-col items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-secondary/70 text-white h-10 w-10 shadow-sm pointer-events-none">
+                                                <div className="flex shrink-0 flex-col items-center justify-center rounded-lg bg-gradient-to-br from-secondary to-secondary/70 text-gray-900 h-10 w-10 shadow-sm pointer-events-none">
                                                     <span className="text-sm font-bold leading-none">
                                                         {
                                                             formatDateBadge(

@@ -5,7 +5,7 @@ import type { SubmissionStatus } from '@/core/constants/roles';
 const STATUS_VARIANTS: Record<SubmissionStatus, string> = {
   draft: 'bg-muted text-muted-foreground',
   submitted: 'bg-primary/10 text-primary',
-  under_review: 'bg-secondary/20 text-secondary-foreground',
+  under_review: 'bg-secondary/20 text-gray-900',
   approved: 'bg-success/10 text-success',
   rejected: 'bg-destructive/10 text-destructive',
   revision_requested: 'bg-warning/10 text-warning-foreground',

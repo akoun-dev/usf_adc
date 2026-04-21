@@ -48,7 +48,7 @@ const getCategoryColor = (category: string | null) => {
 const getSourceColor = (source: string | null) => {
   const colors: Record<string, string> = {
     'UAT': 'bg-primary text-primary-foreground',
-    'ANSUT': 'bg-secondary text-secondary-foreground',
+    'ANSUT': 'bg-secondary text-gray-900',
     'UIT': 'bg-accent text-accent-foreground',
     'Smart Africa': 'bg-muted text-muted-foreground',
   };

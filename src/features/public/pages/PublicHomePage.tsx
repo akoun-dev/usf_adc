@@ -310,7 +310,7 @@ export default function PublicHomePage() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             {event.event_type && (
-                              <Badge className="absolute top-3 left-3 bg-secondary text-white text-xs">
+                              <Badge className="absolute top-3 left-3 bg-secondary text-gray-900 text-xs">
                                 {t(`public.eventTypes.${event.event_type}`)}
                               </Badge>
                             )}

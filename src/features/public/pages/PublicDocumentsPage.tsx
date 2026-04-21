@@ -292,7 +292,7 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                     ) : null}
                     <div className="absolute inset-0 bg-gradient-to-t from-[hsl(152,100%,16%)/0.78] via-[hsl(152,100%,18%)/0.20] to-transparent" />
                     <div className="absolute left-4 top-4 flex gap-2">
-                        <Badge className="bg-secondary text-secondary-foreground hover:bg-secondary">
+                        <Badge className="bg-secondary text-gray-900 hover:bg-secondary">
                             {typeInfo.icon} {typeInfo.label}
                         </Badge>
                         <Badge

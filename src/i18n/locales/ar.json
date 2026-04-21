@@ -1713,7 +1713,20 @@
             "events": "الأحداث",
             "sutel": "SUTEL",
             "about": "حول",
-            "login": "تسجيل الدخول"
+            "login": "تسجيل الدخول",
+            "ourHistory": "تاريخنا",
+            "leadership": "القيادة",
+            "memberStates": "الدول الأعضاء",
+            "associatedMembers": "الأعضاء المرتبطون",
+            "group": {
+                "usfAdc": "USF-ADC",
+                "sutel": "SUTEL",
+                "projects": "المشاريع",
+                "resources": "الموارد",
+                "about": "حول",
+                "membership": "العضوية",
+                "contact": "اتصال"
+            }
         },
         "features": {
             "auth": {

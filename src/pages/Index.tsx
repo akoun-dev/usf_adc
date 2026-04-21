@@ -50,7 +50,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Autoplay from "embla-carousel-autoplay"
-import heroLanding from "@/assets/hero5.png"
+import heroLanding from "@/assets/hero10.png"
 import sectionCollab from "@/assets/section-collaboration.jpg"
 import atuLogo from "@/assets/atu-uat-logo.png"
 import { usePublicNews } from "@/features/public/hooks/usePublicNews"
@@ -97,24 +97,61 @@ const HeroSection = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
-    const navLinks = useMemo(
+    const navGroups = useMemo(
         () => [
-            { href: "/", labelKey: "home" },
-            { href: "/carte-public", labelKey: "map" },
-            { href: "/annuaire-pays-membres", labelKey: "countries" },
-            { href: "/documents-publics", labelKey: "documents" },
-            { href: "/actualites", labelKey: "news" },
-            { href: "/forum-public", labelKey: "forum" },
-            { href: "/projets", labelKey: "projects" },
-            { href: "/calendrier", labelKey: "events" },
-            { href: "/sutel", labelKey: "sutel" },
-            { href: "/a-propos", labelKey: "about" },
+            {
+                label: t("index.nav.group.usfAdc"),
+                labelKey: "usfAdc",
+                items: [
+                    { href: "/", labelKey: "home" },
+                    { href: "/annuaire-pays-membres", labelKey: "countries" },
+                ],
+            },
+            {
+                label: t("index.nav.group.projects"),
+                labelKey: "projects",
+                items: [
+                    { href: "/carte-public", labelKey: "map" },
+                    { href: "/projets", labelKey: "projects" },
+                    { href: "/calendrier", labelKey: "events" },
+                ],
+            },
+            {
+                label: t("index.nav.group.resources"),
+                labelKey: "resources",
+                items: [
+                    { href: "/documents-publics", labelKey: "documents" },
+                    { href: "/actualites", labelKey: "news" },
+                    { href: "/forum-public", labelKey: "forum" },
+                ],
+            },
+            {
+                label: t("index.nav.group.about"),
+                labelKey: "about",
+                items: [
+                    { href: "/notre-histoire", labelKey: "ourHistory" },
+                    { href: "/equipe-direction", labelKey: "leadership" },
+                ],
+            },
+            {
+                label: t("index.nav.group.sutel"),
+                href: "/sutel",
+                labelKey: "sutel",
+            },
+            {
+                label: t("index.nav.group.membership"),
+                labelKey: "membership",
+                items: [
+                    { href: "/annuaire-pays-membres", labelKey: "memberStates" },
+                    { href: "/membres-associes", labelKey: "associatedMembers" },
+                ],
+            },
         ],
         []
     )
 
     return (
-        <section className="relative min-h-screen flex items-center">
+        <section className=" relative h-[800px] sm:h-[550px] md:h-[650px] lg:h-[700px] xl:h-[800px] 2xl:h-[1000px] flex items-center">
             {/* Background */}
             <div className="absolute inset-0">
                 <img
@@ -122,10 +159,10 @@ const HeroSection = () => {
                     alt="Connectivité numérique africaine"
                     className="h-full w-full object-cover"
                     width={1920}
-                    height={1080}
+                    height={800}
                     decoding="async"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
+                <div className="absolute top-0 left-0 w-full w-[60%] bg-gradient-to-b from-black/50 via-black/30 to-transparent" />
             </div>
 
             {/* Navbar */}
@@ -146,96 +183,47 @@ const HeroSection = () => {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden lg:flex items-center gap-1">
-                        {navLinks.map((link, index) => {
-                            // Insert Membership dropdown after Carte (index 1)
-                            if (index === 1 && link.href === "/carte-public") {
+                    <div className="hidden xl:flex items-center gap-1">
+                        {navGroups.map((group, index) => {
+                            // Simple link without dropdown (e.g., Sutel)
+                            if (group.href) {
                                 return (
-                                    <React.Fragment key={link.href}>
-                                        <Link
-                                            to={link.href}
-                                            className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors"
-                                        >
-                                            {t(`index.nav.${link.labelKey}`)}
-                                        </Link>
-
-                                        {/* Membership Dropdown */}
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors flex items-center gap-1">
-                                                {t("public.nav.membership")}
-                                                <ChevronDown className="h-3 w-3" />
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent className="bg-popover/95 dark:bg-popover/100 border border-border/50 dark:border-border">
-                                                <DropdownMenuItem asChild>
-                                                    <Link
-                                                        to="/annuaire-pays-membres"
-                                                        className="cursor-pointer"
-                                                    >
-                                                        {t(
-                                                            "public.nav.memberStates"
-                                                        )}
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem asChild>
-                                                    <Link
-                                                        to="/membres-associes"
-                                                        className="cursor-pointer"
-                                                    >
-                                                        {t(
-                                                            "public.nav.associatedMembers"
-                                                        )}
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </React.Fragment>
+                                    <Link
+                                        key={group.href}
+                                        to={group.href}
+                                        className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors"
+                                    >
+                                        {t(`index.nav.group.${group.labelKey}`)}
+                                    </Link>
                                 )
                             }
 
-                            // Convert About link to dropdown (last item in navLinks)
-                            if (link.href === "/a-propos") {
-                                return (
-                                    <DropdownMenu key={link.href}>
-                                        <DropdownMenuTrigger className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors flex items-center gap-1">
-                                            {t(`index.nav.${link.labelKey}`)}
-                                            <ChevronDown className="h-3 w-3" />
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="bg-popover/95 dark:bg-popover/100 border border-border/50 dark:border-border">
-                                            <DropdownMenuItem asChild>
-                                                <Link
-                                                    to="/notre-histoire"
-                                                    className="cursor-pointer"
-                                                >
-                                                    {t("public.nav.ourHistory")}
-                                                </Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem asChild>
-                                                <Link
-                                                    to="/equipe-direction"
-                                                    className="cursor-pointer"
-                                                >
-                                                    {t("public.nav.leadership")}
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                )
-                            }
-
+                            // Group with items (dropdown menu)
                             return (
-                                <Link
-                                    key={link.href}
-                                    to={link.href}
-                                    className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors"
-                                >
-                                    {t(`index.nav.${link.labelKey}`)}
-                                </Link>
+                                <DropdownMenu key={`group-${index}`}>
+                                    <DropdownMenuTrigger className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors flex items-center gap-1">
+                                        {t(`index.nav.group.${group.labelKey}`)}
+                                        <ChevronDown className="h-3 w-3" />
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="bg-popover/95 dark:bg-popover/100 border border-border/50 dark:border-border">
+                                        {group.items?.map((item) => (
+                                            <DropdownMenuItem asChild key={item.href}>
+                                                <Link
+                                                    to={item.href}
+                                                    className="cursor-pointer"
+                                                >
+                                                    {t(`index.nav.${item.labelKey}`)}
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             )
                         })}
                     </div>
 
                     {/* Actions - hide on mobile */}
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden xl:flex items-center gap-2">
                         <ThemeToggle variant="ghost-white" />
                         <LanguageSwitcher />
                         {isAuthenticated && user ? (
@@ -288,7 +276,7 @@ const HeroSection = () => {
                     </div>
 
                     {/* Mobile menu button - only on mobile/tablet */}
-                    <div className="flex md:hidden items-center gap-2">
+                    <div className="flex xl:hidden items-center gap-2">
                         <ThemeToggle variant="ghost-white" />
                         <LanguageSwitcher />
                         <Button
@@ -308,165 +296,78 @@ const HeroSection = () => {
 
                 {/* Mobile Navigation - full screen dropdown */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden mt-4 bg-primary/95 dark:bg-background/95 backdrop-blur-md rounded-xl border border-white/20 dark:border-border overflow-hidden shadow-xl">
+                    <div className="xl:hidden mt-4 bg-primary/95 dark:bg-background/95 backdrop-blur-md rounded-xl border border-white/20 dark:border-border overflow-hidden shadow-xl">
                         <nav className="p-2">
                             <div className="grid gap-1 max-h-[70vh] overflow-y-auto">
-                                {navLinks.map((link, index) => {
-                                    // Insert Membership dropdown after Carte (index 1)
-                                    if (
-                                        index === 1 &&
-                                        link.href === "/carte-public"
-                                    ) {
+                                {navGroups.map((group, index) => {
+                                    // Simple link without dropdown (e.g., Sutel)
+                                    if (group.href) {
                                         return (
-                                            <React.Fragment key={link.href}>
-                                                <Link
-                                                    to={link.href}
-                                                    onClick={() =>
-                                                        setMobileMenuOpen(false)
-                                                    }
-                                                    className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                                >
-                                                    {t(
-                                                        `index.nav.${link.labelKey}`
-                                                    )}
-                                                </Link>
-
-                                                {/* Membership Dropdown in Mobile */}
-                                                <div className="space-y-1">
-                                                    <button
-                                                        onClick={() =>
-                                                            setOpenDropdown(
-                                                                openDropdown ===
-                                                                    "membership"
-                                                                    ? null
-                                                                    : "membership"
-                                                            )
-                                                        }
-                                                        className="w-full px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors text-left flex items-center justify-between"
-                                                    >
-                                                        {t(
-                                                            "public.nav.membership"
-                                                        )}
-                                                        <ChevronDown
-                                                            className={`h-4 w-4 transition-transform ${openDropdown === "membership" ? "rotate-180" : ""}`}
-                                                        />
-                                                    </button>
-                                                    <div
-                                                        className={`${openDropdown === "membership" ? "block" : "hidden"} ml-4 space-y-1`}
-                                                    >
-                                                        <Link
-                                                            to="/annuaire-pays-membres"
-                                                            onClick={() => {
-                                                                setMobileMenuOpen(
-                                                                    false
-                                                                )
-                                                                setOpenDropdown(
-                                                                    null
-                                                                )
-                                                            }}
-                                                            className="block px-4 py-2 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                                        >
-                                                            {t(
-                                                                "public.nav.memberStates"
-                                                            )}
-                                                        </Link>
-                                                        <Link
-                                                            to="/membres-associes"
-                                                            onClick={() => {
-                                                                setMobileMenuOpen(
-                                                                    false
-                                                                )
-                                                                setOpenDropdown(
-                                                                    null
-                                                                )
-                                                            }}
-                                                            className="block px-4 py-2 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                                        >
-                                                            {t(
-                                                                "public.nav.associatedMembers"
-                                                            )}
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </React.Fragment>
-                                        )
-                                    }
-
-                                    // Convert About link to dropdown in mobile
-                                    if (link.href === "/a-propos") {
-                                        return (
-                                            <div
-                                                key={link.href}
-                                                className="space-y-1"
+                                            <Link
+                                                key={group.href}
+                                                to={group.href}
+                                                onClick={() => {
+                                                    setMobileMenuOpen(false)
+                                                    setOpenDropdown(null)
+                                                }}
+                                                className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
                                             >
-                                                <button
-                                                    onClick={() =>
-                                                        setOpenDropdown(
-                                                            openDropdown ===
-                                                                "about"
-                                                                ? null
-                                                                : "about"
-                                                        )
-                                                    }
-                                                    className="w-full px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors text-left flex items-center justify-between"
-                                                >
-                                                    {t(
-                                                        `index.nav.${link.labelKey}`
-                                                    )}
-                                                    <ChevronDown
-                                                        className={`h-4 w-4 transition-transform ${openDropdown === "about" ? "rotate-180" : ""}`}
-                                                    />
-                                                </button>
-                                                <div
-                                                    className={`${openDropdown === "about" ? "block" : "hidden"} ml-4 space-y-1`}
-                                                >
-                                                    <Link
-                                                        to="/notre-histoire"
-                                                        onClick={() => {
-                                                            setMobileMenuOpen(
-                                                                false
-                                                            )
-                                                            setOpenDropdown(
-                                                                null
-                                                            )
-                                                        }}
-                                                        className="block px-4 py-2 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                                    >
-                                                        {t(
-                                                            "public.nav.ourHistory"
-                                                        )}
-                                                    </Link>
-                                                    <Link
-                                                        to="/equipe-direction"
-                                                        onClick={() => {
-                                                            setMobileMenuOpen(
-                                                                false
-                                                            )
-                                                            setOpenDropdown(
-                                                                null
-                                                            )
-                                                        }}
-                                                        className="block px-4 py-2 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                                    >
-                                                        {t(
-                                                            "public.nav.leadership"
-                                                        )}
-                                                    </Link>
-                                                </div>
-                                            </div>
+                                                {t(`index.nav.${group.labelKey}`)}
+                                            </Link>
                                         )
                                     }
+
+                                    // Group with items (expandable dropdown)
+                                    const groupKey = `group-${index}`
                                     return (
-                                        <Link
-                                            key={link.href}
-                                            to={link.href}
-                                            onClick={() =>
-                                                setMobileMenuOpen(false)
-                                            }
-                                            className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
-                                        >
-                                            {t(`index.nav.${link.labelKey}`)}
-                                        </Link>
+                                        <div key={groupKey} className="space-y-1">
+                                            <button
+                                                onClick={() =>
+                                                    setOpenDropdown(
+                                                        openDropdown === groupKey
+                                                            ? null
+                                                            : groupKey
+                                                    )
+                                                }
+                                                className="w-full px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors text-left flex items-center justify-between"
+                                            >
+                                                {t(`index.nav.group.${group.labelKey}`)}
+                                                <ChevronDown
+                                                    className={`h-4 w-4 transition-transform ${
+                                                        openDropdown === groupKey
+                                                            ? "rotate-180"
+                                                            : ""
+                                                    }`}
+                                                />
+                                            </button>
+                                            <div
+                                                className={`${
+                                                    openDropdown === groupKey
+                                                        ? "block"
+                                                        : "hidden"
+                                                } ml-4 space-y-1`}
+                                            >
+                                                {group.items?.map((item) => (
+                                                    <Link
+                                                        key={item.href}
+                                                        to={item.href}
+                                                        onClick={() => {
+                                                            setMobileMenuOpen(
+                                                                false
+                                                            )
+                                                            setOpenDropdown(
+                                                                null
+                                                            )
+                                                        }}
+                                                        className="block px-4 py-2 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
+                                                    >
+                                                        {t(
+                                                            `index.nav.${item.labelKey}`
+                                                        )}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
                                     )
                                 })}
                                 <div className="border-t border-white/20 dark:border-border my-2 pt-2">
@@ -572,7 +473,7 @@ const HeroSection = () => {
             </div>
 
             {/* Bottom fade transition to next section */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-background z-10" />
+            {/*<div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-background z-10" />*/}
         </section>
     )
 }
@@ -951,7 +852,7 @@ const EventsCarousel = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        <h4 className="font-semibold text-sm mb-2 group-hover:text-secondary transition-colors line-clamp-1">
+                                        <h4 className="font-semibold text-sm mb-2 group-hover:text-primary transition-colors line-clamp-1">
                                             {event.title}
                                         </h4>
                                         <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
@@ -978,7 +879,7 @@ const EventsCarousel = () => {
                                                 </span>
                                             )}
                                         </div>
-                                        <span className="inline-flex items-center gap-1 text-xs text-secondary opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                        <span className="inline-flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                                             {t("index.newsEvents.register")}
                                             <ArrowRight className="h-3 w-3" />
                                         </span>
@@ -1483,7 +1384,7 @@ const Footer = () => {
 /* ------------------------------------------------------------------ */
 
 const Index = () => (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background sarus">
         <HeroSection />
         <AboutSection />
         <NewsEventsSection />

@@ -2185,7 +2185,20 @@
             "events": "Eventos",
             "sutel": "SUTEL",
             "about": "Sobre",
-            "login": "Entrar"
+            "login": "Entrar",
+            "ourHistory": "Nossa História",
+            "leadership": "Liderança",
+            "memberStates": "Estados Membros",
+            "associatedMembers": "Membros Associados",
+            "group": {
+                "usfAdc": "USF-ADC",
+                "sutel": "SUTEL",
+                "projects": "Projetos",
+                "resources": "Recursos",
+                "about": "Sobre",
+                "membership": "Adesão",
+                "contact": "Contato"
+            }
         },
         "features": {
             "auth": {

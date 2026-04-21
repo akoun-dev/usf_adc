@@ -1730,7 +1730,20 @@
             "events": "Events",
             "sutel": "SUTEL",
             "about": "About",
-            "login": "Login"
+            "login": "Login",
+            "ourHistory": "Our History",
+            "leadership": "Leadership",
+            "memberStates": "Member States",
+            "associatedMembers": "Associated Members",
+            "group": {
+                "usfAdc": "USF-ADC",
+                "sutel": "SUTEL",
+                "projects": "Projects",
+                "resources": "Resources",
+                "about": "About",
+                "membership": "Membership",
+                "contact": "Contact"
+            }
         },
         "features": {
             "auth": {

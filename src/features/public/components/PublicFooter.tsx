@@ -142,12 +142,14 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
 
                 {/* Bottom Bar */}
                 <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
-                    <div className="flex flex-col items-center justify-between gap-3 sm:gap-4 text-center sm:text-left">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-3 sm:gap-4 text-center sm:text-left">
+
                         <p className="text-xs sm:text-sm text-muted-foreground">
                             © {new Date().getFullYear()}{" "}
                             {t("public.footer.rights")}
                         </p>
-                        <div className="flex gap-3 sm:gap-4 text-xs sm:text-sm">
+
+                        <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 text-xs sm:text-sm">
                             <Link
                                 to="/a-propos"
                                 className="text-muted-foreground hover:text-foreground"
@@ -161,6 +163,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                                 {t("public.footer.privacy")}
                             </Link>
                         </div>
+
                     </div>
                 </div>
             </div>

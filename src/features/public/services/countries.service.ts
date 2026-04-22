@@ -7,6 +7,13 @@ export interface Country {
   name_fr: string;
   name_en: string;
   region: string;
+  capital: string | null;
+  fsu_budget: number | null;
+  population: number | null;
+  fsu_coordinator_name: string | null;
+  fsu_coordinator_email: string | null;
+  fsu_coordinator_phone: string | null;
+  description: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -25,7 +32,7 @@ export async function fetchAllCountries(): Promise<Country[]> {
     .order('name_fr');
 
   if (error) throw error;
-  return data || [];
+  return (data || []) as Country[];
 }
 
 /**
@@ -39,7 +46,7 @@ export async function fetchCountriesByRegion(region: string): Promise<Country[]>
     .order('name_fr');
 
   if (error) throw error;
-  return data || [];
+  return (data || []) as Country[];
 }
 
 /**
@@ -57,7 +64,7 @@ export async function fetchCountryByISO(codeISO: string): Promise<Country | null
     throw error;
   }
 
-  return data;
+  return data as Country;
 }
 
 /**
@@ -75,7 +82,7 @@ export async function fetchCountryById(id: string): Promise<Country | null> {
     throw error;
   }
 
-  return data;
+  return data as Country;
 }
 
 /**
@@ -108,9 +115,9 @@ export async function fetchCountriesWithProjectCount(): Promise<CountryWithProje
 
   if (error) throw error;
 
-  return (data || []).map(country => ({
+  return ((data || []) as unknown as CountryWithProjects[]).map(country => ({
     ...country,
-    project_count: country.projects?.[0]?.count || 0,
+    project_count: (country as unknown as { projects?: { count: number }[] }).projects?.[0]?.count || 0,
   }));
 }
 
@@ -125,7 +132,7 @@ export async function searchCountries(query: string): Promise<Country[]> {
     .order('name_fr');
 
   if (error) throw error;
-  return data || [];
+  return (data || []) as Country[];
 }
 
 // Region constants for consistency

@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Globe, Filter, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { useCountries, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
+import { useCountriesWithProjectCount, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,7 +40,7 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
             />
           </div>
           <div className="absolute top-3 right-3">
-            <Badge className="bg-background/80 backdrop-blur-sm">
+            <Badge className="bg-green-200 text-green-800 hover:bg-green-800 hover:text-white">
               {country.region}
             </Badge>
           </div>
@@ -78,7 +78,7 @@ export default function CountriesDirectoryPage() {
   const itemsPerPage = 12;
 
   // Fetch countries - use search hook when searching, otherwise use all countries
-  const { data: allCountries = [] } = useCountries();
+  const { data: allCountries = [] } = useCountriesWithProjectCount();
   const { data: searchResults = [] } = useCountrySearch(searchQuery);
   const countries = searchQuery ? searchResults : (allCountries as CountryWithProjects[]);
 

@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Building2, Calendar, Flag, Mail, MapPin, Phone, TrendingUp, Users } from 'lucide-react';
+import { ArrowLeft, Building2, Calendar, DollarSign, Mail, MapPin, Phone, TrendingUp, User, Users } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { useCountryByISO, type Country } from '../hooks/useCountries';
+import { useCountryByISO } from '../hooks/useCountries';
 import { usePublicProjectsByCountry } from '../hooks/usePublicProjects';
 import type { ProjectWithDetails } from '../services/projects.service';
 import { Button } from '@/components/ui/button';
@@ -17,19 +17,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslation } from 'react-i18next';
 
+type TTranslate = (key: string, options?: Record<string, unknown>) => string;
 type CountryStatusFilter = 'all' | 'active' | 'completed';
 
-function getStatusLabels(t: (key: string) => string): Record<string, { label: string; color: string }> {
+function getStatusLabels(t: TTranslate): Record<string, { label: string; color: string }> {
   return {
     'planned': { label: t('public.memberCountries.status.planned'), color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
     'in_progress': { label: t('public.memberCountries.status.in_progress'), color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
@@ -38,7 +32,7 @@ function getStatusLabels(t: (key: string) => string): Record<string, { label: st
   };
 }
 
-function ProjectCard({ project, t }: { project: ProjectWithDetails; t: (key: string) => string }) {
+function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: TTranslate; locale: string }) {
   const statusLabels = getStatusLabels(t);
   const statusInfo = statusLabels[project.status] || statusLabels['planned'];
   const startDate = new Date(project.created_at);
@@ -62,7 +56,7 @@ function ProjectCard({ project, t }: { project: ProjectWithDetails; t: (key: str
         <div className="space-y-2 text-sm mb-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <TrendingUp className="h-4 w-4" />
-            <span>{t('public.memberCountries.project.budget')} {project.budget ? `${project.budget.toLocaleString('fr-FR')} FCFA` : t('public.memberCountries.project.budgetNotAvailable')}</span>
+            <span>{t('public.memberCountries.project.budget')} {project.budget ? `${project.budget.toLocaleString(locale)} FCFA` : t('public.memberCountries.project.budgetNotAvailable')}</span>
           </div>
           {project.beneficiaries && (
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -73,7 +67,7 @@ function ProjectCard({ project, t }: { project: ProjectWithDetails; t: (key: str
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
             <span>
-              {startDate.toLocaleDateString('fr-FR')} - {endDate.toLocaleDateString('fr-FR')}
+              {startDate.toLocaleDateString(locale)} - {endDate.toLocaleDateString(locale)}
             </span>
           </div>
           {project.latitude && project.longitude && (
@@ -100,10 +94,11 @@ function ProjectCard({ project, t }: { project: ProjectWithDetails; t: (key: str
 export default function CountryProjectsPage() {
   const { t, i18n } = useTranslation();
   const { countryCode } = useParams<{ countryCode: string }>();
-  const [selectedStatus, setSelectedStatus] = useState<CountryStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<CountryStatusFilter>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+
+  const locale = i18n.language === 'pt' ? 'pt-PT' : i18n.language === 'ar' ? 'ar-SA' : i18n.language === 'en' ? 'en-US' : 'fr-FR';
 
   const { data: country, isLoading: countryLoading } = useCountryByISO(countryCode ?? '');
   const { data: rawProjects = [], isLoading } = usePublicProjectsByCountry(countryCode ?? '');
@@ -114,27 +109,18 @@ export default function CountryProjectsPage() {
   );
 
   const projects = useMemo(() => {
-    let result = visibleProjects;
-
-    if (selectedStatus === 'active') {
-      result = result.filter((project) => project.status === 'in_progress');
-    } else if (selectedStatus === 'completed') {
-      result = result.filter((project) => project.status === 'completed');
-    }
-
     if (activeTab === 'active') {
-      result = result.filter((project) => project.status === 'in_progress');
+      return visibleProjects.filter((project) => project.status === 'in_progress');
     } else if (activeTab === 'completed') {
-      result = result.filter((project) => project.status === 'completed');
+      return visibleProjects.filter((project) => project.status === 'completed');
     }
-
-    return result;
-  }, [activeTab, selectedStatus, visibleProjects]);
+    return visibleProjects;
+  }, [activeTab, visibleProjects]);
 
   // Reset to page 1 when filters change
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
-  }, [selectedStatus, activeTab]);
+  }, [activeTab]);
 
   const totalPages = Math.ceil(projects.length / itemsPerPage);
   const paginatedProjects = useMemo(() => {
@@ -148,10 +134,6 @@ export default function CountryProjectsPage() {
     termines: visibleProjects.filter((project) => project.status === 'completed').length,
   }), [visibleProjects]);
 
-  const formatLocaleDate = (date: Date) => {
-    const locale = i18n.language === 'pt' ? 'pt-PT' : i18n.language === 'en' ? 'en-US' : 'fr-FR';
-    return date.toLocaleDateString(locale);
-  };
 
   if (countryLoading) {
     return (
@@ -177,13 +159,13 @@ export default function CountryProjectsPage() {
     );
   }
 
-  const countryName = i18n.language === 'fr' ? country.name_fr : country.name_en;
+  const countryName = i18n.language === 'en' ? country.name_en : country.name_fr;
   const countryCodeLower = country.code_iso.toLowerCase();
   const flagUrl = `https://flagcdn.com/w320/${countryCodeLower}.png`;
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-6xl px-4 py-8">
+      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/annuaire-pays-membres" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
@@ -202,12 +184,109 @@ export default function CountryProjectsPage() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h1 className="text-3xl sm:text-4xl font-bold mb-2">{countryName}</h1>
-                  <p className="text-muted-foreground">{country.code_iso.toUpperCase()}</p>
+
+                  {/* Country Details Section */}
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-2">
+                    {country.capital && (
+                      <span className="inline-flex items-center gap-1 text-sm">
+                        <Building2 className="h-4 w-4 text-primary shrink-0" />
+                        <span className="font-medium">
+                          {t("public.memberCountries.countryInfo.capital")} :
+                        </span>
+                        {country.capital}
+                      </span>
+                    )}
+
+                    {country.population && (
+                      <>
+                        <span className="text-muted-foreground px-2">|</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Users className="h-4 w-4 text-primary shrink-0" />
+                          <span className="font-medium">
+                            {t("public.memberCountries.countryInfo.population")} :
+                          </span>
+                          {country.population}
+                        </span>
+                      </>
+                    )}
+
+                    {country.fsu_budget != null && (
+                      <>
+                        <span className="text-muted-foreground px-2">|</span>
+                        <span className="inline-flex items-center gap-1">
+                          <DollarSign className="h-4 w-4 text-primary shrink-0" />
+                          <span className="font-medium">
+                            {t("public.memberCountries.countryInfo.fsuBudget")} :
+                          </span>
+                          {country.fsu_budget.toLocaleString(locale)} FCFA
+                        </span>
+                      </>
+                    )}
+
+                  </div>
+
+
+
+
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                    {country.fsu_coordinator_name && (
+                      <span className="inline-flex items-center gap-1 text-sm">
+                        <User className="h-4 w-4 text-primary shrink-0" />
+                        <span className="font-medium">
+                          {t("public.memberCountries.countryInfo.coordinatorName")} :
+                        </span>
+                        {country.fsu_coordinator_name}
+                      </span>
+                    )}
+
+                    {country.fsu_coordinator_email && (
+                      <>
+                        <span className="text-muted-foreground px-2">|</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Mail className="h-4 w-4 text-primary shrink-0" />
+                          <span className="font-medium">
+                            {t("public.memberCountries.countryInfo.coordinatorEmail")} :
+                          </span>
+                          <a href={`mailto:${country.fsu_coordinator_email}`} className="text-primary hover:underline">{country.fsu_coordinator_email}</a>
+                        </span>
+                      </>
+                    )}
+
+                    {country.fsu_coordinator_phone != null && (
+                      <>
+                        <span className="text-muted-foreground px-2">|</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Phone className="h-4 w-4 text-primary shrink-0" />
+                          <span className="font-medium">
+                            {t("public.memberCountries.countryInfo.coordinatorPhone")} :
+                          </span>
+                          {country.fsu_coordinator_phone}
+                        </span>
+                      </>
+                    )}
+
+                  </div>
+
+
+
+
+
+
+
                 </div>
                 <Badge className="bg-primary/10 text-primary">{country.region}</Badge>
               </div>
             </div>
           </div>
+
+
+
+          {country.description && (
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold mb-2">{t('public.memberCountries.countryInfo.description')}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{country.description}</p>
+            </div>
+          )}
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
@@ -231,23 +310,6 @@ export default function CountryProjectsPage() {
           </Card>
         </div>
 
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <Select value={selectedStatus} onValueChange={(value) => setSelectedStatus(value as CountryStatusFilter)}>
-                <SelectTrigger className="w-[220px]">
-                  <SelectValue placeholder={t('public.memberCountries.filters.status')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t('public.memberCountries.filters.allProjects')}</SelectItem>
-                  <SelectItem value="active">{t('public.memberCountries.filters.activeProjects')}</SelectItem>
-                  <SelectItem value="completed">{t('public.memberCountries.filters.completedProjects')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
-
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as CountryStatusFilter)} className="mb-8">
           <TabsList className="grid w-full max-w-md grid-cols-3">
             <TabsTrigger value="all">{t('public.memberCountries.tabs.all')} ({stats.total})</TabsTrigger>
@@ -267,7 +329,7 @@ export default function CountryProjectsPage() {
           <>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} t={t} />
+                <ProjectCard key={project.id} project={project} t={t} locale={locale} />
               ))}
             </div>
 

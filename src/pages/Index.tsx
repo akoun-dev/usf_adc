@@ -99,59 +99,6 @@ const HeroSection = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
-    const navGroups = useMemo(
-        () => [
-            {
-                label: t("index.nav.group.usfAdc"),
-                labelKey: "usfAdc",
-                items: [
-                    { href: "/", labelKey: "home" },
-                    { href: "/annuaire-pays-membres", labelKey: "countries" },
-                ],
-            },
-            {
-                label: t("index.nav.group.projects"),
-                labelKey: "projects",
-                items: [
-                    { href: "/carte-public", labelKey: "map" },
-                    { href: "/projets", labelKey: "projects" },
-                    { href: "/calendrier", labelKey: "events" },
-                ],
-            },
-            {
-                label: t("index.nav.group.resources"),
-                labelKey: "resources",
-                items: [
-                    { href: "/documents-publics", labelKey: "documents" },
-                    { href: "/actualites", labelKey: "news" },
-                    { href: "/forum-public", labelKey: "forum" },
-                ],
-            },
-            {
-                label: t("index.nav.group.about"),
-                labelKey: "about",
-                items: [
-                    { href: "/notre-histoire", labelKey: "ourHistory" },
-                    { href: "/equipe-direction", labelKey: "leadership" },
-                    { href: "/faq-public", labelKey: "faq" },
-                ],
-            },
-            {
-                label: t("index.nav.group.sutel"),
-                href: "/sutel",
-                labelKey: "sutel",
-            },
-            {
-                label: t("index.nav.group.membership"),
-                labelKey: "membership",
-                items: [
-                    { href: "/annuaire-pays-membres", labelKey: "memberStates" },
-                    { href: "/membres-associes", labelKey: "associatedMembers" },
-                ],
-            },
-        ],
-        []
-    )
 
     return (
         <section className=" relative h-[800px] sm:h-[550px] md:h-[650px] lg:h-[700px] xl:h-[800px] 2xl:h-[1000px] flex items-center">

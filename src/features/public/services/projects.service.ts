@@ -74,6 +74,20 @@ export async function fetchPublicProjects(): Promise<ProjectWithDetails[]> {
  * Fetches projects by country ISO code
  */
 export async function fetchProjectsByCountryCode(countryCode: string): Promise<ProjectWithDetails[]> {
+  // First, resolve the country ISO code to a country ID
+  const { data: country, error: countryError } = await supabase
+    .from('countries')
+    .select('id')
+    .eq('code_iso', countryCode)
+    .single();
+
+  if (countryError) {
+    if (countryError.code === 'PGRST116') return []; // Country not found
+    throw countryError;
+  }
+  if (!country) return [];
+
+  // Then fetch projects filtered by country_id
   const { data, error } = await supabase
     .from('projects')
     .select(`
@@ -82,7 +96,7 @@ export async function fetchProjectsByCountryCode(countryCode: string): Promise<P
       project_images(image_url),
       project_tags(tag)
     `)
-    .eq('country.code_iso', countryCode)
+    .eq('country_id', country.id)
     .order('created_at', { ascending: false });
 
   if (error) throw error;

@@ -115,7 +115,7 @@ export default function AdminDashboard() {
             title: t("admin.users", "Utilisateurs"),
             description: t(
                 "admin.usersDesc",
-                "Gérer les utilisateurs et leurs droits"
+                "Manage users and their permissions"
             ),
             icon: Users,
             route: "/admin/users",
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
             title: t("admin.invitations", "Invitations"),
             description: t(
                 "admin.invitationsDesc",
-                "Gérer les invitations en cours"
+                "Manage pending invitations"
             ),
             icon: Users2,
             route: "/admin/invitations",
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
             title: t("admin.countries", "Pays"),
             description: t(
                 "admin.countriesDesc",
-                "Gérer les pays et leurs représentants"
+                "Manage countries and their representatives"
             ),
             icon: Globe,
             route: "/admin/countries",
@@ -154,7 +154,7 @@ export default function AdminDashboard() {
             title: t("admin.news", "Actualités"),
             description: t(
                 "admin.newsDesc",
-                "Gérer les articles et actualités"
+                "Manage articles and news"
             ),
             icon: Newspaper,
             route: "/admin/news",
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
         {
             id: "projects",
             title: t("admin.projects", "Projets"),
-            description: t("admin.projectsDesc", "Gérer les projets FSU"),
+            description: t("admin.projectsDesc", "Manage USF projects"),
             icon: Map,
             route: "/admin/projects",
             color: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
             title: t("admin.documents", "Documents"),
             description: t(
                 "admin.documentsDesc",
-                "Gérer la bibliothèque documentaire"
+                "Manage document library"
             ),
             icon: FileText,
             route: "/admin/documents",
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
             title: t("admin.events", "Événements"),
             description: t(
                 "admin.eventsDesc",
-                "Gérer le calendrier des événements"
+                "Manage events calendar"
             ),
             icon: Calendar,
             route: "/admin/events",
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
             title: t("admin.forum", "Forum"),
             description: t(
                 "admin.forumDesc",
-                "Gérer les catégories et contenu du forum"
+                "Manage forum categories and content"
             ),
             icon: MessageSquare,
             route: "/admin/forum",
@@ -216,7 +216,7 @@ export default function AdminDashboard() {
             title: t("admin.newsletters", "Bulletins"),
             description: t(
                 "admin.newslettersDesc",
-                "Créer et gérer les newsletters"
+                "Create and manage newsletters"
             ),
             icon: Newspaper,
             route: "/admin/newsletters",
@@ -246,7 +246,7 @@ export default function AdminDashboard() {
                 <Card className="border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-2">
                         <CardDescription className="text-xs font-medium">
-                            {t("admin.totalUsers", "Total Utilisateurs")}
+                            {t("admin.totalUsers", "Total Users")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -258,7 +258,7 @@ export default function AdminDashboard() {
                                 <p className="text-xs text-muted-foreground mt-1">
                                     {t(
                                         "admin.activeAccounts",
-                                        "Comptes actifs"
+                                        "Active accounts"
                                     )}
                                 </p>
                             </div>
@@ -272,7 +272,7 @@ export default function AdminDashboard() {
                         <CardDescription className="text-xs font-medium">
                             {t(
                                 "admin.pendingInvitations",
-                                "Invitations en attente"
+                                "Pending Invitations"
                             )}
                         </CardDescription>
                     </CardHeader>
@@ -285,7 +285,7 @@ export default function AdminDashboard() {
                                     {pendingInvitations}
                                 </CardTitle>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    {t("admin.toProcess", "À traiter")}
+                                    {t("admin.toProcess", "To process")}
                                 </p>
                             </div>
                             <Clock className="h-8 w-8 text-cyan-500/20" />
@@ -296,7 +296,7 @@ export default function AdminDashboard() {
                 <Card className="border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-2">
                         <CardDescription className="text-xs font-medium">
-                            {t("admin.activeProjects", "Projets Actifs")}
+                            {t("admin.activeProjects", "Active Projects")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -306,7 +306,7 @@ export default function AdminDashboard() {
                                     {activeProjects}
                                 </CardTitle>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    {t("admin.inProgress", "En cours")}
+                                    {t("admin.inProgress", "In progress")}
                                 </p>
                             </div>
                             <TrendingUp className="h-8 w-8 text-purple-500/20" />
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                 <Card className="border-l-4 border-l-amber-500 hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-2">
                         <CardDescription className="text-xs font-medium">
-                            {t("admin.publishedContent", "Contenu")}
+                            {t("admin.publishedContent", "Content")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -343,10 +343,10 @@ export default function AdminDashboard() {
                     <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
                             <Users className="h-5 w-5 text-blue-600" />
-                            {t("admin.recentUsers", "Utilisateurs Récents")}
+                            {t("admin.recentUsers", "Recent Users")}
                         </CardTitle>
                         <CardDescription>
-                            {t("admin.lastUsers", "5 derniers")}
+                            {t("admin.lastUsers", "Last 5")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -373,7 +373,7 @@ export default function AdminDashboard() {
                                     ))
                             ) : (
                                 <p className="text-sm text-muted-foreground text-center py-4">
-                                    {t("admin.noData", "Aucune donnée")}
+                                    {t("admin.noData", "No data")}
                                 </p>
                             )}
                         </div>
@@ -382,7 +382,7 @@ export default function AdminDashboard() {
                             className="w-full mt-4 text-primary hover:text-primary hover:bg-primary/10"
                             onClick={() => navigate("/admin/users")}
                         >
-                            {t("common.viewAll", "Voir tous")}{" "}
+                            {t("common.viewAll", "View all")}{" "}
                             <ArrowRight className="h-4 w-4 ml-2" />
                         </Button>
                     </CardContent>
@@ -401,8 +401,8 @@ export default function AdminDashboard() {
                         </CardTitle>
                         <CardDescription>
                             {pendingInvitations > 0
-                                ? t("admin.actionRequired", "Action requise")
-                                : t("admin.allResolved", "Tout à jour")}
+                                ? t("admin.actionRequired", "Action required")
+                                : t("admin.allResolved", "All resolved")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -435,7 +435,7 @@ export default function AdminDashboard() {
                                 <p className="text-sm text-muted-foreground text-center py-4">
                                     {t(
                                         "admin.noInvitations",
-                                        "Aucune invitation"
+                                        "No invitations"
                                     )}
                                 </p>
                             )}
@@ -445,7 +445,7 @@ export default function AdminDashboard() {
                             className="w-full mt-4 text-primary hover:text-primary hover:bg-primary/10"
                             onClick={() => navigate("/admin/invitations")}
                         >
-                            {t("common.manage", "Gérer")}{" "}
+                            {t("common.manage", "Manage")}{" "}
                             <ArrowRight className="h-4 w-4 ml-2" />
                         </Button>
                     </CardContent>
@@ -459,7 +459,7 @@ export default function AdminDashboard() {
                             {t("admin.activeProjects", "Projets Actifs")}
                         </CardTitle>
                         <CardDescription>
-                            {t("admin.currentProjects", "En cours")}
+                            {t("admin.currentProjects", "Current projects")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -487,7 +487,7 @@ export default function AdminDashboard() {
                                     ))
                             ) : (
                                 <p className="text-sm text-muted-foreground text-center py-4">
-                                    {t("admin.noProjects", "Aucun projet")}
+                                    {t("admin.noProjects", "No projects")}
                                 </p>
                             )}
                         </div>
@@ -496,7 +496,7 @@ export default function AdminDashboard() {
                             className="w-full mt-4 text-primary hover:text-primary hover:bg-primary/10"
                             onClick={() => navigate("/admin/projects")}
                         >
-                            {t("common.viewAll", "Voir tous")}{" "}
+                            {t("common.viewAll", "View all")}{" "}
                             <ArrowRight className="h-4 w-4 ml-2" />
                         </Button>
                     </CardContent>
@@ -507,12 +507,12 @@ export default function AdminDashboard() {
             <Card className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                     <CardTitle>
-                        {t("admin.quickAccess", "Accès rapide")}
+                        {t("admin.quickAccess", "Quick access")}
                     </CardTitle>
                     <CardDescription>
                         {t(
                             "admin.navigate",
-                            "Naviguez vers les sections de gestion"
+                            "Navigate to management sections"
                         )}
                     </CardDescription>
                 </CardHeader>

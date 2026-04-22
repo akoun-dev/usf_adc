@@ -1,7 +1,6 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { useUnreadCount } from "@/features/notifications"
-import { ROLE_LABELS } from "@/core/constants/roles"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, Settings, Newspaper, FileText, Calendar, MessageSquare, Globe } from "lucide-react"
 import atuLogo from "@/assets/atu-uat-logo.png"
@@ -23,7 +22,7 @@ export default function AppLayout() {
     const { t } = useTranslation()
 
     const role = highestRole()
-    const roleLabel = role ? ROLE_LABELS[role] : ""
+    const roleLabel = role ? t(`roles.${role}`) : ""
 
     // Extract current page information from route
     const getPageInfo = () => {

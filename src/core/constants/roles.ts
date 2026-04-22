@@ -30,10 +30,14 @@ export const TICKET_STATUS = {
     CLOSED: "closed" as const,
 }
 
+/**
+ * @deprecated Use getRoleLabel(role, t) from utils/roles instead for i18n support
+ * This will be removed in a future version
+ */
 export const ROLE_LABELS: Record<AppRole, string> = {
     point_focal: "Point Focal National",
     country_admin: "Administrateur Pays",
-    super_admin: "SUPER ADMINISTRATEUR",
+    super_admin: "Super Admin",
 }
 
 export const STATUS_LABELS: Record<SubmissionStatus, string> = {

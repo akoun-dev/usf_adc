@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Clock, Share2, Tag as TagIcon } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { mockNews } from '../data/mockNews';
+import { useNewsArticle, usePublicNews } from '../hooks/usePublicNews';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,7 +11,19 @@ import { useTranslation } from 'react-i18next';
 export default function NewsDetailPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const article = mockNews.find(n => n.id === id);
+  const { data: article, isLoading } = useNewsArticle(id ?? '');
+  const { data: allNews = [] } = usePublicNews(20);
+
+  if (isLoading) {
+    return (
+      <PublicLayout>
+        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-sm text-muted-foreground">Chargement...</p>
+        </div>
+      </PublicLayout>
+    );
+  }
 
   if (!article) {
     return (
@@ -134,7 +146,7 @@ export default function NewsDetailPage() {
         <div className="mt-12 pt-8 border-t">
           <h2 className="text-2xl font-bold mb-6">Articles similaires</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {mockNews
+            {allNews
               .filter(n => n.id !== article.id && (n.category === article.category || n.tags?.some(t => article.tags?.includes(t))))
               .slice(0, 2)
               .map((related) => (

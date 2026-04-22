@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, MapPin, Users, Clock, ExternalLink, Share2 } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Users, ExternalLink, Share2 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { mockEvents } from '../data/mockEvents';
+import { useEvent } from '../hooks/usePublicEvents';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +13,9 @@ const getEventTypeLabel = (type: string) => {
     'conference': 'Conférence',
     'webinar': 'Webinaire',
     'workshop': 'Atelier',
+    'training': 'Formation',
+    'meeting': 'Réunion',
+    'other': 'Autre',
   };
   return labels[type] || type;
 };
@@ -22,6 +25,9 @@ const getEventTypeColor = (type: string) => {
     'conference': 'bg-blue-500/10 text-blue-700 dark:text-blue-400',
     'webinar': 'bg-purple-500/10 text-purple-700 dark:text-purple-400',
     'workshop': 'bg-green-500/10 text-green-700 dark:text-green-400',
+    'training': 'bg-orange-500/10 text-orange-700 dark:text-orange-400',
+    'meeting': 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400',
+    'other': 'bg-gray-500/10 text-gray-700',
   };
   return colors[type] || 'bg-gray-500/10 text-gray-700';
 };
@@ -29,7 +35,18 @@ const getEventTypeColor = (type: string) => {
 export default function EventDetailPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const event = mockEvents.find(e => e.id === id);
+  const { data: event, isLoading } = useEvent(id ?? '');
+
+  if (isLoading) {
+    return (
+      <PublicLayout>
+        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-sm text-muted-foreground">Chargement...</p>
+        </div>
+      </PublicLayout>
+    );
+  }
 
   if (!event) {
     return (

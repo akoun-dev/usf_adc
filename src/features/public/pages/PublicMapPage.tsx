@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { toast } from 'sonner';
 import PageHero from '@/components/PageHero';
 import { PublicLayout } from '../components/PublicLayout';
-import { mockMemberCountries, REGIONS } from '../data/mockCountries';
+import { useRegions, useCountries, REGIONS } from '../hooks/useCountries';
 import { usePublicProjects } from '../hooks/usePublicProjects';
 import type { ProjectWithDetails } from '../services/projects.service';
 import { Card, CardContent } from '@/components/ui/card';
@@ -121,6 +121,7 @@ export default function PublicMapPage() {
     const mapContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: publicProjects = [], isLoading } = usePublicProjects();
+    const { data: countries = [] } = useCountries();
     const { t } = useTranslation();
 
     // First, filter the projects (keeping the original type)
@@ -744,6 +745,7 @@ export default function PublicMapPage() {
                                             )
                                         ) : (
                                             <CountriesMap
+                                                countries={countries}
                                                 projectsByCountry={projectsByCountry}
                                                 onCountryClick={(code) => setSelectedCountryCode(code)}
                                                 selectedCountryCode={selectedCountryCode}

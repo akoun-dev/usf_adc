@@ -15,11 +15,13 @@ import {
     Calendar,
     MessageSquare,
     Map,
+    Bot,
 } from "lucide-react"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { PlatformSettingsTab } from "../components/PlatformSettingsTab"
 import { CountriesTab } from "../components/CountriesTab"
 import { FsuSettingsTab } from "../components/FsuSettingsTab"
+import { AISettingsTab } from "../components/AISettingsTab"
 import { AuditLogsTab } from "../components/AuditLogsTab"
 import { BackupsTab } from "../components/BackupsTab"
 import { ApiKeysTab } from "../components/ApiKeysTab"
@@ -51,6 +53,7 @@ export default function AdminPage() {
 
     const tabTitles: Record<string, string> = {
         settings: "admin.settings",
+        ai: "admin.aiSettings",
         countries: "admin.countries",
         fsu: "admin.fsuSubmissions",
         workflow: "admin.workflow",
@@ -91,6 +94,12 @@ export default function AdminPage() {
                         <TabsTrigger value="settings">
                             <Settings className="mr-2 h-4 w-4" />
                             {t("admin.settings")}
+                        </TabsTrigger>
+                    )}
+                    {isGlobalAdmin && isMainAdmin && (
+                        <TabsTrigger value="ai">
+                            <Bot className="mr-2 h-4 w-4" />
+                            {t("admin.aiSettings", "Assistant IA")}
                         </TabsTrigger>
                     )}
                     {isMainAdmin && (
@@ -154,6 +163,11 @@ export default function AdminPage() {
                 {isGlobalAdmin && isMainAdmin && (
                     <TabsContent value="settings">
                         <PlatformSettingsTab />
+                    </TabsContent>
+                )}
+                {isGlobalAdmin && isMainAdmin && (
+                    <TabsContent value="ai">
+                        <AISettingsTab />
                     </TabsContent>
                 )}
                 {isMainAdmin && (

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Building2, Calendar, Flag, Mail, MapPin, Phone, TrendingUp, Users } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { mockMemberCountries } from '../data/mockCountries';
+import { useCountryByISO, type Country } from '../hooks/useCountries';
 import { usePublicProjectsByCountry } from '../hooks/usePublicProjects';
 import type { ProjectWithDetails } from '../services/projects.service';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTranslation } from 'react-i18next';
 
 type CountryStatusFilter = 'all' | 'active' | 'completed';
 
@@ -91,13 +92,14 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
 }
 
 export default function CountryProjectsPage() {
+  const { t, i18n } = useTranslation();
   const { countryCode } = useParams<{ countryCode: string }>();
   const [selectedStatus, setSelectedStatus] = useState<CountryStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<CountryStatusFilter>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const country = mockMemberCountries.find((item) => item.code === countryCode);
+  const { data: country, isLoading: countryLoading } = useCountryByISO(countryCode ?? '');
   const { data: rawProjects = [], isLoading } = usePublicProjectsByCountry(countryCode ?? '');
 
   const visibleProjects = useMemo(
@@ -140,6 +142,17 @@ export default function CountryProjectsPage() {
     termines: visibleProjects.filter((project) => project.status === 'completed').length,
   }), [visibleProjects]);
 
+  if (countryLoading) {
+    return (
+      <PublicLayout>
+        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-sm text-muted-foreground">Chargement...</p>
+        </div>
+      </PublicLayout>
+    );
+  }
+
   if (!country) {
     return (
       <PublicLayout>
@@ -152,6 +165,10 @@ export default function CountryProjectsPage() {
       </PublicLayout>
     );
   }
+
+  const countryName = i18n.language === 'fr' ? country.name_fr : country.name_en;
+  const countryCodeLower = country.code_iso.toLowerCase();
+  const flagUrl = `https://flagcdn.com/w320/${countryCodeLower}.png`;
 
   return (
     <PublicLayout>
@@ -166,94 +183,21 @@ export default function CountryProjectsPage() {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             <img
-              src={country.flagUrl}
-              alt={`Drapeau ${country.name}`}
+              src={flagUrl}
+              alt={`Drapeau ${countryName}`}
               className="w-32 h-auto rounded-lg shadow-lg"
             />
             <div className="flex-1">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl sm:text-4xl font-bold mb-2">{country.name}</h1>
-                  <p className="text-muted-foreground">{country.officialName}</p>
+                  <h1 className="text-3xl sm:text-4xl font-bold mb-2">{countryName}</h1>
+                  <p className="text-muted-foreground">{country.code_iso.toUpperCase()}</p>
                 </div>
                 <Badge className="bg-primary/10 text-primary">{country.region}</Badge>
-              </div>
-
-              <p className="text-muted-foreground mb-6 max-w-3xl">
-                {country.description}
-              </p>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Flag className="h-4 w-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">Capital</span>
-                    </div>
-                    <p className="font-semibold">{country.capital}</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Users className="h-4 w-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">Population</span>
-                    </div>
-                    <p className="font-semibold">{country.population}</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="h-4 w-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">Budget FSU</span>
-                    </div>
-                    <p className="font-semibold">{country.fsuBudget}</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Calendar className="h-4 w-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">FSU etabli</span>
-                    </div>
-                    <p className="font-semibold">{country.fsuEstablished}</p>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
         </div>
-
-        <Card className="mb-8 bg-primary/5 border-primary/20">
-          <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row items-start justify-between gap-6">
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Building2 className="h-5 w-5 text-primary" />
-                  Coordonnees FSU {country.name}
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-muted-foreground">Coordinateur:</span>
-                    <span className="font-medium">{country.coordinator}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <a href={`mailto:${country.email}`} className="text-primary hover:underline">
-                      {country.email}
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <span>{country.phone}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <Card>

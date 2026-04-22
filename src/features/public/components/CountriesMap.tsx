@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { mockMemberCountries } from '../data/mockCountries';
 import { AFRICAN_COUNTRIES_GEOJSON, getCountryGeoJSON } from '../data/africanCountriesGeoJSON';
 import type { Project } from '@/features/projects-map/types';
 
 interface Props {
+    countries: Array<{
+        code_iso: string;
+        name_fr: string;
+        name_en: string;
+        region: string;
+    }>;
     projectsByCountry: Record<string, Project[]>;
     onCountryClick?: (countryCode: string) => void;
     selectedCountryCode?: string | null;
@@ -47,7 +52,7 @@ function getCountryCentroid(geoData: GeoJSON.Feature): { lat: number; lng: numbe
     return { lat: totalLat / count, lng: totalLng / count };
 }
 
-export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountryCode, mapMode = 'carte' }: Props) {
+export function CountriesMap({ countries, projectsByCountry, onCountryClick, selectedCountryCode, mapMode = 'carte' }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<L.Map | null>(null);
     const tileLayerRef = useRef<L.TileLayer | null>(null);
@@ -135,22 +140,22 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
         const bounds: L.LatLngBoundsExpression = [];
         let countriesRendered = 0;
 
-        mockMemberCountries.forEach((country) => {
-            const geoData = getCountryGeoJSON(country.code);
+        countries.forEach((country) => {
+            const geoData = getCountryGeoJSON(country.code_iso);
             if (!geoData) {
-                console.warn(`[CountriesMap] ⚠️ No GeoJSON for ${country.code}`);
+                console.warn(`[CountriesMap] ⚠️ No GeoJSON for ${country.code_iso}`);
                 return;
             }
 
-            const countryProjects = projectsByCountry[country.code] || [];
+            const countryProjects = projectsByCountry[country.code_iso] || [];
             const projectCount = countryProjects.length;
-            const isSelected = selectedCountryCode === country.code;
+            const isSelected = selectedCountryCode === country.code_iso;
 
-            console.log(`[CountriesMap] 📍 ${country.code}: ${projectCount} projects`);
+            console.log(`[CountriesMap] 📍 ${country.code_iso}: ${projectCount} projects`);
 
             const centroid = getCountryCentroid(geoData.geojson);
             if (!centroid) {
-                console.warn(`[CountriesMap] ⚠️ No centroid for ${country.code}`);
+                console.warn(`[CountriesMap] ⚠️ No centroid for ${country.code_iso}`);
                 return;
             }
 
@@ -177,19 +182,21 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
                 });
 
                 // Calculate project stats for this country
-                const countryProjects = projectsByCountry[country.code] || [];
                 const activeCount = countryProjects.filter(p => p.status === 'in_progress').length;
                 const completedCount = countryProjects.filter(p => p.status === 'completed').length;
                 const totalBudget = countryProjects.reduce((sum, p) => sum + (p.budget || 0), 0);
+
+                // Generate flag URL
+                const flagUrl = `https://flagcdn.com/w48/${country.code_iso.toLowerCase()}.png`;
 
                 // Create popup content with enhanced information
                 const popupContent = document.createElement('div');
                 popupContent.style.cssText = 'min-width: 280px; font-family: system-ui, sans-serif;';
                 popupContent.innerHTML = `
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-            <img src="${country.flagUrl}" alt="${country.name}" style="width: 48px; height: 32px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);" />
+            <img src="${flagUrl}" alt="${country.name_fr}" style="width: 48px; height: 32px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);" />
             <div style="flex: 1;">
-              <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #1a1a1a;">${country.name}</h3>
+              <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #1a1a1a;">${country.name_fr}</h3>
               <p style="margin: 2px 0 0; font-size: 13px; color: #666; font-weight: 500;">${country.region}</p>
             </div>
           </div>
@@ -205,30 +212,7 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
             ` : ''}
           </div>
 
-          ${projectCount > 0 ? `
-            <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
-              <div style="display: grid; grid-cols: 2; gap: 8px; font-size: 13px;">
-                <div>
-                  <div style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Budget FSU</div>
-                  <div style="font-weight: 600; color: #1e293b;">${country.fsuBudget}</div>
-                </div>
-                <div>
-                  <div style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Population</div>
-                  <div style="font-weight: 600; color: #1e293b;">${country.population}</div>
-                </div>
-                <div>
-                  <div style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Établi en</div>
-                  <div style="font-weight: 600; color: #1e293b;">${country.fsuEstablished}</div>
-                </div>
-                <div>
-                  <div style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Coordinateur</div>
-                  <div style="font-weight: 600; color: #1e293b; font-size: 12px;">${country.coordinator.split(' ')[0]}</div>
-                </div>
-              </div>
-            </div>
-          ` : ''}
-
-          <a href="/projets-pays/${country.code}" style="display: block; text-align: center; background: linear-gradient(135deg, #3388ff 0%, #2563eb 100%); color: white; padding: 12px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(51, 136, 255, 0.3); transition: all 0.2s;">
+          <a href="/projets-pays/${country.code_iso}" style="display: block; text-align: center; background: linear-gradient(135deg, #3388ff 0%, #2563eb 100%); color: white; padding: 12px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(51, 136, 255, 0.3); transition: all 0.2s;">
             Voir tous les projets →
           </a>
         `;
@@ -237,8 +221,8 @@ export function CountriesMap({ projectsByCountry, onCountryClick, selectedCountr
 
                 // Click handler
                 marker.on('click', () => {
-                    console.log(`[CountriesMap] 🖱️ Clicked on ${country.code}`);
-                    onCountryClick?.(country.code);
+                    console.log(`[CountriesMap] 🖱️ Clicked on ${country.code_iso}`);
+                    onCountryClick?.(country.code_iso);
                 });
 
                 // Hover effect

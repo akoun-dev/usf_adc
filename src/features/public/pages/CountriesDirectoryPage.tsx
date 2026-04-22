@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Globe, Filter, ArrowRight, Flag } from 'lucide-react';
+import { Search, Globe, Filter, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
-import { mockMemberCountries, REGION_NAMES, REGIONS } from '../data/mockCountries';
+import { useCountries, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,20 +17,25 @@ import {
 } from '@/components/ui/select';
 import PageHero from '@/components/PageHero';
 
-function CountryCard({ country }: { country: typeof mockMemberCountries[0] }) {
+function CountryCard({ country }: { country: CountryWithProjects }) {
+  const { i18n } = useTranslation();
+  const countryCode = country.code_iso.toLowerCase();
+  const flagUrl = `https://flagcdn.com/w320/${countryCode}.png`;
+  const countryName = i18n.language === 'fr' ? country.name_fr : country.name_en;
+
   return (
-    <Link to={`/projets-pays/${country.code}`} className="block">
+    <Link to={`/projets-pays/${country.code_iso}`} className="block">
       <Card className="hover:shadow-xl transition-all duration-300 group h-full overflow-hidden">
         <div className="relative h-32 bg-gradient-to-br from-primary/10 via-primary/5 to-background overflow-hidden">
           <img
-            src={country.flagUrl}
-            alt={`Drapeau ${country.name}`}
+            src={flagUrl}
+            alt={`Flag ${countryName}`}
             className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity"
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <img
-              src={country.flagUrl}
-              alt={`Drapeau ${country.name}`}
+              src={flagUrl}
+              alt={`Flag ${countryName}`}
               className="h-20 w-auto drop-shadow-2xl"
             />
           </div>
@@ -42,14 +47,14 @@ function CountryCard({ country }: { country: typeof mockMemberCountries[0] }) {
         </div>
         <CardContent className="p-5">
           <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
-            {country.name}
+            {countryName}
           </h3>
-          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-            {country.description}
+          <p className="text-sm text-muted-foreground mb-3">
+            {country.code_iso.toUpperCase()}
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">{country.projectCount}</span> projets
+              <span className="font-semibold text-foreground">{country.project_count || 0}</span> projets
             </span>
             <span className="text-primary flex items-center gap-1 text-sm font-medium">
               Voir
@@ -63,48 +68,41 @@ function CountryCard({ country }: { country: typeof mockMemberCountries[0] }) {
 }
 
 export default function CountriesDirectoryPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [search, setSearch] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('all');
-  const [sortBy, setSortBy] = useState<'name' | 'projects' | 'budget'>('name');
+  const [sortBy, setSortBy] = useState<'name' | 'projects'>('name');
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const itemsPerPage = 12;
 
+  // Fetch countries - use search hook when searching, otherwise use all countries
+  const { data: allCountries = [] } = useCountries();
+  const { data: searchResults = [] } = useCountrySearch(searchQuery);
+  const countries = searchQuery ? searchResults : (allCountries as CountryWithProjects[]);
+
   const filteredAndSortedCountries = useMemo(() => {
-    let result = [...mockMemberCountries];
+    let result = [...countries];
 
     // Filter by region
     if (selectedRegion !== 'all') {
       result = result.filter(c => c.region === selectedRegion);
     }
 
-    // Filter by search
-    if (search) {
-      const searchLower = search.toLowerCase();
-      result = result.filter(c =>
-        c.name.toLowerCase().includes(searchLower) ||
-        c.officialName.toLowerCase().includes(searchLower)
-      );
-    }
-
     // Sort
     result.sort((a, b) => {
       if (sortBy === 'name') {
-        return a.name.localeCompare(b.name, 'fr');
-      } else if (sortBy === 'projects') {
-        return b.projectCount - a.projectCount;
+        const nameA = i18n.language === 'fr' ? a.name_fr : a.name_en;
+        const nameB = i18n.language === 'fr' ? b.name_fr : b.name_en;
+        return nameA.localeCompare(nameB, i18n.language);
       } else {
-        const parseBudget = (budget: string) => {
-          const match = budget.match(/(\d+)/);
-          return match ? parseInt(match[1]) : 0;
-        };
-        return parseBudget(b.fsuBudget) - parseBudget(a.fsuBudget);
+        return (b.project_count || 0) - (a.project_count || 0);
       }
     });
 
     return result;
-  }, [search, selectedRegion, sortBy]);
+  }, [countries, selectedRegion, sortBy, i18n.language]);
 
   // Pagination
   const totalPages = Math.ceil(filteredAndSortedCountries.length / itemsPerPage);
@@ -115,6 +113,7 @@ export default function CountriesDirectoryPage() {
   // Reset page when filters change
   const handleSearchChange = (value: string) => {
     setSearch(value);
+    setSearchQuery(value);
     setCurrentPage(1);
   };
 
@@ -124,18 +123,33 @@ export default function CountriesDirectoryPage() {
   };
 
   const handleSortChange = (value: string) => {
-    setSortBy(value as 'name' | 'projects' | 'budget');
+    setSortBy(value as 'name' | 'projects');
     setCurrentPage(1);
   };
 
   // Statistics
   const stats = useMemo(() => {
     return {
-      totalCountries: mockMemberCountries.length,
-      totalProjects: mockMemberCountries.reduce((sum, c) => sum + c.projectCount, 0),
-      totalRegions: REGIONS.length,
+      totalCountries: allCountries.length,
+      totalProjects: allCountries.reduce((sum, c) => sum + (c.project_count || 0), 0),
+      totalRegions: new Set(allCountries.map(c => c.region)).size,
     };
-  }, []);
+  }, [allCountries]);
+
+  // Get unique regions from countries
+  const regions = useMemo(() => {
+    return Array.from(new Set(allCountries.map(c => c.region))).sort();
+  }, [allCountries]);
+
+  // Region name mapping
+  const regionNames: Record<string, string> = {
+    'CEDEAO': 'Communauté Économique des États de l\'Afrique de l\'Ouest',
+    'EAC': 'East African Community',
+    'SADC': 'Southern African Development Community',
+    'UMA': 'Union du Maghreb Arabe',
+    'CEEAC': 'Communauté Économique et Monétaire de l\'Afrique Centrale',
+    'North Africa': 'Afrique du Nord',
+  };
 
   return (
     <PublicLayout>
@@ -191,7 +205,7 @@ export default function CountriesDirectoryPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Toutes les régions</SelectItem>
-                  {REGIONS.map((region) => (
+                  {regions.map((region) => (
                     <SelectItem key={region} value={region}>
                       {region}
                     </SelectItem>
@@ -207,7 +221,6 @@ export default function CountriesDirectoryPage() {
                 <SelectContent>
                   <SelectItem value="name">Nom A-Z</SelectItem>
                   <SelectItem value="projects">Nombre de projets</SelectItem>
-                  <SelectItem value="budget">Budget FSU</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -325,9 +338,9 @@ export default function CountriesDirectoryPage() {
                 Aperçu par Région
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {REGIONS.map((region) => {
-                  const countriesInRegion = mockMemberCountries.filter(c => c.region === region);
-                  const totalProjects = countriesInRegion.reduce((sum, c) => sum + c.projectCount, 0);
+                {regions.map((region) => {
+                  const countriesInRegion = allCountries.filter(c => c.region === region);
+                  const totalProjects = countriesInRegion.reduce((sum, c) => sum + (c.project_count || 0), 0);
                   return (
                     <div
                       key={region}
@@ -341,7 +354,7 @@ export default function CountriesDirectoryPage() {
                         <span className="text-2xl">🌍</span>
                       </div>
                       <p className="text-sm text-muted-foreground mb-1">
-                        {REGION_NAMES[region]}
+                        {regionNames[region] || region}
                       </p>
                       <div className="flex items-center gap-4 text-sm">
                         <span className="text-muted-foreground">

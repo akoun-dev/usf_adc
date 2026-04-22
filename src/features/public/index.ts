@@ -25,10 +25,3 @@ export { useProjectCalls, type ProjectCall } from './hooks/useProjectCalls';
 
 // Public Services (direct access if needed)
 export * from './services';
-
-// Mock Data (still available for testing)
-export { mockEvents, mockPastEvents } from './data/mockEvents';
-export { mockNews } from './data/mockNews';
-export { mockProjects } from './data/mockProjects';
-export { mockDocuments, DOCUMENT_CATEGORIES as MOCK_DOCUMENT_CATEGORIES, DOCUMENT_TYPES as MOCK_DOCUMENT_TYPES } from './data/mockDocuments';
-export { mockCountries } from './data/mockCountries';

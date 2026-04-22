@@ -28,8 +28,8 @@ import {
     usePublicDocuments,
     DOCUMENT_CATEGORIES,
     DOCUMENT_TYPES,
+    type PublicDocument,
 } from "../hooks/usePublicDocuments"
-import type { PublicDocument } from "../data/mockDocuments"
 
 const CATEGORIES = [
     ...Object.entries(DOCUMENT_CATEGORIES).map(([key, val]) => ({

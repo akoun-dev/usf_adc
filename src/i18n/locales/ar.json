@@ -1566,6 +1566,15 @@
                 "in_progress": "قيد التنفيذ",
                 "completed": "مكتمل",
                 "suspended": "معلق"
+            },
+            "countryInfo": {
+                "capital": "العاصمة",
+                "population": "السكان",
+                "fsuBudget": "ميزانية FSU",
+                "coordinatorName": "منسق FSU",
+                "coordinatorEmail": "البريد الإلكتروني",
+                "coordinatorPhone": "الهاتف",
+                "description": "حول الدولة"
             }
         },
         "calendar": {

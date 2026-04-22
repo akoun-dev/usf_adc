@@ -2100,6 +2100,15 @@
                 "in_progress": "In progress",
                 "completed": "Completed",
                 "suspended": "Suspended"
+            },
+            "countryInfo": {
+                "capital": "Capital",
+                "population": "Population",
+                "fsuBudget": "FSU Budget",
+                "coordinatorName": "FSU Coordinator",
+                "coordinatorEmail": "Email",
+                "coordinatorPhone": "Phone",
+                "description": "About the country"
             }
         }
     },

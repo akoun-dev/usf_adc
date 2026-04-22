@@ -2131,6 +2131,15 @@
                 "in_progress": "En cours",
                 "completed": "Terminé",
                 "suspended": "Suspendu"
+            },
+            "countryInfo": {
+                "capital": "Capitale",
+                "population": "Population",
+                "fsuBudget": "Budget FSU",
+                "coordinatorName": "Coordinateur FSU",
+                "coordinatorEmail": "Email",
+                "coordinatorPhone": "Téléphone",
+                "description": "À propos du pays"
             }
         }
     },

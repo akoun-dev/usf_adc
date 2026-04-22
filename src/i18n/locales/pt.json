@@ -2570,6 +2570,15 @@
                 "in_progress": "Em curso",
                 "completed": "Concluído",
                 "suspended": "Suspenso"
+            },
+            "countryInfo": {
+                "capital": "Capital",
+                "population": "População",
+                "fsuBudget": "Orçamento FSU",
+                "coordinatorName": "Coordenador FSU",
+                "coordinatorEmail": "Email",
+                "coordinatorPhone": "Telefone",
+                "description": "Sobre o país"
             }
         }
     },

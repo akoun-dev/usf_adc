@@ -2166,13 +2166,15 @@
             "memberStates": "États membres",
             "associatedMembers": "Membres associés",
             "group": {
+                "home": "Accueil",
                 "usfAdc": "USF-ADC",
                 "sutel": "SUTEL",
                 "projects": "Projets",
                 "resources": "Ressources",
                 "about": "À propos",
                 "membership": "Adhésion",
-                "contact": "Contact"
+                "contact": "Contact",
+                "news": "Actualités"
             }
         },
         "features": {

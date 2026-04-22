@@ -2178,13 +2178,15 @@
             "memberStates": "الدول الأعضاء",
             "associatedMembers": "الأعضاء المرتبطون",
             "group": {
+                "home": "الرئيسية",
                 "usfAdc": "USF-ADC",
                 "sutel": "SUTEL",
                 "projects": "المشاريع",
                 "resources": "الموارد",
                 "about": "حول",
                 "membership": "العضوية",
-                "contact": "اتصال"
+                "contact": "اتصال",
+                "news": "الأخبار"
             }
         },
         "features": {

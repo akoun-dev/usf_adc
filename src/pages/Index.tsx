@@ -168,8 +168,6 @@ const HeroSection = () => {
                 <div className="absolute top-0 left-0 w-full w-[60%] bg-gradient-to-b from-black/50 via-black/30 to-transparent" />
             </div>
 
-            <PublicHeader variant="transparent" />
-
             {/* Content */}
             <div className="relative z-10 container mx-auto max-w-6xl px-6 pt-32 pb-20 lg:px-12">
                 <div className="max-w-2xl space-y-8">
@@ -1012,6 +1010,7 @@ const CtaSection = () => {
 
 const Index = () => (
     <div className="min-h-screen bg-background sarus">
+        <PublicHeader variant="transparent" />
         <HeroSection />
         <AboutSection />
         <NewsEventsSection />

@@ -2135,13 +2135,15 @@
             "memberStates": "Member States",
             "associatedMembers": "Associated Members",
             "group": {
+                "home": "Home",
                 "usfAdc": "USF-ADC",
                 "sutel": "SUTEL",
                 "projects": "Projects",
                 "resources": "Resources",
                 "about": "About",
                 "membership": "Membership",
-                "contact": "Contact"
+                "contact": "Contact",
+                "news": "News"
             }
         },
         "features": {

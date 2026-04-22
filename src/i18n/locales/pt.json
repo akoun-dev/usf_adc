@@ -2591,13 +2591,15 @@
             "memberStates": "Estados Membros",
             "associatedMembers": "Membros Associados",
             "group": {
+                "home": "Início",
                 "usfAdc": "USF-ADC",
                 "sutel": "SUTEL",
                 "projects": "Projetos",
                 "resources": "Recursos",
                 "about": "Sobre",
                 "membership": "Adesão",
-                "contact": "Contato"
+                "contact": "Contato",
+                "news": "Notícias"
             }
         },
         "features": {

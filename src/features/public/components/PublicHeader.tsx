@@ -44,10 +44,14 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
     const navGroups: NavGroup[] = useMemo(
         () => [
             {
+                labelKey: "home",
+                href: "/",
+            },
+            {
                 labelKey: "usfAdc",
                 items: [
-                    { href: "/", labelKey: "home" },
-                    { href: "/annuaire-pays-membres", labelKey: "countries" },
+                    { href: "/annuaire-pays-membres", labelKey: "memberStates" },
+                    { href: "/membres-associes", labelKey: "associatedMembers" },
                 ],
             },
             {
@@ -62,9 +66,12 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                 labelKey: "resources",
                 items: [
                     { href: "/documents-publics", labelKey: "documents" },
-                    { href: "/actualites", labelKey: "news" },
                     { href: "/forum-public", labelKey: "forum" },
                 ],
+            },
+            {
+                labelKey: "news",
+                href: "/actualites",
             },
             {
                 labelKey: "about",
@@ -77,13 +84,6 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
             {
                 labelKey: "sutel",
                 href: "/sutel",
-            },
-            {
-                labelKey: "membership",
-                items: [
-                    { href: "/annuaire-pays-membres", labelKey: "memberStates" },
-                    { href: "/membres-associes", labelKey: "associatedMembers" },
-                ],
             },
         ],
         []
@@ -121,7 +121,7 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                         to={group.href}
                                         className="px-4 py-2 text-sm font-medium text-white/90 dark:text-white/80 hover:text-white hover:bg-white/15 hover:bg-accent/5 rounded-md transition-colors"
                                     >
-                                        {group.label?.toUpperCase()}
+                                        {t(`index.nav.group.${group.labelKey}`).toUpperCase()}
                                     </Link>
                                 )
                             }
@@ -240,7 +240,7 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                 }}
                                                 className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors"
                                             >
-                                                {group.label?.toUpperCase()}
+                                                {t(`index.nav.group.${group.labelKey}`).toUpperCase()}
                                             </Link>
                                         )
                                     }

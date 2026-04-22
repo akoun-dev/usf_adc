@@ -2493,6 +2493,84 @@
             "error": "Ocorreu um erro",
             "hasAccount": "Já tem uma conta?",
             "login": "Entrar"
+        },
+        "memberCountries": {
+            "title": "Diretório de Países Membros",
+            "description": "Descubra os projetos FSU por país",
+            "directory": {
+                "title": "Diretório de Países Membros",
+                "description": "Descubra os {{count}} países membros da plataforma FSU e explore os seus projetos em curso",
+                "stats": {
+                    "memberCountries": "Países membros",
+                    "fsuProjects": "Projetos FSU",
+                    "regionsCovered": "Regiões cobertas"
+                },
+                "search": {
+                    "placeholder": "Pesquisar um país (ex: Costa do Marfim, Senegal...)",
+                    "activeFilters": "Filtros ativos:"
+                },
+                "filters": {
+                    "region": "Região",
+                    "allRegions": "Todas as regiões",
+                    "sortByName": "Nome A-Z",
+                    "sortByProjects": "Número de projetos"
+                },
+                "results": {
+                    "countriesFound": "{{count}} país encontrado",
+                    "countriesFound_plural": "{{count}} países encontrados",
+                    "noCountryFound": "Nenhum país encontrado",
+                    "tryOtherFilters": "Tente outros critérios de pesquisa"
+                },
+                "countryCard": {
+                    "projects": "projetos",
+                    "view": "Ver"
+                },
+                "pagination": {
+                    "previous": "Anterior",
+                    "next": "Seguinte"
+                },
+                "regionsOverview": {
+                    "title": "Resumo por Região",
+                    "countries": "países",
+                    "projects": "projetos"
+                }
+            },
+            "backToDirectory": "Voltar ao diretório",
+            "loading": "A carregar...",
+            "countryNotFound": "País não encontrado",
+            "flag": "Bandeira de {{country}}",
+            "viewOnMap": "Ver no mapa",
+            "stats": {
+                "totalVisible": "Total visível",
+                "inProgress": "Em curso",
+                "completed": "Concluídos"
+            },
+            "filters": {
+                "status": "Estado",
+                "allProjects": "Todos os projetos visíveis",
+                "activeProjects": "Em curso",
+                "completedProjects": "Concluídos"
+            },
+            "tabs": {
+                "all": "Todos",
+                "active": "Em curso",
+                "completed": "Concluídos"
+            },
+            "loadingProjects": "A carregar projetos...",
+            "noProjects": "Nenhum projeto visível",
+            "noProjectsDesc": "Apenas os projetos concluídos e em curso são mostrados para este país.",
+            "project": {
+                "budget": "Orçamento:",
+                "budgetNotAvailable": "N/A",
+                "beneficiaries": "{{count}} beneficiários",
+                "location": "{{latitude}}, {{longitude}}"
+            },
+            "status": {
+                "planned": "Planeado",
+                "in_progress": "Em curso",
+                "completed": "Concluído",
+                "suspended": "Suspenso"
+            }
         }
     },
     "index": {

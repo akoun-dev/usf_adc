@@ -18,7 +18,7 @@ import {
 import PageHero from '@/components/PageHero';
 
 function CountryCard({ country }: { country: CountryWithProjects }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const countryCode = country.code_iso.toLowerCase();
   const flagUrl = `https://flagcdn.com/w320/${countryCode}.png`;
   const countryName = i18n.language === 'fr' ? country.name_fr : country.name_en;
@@ -54,10 +54,10 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">{country.project_count || 0}</span> projets
+              <span className="font-semibold text-foreground">{country.project_count || 0}</span> {t('public.memberCountries.directory.countryCard.projects')}
             </span>
             <span className="text-primary flex items-center gap-1 text-sm font-medium">
-              Voir
+              {t('public.memberCountries.directory.countryCard.view')}
               <ArrowRight className="h-3 w-3" />
             </span>
           </div>
@@ -155,8 +155,8 @@ export default function CountriesDirectoryPage() {
     <PublicLayout>
       <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
-          title="Annuaire des Pays Membres"
-          description="Découvrez les 25 pays membres de la plateforme FSU et explorez leurs projets en cours"
+          title={t('public.memberCountries.directory.title')}
+          description={t('public.memberCountries.directory.description', { count: stats.totalCountries })}
           icon={<Globe className="h-6 w-6 text-secondary" />}
         />
 
@@ -165,19 +165,19 @@ export default function CountriesDirectoryPage() {
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-primary mb-1">{stats.totalCountries}</div>
-              <div className="text-sm text-muted-foreground">Pays membres</div>
+              <div className="text-sm text-muted-foreground">{t('public.memberCountries.directory.stats.memberCountries')}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-primary mb-1">{stats.totalProjects}</div>
-              <div className="text-sm text-muted-foreground">Projets FSU</div>
+              <div className="text-sm text-muted-foreground">{t('public.memberCountries.directory.stats.fsuProjects')}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-primary mb-1">{stats.totalRegions}</div>
-              <div className="text-sm text-muted-foreground">Régions couvertes</div>
+              <div className="text-sm text-muted-foreground">{t('public.memberCountries.directory.stats.regionsCovered')}</div>
             </CardContent>
           </Card>
         </div>
@@ -190,7 +190,7 @@ export default function CountriesDirectoryPage() {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Rechercher un pays (ex : Côte d'Ivoire, Sénégal...)"
+                  placeholder={t('public.memberCountries.directory.search.placeholder')}
                   value={search}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-10"
@@ -201,10 +201,10 @@ export default function CountriesDirectoryPage() {
               <Select value={selectedRegion} onValueChange={handleRegionChange}>
                 <SelectTrigger className="w-[200px]">
                   <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Région" />
+                  <SelectValue placeholder={t('public.memberCountries.directory.filters.region')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Toutes les régions</SelectItem>
+                  <SelectItem value="all">{t('public.memberCountries.directory.filters.allRegions')}</SelectItem>
                   {regions.map((region) => (
                     <SelectItem key={region} value={region}>
                       {region}
@@ -219,8 +219,8 @@ export default function CountriesDirectoryPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="name">Nom A-Z</SelectItem>
-                  <SelectItem value="projects">Nombre de projets</SelectItem>
+                  <SelectItem value="name">{t('public.memberCountries.directory.filters.sortByName')}</SelectItem>
+                  <SelectItem value="projects">{t('public.memberCountries.directory.filters.sortByProjects')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -228,7 +228,7 @@ export default function CountriesDirectoryPage() {
             {/* Active Filters */}
             {(search || selectedRegion !== 'all') && (
               <div className="flex items-center gap-2 mt-4 pt-4 border-t">
-                <span className="text-sm text-muted-foreground">Filtres actifs :</span>
+                <span className="text-sm text-muted-foreground">{t('public.memberCountries.directory.search.activeFilters')}</span>
                 {search && (
                   <Badge variant="secondary" className="gap-1">
                     "{search}"
@@ -259,7 +259,7 @@ export default function CountriesDirectoryPage() {
         {/* Results Info */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-muted-foreground">
-            {filteredAndSortedCountries.length} pays trouvé{filteredAndSortedCountries.length > 1 ? 's' : ''}
+            {t('public.memberCountries.directory.results.countriesFound', { count: filteredAndSortedCountries.length })}
           </p>
         </div>
 
@@ -274,8 +274,8 @@ export default function CountriesDirectoryPage() {
           <Card className="mb-8">
             <CardContent className="py-16 text-center text-muted-foreground">
               <Globe className="mx-auto h-16 w-16 mb-4 opacity-30" />
-              <p className="text-lg font-medium mb-2">Aucun pays trouvé</p>
-              <p className="text-sm">Essayez d'autres critères de recherche</p>
+              <p className="text-lg font-medium mb-2">{t('public.memberCountries.directory.results.noCountryFound')}</p>
+              <p className="text-sm">{t('public.memberCountries.directory.results.tryOtherFilters')}</p>
             </CardContent>
           </Card>
         )}
@@ -289,7 +289,7 @@ export default function CountriesDirectoryPage() {
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
-              Précédent
+              {t('public.memberCountries.directory.pagination.previous')}
             </Button>
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -304,7 +304,7 @@ export default function CountriesDirectoryPage() {
                   return (
                     <div key={page} className="flex items-center">
                       {showEllipsis && (
-                        <span className="px-2 text-muted-foreground">...</span>
+                        <span key={`ellipsis-${prevPage}`} className="px-2 text-muted-foreground">...</span>
                       )}
                       <Button
                         variant={currentPage === page ? 'default' : 'outline'}
@@ -324,7 +324,7 @@ export default function CountriesDirectoryPage() {
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
-              Suivant
+              {t('public.memberCountries.directory.pagination.next')}
             </Button>
           </div>
         )}
@@ -335,7 +335,7 @@ export default function CountriesDirectoryPage() {
             <CardContent className="p-6">
               <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
                 <span className="w-1 h-6 bg-primary rounded-full" />
-                Aperçu par Région
+                {t('public.memberCountries.directory.regionsOverview.title')}
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {regions.map((region) => {
@@ -358,10 +358,10 @@ export default function CountriesDirectoryPage() {
                       </p>
                       <div className="flex items-center gap-4 text-sm">
                         <span className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">{countriesInRegion.length}</span> pays
+                          <span className="font-semibold text-foreground">{countriesInRegion.length}</span> {t('public.memberCountries.directory.regionsOverview.countries')}
                         </span>
                         <span className="text-muted-foreground">
-                          <span className="font-semibold text-foreground">{totalProjects}</span> projets
+                          <span className="font-semibold text-foreground">{totalProjects}</span> {t('public.memberCountries.directory.regionsOverview.projects')}
                         </span>
                       </div>
                     </div>

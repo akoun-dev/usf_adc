@@ -2054,6 +2054,84 @@
             "error": "Une erreur est survenue",
             "hasAccount": "Vous avez déjà un compte ?",
             "login": "Se connecter"
+        },
+        "memberCountries": {
+            "title": "Annuaire des Pays Membres",
+            "description": "Découvrez les projets FSU par pays",
+            "directory": {
+                "title": "Annuaire des Pays Membres",
+                "description": "Découvrez les {{count}} pays membres de la plateforme FSU et explorez leurs projets en cours",
+                "stats": {
+                    "memberCountries": "Pays membres",
+                    "fsuProjects": "Projets FSU",
+                    "regionsCovered": "Régions couvertes"
+                },
+                "search": {
+                    "placeholder": "Rechercher un pays (ex : Côte d'Ivoire, Sénégal...)",
+                    "activeFilters": "Filtres actifs :"
+                },
+                "filters": {
+                    "region": "Région",
+                    "allRegions": "Toutes les régions",
+                    "sortByName": "Nom A-Z",
+                    "sortByProjects": "Nombre de projets"
+                },
+                "results": {
+                    "countriesFound": "{{count}} pays trouvé",
+                    "countriesFound_plural": "{{count}} pays trouvés",
+                    "noCountryFound": "Aucun pays trouvé",
+                    "tryOtherFilters": "Essayez d'autres critères de recherche"
+                },
+                "countryCard": {
+                    "projects": "projets",
+                    "view": "Voir"
+                },
+                "pagination": {
+                    "previous": "Précédent",
+                    "next": "Suivant"
+                },
+                "regionsOverview": {
+                    "title": "Aperçu par Région",
+                    "countries": "pays",
+                    "projects": "projets"
+                }
+            },
+            "backToDirectory": "Retour à l'annuaire",
+            "loading": "Chargement...",
+            "countryNotFound": "Pays non trouvé",
+            "flag": "Drapeau {{country}}",
+            "viewOnMap": "Voir sur la carte",
+            "stats": {
+                "totalVisible": "Total visible",
+                "inProgress": "En cours",
+                "completed": "Terminés"
+            },
+            "filters": {
+                "status": "Statut",
+                "allProjects": "Tous les projets visibles",
+                "activeProjects": "En cours",
+                "completedProjects": "Terminés"
+            },
+            "tabs": {
+                "all": "Tous",
+                "active": "En cours",
+                "completed": "Terminés"
+            },
+            "loadingProjects": "Chargement des projets...",
+            "noProjects": "Aucun projet visible",
+            "noProjectsDesc": "Seuls les projets réalisés et en cours sont affichés pour ce pays.",
+            "project": {
+                "budget": "Budget :",
+                "budgetNotAvailable": "N/A",
+                "beneficiaries": "{{count}} bénéficiaires",
+                "location": "{{latitude}}, {{longitude}}"
+            },
+            "status": {
+                "planned": "Planifié",
+                "in_progress": "En cours",
+                "completed": "Terminé",
+                "suspended": "Suspendu"
+            }
         }
     },
     "users": {

@@ -229,7 +229,7 @@ export default function PublicMapPage() {
 
     const regionCounts = useMemo(() => {
         const counts: Record<string, number> = { all: filteredProjects.length };
-        REGIONS.forEach(region => {
+        Object.keys(REGIONS).forEach(region => {
             counts[region] = filteredProjects.filter(p => {
                 return p.country?.region === region;
             }).length;
@@ -559,7 +559,7 @@ export default function PublicMapPage() {
                                                         {activeProjects.length}
                                                     </Badge>
                                                 </button>
-                                                {REGIONS.map(region => {
+                                                {Object.keys(REGIONS).map(region => {
                                                     const count = regionCounts[region] || 0;
                                                     const isActive = regionFilter === region;
 
@@ -799,7 +799,7 @@ export default function PublicMapPage() {
                                 <div>
                                     <h4 className="text-sm font-medium mb-3 text-muted-foreground">{t('public.map.region').toUpperCase()}</h4>
                                     <div className="grid grid-cols-2 gap-2 text-sm">
-                                        {REGIONS.map(region => (
+                                        {Object.keys(REGIONS).map(region => (
                                             <div key={region} className="flex items-center gap-2">
                                                 <Globe className="h-3 w-3 text-muted-foreground" />
                                                 <span>{region} ({regionCounts[region] || 0})</span>

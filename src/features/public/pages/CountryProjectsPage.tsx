@@ -29,15 +29,18 @@ import { useTranslation } from 'react-i18next';
 
 type CountryStatusFilter = 'all' | 'active' | 'completed';
 
-const STATUS_LABELS: Record<string, { label: string; color: string }> = {
-  'planned': { label: 'Planifié', color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
-  'in_progress': { label: 'En cours', color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
-  'completed': { label: 'Terminé', color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
-  'suspended': { label: 'Suspendu', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
-};
+function getStatusLabels(t: (key: string) => string): Record<string, { label: string; color: string }> {
+  return {
+    'planned': { label: t('public.memberCountries.status.planned'), color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
+    'in_progress': { label: t('public.memberCountries.status.in_progress'), color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
+    'completed': { label: t('public.memberCountries.status.completed'), color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
+    'suspended': { label: t('public.memberCountries.status.suspended'), color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
+  };
+}
 
-function ProjectCard({ project }: { project: ProjectWithDetails }) {
-  const statusInfo = STATUS_LABELS[project.status] || STATUS_LABELS['planned'];
+function ProjectCard({ project, t }: { project: ProjectWithDetails; t: (key: string) => string }) {
+  const statusLabels = getStatusLabels(t);
+  const statusInfo = statusLabels[project.status] || statusLabels['planned'];
   const startDate = new Date(project.created_at);
   const endDate = new Date(project.updated_at);
 
@@ -59,12 +62,12 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
         <div className="space-y-2 text-sm mb-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <TrendingUp className="h-4 w-4" />
-            <span>Budget : {project.budget ? `${project.budget.toLocaleString('fr-FR')} FCFA` : 'N/A'}</span>
+            <span>{t('public.memberCountries.project.budget')} {project.budget ? `${project.budget.toLocaleString('fr-FR')} FCFA` : t('public.memberCountries.project.budgetNotAvailable')}</span>
           </div>
           {project.beneficiaries && (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4" />
-              <span>{project.beneficiaries} bénéficiaires</span>
+              <span>{t('public.memberCountries.project.beneficiaries', { count: project.beneficiaries })}</span>
             </div>
           )}
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -77,14 +80,17 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
             <div className="flex items-center gap-2 text-muted-foreground">
               <MapPin className="h-4 w-4" />
               <span>
-                {project.latitude.toFixed(4)}, {project.longitude.toFixed(4)}
+                {t('public.memberCountries.project.location', {
+                  latitude: project.latitude.toFixed(4),
+                  longitude: project.longitude.toFixed(4)
+                })}
               </span>
             </div>
           )}
         </div>
 
         <Button asChild variant="outline" className="w-full">
-          <Link to="/carte-public">Voir sur la carte</Link>
+          <Link to="/carte-public">{t('public.memberCountries.viewOnMap')}</Link>
         </Button>
       </CardContent>
     </Card>
@@ -142,12 +148,17 @@ export default function CountryProjectsPage() {
     termines: visibleProjects.filter((project) => project.status === 'completed').length,
   }), [visibleProjects]);
 
+  const formatLocaleDate = (date: Date) => {
+    const locale = i18n.language === 'pt' ? 'pt-PT' : i18n.language === 'en' ? 'en-US' : 'fr-FR';
+    return date.toLocaleDateString(locale);
+  };
+
   if (countryLoading) {
     return (
       <PublicLayout>
         <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-sm text-muted-foreground">Chargement...</p>
+          <p className="text-sm text-muted-foreground">{t('public.memberCountries.loading')}</p>
         </div>
       </PublicLayout>
     );
@@ -157,9 +168,9 @@ export default function CountryProjectsPage() {
     return (
       <PublicLayout>
         <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
-          <h1 className="text-2xl font-bold mb-4">Pays non trouve</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('public.memberCountries.countryNotFound')}</h1>
           <Button asChild>
-            <Link to="/annuaire-pays-membres">Retour a l'annuaire</Link>
+            <Link to="/annuaire-pays-membres">{t('public.memberCountries.backToDirectory')}</Link>
           </Button>
         </div>
       </PublicLayout>
@@ -176,7 +187,7 @@ export default function CountryProjectsPage() {
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/annuaire-pays-membres" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Retour a l'annuaire
+            {t('public.memberCountries.backToDirectory')}
           </Link>
         </Button>
 
@@ -184,7 +195,7 @@ export default function CountryProjectsPage() {
           <div className="flex flex-col md:flex-row items-start gap-6">
             <img
               src={flagUrl}
-              alt={`Drapeau ${countryName}`}
+              alt={t('public.memberCountries.flag', { country: countryName })}
               className="w-32 h-auto rounded-lg shadow-lg"
             />
             <div className="flex-1">
@@ -203,19 +214,19 @@ export default function CountryProjectsPage() {
           <Card>
             <CardContent className="p-4 text-center">
               <div className="text-2xl font-bold text-primary">{stats.total}</div>
-              <div className="text-xs text-muted-foreground">Total visible</div>
+              <div className="text-xs text-muted-foreground">{t('public.memberCountries.stats.totalVisible')}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <div className="text-2xl font-bold text-amber-600">{stats.enCours}</div>
-              <div className="text-xs text-muted-foreground">En cours</div>
+              <div className="text-xs text-muted-foreground">{t('public.memberCountries.stats.inProgress')}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <div className="text-2xl font-bold text-green-600">{stats.termines}</div>
-              <div className="text-xs text-muted-foreground">Termines</div>
+              <div className="text-xs text-muted-foreground">{t('public.memberCountries.stats.completed')}</div>
             </CardContent>
           </Card>
         </div>
@@ -225,12 +236,12 @@ export default function CountryProjectsPage() {
             <div className="flex flex-col md:flex-row gap-4">
               <Select value={selectedStatus} onValueChange={(value) => setSelectedStatus(value as CountryStatusFilter)}>
                 <SelectTrigger className="w-[220px]">
-                  <SelectValue placeholder="Statut" />
+                  <SelectValue placeholder={t('public.memberCountries.filters.status')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Tous les projets visibles</SelectItem>
-                  <SelectItem value="active">En cours</SelectItem>
-                  <SelectItem value="completed">Termines</SelectItem>
+                  <SelectItem value="all">{t('public.memberCountries.filters.allProjects')}</SelectItem>
+                  <SelectItem value="active">{t('public.memberCountries.filters.activeProjects')}</SelectItem>
+                  <SelectItem value="completed">{t('public.memberCountries.filters.completedProjects')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -239,9 +250,9 @@ export default function CountryProjectsPage() {
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as CountryStatusFilter)} className="mb-8">
           <TabsList className="grid w-full max-w-md grid-cols-3">
-            <TabsTrigger value="all">Tous ({stats.total})</TabsTrigger>
-            <TabsTrigger value="active">En cours ({stats.enCours})</TabsTrigger>
-            <TabsTrigger value="completed">Termines ({stats.termines})</TabsTrigger>
+            <TabsTrigger value="all">{t('public.memberCountries.tabs.all')} ({stats.total})</TabsTrigger>
+            <TabsTrigger value="active">{t('public.memberCountries.tabs.active')} ({stats.enCours})</TabsTrigger>
+            <TabsTrigger value="completed">{t('public.memberCountries.tabs.completed')} ({stats.termines})</TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -249,14 +260,14 @@ export default function CountryProjectsPage() {
           <Card>
             <CardContent className="py-16 text-center">
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-              <p className="text-sm text-muted-foreground">Chargement des projets...</p>
+              <p className="text-sm text-muted-foreground">{t('public.memberCountries.loadingProjects')}</p>
             </CardContent>
           </Card>
         ) : projects.length > 0 ? (
           <>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project.id} project={project} t={t} />
               ))}
             </div>
 
@@ -310,8 +321,8 @@ export default function CountryProjectsPage() {
           <Card>
             <CardContent className="py-16 text-center text-muted-foreground">
               <MapPin className="mx-auto h-16 w-16 mb-4 opacity-30" />
-              <p className="text-lg font-medium mb-2">Aucun projet visible</p>
-              <p className="text-sm">Seuls les projets realises et en cours sont affiches pour ce pays.</p>
+              <p className="text-lg font-medium mb-2">{t('public.memberCountries.noProjects')}</p>
+              <p className="text-sm">{t('public.memberCountries.noProjectsDesc')}</p>
             </CardContent>
           </Card>
         )}

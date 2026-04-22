@@ -1490,6 +1490,84 @@
             "apply": "عرض",
             "contact": "اتصال"
         },
+        "memberCountries": {
+            "title": "دليل الدول الأعضاء",
+            "description": "اكتشف مشاريع USF حسب الدولة",
+            "directory": {
+                "title": "دليل الدول الأعضاء",
+                "description": "اكتشف {{count}} دولة عضو في منصة USF واستكشف مشاريعهم الجارية",
+                "stats": {
+                    "memberCountries": "الدول الأعضاء",
+                    "fsuProjects": "مشاريع USF",
+                    "regionsCovered": "المناطق المغطاة"
+                },
+                "search": {
+                    "placeholder": "البحث عن دولة (مثال: ساحل العاج، السنغال...)",
+                    "activeFilters": "الفلاتر النشطة:"
+                },
+                "filters": {
+                    "region": "المنطقة",
+                    "allRegions": "جميع المناطق",
+                    "sortByName": "الاسم أ-ي",
+                    "sortByProjects": "عدد المشاريع"
+                },
+                "results": {
+                    "countriesFound": "{{count}} دولة موجودة",
+                    "countriesFound_plural": "{{count}} دول موجودة",
+                    "noCountryFound": "لم يتم العثور على دولة",
+                    "tryOtherFilters": "جرب معايير بحث أخرى"
+                },
+                "countryCard": {
+                    "projects": "مشاريع",
+                    "view": "عرض"
+                },
+                "pagination": {
+                    "previous": "السابق",
+                    "next": "التالي"
+                },
+                "regionsOverview": {
+                    "title": "نظرة عامة حسب المنطقة",
+                    "countries": "دول",
+                    "projects": "مشاريع"
+                }
+            },
+            "backToDirectory": "العودة إلى الدليل",
+            "loading": "جاري التحميل...",
+            "countryNotFound": "الدولة غير موجودة",
+            "flag": "علم {{country}}",
+            "viewOnMap": "عرض على الخريطة",
+            "stats": {
+                "totalVisible": "إجمالي المرئي",
+                "inProgress": "قيد التنفيذ",
+                "completed": "مكتمل"
+            },
+            "filters": {
+                "status": "الحالة",
+                "allProjects": "جميع المشاريع المرئية",
+                "activeProjects": "قيد التنفيذ",
+                "completedProjects": "مكتمل"
+            },
+            "tabs": {
+                "all": "الكل",
+                "active": "قيد التنفيذ",
+                "completed": "مكتمل"
+            },
+            "loadingProjects": "جاري تحميل المشاريع...",
+            "noProjects": "لا توجد مشاريع مرئية",
+            "noProjectsDesc": "يتم عرض المشاريع المنجزة قيد التنفيذ فقط لهذا الدولة.",
+            "project": {
+                "budget": "الميزانية:",
+                "budgetNotAvailable": "غير متوفر",
+                "beneficiaries": "{{count}} مستفيد",
+                "location": "{{latitude}}, {{longitude}}"
+            },
+            "status": {
+                "planned": "مخطط له",
+                "in_progress": "قيد التنفيذ",
+                "completed": "مكتمل",
+                "suspended": "معلق"
+            }
+        },
         "calendar": {
             "title": "تقويم الأحداث",
             "description": "انضم إلى الندوات الإلكترونية والمؤتمرات وورش العمل",

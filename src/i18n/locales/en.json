@@ -2023,6 +2023,84 @@
             "error": "An error occurred",
             "hasAccount": "Already have an account?",
             "login": "Login"
+        },
+        "memberCountries": {
+            "title": "Member Countries Directory",
+            "description": "Discover USF projects by country",
+            "directory": {
+                "title": "Member Countries Directory",
+                "description": "Discover the {{count}} member countries of the USF platform and explore their ongoing projects",
+                "stats": {
+                    "memberCountries": "Member Countries",
+                    "fsuProjects": "USF Projects",
+                    "regionsCovered": "Regions Covered"
+                },
+                "search": {
+                    "placeholder": "Search a country (e.g., Ivory Coast, Senegal...)",
+                    "activeFilters": "Active filters:"
+                },
+                "filters": {
+                    "region": "Region",
+                    "allRegions": "All regions",
+                    "sortByName": "Name A-Z",
+                    "sortByProjects": "Number of projects"
+                },
+                "results": {
+                    "countriesFound": "{{count}} country found",
+                    "countriesFound_plural": "{{count}} countries found",
+                    "noCountryFound": "No country found",
+                    "tryOtherFilters": "Try other search criteria"
+                },
+                "countryCard": {
+                    "projects": "projects",
+                    "view": "View"
+                },
+                "pagination": {
+                    "previous": "Previous",
+                    "next": "Next"
+                },
+                "regionsOverview": {
+                    "title": "Overview by Region",
+                    "countries": "countries",
+                    "projects": "projects"
+                }
+            },
+            "backToDirectory": "Back to directory",
+            "loading": "Loading...",
+            "countryNotFound": "Country not found",
+            "flag": "Flag of {{country}}",
+            "viewOnMap": "View on map",
+            "stats": {
+                "totalVisible": "Total visible",
+                "inProgress": "In progress",
+                "completed": "Completed"
+            },
+            "filters": {
+                "status": "Status",
+                "allProjects": "All visible projects",
+                "activeProjects": "In progress",
+                "completedProjects": "Completed"
+            },
+            "tabs": {
+                "all": "All",
+                "active": "In progress",
+                "completed": "Completed"
+            },
+            "loadingProjects": "Loading projects...",
+            "noProjects": "No visible projects",
+            "noProjectsDesc": "Only completed and ongoing projects are shown for this country.",
+            "project": {
+                "budget": "Budget:",
+                "budgetNotAvailable": "N/A",
+                "beneficiaries": "{{count}} beneficiaries",
+                "location": "{{latitude}}, {{longitude}}"
+            },
+            "status": {
+                "planned": "Planned",
+                "in_progress": "In progress",
+                "completed": "Completed",
+                "suspended": "Suspended"
+            }
         }
     },
     "users": {

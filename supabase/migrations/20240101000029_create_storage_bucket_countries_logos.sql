@@ -26,48 +26,74 @@ values (
 on conflict (id) do nothing;
 
 -- =====================================================
--- 2. create rls policies for storage objects
+-- 2. drop any existing policies from this bucket
+-- =====================================================
+-- note: clean up any policies that may exist from previous migrations
+DROP POLICY IF EXISTS "countries_logos_select_public" ON storage.objects;
+DROP POLICY IF EXISTS "countries_logos_insert_super_admin" ON storage.objects;
+DROP POLICY IF EXISTS "countries_logos_insert_authenticated" ON storage.objects;
+DROP POLICY IF EXISTS "countries_logos_update_super_admin" ON storage.objects;
+DROP POLICY IF EXISTS "countries_logos_update_authenticated" ON storage.objects;
+DROP POLICY IF EXISTS "countries_logos_delete_super_admin" ON storage.objects;
+
+-- =====================================================
+-- 3. create rls policies for storage objects
 -- =====================================================
 -- note: storage rls policies control who can upload, view, and delete logo files
--- only super_admin should be able to manage logos
+-- using direct subquery instead of has_role() for better reliability
 
 -- policy: select - everyone can view logos (public bucket)
 -- rationale: logos are displayed on public pages
-create policy "countries_logos_select_public"
-  on storage.objects for select
-  to anon, authenticated
-  using (bucket_id = 'countries-logos');
+CREATE POLICY "countries_logos_select_public"
+  ON storage.objects FOR SELECT
+  TO anon, authenticated
+  USING (bucket_id = 'countries-logos');
 
--- policy: insert - only super_admin can upload logos
--- rationale: country management is restricted to super_admin
-create policy "countries_logos_insert_super_admin"
-  on storage.objects for insert
-  to authenticated
-  with check (
+-- policy: insert - authenticated users with valid roles can upload logos
+-- rationale: point_focal, country_admin, and super_admin can manage logos
+CREATE POLICY "countries_logos_insert_authenticated"
+  ON storage.objects FOR INSERT
+  TO authenticated
+  WITH CHECK (
     bucket_id = 'countries-logos'
-    and public.has_role(auth.uid(), 'super_admin')
+    AND EXISTS (
+      SELECT 1 FROM public.user_roles
+      WHERE user_id = auth.uid()
+      AND role IN ('point_focal', 'country_admin', 'super_admin')
+    )
   );
 
--- policy: update - only super_admin can update logos
--- rationale: country management is restricted to super_admin
-create policy "countries_logos_update_super_admin"
-  on storage.objects for update
-  to authenticated
-  using (
+-- policy: update - authenticated users with valid roles can update logos
+CREATE POLICY "countries_logos_update_authenticated"
+  ON storage.objects FOR UPDATE
+  TO authenticated
+  USING (
     bucket_id = 'countries-logos'
-    and public.has_role(auth.uid(), 'super_admin')
+    AND EXISTS (
+      SELECT 1 FROM public.user_roles
+      WHERE user_id = auth.uid()
+      AND role IN ('point_focal', 'country_admin', 'super_admin')
+    )
   )
-  with check (
+  WITH CHECK (
     bucket_id = 'countries-logos'
-    and public.has_role(auth.uid(), 'super_admin')
+    AND EXISTS (
+      SELECT 1 FROM public.user_roles
+      WHERE user_id = auth.uid()
+      AND role IN ('point_focal', 'country_admin', 'super_admin')
+    )
   );
 
 -- policy: delete - only super_admin can delete logos
 -- rationale: country management is restricted to super_admin
-create policy "countries_logos_delete_super_admin"
-  on storage.objects for delete
-  to authenticated
-  using (
+CREATE POLICY "countries_logos_delete_super_admin"
+  ON storage.objects FOR DELETE
+  TO authenticated
+  USING (
     bucket_id = 'countries-logos'
-    and public.has_role(auth.uid(), 'super_admin')
+    AND EXISTS (
+      SELECT 1 FROM public.user_roles
+      WHERE user_id = auth.uid()
+      AND role = 'super_admin'
+    )
   );

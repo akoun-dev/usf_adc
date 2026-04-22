@@ -1,15 +1,10 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
-import { createClient } from "@supabase/supabase-js"
-
-const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
-)
+import { supabase } from "@/integrations/supabase/client"
 
 const BUCKET_NAME = "countries-logos"
 
@@ -31,7 +26,7 @@ export function CountryLogoUpload({
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     // Initialize preview from value
-    useState(() => {
+    useEffect(() => {
         if (value) {
             // If it's a full URL (external flag), use it directly
             if (value.startsWith('http')) {
@@ -45,8 +40,10 @@ export function CountryLogoUpload({
                     setPreview(data.publicUrl)
                 }
             }
+        } else {
+            setPreview(null)
         }
-    })
+    }, [value])
 
     const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -78,26 +75,6 @@ export function CountryLogoUpload({
 
         setUploading(true)
         try {
-            // Ensure bucket exists
-            const { data: buckets } = await supabase.storage.listBuckets()
-            const bucketExists = buckets?.some(b => b.name === BUCKET_NAME)
-
-            if (!bucketExists) {
-                // Create bucket if it doesn't exist
-                const { error: createError } = await supabase.storage.createBucket(BUCKET_NAME, {
-                    public: true,
-                    fileSizeLimit: 5242880, // 5MB
-                    allowedMimeTypes: ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml']
-                })
-
-                if (createError && !createError.message.includes('already exists')) {
-                    throw createError
-                }
-
-                // Set up bucket policies
-                await supabase.storage.from(BUCKET_NAME).createSignedUrl('policy-check', 60 * 1000)
-            }
-
             // Generate unique filename
             const fileExt = file.name.split('.').pop()
             const fileName = `${countryCode || 'country'}-${Date.now()}.${fileExt}`

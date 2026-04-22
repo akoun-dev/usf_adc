@@ -98,6 +98,33 @@ const AdminCountriesPage = lazy(
 const AdminSettingsPage = lazy(
     () => import("@/features/admin/pages/AdminSettingsPage")
 )
+const PlatformSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/PlatformSettingsPage")
+)
+const ApiKeysSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/ApiKeysSettingsPage")
+)
+const IpRestrictionsSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/IpRestrictionsSettingsPage")
+)
+const BackupsSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/BackupsSettingsPage")
+)
+const AuditLogsSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/AuditLogsSettingsPage")
+)
+const FaqSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/FaqSettingsPage")
+)
+const QuarterlyReportsSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/QuarterlyReportsSettingsPage")
+)
+const AiSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/AiSettingsPage")
+)
+const FsuSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/FsuSettingsPage")
+)
 const AdminSetupPage = lazy(
     () => import("@/features/admin/pages/AdminSetupPage")
 )
@@ -328,6 +355,51 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/admin/settings",
         component: AdminSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/platform",
+        component: PlatformSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/apikeys",
+        component: ApiKeysSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/ip",
+        component: IpRestrictionsSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/backups",
+        component: BackupsSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/audit",
+        component: AuditLogsSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/faq",
+        component: FaqSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/quarterly",
+        component: QuarterlyReportsSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/ai",
+        component: AiSettingsPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/fsu",
+        component: FsuSettingsPage,
         roles: ["super_admin"],
     },
     // Admin access to general features

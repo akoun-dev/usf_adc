@@ -18,14 +18,39 @@ export interface Invitation {
 }
 
 export async function fetchInvitations(): Promise<Invitation[]> {
-  const { data, error } = await supabase
+  // Fetch invitations with country data
+  const { data: invitations, error } = await supabase
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .from('invitations' as any)
-    .select('*, country:countries(name_fr, code_iso), inviter:profiles!invited_by(full_name)')
+    .select('*, country:countries(name_fr, code_iso)')
     .order('created_at', { ascending: false });
+
   if (error) throw error;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (data as any) || [];
+  const invitationsData = (data as any) || [];
+
+  // Fetch inviters profiles separately
+  const inviterIds = invitationsData.map((inv: any) => inv.invited_by).filter(Boolean);
+  const invitersMap = new Map<string, { full_name: string | null }>();
+
+  if (inviterIds.length > 0) {
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id, full_name')
+      .in('id', inviterIds);
+
+    if (profiles) {
+      profiles.forEach(profile => {
+        invitersMap.set(profile.id, { full_name: profile.full_name });
+      });
+    }
+  }
+
+  // Merge inviter data into invitations
+  return invitationsData.map((inv: any) => ({
+    ...inv,
+    inviter: invitersMap.get(inv.invited_by) || null
+  }));
 }
 
 export async function createInvitation(params: {

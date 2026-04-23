@@ -11,6 +11,7 @@ import { ROLE_DASHBOARD_PATHS } from '@/core/constants/roles';
 import { useTranslation } from 'react-i18next';
 import heroLogin from '@/assets/hero-login.jpg';
 import atuLogo from '@/assets/atu-uat-logo.png';
+import { PublicHeader } from '@/features/public/components/PublicHeader';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -29,6 +30,52 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, isLoading, highestRole, navigate]);
 
+  // Hide the login button in the header since we're already on the login page
+  const navGroupsWithHiddenLogin = [
+    {
+      labelKey: "home",
+      href: "/",
+    },
+    {
+      labelKey: "usfAdc",
+      items: [
+        { href: "/annuaire-pays-membres", labelKey: "memberStates" },
+        { href: "/membres-associes", labelKey: "associatedMembers" },
+      ],
+    },
+    {
+      labelKey: "projects",
+      items: [
+        { href: "/carte-public", labelKey: "map" },
+        { href: "/projets", labelKey: "calls" },
+        { href: "/calendrier", labelKey: "calendar" },
+      ],
+    },
+    {
+      labelKey: "resources",
+      items: [
+        { href: "/documents-publics", labelKey: "documents" },
+        { href: "/forum-public", labelKey: "forum" },
+      ],
+    },
+    {
+      labelKey: "news",
+      href: "/actualites",
+    },
+    {
+      labelKey: "about",
+      items: [
+        { href: "/notre-histoire", labelKey: "ourHistory" },
+        { href: "/equipe-direction", labelKey: "leadership" },
+        { href: "/faq-public", labelKey: "faq" },
+      ],
+    },
+    {
+      labelKey: "sutel",
+      href: "/sutel",
+    },
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -44,9 +91,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left panel — Hero visual */}
-      <div className="relative hidden w-1/2 lg:block xl:w-[55%]">
+    <div className="flex flex-col min-h-screen">
+      {/* Public Header */}
+      <PublicHeader variant="transparent" />
+      
+      <div className="flex flex-1">
+        {/* Left panel — Hero visual */}
+        <div className="relative hidden w-1/2 lg:block xl:w-[55%]">
         <img
           src={heroLogin}
           alt="Connectivité numérique africaine"
@@ -175,6 +226,7 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 }

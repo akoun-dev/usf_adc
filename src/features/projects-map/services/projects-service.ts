@@ -16,7 +16,7 @@ export const projectsService = {
   async list(filters: ProjectFilters = {}): Promise<Project[]> {
     let query = supabase
       .from('projects')
-      .select('*, countries(name_fr, name_en, code_iso)')
+      .select('*, countries(name_fr, name_en, code_iso, flag_url)')
       .order('created_at', { ascending: false });
 
     if (filters.status) {
@@ -40,7 +40,7 @@ export const projectsService = {
   async getById(id: string): Promise<Project> {
     const { data, error } = await supabase
       .from('projects')
-      .select('*, countries(name_fr, name_en, code_iso)')
+      .select('*, countries(name_fr, name_en, code_iso, flag_url)')
       .eq('id', id)
       .single();
     if (error) throw error;
@@ -52,7 +52,7 @@ export const projectsService = {
     const { data, error } = await supabase
       .from('projects')
       .insert({ ...input, created_by: user?.id ?? null })
-      .select('*, countries(name_fr, name_en, code_iso)')
+      .select('*, countries(name_fr, name_en, code_iso, flag_url)')
       .single();
     if (error) throw error;
     return data as unknown as Project;
@@ -63,7 +63,7 @@ export const projectsService = {
       .from('projects')
       .update(input)
       .eq('id', id)
-      .select('*, countries(name_fr, name_en, code_iso)')
+      .select('*, countries(name_fr, name_en, code_iso, flag_url)')
       .single();
     if (error) throw error;
     return data as unknown as Project;

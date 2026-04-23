@@ -873,6 +873,16 @@ export async function getEvents() {
     return data ?? []
 }
 
+export async function getEventById(id: string) {
+    const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single()
+    if (error) throw error
+    return data
+}
+
 export async function createEvent(input: {
     title: string
     description?: string

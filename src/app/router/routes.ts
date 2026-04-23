@@ -130,6 +130,7 @@ const FsuSettingsPage = lazy(
 const AdminSetupPage = lazy(
     () => import("@/features/admin/pages/AdminSetupPage")
 )
+const EventFormPage = lazy(() => import("@/features/admin/pages/EventFormPage").then(module => ({ default: module.EventFormPage })))
 const FaqPage = lazy(() => import("@/features/support/pages/FaqPage"))
 const NewslettersPage = lazy(
     () => import("@/features/newsletters/pages/NewslettersPage")
@@ -357,6 +358,16 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/admin/events",
         component: AdminEventsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/events/new",
+        component: EventFormPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/events/edit/:id",
+        component: EventFormPage,
         roles: ["country_admin", "super_admin"],
     },
     {

@@ -16,6 +16,7 @@ export interface Project {
     name_fr: string;
     name_en: string;
     code_iso: string;
+    flag_url?: string;
   };
 }
 

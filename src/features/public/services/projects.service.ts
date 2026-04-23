@@ -9,6 +9,7 @@ export interface Country {
   name_fr: string;
   name_en: string;
   region: string;
+  flag_url?: string;
 }
 
 export interface PublicProject {
@@ -55,7 +56,7 @@ export async function fetchPublicProjects(): Promise<ProjectWithDetails[]> {
     .from('projects')
     .select(`
       *,
-      country:countries(id, code_iso, name_fr, name_en, region),
+      country:countries(id, code_iso, name_fr, name_en, region, flag_url),
       project_images(image_url),
       project_tags(tag)
     `)
@@ -78,7 +79,7 @@ export async function fetchProjectsByCountryCode(countryCode: string): Promise<P
     .from('projects')
     .select(`
       *,
-      country:countries(id, code_iso, name_fr, name_en, region),
+      country:countries(id, code_iso, name_fr, name_en, region, flag_url),
       project_images(image_url),
       project_tags(tag)
     `)

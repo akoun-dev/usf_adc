@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import atuLogo from "@/assets/atu-uat-logo.png"
+import atuLogoWhite from "@/assets/atuuat-logo-blc.png"
 import { useTranslation } from "react-i18next"
 import { Facebook, Twitter, Linkedin, Mail, Github } from "lucide-react"
 
@@ -52,9 +53,9 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="flex items-center gap-2">
                             <img
-                                src={atuLogo}
+                                src={atuLogoWhite}
                                 alt="ATU/UAT"
-                                className="h-6 w-6 rounded"
+                                className="h-12 w-12"
                             />
                             <span className="text-sm text-muted-foreground">
                                 © {new Date().getFullYear()} ANSUT/UAT
@@ -81,27 +82,27 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
     }
 
     return (
-        <footer className="border-t bg-muted/30">
+        <footer className="border-t bg-primary">
             <div className="container mx-auto max-w-7xl px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-2">
                         <Link to="/" className="flex items-center gap-3 mb-4">
                             <img
-                                src={atuLogo}
+                                src={atuLogoWhite}
                                 alt="ATU/UAT"
-                                className="h-9 w-9 rounded-lg"
+                                className="h-16 w-16 rounded-xl p-1"
                             />
                             <div>
-                                <span className="text-lg font-bold">
+                                <span className="text-lg font-bold text-white">
                                     USF-ADC
                                 </span>
-                                <p className="text-xs text-muted-foreground">
+                                <p className="text-xs text-white/80">
                                     African Telecommunications Union
                                 </p>
                             </div>
                         </Link>
-                        <p className="text-sm text-muted-foreground mb-4 max-w-xs">
+                        <p className="text-sm text-white/80 mb-4 max-w-xs">
                             {t("public.footer.description")}
                         </p>
                         <div className="flex gap-2">
@@ -109,7 +110,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                                 <a
                                     key={social.name}
                                     href={social.href}
-                                    className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                                    className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-md bg-white/80 text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                                     aria-label={social.name}
                                 >
                                     <social.icon className="h-4 w-4" />
@@ -121,7 +122,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                     {/* Footer Sections */}
                     {footerSections.map(section => (
                         <div key={section.titleKey}>
-                            <h3 className="font-semibold mb-3 sm:mb-4 text-sm">
+                            <h3 className="font-normal mb-3 sm:mb-4 text-sm text-white uppercase">
                                 {t(section.titleKey)}
                             </h3>
                             <ul className="space-y-1 sm:space-y-2">
@@ -129,7 +130,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                                     <li key={link.href}>
                                         <Link
                                             to={link.href}
-                                            className="text-xs sm:text-sm text-muted-foreground transition-colors hover:text-foreground"
+                                            className="text-xs sm:text-sm text-white/80 transition-colors hover:text-secondary"
                                         >
                                             {t(link.labelKey)}
                                         </Link>
@@ -144,7 +145,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                 <div className="mt-8 sm:mt-12 border-t pt-6 sm:pt-8">
                     <div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-3 sm:gap-4 text-center sm:text-left">
 
-                        <p className="text-xs sm:text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-white/80">
                             © {new Date().getFullYear()}{" "}
                             {t("public.footer.rights")}
                         </p>
@@ -152,13 +153,13 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                         <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 text-xs sm:text-sm">
                             <Link
                                 to="/a-propos"
-                                className="text-muted-foreground hover:text-foreground"
+                                className="text-white/80 hover:text-secondary"
                             >
                                 {t("public.footer.legal")}
                             </Link>
                             <Link
                                 to="/a-propos"
-                                className="text-muted-foreground hover:text-foreground"
+                                className="text-white/80 hover:text-secondary"
                             >
                                 {t("public.footer.privacy")}
                             </Link>

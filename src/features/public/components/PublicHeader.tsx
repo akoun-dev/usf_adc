@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageSwitcher } from "@/features/shell/components/LanguageSwitcher"
 import atuLogo from "@/assets/atu-uat-logo.png"
+import atuLogoWhite from "@/assets/atuuat-logo-blc.png"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import {
@@ -98,9 +99,9 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <img
-                            src={atuLogo}
+                            src={atuLogoWhite}
                             alt="ATU/UAT"
-                            className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-white p-1"
+                            className="h-12 w-12 sm:h-10 sm:w-10 rounded-xl p-1"
                         />
                         <span className="text-base sm:text-lg font-bold text-white">
                             USF-ADC

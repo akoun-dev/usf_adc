@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket, X } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket, X } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicEvents, usePastEvents } from '../hooks/usePublicEvents';
 import { useTranslation } from 'react-i18next';
@@ -248,6 +248,232 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
       </CardContent>
     </Card>
     </Link>
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function UpcomingEventsSnapList({ events, isLoading, t }: { events: any[]; isLoading: boolean; t: any }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const isHoveredRef = useRef(false);
+  const activeIndexRef = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  // Scroll to a specific index using real DOM positions
+  const scrollToIndex = useCallback((index: number) => {
+    if (!scrollRef.current) return;
+    const clampedIndex = Math.max(0, Math.min(index, events.length - 1));
+    const container = scrollRef.current;
+    const items = container.querySelectorAll('[data-snap-item]');
+    if (items[clampedIndex]) {
+      const targetItem = items[clampedIndex] as HTMLElement;
+      const containerTop = container.getBoundingClientRect().top;
+      const itemTop = targetItem.getBoundingClientRect().top;
+      const offset = itemTop - containerTop + container.scrollTop;
+      container.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+    setActiveIndex(clampedIndex);
+  }, [events.length]);
+
+  // Auto-scroll with 4-second interval, pauses on hover
+  useEffect(() => {
+    if (events.length <= 1) return;
+
+    intervalRef.current = setInterval(() => {
+      if (isHoveredRef.current) return;
+
+      const currentIndex = activeIndexRef.current;
+      const nextIndex = (currentIndex + 1) % events.length;
+
+      if (scrollRef.current) {
+        const container = scrollRef.current;
+        const items = container.querySelectorAll('[data-snap-item]');
+        if (items[nextIndex]) {
+          const targetItem = items[nextIndex] as HTMLElement;
+          const containerTop = container.getBoundingClientRect().top;
+          const itemTop = targetItem.getBoundingClientRect().top;
+          const offset = itemTop - containerTop + container.scrollTop;
+          container.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      }
+      setActiveIndex(nextIndex);
+    }, 4000);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [events.length]);
+
+  // Detect active item on manual scroll using real DOM positions
+  const handleScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const items = container.querySelectorAll('[data-snap-item]');
+
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    items.forEach((item, index) => {
+      const el = item as HTMLElement;
+      const containerRect = container.getBoundingClientRect();
+      const itemRect = el.getBoundingClientRect();
+      const relativeTop = itemRect.top - containerRect.top;
+      const distance = Math.abs(relativeTop);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+    setActiveIndex(prev => prev !== closestIndex ? closestIndex : prev);
+  }, []);
+
+  const goUp = () => scrollToIndex(activeIndex - 1);
+  const goDown = () => scrollToIndex(activeIndex + 1);
+
+  return (
+    <div
+      onMouseEnter={() => { isHoveredRef.current = true; }}
+      onMouseLeave={() => { isHoveredRef.current = false; }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-semibold flex items-center gap-2">
+          <CalendarIcon className="h-5 w-5 text-primary" />
+          {t('public.calendar.upcoming')}
+          {!isLoading && events.length > 0 && (
+            <Badge variant="secondary" className="ml-2 text-xs">
+              {activeIndex + 1}/{events.length}
+            </Badge>
+          )}
+        </h3>
+        {!isLoading && events.length > 1 && (
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={goUp}
+              disabled={activeIndex <= 0}
+            >
+              <ChevronUp className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={goDown}
+              disabled={activeIndex >= events.length - 1}
+            >
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+
+      {isLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => <Skeleton key={i} className="h-40" />)}
+        </div>
+      ) : events.length === 0 ? (
+        <Card>
+          <CardContent className="py-8 text-center text-muted-foreground text-sm">
+            {t('public.calendar.noEvents')}
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="relative">
+          {/* Fade top indicator */}
+          {/*activeIndex > 0 && (
+            <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none" />
+          )*/}
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-track]:bg-transparent"
+            style={{
+              maxHeight: '580px',
+              scrollSnapType: 'y mandatory',
+            }}
+          >
+            <div className="space-y-3 pb-4">
+              {events.map((event) => {
+                const TypeIcon = getEventTypeIcon(event.event_type);
+                const startDate = new Date(event.start_date);
+                return (
+                  <div key={event.id} data-snap-item style={{ scrollSnapAlign: 'start' }}>
+                    <Link
+                      to={`/calendrier/${event.id}`}
+                      className="block"
+                    >
+                      <Card className="hover:shadow-md transition-all duration-300 group min-h-[180px] flex flex-col">
+                        <CardContent className="p-4 flex flex-col justify-between flex-1">
+                          {/* Top row: Badge + Title on left, Date on extreme right */}
+                          <div className="flex items-start gap-4">
+                            <div className="flex-1 min-w-0">
+                              <Badge className={`mb-1.5 text-[10px] ${getEventTypeColor(event.event_type)}`}>
+                                <TypeIcon className="h-3 w-3 mr-1" />
+                                {t(`public.eventTypes.${event.event_type}`)}
+                              </Badge>
+                              <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
+                                {event.title}
+                              </h4>
+                            </div>
+                            <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-primary/10 text-primary shrink-0">
+                              <span className="text-[10px] font-medium uppercase leading-tight">
+                                {startDate.toLocaleDateString('fr-FR', { month: 'short' })}
+                              </span>
+                              <span className="text-lg font-bold leading-tight">{startDate.getDate()}</span>
+                            </div>
+                          </div>
+                          {/* Bottom section: Location + Register button */}
+                          <div className="mt-3 space-y-1">
+                            <div className="text-xs text-muted-foreground space-y-0.5">
+                              <div className="flex items-center gap-1">
+                                <Clock className="h-3 w-3" />
+                                {startDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                              </div>
+                              {event.location && (
+                                <div className="flex items-center gap-1">
+                                  <MapPin className="h-3 w-3" />
+                                  <span className="line-clamp-1">
+                                    {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                            {event.registration_url && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="w-full text-xs h-6"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  window.open(event.registration_url, '_blank', 'noopener,noreferrer');
+                                }}
+                              >
+                                {t('public.calendar.register')}
+                              </Button>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* Fade bottom indicator */}
+          {activeIndex < events.length - 3 && (
+            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" />
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -592,54 +818,12 @@ export default function EventsCalendarPage() {
                 </Card>
               </div>
 
-              {/* Upcoming Events List */}
-              <div>
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  <CalendarIcon className="h-5 w-5 text-primary" />
-                  {t('public.calendar.upcoming')}
-                </h3>
-                <div className="space-y-3">
-                  {upcomingLoading ? (
-                    [1, 2, 3].map((i) => <Skeleton key={i} className="h-32" />)
-                  ) : paginatedUpcoming.length === 0 ? (
-                    <Card>
-                      <CardContent className="py-8 text-center text-muted-foreground text-sm">
-                        {t('public.calendar.noEvents')}
-                      </CardContent>
-                    </Card>
-                  ) : (
-                    paginatedUpcoming.map((event) => (
-                      <Card key={event.id} className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-4">
-                          <Badge className="mb-2" variant="secondary">
-                            {t(`public.eventTypes.${event.event_type}`)}
-                          </Badge>
-                          <h4 className="font-semibold text-sm mb-2">{event.title}</h4>
-                          <div className="space-y-1 text-xs text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              {new Date(event.start_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                            </div>
-                            {event.location && (
-                              <div className="flex items-center gap-1">
-                                <MapPin className="h-3 w-3" />
-                                {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
-                              </div>
-                            )}
-                          </div>
-                          {event.registration_url && (
-                            <Button size="sm" variant="outline" className="w-full mt-3 text-xs h-7" asChild>
-                              <a href={event.registration_url} target="_blank" rel="noopener noreferrer">
-                                {t('public.calendar.register')}
-                              </a>
-                            </Button>
-                          )}
-                        </CardContent>
-                      </Card>
-                    ))
-                  )}
-                </div>
-              </div>
+              {/* Upcoming Events List - Vertical Snap Scroll */}
+              <UpcomingEventsSnapList
+                events={filteredEvents}
+                isLoading={upcomingLoading}
+                t={t}
+              />
             </div>
           </TabsContent>
 

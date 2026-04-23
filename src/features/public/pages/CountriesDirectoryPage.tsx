@@ -46,11 +46,11 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
           </div>
         </div>
         <CardContent className="p-5">
-          <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
-            {countryName}
+          <h3 className="font-bold text-lg mb-0 group-hover:text-primary transition-colors">
+            <span className="text-sm font-normal text-muted-foreground mb-3">{country.code_iso.toUpperCase()} - </span> {countryName}
           </h3>
           <p className="text-sm text-muted-foreground mb-3">
-            {country.code_iso.toUpperCase()}
+            Capital : {country.capital}
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
@@ -213,16 +213,7 @@ export default function CountriesDirectoryPage() {
                 </SelectContent>
               </Select>
 
-              {/* Sort */}
-              <Select value={sortBy} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="name">{t('public.memberCountries.directory.filters.sortByName')}</SelectItem>
-                  <SelectItem value="projects">{t('public.memberCountries.directory.filters.sortByProjects')}</SelectItem>
-                </SelectContent>
-              </Select>
+              
             </div>
 
             {/* Active Filters */}

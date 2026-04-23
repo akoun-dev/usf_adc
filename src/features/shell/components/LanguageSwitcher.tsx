@@ -21,7 +21,7 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:text-white hover:bg-white/15 transition-colors">
+        <button className="flex items-center gap-2 rounded-md px-3 py-3 text-sm font-medium text-white/90 hover:text-white hover:bg-white/15 transition-colors">
           <span className="text-base leading-none">
             {currentLang.flag}
           </span>

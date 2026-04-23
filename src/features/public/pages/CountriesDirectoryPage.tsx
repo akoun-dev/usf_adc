@@ -50,7 +50,7 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
             <span className="text-sm font-normal text-muted-foreground mb-3">{country.code_iso.toUpperCase()} - </span> {countryName}
           </h3>
           <p className="text-sm text-muted-foreground mb-3">
-            Capital : {country.capital}
+            {country.capital} | <span className='text-xs'>{t("public.memberCountries.countryInfo.population")} : </span> {country.population ? country.population.toLocaleString() : t("public.memberCountries.countryInfo.populationUnknown")}
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">

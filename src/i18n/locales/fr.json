@@ -2443,6 +2443,11 @@
             "login": "Se connecter",
             "contact": "Contacter l'UAT"
         },
+        "partners": {
+            "badge": "Nos partenaires",
+            "title": "Les partenaires du service universel",
+            "description": "Découvrez les organisations et institutions qui collaborent avec nous pour le développement du numérique en Afrique."
+        },
         "footer": {
             "platform": "Plateforme panafricaine FSU",
             "navigation": "Navigation",

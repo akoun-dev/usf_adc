@@ -522,7 +522,7 @@ export default function EventsCalendarPage() {
   }, [pastEvents, search]);
 
   // Reset pages when filters change
-  useMemo(() => {
+  useEffect(() => {
     setUpcomingPage(1);
     setPastPage(1);
   }, [search, selectedType]);

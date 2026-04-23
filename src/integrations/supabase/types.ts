@@ -558,6 +558,80 @@ export type Database = {
                 }
                 Relationships: []
             }
+            membres_associes: {
+                Row: {
+                    adresse: string | null
+                    date_creation: string | null
+                    date_mise_a_jour: string | null
+                    depuis: string | null
+                    description: string | null
+                    email_contact: string | null
+                    est_actif: boolean | null
+                    id: string
+                    logo_url: string | null
+                    nom: string
+                    nom_complet: string | null
+                    pays_id: string | null
+                    projets: Json | null
+                    secteur: string | null
+                    site_web: string | null
+                    telephone_contact: string | null
+                    type: string
+                    countries: {
+                        code_iso: string
+                        name_fr: string
+                        name_en: string
+                        id: string
+                    } | null
+                }
+                Insert: {
+                    adresse?: string | null
+                    date_creation?: string | null
+                    date_mise_a_jour?: string | null
+                    depuis?: string | null
+                    description?: string | null
+                    email_contact?: string | null
+                    est_actif?: boolean | null
+                    id?: string
+                    logo_url?: string | null
+                    nom: string
+                    nom_complet?: string | null
+                    pays_id?: string | null
+                    projets?: Json | null
+                    secteur?: string | null
+                    site_web?: string | null
+                    telephone_contact?: string | null
+                    type: string
+                }
+                Update: {
+                    adresse?: string | null
+                    date_creation?: string | null
+                    date_mise_a_jour?: string | null
+                    depuis?: string | null
+                    description?: string | null
+                    email_contact?: string | null
+                    est_actif?: boolean | null
+                    id?: string
+                    logo_url?: string | null
+                    nom?: string
+                    nom_complet?: string | null
+                    pays_id?: string | null
+                    projets?: Json | null
+                    secteur?: string | null
+                    site_web?: string | null
+                    telephone_contact?: string | null
+                    type?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "membres_associes_pays_id_fkey"
+                        columns: ["pays_id"]
+                        isOneToOne: false
+                        referencedRelation: "countries"
+                        referencedColumns: ["id"]
+                    },
+                ]
+            }
             newsletters: {
                 Row: {
                     content: string
@@ -707,6 +781,80 @@ export type Database = {
                     {
                         foreignKeyName: "profiles_country_id_fkey"
                         columns: ["country_id"]
+                        isOneToOne: false
+                        referencedRelation: "countries"
+                        referencedColumns: ["id"]
+                    },
+                ]
+            }
+            partenaires: {
+                Row: {
+                    adresse: string | null
+                    date_creation: string | null
+                    date_mise_a_jour: string | null
+                    depuis: string | null
+                    description: string | null
+                    domaine: string | null
+                    email_contact: string | null
+                    est_actif: boolean | null
+                    id: string
+                    logo_url: string | null
+                    nom: string
+                    nom_complet: string | null
+                    pays_id: string | null
+                    projets: Json | null
+                    site_web: string | null
+                    telephone_contact: string | null
+                    type: string
+                    countries: {
+                        code_iso: string
+                        name_fr: string
+                        name_en: string
+                        id: string
+                    } | null
+                }
+                Insert: {
+                    adresse?: string | null
+                    date_creation?: string | null
+                    date_mise_a_jour?: string | null
+                    depuis?: string | null
+                    description?: string | null
+                    domaine?: string | null
+                    email_contact?: string | null
+                    est_actif?: boolean | null
+                    id?: string
+                    logo_url?: string | null
+                    nom: string
+                    nom_complet?: string | null
+                    pays_id?: string | null
+                    projets?: Json | null
+                    site_web?: string | null
+                    telephone_contact?: string | null
+                    type: string
+                }
+                Update: {
+                    adresse?: string | null
+                    date_creation?: string | null
+                    date_mise_a_jour?: string | null
+                    depuis?: string | null
+                    description?: string | null
+                    domaine?: string | null
+                    email_contact?: string | null
+                    est_actif?: boolean | null
+                    id?: string
+                    logo_url?: string | null
+                    nom?: string
+                    nom_complet?: string | null
+                    pays_id?: string | null
+                    projets?: Json | null
+                    site_web?: string | null
+                    telephone_contact?: string | null
+                    type?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "partenaires_pays_id_fkey"
+                        columns: ["pays_id"]
                         isOneToOne: false
                         referencedRelation: "countries"
                         referencedColumns: ["id"]

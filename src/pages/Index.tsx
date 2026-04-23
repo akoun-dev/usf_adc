@@ -58,6 +58,7 @@ import { usePublicEvents } from "@/features/public/hooks/usePublicEvents"
 import { PublicFooter } from "@/features/public/components/PublicFooter"
 import { PublicHeader } from "@/features/public"
 import { MiniCalendar } from "@/features/public/components/MiniCalendar"
+import { PartnersLogoScroller } from "@/features/public/components/PartnersLogoScroller"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -191,7 +192,7 @@ const FeaturesSection = () => {
     return (
         <section
             id="features"
-            className="relative px-6 pt-8 pb-20 lg:pt-12 lg:pb-28 bg-background"
+            className="relative px-6 pt-8 pb-10 lg:pt-12 lg:pb-16 bg-background"
         >
             {/* Bottom transition to About */}
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-muted/30" />
@@ -606,7 +607,7 @@ const NewsEventsSection = () => {
     return (
         <section
             id="news"
-            className="relative px-6 py-20 lg:py-28 bg-gradient-to-b from-muted/30 to-background"
+            className="relative px-6 py-10 lg:py-20 bg-gradient-to-b from-muted/30 to-background"
         >
             <div
                 ref={ref}
@@ -765,7 +766,7 @@ const AboutSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-background" />
             <div
                 ref={ref}
-                className="container mx-auto max-w-6xl px-6 py-20 lg:py-28"
+                className="container mx-auto max-w-6xl px-6 py-10 lg:py-20"
             >
                 {/* Header */}
                 <div
@@ -872,7 +873,7 @@ const RolesSection = () => {
     const { ref, isVisible } = useScrollAnimation()
     const { t } = useTranslation()
     return (
-        <section className="relative px-6 py-20 lg:py-28 bg-background">
+        <section className="relative px-6 py-10 lg:py-20 bg-background">
             {/* Bottom transition to CTA */}
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-primary/10" />
             <div
@@ -928,7 +929,7 @@ const CtaSection = () => {
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
             <div
                 ref={ref}
-                className={`relative z-10 container mx-auto max-w-4xl px-6 py-20 text-center lg:py-28 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
+                className={`relative z-10 container mx-auto max-w-4xl px-6 py-20 text-center lg:py-20 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-100 scale-95"}`}
             >
                 <h2 className="text-3xl font-bold text-white lg:text-4xl">
                     {t("index.cta.title")}
@@ -974,6 +975,7 @@ const Index = () => (
         <AboutSection />
         <NewsEventsSection />
         <FeaturesSection />
+        <PartnersLogoScroller />
         <PublicFooter />
     </div>
 )

@@ -2910,6 +2910,11 @@
             "login": "Entrar",
             "contact": "Contactar a UAT"
         },
+        "partners": {
+            "badge": "Nossos parceiros",
+            "title": "Parceiros do Serviço Universal",
+            "description": "Descubra as organizações e instituições que colaboram connosco para o desenvolvimento digital em África."
+        },
         "footer": {
             "platform": "Plataforma pan-africana FSU",
             "navigation": "Navegação",

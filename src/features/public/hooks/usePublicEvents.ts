@@ -7,6 +7,7 @@ import {
   fetchEventsByCountry,
   type EventWithTags,
   type EventType,
+  type EventStatus,
 } from '../services';
 
 // Re-export types from service
@@ -41,7 +42,7 @@ export function useEvent(id: string) {
 export function usePastEvents() {
   return useQuery({
     queryKey: ['public-events-past'],
-    queryFn: fetchPastEvents,
+    queryFn: () => fetchPastEvents(),
     staleTime: 15 * 60 * 1000,
   });
 }

@@ -2418,6 +2418,11 @@
             "login": "Login",
             "contact": "Contact ATU"
         },
+        "partners": {
+            "badge": "Our partners",
+            "title": "Universal Service Partners",
+            "description": "Discover the organizations and institutions collaborating with us for digital development in Africa."
+        },
         "footer": {
             "platform": "Pan-African FSU Platform",
             "navigation": "Navigation",

@@ -17,9 +17,18 @@ export function ProjectCard({ project }: Props) {
   return (
     <div className="min-w-[220px] max-w-[280px]">
       <h3 className="font-semibold text-sm mb-1">{project.title}</h3>
-      <p className="text-xs text-muted-foreground mb-2">
-        {project.countries?.name_fr ?? '—'} • {project.region ?? '—'}
-      </p>
+      <div className="flex items-center gap-2 mb-2">
+        {project.countries?.flag_url && (
+          <img
+            src={project.countries.flag_url}
+            alt={project.countries.name_fr}
+            className="h-4 w-auto"
+          />
+        )}
+        <p className="text-xs text-muted-foreground">
+          {project.countries?.name_fr ?? '—'} • {project.region ?? '—'}
+        </p>
+      </div>
       {project.description && (
         <p className="text-xs mb-2 line-clamp-2">{project.description}</p>
       )}

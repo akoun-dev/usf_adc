@@ -65,6 +65,10 @@ export interface FaqArticle {
 
 export type NewsStatus = 'draft' | 'in_review' | 'published' | 'archived';
 
+export type EventStatus = 'draft' | 'in_review' | 'published' | 'archived' | 'cancelled';
+
+export type EventType = 'conference' | 'webinar' | 'workshop' | 'training' | 'meeting' | 'other';
+
 export interface NewsCategory {
   id: string;
   name_fr: string;

@@ -338,6 +338,14 @@ export function useEvents() {
   });
 }
 
+export function useEventById(id: string) {
+  return useQuery({
+    queryKey: ['admin-event', id],
+    queryFn: () => adminService.getEventById(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateEvent() {
   const qc = useQueryClient();
   return useMutation({

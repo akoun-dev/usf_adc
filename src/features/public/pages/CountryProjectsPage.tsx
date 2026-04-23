@@ -43,7 +43,16 @@ function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: T
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
-            <h3 className="font-bold text-lg mb-1">{project.title}</h3>
+            <div className="flex items-center gap-2 mb-1">
+              {project.country?.flag_url && (
+                <img
+                  src={project.country.flag_url}
+                  alt={project.country.name_fr}
+                  className="h-5 w-auto"
+                />
+              )}
+              <h3 className="font-bold text-lg">{project.title}</h3>
+            </div>
             <p className="text-sm text-muted-foreground">{project.region || project.country?.region || ''}</p>
           </div>
           <Badge className={statusInfo.color}>{statusInfo.label}</Badge>

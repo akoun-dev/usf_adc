@@ -59,7 +59,14 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
         <Card className="hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
                 <div className="flex items-start justify-between gap-3 mb-4">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 items-center">
+                        {project.country?.flag_url && (
+                            <img
+                                src={project.country.flag_url}
+                                alt={project.country.name_fr}
+                                className="h-5 w-auto mr-2"
+                            />
+                        )}
                         {project.country && (
                             <Badge variant="outline">{project.country.name_fr}</Badge>
                         )}

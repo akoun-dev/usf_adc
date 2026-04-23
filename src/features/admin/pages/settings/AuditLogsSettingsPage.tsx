@@ -2,85 +2,80 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { ArrowLeft, ScrollText, Search, Filter, Download } from "lucide-react"
+import { ArrowLeft, ScrollText, Search, Download, Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-
-interface AuditLog {
-  id: string
-  action: string
-  entity: string
-  user: string
-  timestamp: string
-  ip: string
-  details: string
-}
+import { useAuditLogs } from "../../hooks/useAuditLogs"
+import type { AuditLogEntry } from "../../types"
 
 export default function AuditLogsSettingsPage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { data: logs = [], isLoading } = useAuditLogs()
   const [searchQuery, setSearchQuery] = useState('')
 
-  const logs: AuditLog[] = [
-    {
-      id: '1',
-      action: 'UPDATE',
-      entity: 'user',
-      user: 'admin@test.local',
-      timestamp: '2024-01-20T14:30:00',
-      ip: '192.168.1.100',
-      details: 'Updated role for user john@example.com',
-    },
-    {
-      id: '2',
-      action: 'DELETE',
-      entity: 'document',
-      user: 'admin@test.local',
-      timestamp: '2024-01-20T14:25:00',
-      ip: '192.168.1.100',
-      details: 'Deleted document: "Report Q4 2023"',
-    },
-    {
-      id: '3',
-      action: 'CREATE',
-      entity: 'invitation',
-      user: 'admin@test.local',
-      timestamp: '2024-01-20T14:20:00',
-      ip: '192.168.1.100',
-      details: 'Created invitation for jane@example.com',
-    },
-    {
-      id: '4',
-      action: 'LOGIN',
-      entity: 'auth',
-      user: 'admin@test.local',
-      timestamp: '2024-01-20T14:15:00',
-      ip: '192.168.1.100',
-      details: 'User logged in successfully',
-    },
-  ]
-
   const getActionBadgeColor = (action: string) => {
-    switch (action) {
+    const upperAction = action.toUpperCase()
+    switch (upperAction) {
       case 'CREATE':
+      case 'INSERT':
         return 'bg-[#00833d]/20 text-[#00833d] border-[#00833d]/50'
       case 'UPDATE':
         return 'bg-[#ffe700]/30 text-[#00833d] border-[#00833d]/50'
       case 'DELETE':
         return 'bg-red-500/20 text-red-500 border-red-500/50'
       case 'LOGIN':
+      case 'AUTHENTICATE':
         return 'bg-[#00833d]/20 text-[#00833d] border-[#00833d]/50'
       default:
         return 'bg-gray-500/20 text-gray-500 border-gray-500/50'
     }
   }
 
-  const filteredLogs = logs.filter(log =>
-    log.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    log.entity.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    log.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    log.details.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const formatLogDetails = (log: AuditLogEntry): string => {
+    if (!log.metadata) return `${log.action} ${log.target_table || ''}`
+    const target = log.target_table ? `${log.target_table}` : ''
+    const id = log.target_id ? ` (${log.target_id.slice(0, 8)}...)` : ''
+    return `${log.action} ${target}${id}`
+  }
+
+  const filteredLogs = logs.filter(log => {
+    const searchLower = searchQuery.toLowerCase()
+    return (
+      log.action.toLowerCase().includes(searchLower) ||
+      (log.target_table && log.target_table.toLowerCase().includes(searchLower)) ||
+      (log.metadata && JSON.stringify(log.metadata).toLowerCase().includes(searchLower))
+    )
+  })
+
+  const exportLogs = () => {
+    const csvContent = [
+      ['Timestamp', 'Action', 'Entity', 'Details'].join(','),
+      ...filteredLogs.map(log => [
+        log.created_at,
+        log.action,
+        log.target_table || 'N/A',
+        formatLogDetails(log),
+      ].join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `audit_logs_${new Date().toISOString().split('T')[0]}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-[#00833d]" />
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -99,126 +94,86 @@ export default function AuditLogsSettingsPage() {
             {t('admin.auditLogs', 'Logs d\'audit')}
           </h1>
           <p className="text-muted-foreground">
-            {t('admin.auditLogsDesc', 'Consultez l\'historique des actions effectuées sur la plateforme')}
+            {t('admin.auditLogsDesc', 'Consultez l\'historique des actions effectuées')}
           </p>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('admin.totalEvents', 'Total des événements')}
-            </CardTitle>
-            <ScrollText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,234</div>
-            <p className="text-xs text-muted-foreground">{t('admin.last24h', 'Dernières 24h')}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('admin.activeUsers', 'Utilisateurs actifs')}
-            </CardTitle>
-            <Badge variant="outline">{t('admin.unique', 'Uniques')}</Badge>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">42</div>
-            <p className="text-xs text-muted-foreground">{t('admin.performedActions', 'Ont effectué des actions')}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('admin.failedAttempts', 'Tentatives échouées')}
-            </CardTitle>
-            <Badge variant="destructive">{t('admin.alert', 'Alerte')}</Badge>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-500">3</div>
-            <p className="text-xs text-muted-foreground">{t('admin.needAttention', 'Nécessitent attention')}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t('admin.retentionDays', 'Rétention')}
-            </CardTitle>
-            <Badge variant="outline">{t('admin.days', 'jours')}</Badge>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">90</div>
-            <p className="text-xs text-muted-foreground">{t('admin.logRetention', 'Rétention des logs')}</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <div className="flex gap-3">
+      {/* Search and Export */}
+      <div className="flex items-center gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder={t('admin.searchLogsPlaceholder', 'Rechercher dans les logs...')}
+            className="pl-9"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
           />
         </div>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
-          {t('admin.filter', 'Filtrer')}
-        </Button>
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          onClick={exportLogs}
+          className="border-[#00833d]/30 text-[#00833d] hover:bg-[#00833d]/10"
+        >
           <Download className="h-4 w-4 mr-2" />
           {t('admin.export', 'Exporter')}
         </Button>
       </div>
 
-      {/* Logs List */}
+      {/* Logs Table */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('admin.recentActivity', 'Activité récente')}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <ScrollText className="h-5 w-5 text-[#00833d]" />
+            {t('admin.recentActivity', 'Activité Récente')}
+            <Badge variant="secondary" className="ml-auto">
+              {filteredLogs.length} {t('admin.entries', 'entrées')}
+            </Badge>
+          </CardTitle>
           <CardDescription>
-            {t('admin.recentActivityDesc', 'Dernières actions effectuées sur la plateforme')}
+            {t('admin.logsDescription', 'Journal des actions système et des modifications')}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {filteredLogs.map((log) => (
-              <div
-                key={log.id}
-                className="flex items-start gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex flex-col items-center gap-1">
-                  <Badge variant="outline" className={getActionBadgeColor(log.action)}>
-                    {log.action}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(log.timestamp).toLocaleTimeString()}
-                  </span>
-                </div>
-                <div className="flex-1 space-y-1">
-                  <p className="text-sm font-medium">{log.details}</p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <span>{log.user}</span>
-                    <span>•</span>
-                    <span>{log.entity}</span>
-                    <span>•</span>
-                    <span>{log.ip}</span>
+          {filteredLogs.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <ScrollText className="mx-auto h-12 w-12 mb-4 opacity-30" />
+              <p>{searchQuery ? t('admin.noLogsFound', 'Aucun log trouvé') : t('admin.noLogs', 'Aucun log disponible')}</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {filteredLogs.slice(0, 100).map((log) => (
+                <div
+                  key={log.id}
+                  className="flex items-start gap-4 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge className={getActionBadgeColor(log.action)}>
+                        {log.action}
+                      </Badge>
+                      {log.target_table && (
+                        <span className="text-sm text-muted-foreground">
+                          {log.target_table}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {formatLogDetails(log)}
+                    </p>
+                  </div>
+                  <div className="text-xs text-muted-foreground whitespace-nowrap">
+                    {new Date(log.created_at).toLocaleString('fr-FR')}
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground whitespace-nowrap">
-                  {new Date(log.timestamp).toLocaleDateString()}
-                </span>
-              </div>
-            ))}
-          </div>
+              ))}
+              {filteredLogs.length > 100 && (
+                <div className="text-center text-sm text-muted-foreground pt-2">
+                  {t('admin.showingFirst', 'Affichage des 100 premiers résultats sur {{count}}', { count: filteredLogs.length })}
+                </div>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

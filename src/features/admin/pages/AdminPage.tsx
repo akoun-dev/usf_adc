@@ -16,6 +16,7 @@ import {
     MessageSquare,
     Map,
     Bot,
+    Tags,
 } from "lucide-react"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { PlatformSettingsTab } from "../components/PlatformSettingsTab"
@@ -30,6 +31,7 @@ import { QuarterlyReportsTab } from "../components/QuarterlyReportsTab"
 import { WorkflowSettingsPanel } from "@/features/validation/components/WorkflowSettingsPanel"
 import { FaqManagementPanel } from "@/features/support/components/FaqManagementPanel"
 import { NewsTab } from "../components/NewsTab"
+import { CategoriesTab } from "../components/categories/CategoriesTab"
 import { ProjectsTab } from "../components/ProjectsTab"
 import { DocumentsTab } from "../components/DocumentsTab"
 import { EventsTab } from "../components/EventsTab"
@@ -55,6 +57,7 @@ export default function AdminPage() {
         settings: "admin.settings",
         ai: "admin.aiSettings",
         countries: "admin.countries",
+        categories: "admin.categories",
         fsu: "admin.fsuSubmissions",
         workflow: "admin.workflow",
         audit: "admin.auditLog",
@@ -67,6 +70,7 @@ export default function AdminPage() {
 
     const isMainAdmin = ![
         "news",
+        "categories",
         "projects",
         "documents",
         "events",
@@ -77,6 +81,7 @@ export default function AdminPage() {
         return (
             <div className="space-y-6 animate-fade-in">
                 {defaultTab === "news" && <NewsTab />}
+                {defaultTab === "categories" && <CategoriesTab />}
                 {defaultTab === "projects" && <ProjectsTab />}
                 {defaultTab === "documents" && <DocumentsTab />}
                 {defaultTab === "events" && <EventsTab />}
@@ -106,6 +111,12 @@ export default function AdminPage() {
                         <TabsTrigger value="countries">
                             <Globe className="mr-2 h-4 w-4" />
                             {t("admin.countries")}
+                        </TabsTrigger>
+                    )}
+                    {isMainAdmin && (
+                        <TabsTrigger value="categories">
+                            <Tags className="mr-2 h-4 w-4" />
+                            {t("admin.categories")}
                         </TabsTrigger>
                     )}
                     {isMainAdmin && (
@@ -173,6 +184,11 @@ export default function AdminPage() {
                 {isMainAdmin && (
                     <TabsContent value="countries">
                         <CountriesTab />
+                    </TabsContent>
+                )}
+                {isMainAdmin && (
+                    <TabsContent value="categories">
+                        <CategoriesTab />
                     </TabsContent>
                 )}
                 {isMainAdmin && (

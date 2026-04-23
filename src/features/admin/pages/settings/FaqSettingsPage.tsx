@@ -10,15 +10,9 @@ import { useState, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
-
-interface FaqArticle {
-  id: string
-  title: string
-  content: string
-  category: string
-  sort_order: number
-  is_published: boolean
-}
+import { useFaqArticles } from "../../hooks/useFaqArticles"
+import { useCreateFaqArticle, useUpdateFaqArticle, useDeleteFaqArticle } from "../../hooks/useFaqMutations"
+import type { FaqArticle } from "../../types"
 
 const getCategories = (t: (key: string, fallback?: string) => string) => [
   { value: 'general', label: t('admin.categoryGeneral', 'General'), color: 'bg-[#00833d]/20 text-[#00833d] border-[#00833d]/50' },
@@ -33,28 +27,14 @@ export default function FaqSettingsPage() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const categories = useMemo(() => getCategories(t), [t])
-  const initialArticles = useMemo(() => [
-    {
-      id: '1',
-      title: t('admin.sampleFaq1Title', 'How to create an account?'),
-      content: t('admin.sampleFaq1Content', 'To create an account, click on the "Sign up" button in the top right of the page...'),
-      category: 'general',
-      sort_order: 1,
-      is_published: true,
-    },
-    {
-      id: '2',
-      title: t('admin.sampleFaq2Title', 'How to submit an FSU document?'),
-      content: t('admin.sampleFaq2Content', 'Go to the FSU section, click on "New submission", fill out the form...'),
-      category: 'fsu',
-      sort_order: 1,
-      is_published: true,
-    },
-  ], [t])
-  const [articles, setArticles] = useState<FaqArticle[]>(initialArticles)
+  const { data: articles = [], isLoading } = useFaqArticles()
+  const createMutation = useCreateFaqArticle()
+  const updateMutation = useUpdateFaqArticle()
+  const deleteMutation = useDeleteFaqArticle()
+
   const [searchQuery, setSearchQuery] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [form, setForm] = useState<Omit<FaqArticle, 'id'>>({
+  const [form, setForm] = useState<Omit<FaqArticle, 'id' | 'created_at' | 'updated_at'>>({
     title: '',
     content: '',
     category: 'general',
@@ -70,7 +50,13 @@ export default function FaqSettingsPage() {
 
   const startEdit = (article: FaqArticle) => {
     setEditingId(article.id)
-    setForm(article)
+    setForm({
+      title: article.title,
+      content: article.content,
+      category: article.category,
+      sort_order: article.sort_order,
+      is_published: article.is_published,
+    })
   }
 
   const cancelEdit = () => {
@@ -80,27 +66,71 @@ export default function FaqSettingsPage() {
 
   const saveArticle = () => {
     if (editingId) {
-      setArticles(articles.map(a => a.id === editingId ? { ...form, id: editingId } : a))
-      toast({ title: t('admin.articleUpdated', 'Article mis à jour') })
+      updateMutation.mutate(
+        { id: editingId, input: form },
+        {
+          onSuccess: () => {
+            toast({ title: t('admin.articleUpdated', 'Article mis à jour') })
+            cancelEdit()
+          },
+          onError: () => {
+            toast({ title: t('admin.error', 'Erreur lors de la mise à jour'), variant: 'destructive' })
+          },
+        }
+      )
     } else {
-      setArticles([...articles, { ...form, id: Date.now().toString() }])
-      toast({ title: t('admin.articleCreated', 'Article créé') })
+      createMutation.mutate(form, {
+        onSuccess: () => {
+          toast({ title: t('admin.articleCreated', 'Article créé') })
+          cancelEdit()
+        },
+        onError: () => {
+          toast({ title: t('admin.error', 'Erreur lors de la création'), variant: 'destructive' })
+        },
+      })
     }
-    cancelEdit()
   }
 
   const deleteArticle = (id: string) => {
     if (!confirm(t('admin.deleteArticleConfirm', 'Êtes-vous sûr de vouloir supprimer cet article ?'))) return
-    setArticles(articles.filter(a => a.id !== id))
-    toast({ title: t('admin.articleDeleted', 'Article supprimé') })
+    deleteMutation.mutate(id, {
+      onSuccess: () => {
+        toast({ title: t('admin.articleDeleted', 'Article supprimé') })
+      },
+      onError: () => {
+        toast({ title: t('admin.error', 'Erreur lors de la suppression'), variant: 'destructive' })
+      },
+    })
   }
 
-  const togglePublished = (id: string) => {
-    setArticles(articles.map(a => a.id === id ? { ...a, is_published: !a.is_published } : a))
+  const togglePublished = (article: FaqArticle) => {
+    updateMutation.mutate(
+      { id: article.id, input: { is_published: !article.is_published } },
+      {
+        onSuccess: () => {
+          toast({
+            title: article.is_published
+              ? t('admin.articleUnpublished', 'Article dépublié')
+              : t('admin.articlePublished', 'Article publié'),
+          })
+        },
+        onError: () => {
+          toast({ title: t('admin.error', 'Erreur lors de la mise à jour'), variant: 'destructive' })
+        },
+      }
+    )
   }
 
   const getCategoryInfo = (category: string) => {
     return categories.find(c => c.value === category) || categories[0]
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-12">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#00833d] border-t-transparent" />
+      </div>
+    )
   }
 
   return (
@@ -164,7 +194,7 @@ export default function FaqSettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>
-            {editingId ? t('admin.editArticle', 'Modifier l\'article') : t('admin.createArticle', 'Créer un article')}
+            {editingId ? t('admin.editArticle', "Modifier l'article") : t('admin.createArticle', 'Créer un article')}
           </CardTitle>
           <CardDescription>
             {editingId
@@ -184,7 +214,7 @@ export default function FaqSettingsPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('admin.category', 'Category')}</Label>
+              <Label>{t('admin.category', 'Catégorie')}</Label>
               <div className="flex gap-2">
                 {categories.map(cat => (
                   <Button
@@ -201,7 +231,7 @@ export default function FaqSettingsPage() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>{t('admin.content', 'Content')}</Label>
+            <Label>{t('admin.content', 'Contenu')}</Label>
             <Textarea
               placeholder={t('admin.articleContentPlaceholder', 'Rédigez la réponse détaillée...')}
               value={form.content}
@@ -223,7 +253,10 @@ export default function FaqSettingsPage() {
                   {t('admin.cancel', 'Annuler')}
                 </Button>
               )}
-              <Button onClick={saveArticle} disabled={!form.title || !form.content}>
+              <Button
+                onClick={saveArticle}
+                disabled={!form.title || !form.content || createMutation.isPending || updateMutation.isPending}
+              >
                 {editingId ? (
                   <>
                     <Edit className="h-4 w-4 mr-2" />
@@ -288,7 +321,8 @@ export default function FaqSettingsPage() {
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => togglePublished(article.id)}
+                      onClick={() => togglePublished(article)}
+                      disabled={updateMutation.isPending}
                     >
                       {article.is_published ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
@@ -303,12 +337,18 @@ export default function FaqSettingsPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => deleteArticle(article.id)}
+                      disabled={deleteMutation.isPending}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
                 </div>
               ))}
+              {filteredArticles.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground">
+                  {t('admin.noArticlesFound', 'Aucun article trouvé')}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

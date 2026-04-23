@@ -561,3 +561,36 @@ values
   ('d0000000-0000-0000-0000-000000000029', 'Directive'), ('d0000000-0000-0000-0000-000000000029', 'UAT'), ('d0000000-0000-0000-0000-000000000029', 'Télécoms'),
   ('d0000000-0000-0000-0000-000000000030', 'Charte'), ('d0000000-0000-0000-0000-000000000030', 'Principes'), ('d0000000-0000-0000-0000-000000000030', 'FSU')
 on conflict (document_id, tag) do nothing;
+
+-- =====================================================
+-- 10. seed news_categories
+-- =====================================================
+-- note: add initial news categories if table is empty
+
+-- Check if news_categories table exists and is empty before seeding
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.tables 
+        WHERE table_schema = 'public' AND table_name = 'news_categories'
+    ) THEN
+        -- Only insert if the table is empty
+        IF NOT EXISTS (SELECT 1 FROM public.news_categories LIMIT 1) THEN
+            INSERT INTO public.news_categories (id, name_fr, name_en, name_pt, slug, color, sort_order, is_active, created_at, updated_at) VALUES
+            ('10000000-0000-0000-0000-000000000001', 'Financement', 'Funding', 'Financiamento', 'financement', '#3B82F6', 1, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000002', 'Partenariat', 'Partnership', 'Parceria', 'partenariat', '#10B981', 2, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000003', 'Événement', 'Event', 'Evento', 'evenement', '#EF4444', 3, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000004', 'Certification', 'Certification', 'Certificação', 'certification', '#F59E0B', 4, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000005', 'Innovation', 'Innovation', 'Inovação', 'innovation', '#8B5CF6', 5, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000006', 'Technologie', 'Technology', 'Tecnologia', 'technologie', '#EC4899', 6, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000007', 'Formation', 'Training', 'Formação', 'formation', '#06B6D4', 7, true, now(), now()),
+            ('10000000-0000-0000-0000-000000000008', 'Réglementation', 'Regulation', 'Regulamentação', 'reglementation', '#14B8A6', 8, true, now(), now());
+            
+            RAISE NOTICE 'Seeded news_categories table with 8 categories';
+        ELSE
+            RAISE NOTICE 'news_categories table already has data, skipping seed';
+        END IF;
+    ELSE
+        RAISE NOTICE 'news_categories table does not exist, skipping seed';
+    END IF;
+END$$;

@@ -57,6 +57,7 @@ import { usePublicNews } from "@/features/public/hooks/usePublicNews"
 import { usePublicEvents } from "@/features/public/hooks/usePublicEvents"
 import { PublicFooter } from "@/features/public/components/PublicFooter"
 import { PublicHeader } from "@/features/public"
+import { MiniCalendar } from "@/features/public/components/MiniCalendar"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -507,7 +508,7 @@ const EventsCarousel = () => {
                     {events.map(event => (
                         <CarouselItem
                             key={event.id}
-                            className="md:basis-1/2 lg:basis-1/3"
+                            className="md:basis-1/2"
                         >
                             {/* ✅ CORRECTION : Link avec h-full et block pour couvrir toute la carte */}
                             <Link
@@ -591,8 +592,8 @@ const EventsCarousel = () => {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden md:flex -left-12" />
-                <CarouselNext className="hidden md:flex -right-12" />
+                <CarouselPrevious className="hidden md:flex -left-4" />
+                <CarouselNext className="hidden md:flex -right-4" />
             </Carousel>
         </div>
     )
@@ -646,7 +647,7 @@ const NewsEventsSection = () => {
                     <NewsCarousel />
                 </div>
 
-                {/* Events Carousel */}
+                {/* Events Carousel + Calendar */}
                 <div className="mb-12">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold flex items-center gap-2">
@@ -665,7 +666,18 @@ const NewsEventsSection = () => {
                             </Button>
                         </Link>
                     </div>
-                    <EventsCarousel />
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Colonne 1 : Carousel (2/3) */}
+                        <div className="lg:col-span-2">
+                            <EventsCarousel />
+                        </div>
+
+                        {/* Colonne 2 : Mini Calendrier (1/3) */}
+                        <div>
+                            <MiniCalendar />
+                        </div>
+                    </div>
                 </div>
 
                 {/* CTA Enhanced */}

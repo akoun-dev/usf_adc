@@ -261,6 +261,8 @@ export default function EventsCalendarPage() {
   const [upcomingPage, setUpcomingPage] = useState(1);
   const [pastPage, setPastPage] = useState(1);
   const itemsPerPage = 9;
+  const [mainTab, setMainTab] = useState('calendar');
+  const [listSubTab, setListSubTab] = useState('upcoming');
 
   // State for popover
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -427,11 +429,31 @@ export default function EventsCalendarPage() {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="calendar" className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="calendar">{t('public.calendar.calendarTab')}</TabsTrigger>
-            <TabsTrigger value="list">{t('public.calendar.listTab')}</TabsTrigger>
-          </TabsList>
+        <Tabs value={mainTab} onValueChange={setMainTab} className="space-y-6">
+          <div className="flex items-center justify-between w-full">
+            <TabsList className="grid max-w-md grid-cols-2">
+              <TabsTrigger value="calendar">{t('public.calendar.calendarTab')}</TabsTrigger>
+              <TabsTrigger value="list">{t('public.calendar.listTab')}</TabsTrigger>
+            </TabsList>
+            {mainTab === 'list' && (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={listSubTab === 'upcoming' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setListSubTab('upcoming')}
+                >
+                  {t('public.calendar.upcoming')} ({filteredEvents.length})
+                </Button>
+                <Button
+                  variant={listSubTab === 'past' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setListSubTab('past')}
+                >
+                  {t('public.calendar.past')} ({filteredPast.length})
+                </Button>
+              </div>
+            )}
+          </div>
 
           <TabsContent value="calendar" className="space-y-6">
             <div className="grid lg:grid-cols-3 gap-6">
@@ -622,17 +644,8 @@ export default function EventsCalendarPage() {
           </TabsContent>
 
           <TabsContent value="list" className="space-y-6">
-            <Tabs defaultValue="upcoming" className="space-y-4">
-              <TabsList className="grid w-full max-w-md grid-cols-2">
-                <TabsTrigger value="upcoming">
-                  {t('public.calendar.upcoming')} ({filteredEvents.length})
-                </TabsTrigger>
-                <TabsTrigger value="past">
-                  {t('public.calendar.past')} ({filteredPast.length})
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="upcoming" className="space-y-4">
+            {listSubTab === 'upcoming' && (
+              <div className="space-y-4">
                 {upcomingLoading ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -713,9 +726,10 @@ export default function EventsCalendarPage() {
                     )}
                   </>
                 )}
-              </TabsContent>
-
-              <TabsContent value="past" className="space-y-4">
+              </div>
+            )}
+            {listSubTab === 'past' && (
+              <div className="space-y-4">
                 {pastLoading ? (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {[1, 2, 3].map((i) => (
@@ -792,8 +806,8 @@ export default function EventsCalendarPage() {
                     )}
                   </>
                 )}
-              </TabsContent>
-            </Tabs>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

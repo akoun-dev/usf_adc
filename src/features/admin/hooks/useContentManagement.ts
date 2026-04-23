@@ -8,20 +8,53 @@ export function useNews() {
   });
 }
 
+export function useEnhancedNews() {
+  return useQuery({
+    queryKey: ['admin-enhanced-news'],
+    queryFn: adminService.getEnhancedNews,
+  });
+}
+
+export function useNewsById(id: string) {
+  return useQuery({
+    queryKey: ['admin-news', id],
+    queryFn: () => adminService.getNewsById(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateNews() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: adminService.createNews,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-news'] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
   });
 }
 
 export function useUpdateNews() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; category?: string; image_url?: string; is_public?: boolean }) =>
+    mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; excerpt?: string; category?: string; source?: string; image_url?: string; featured_image?: string; status?: string; meta_description?: string; meta_keywords?: string; slug?: string; sort_order?: number; is_featured?: boolean; allow_comments?: boolean; language?: string; is_public?: boolean }) =>
       adminService.updateNews(id, input),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-news'] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useUpdateNewsStatus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      adminService.updateNewsStatus(id, status),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-news'] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
   });
 }
 
@@ -29,7 +62,172 @@ export function useDeleteNews() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: adminService.deleteNews,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-news'] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+// News Categories Hooks
+export function useNewsCategories() {
+  return useQuery({
+    queryKey: ['admin-news-categories'],
+    queryFn: adminService.getNewsCategories,
+  });
+}
+
+export function useNewsCategoryById(id: string) {
+  return useQuery({
+    queryKey: ['admin-news-categories', id],
+    queryFn: () => adminService.getNewsCategoryById(id),
+    enabled: !!id,
+  });
+}
+
+export function useCreateNewsCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createNewsCategory,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news-categories'] }),
+  });
+}
+
+export function useUpdateNewsCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; name_fr?: string; name_en?: string; name_pt?: string; slug?: string; color?: string; icon?: string; sort_order?: number; is_active?: boolean }) =>
+      adminService.updateNewsCategory(id, input),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news-categories'] }),
+  });
+}
+
+export function useDeleteNewsCategory() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteNewsCategory,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-news-categories'] }),
+  });
+}
+
+// News Gallery Images Hooks
+export function useNewsGalleryImages(newsId: string) {
+  return useQuery({
+    queryKey: ['admin-news-gallery-images', newsId],
+    queryFn: () => adminService.getNewsGalleryImages(newsId),
+    enabled: !!newsId,
+  });
+}
+
+export function useAddNewsGalleryImage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.addNewsGalleryImage,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useUpdateNewsGalleryImage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; caption?: string; alt_text?: string; sort_order?: number }) =>
+      adminService.updateNewsGalleryImage(id, input),
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useDeleteNewsGalleryImage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteNewsGalleryImage,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useReorderNewsGalleryImages() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.reorderNewsGalleryImages,
+    onSuccess: (_, variables) => {
+      const newsId = variables[0]?.news_id;
+      if (newsId) {
+        qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', newsId] });
+        qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+      }
+    },
+  });
+}
+
+// Article Translations Hooks
+export function useArticleTranslations(newsId: string) {
+  return useQuery({
+    queryKey: ['admin-article-translations', newsId],
+    queryFn: () => adminService.getArticleTranslations(newsId),
+    enabled: !!newsId,
+  });
+}
+
+export function useArticleTranslation(newsId: string, language: string) {
+  return useQuery({
+    queryKey: ['admin-article-translation', newsId, language],
+    queryFn: () => adminService.getArticleTranslation(newsId, language),
+    enabled: !!newsId && !!language,
+  });
+}
+
+export function useCreateArticleTranslation() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createArticleTranslation,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-article-translations', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useUpdateArticleTranslation() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; excerpt?: string }) =>
+      adminService.updateArticleTranslation(id, input),
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-article-translations', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+export function useDeleteArticleTranslation() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteArticleTranslation,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['admin-article-translations', variables.news_id] });
+      qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
+    },
+  });
+}
+
+// News Image Upload Hook
+export function useUploadNewsImage() {
+  return useMutation({
+    mutationFn: adminService.uploadNewsImage,
+  });
+}
+
+export function useDeleteNewsImage() {
+  return useMutation({
+    mutationFn: adminService.deleteNewsImage,
   });
 }
 

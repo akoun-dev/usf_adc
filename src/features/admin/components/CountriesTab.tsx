@@ -19,7 +19,16 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Plus, Pencil, Trash2, Search, ChevronDown, ChevronUp, Download, RefreshCw } from "lucide-react"
+import {
+    Plus,
+    Pencil,
+    Trash2,
+    Search,
+    ChevronDown,
+    ChevronUp,
+    Download,
+    RefreshCw,
+} from "lucide-react"
 import {
     useCountries,
     useCreateCountry,
@@ -62,8 +71,13 @@ const REGIONS = [
     "COMESA",
 ]
 
-type SortField = 'name_fr' | 'region' | 'capital' | 'fsu_established' | 'population'
-type SortOrder = 'asc' | 'desc'
+type SortField =
+    | "name_fr"
+    | "region"
+    | "capital"
+    | "fsu_established"
+    | "population"
+type SortOrder = "asc" | "desc"
 
 interface ColumnConfig {
     key: SortField
@@ -72,11 +86,11 @@ interface ColumnConfig {
 }
 
 const COLUMNS: ColumnConfig[] = [
-    { key: 'name_fr', label: 'Pays', sortable: true },
-    { key: 'region', label: 'Région', sortable: true },
-    { key: 'capital', label: 'Capital', sortable: true },
-    { key: 'fsu_established', label: 'FSU', sortable: true },
-    { key: 'population', label: 'Population', sortable: true },
+    { key: "name_fr", label: "Pays", sortable: true },
+    { key: "region", label: "Région", sortable: true },
+    { key: "capital", label: "Capital", sortable: true },
+    { key: "fsu_established", label: "FSU", sortable: true },
+    { key: "population", label: "Population", sortable: true },
 ]
 
 export function CountriesTab() {
@@ -92,8 +106,8 @@ export function CountriesTab() {
     // Search and filter state
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedRegion, setSelectedRegion] = useState("Toutes")
-    const [sortField, setSortField] = useState<SortField>('name_fr')
-    const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
+    const [sortField, setSortField] = useState<SortField>("name_fr")
+    const [sortOrder, setSortOrder] = useState<SortOrder>("asc")
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1)
@@ -127,12 +141,13 @@ export function CountriesTab() {
         // Apply search filter
         if (searchQuery) {
             const query = searchQuery.toLowerCase()
-            filtered = filtered.filter(c =>
-                c.name_fr?.toLowerCase().includes(query) ||
-                c.name_en?.toLowerCase().includes(query) ||
-                c.official_name?.toLowerCase().includes(query) ||
-                c.capital?.toLowerCase().includes(query) ||
-                c.code_iso?.toLowerCase().includes(query)
+            filtered = filtered.filter(
+                c =>
+                    c.name_fr?.toLowerCase().includes(query) ||
+                    c.name_en?.toLowerCase().includes(query) ||
+                    c.official_name?.toLowerCase().includes(query) ||
+                    c.capital?.toLowerCase().includes(query) ||
+                    c.code_iso?.toLowerCase().includes(query)
             )
         }
 
@@ -146,7 +161,7 @@ export function CountriesTab() {
             const aValue = a[sortField] || ""
             const bValue = b[sortField] || ""
 
-            if (sortOrder === 'asc') {
+            if (sortOrder === "asc") {
                 return aValue < bValue ? -1 : aValue > bValue ? 1 : 0
             } else {
                 return aValue > bValue ? -1 : aValue < bValue ? 1 : 0
@@ -157,26 +172,35 @@ export function CountriesTab() {
     }, [countries, searchQuery, selectedRegion, sortField, sortOrder])
 
     // Pagination
-    const totalPages = Math.ceil(filteredAndSortedCountries.length / itemsPerPage)
+    const totalPages = Math.ceil(
+        filteredAndSortedCountries.length / itemsPerPage
+    )
     const paginatedCountries = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage
-        return filteredAndSortedCountries.slice(startIndex, startIndex + itemsPerPage)
+        return filteredAndSortedCountries.slice(
+            startIndex,
+            startIndex + itemsPerPage
+        )
     }, [filteredAndSortedCountries, currentPage, itemsPerPage])
 
     // Stats
-    const stats = useMemo(() => ({
-        total: countries.length,
-        filtered: filteredAndSortedCountries.length,
-        withFsu: countries.filter(c => c.fsu_established).length,
-        withCoordinator: countries.filter(c => c.fsu_coordinator_name).length,
-    }), [countries, filteredAndSortedCountries.length])
+    const stats = useMemo(
+        () => ({
+            total: countries.length,
+            filtered: filteredAndSortedCountries.length,
+            withFsu: countries.filter(c => c.fsu_established).length,
+            withCoordinator: countries.filter(c => c.fsu_coordinator_name)
+                .length,
+        }),
+        [countries, filteredAndSortedCountries.length]
+    )
 
     const handleSort = (field: SortField) => {
         if (sortField === field) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc")
         } else {
             setSortField(field)
-            setSortOrder('asc')
+            setSortOrder("asc")
         }
     }
 
@@ -276,39 +300,41 @@ export function CountriesTab() {
     const handleExport = () => {
         const csvContent = [
             [
-                'Code ISO',
-                'Nom FR',
-                'Nom EN',
-                'Nom Officiel',
-                'Région',
-                'Capital',
-                'Population',
-                'FSU Établi',
-                'Budget FSU',
-                'Coordinateur',
-                'Email',
-                'Téléphone'
-            ].join(','),
-            ...filteredAndSortedCountries.map(c => [
-                c.code_iso,
-                `"${c.name_fr}"`,
-                `"${c.name_en}"`,
-                `"${c.official_name || ''}"`,
-                c.region,
-                `"${c.capital || ''}"`,
-                `"${c.population || ''}"`,
-                c.fsu_established || '',
-                `"${c.fsu_budget || ''}"`,
-                `"${c.fsu_coordinator_name || ''}"`,
-                c.fsu_coordinator_email || '',
-                `"${c.fsu_coordinator_phone || ''}"`
-            ].join(','))
-        ].join('\n')
+                "Code ISO",
+                "Nom FR",
+                "Nom EN",
+                "Nom Officiel",
+                "Région",
+                "Capital",
+                "Population",
+                "FSU Établi",
+                "Budget FSU",
+                "Coordinateur",
+                "Email",
+                "Téléphone",
+            ].join(","),
+            ...filteredAndSortedCountries.map(c =>
+                [
+                    c.code_iso,
+                    `"${c.name_fr}"`,
+                    `"${c.name_en}"`,
+                    `"${c.official_name || ""}"`,
+                    c.region,
+                    `"${c.capital || ""}"`,
+                    `"${c.population || ""}"`,
+                    c.fsu_established || "",
+                    `"${c.fsu_budget || ""}"`,
+                    `"${c.fsu_coordinator_name || ""}"`,
+                    c.fsu_coordinator_email || "",
+                    `"${c.fsu_coordinator_phone || ""}"`,
+                ].join(",")
+            ),
+        ].join("\n")
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-        const link = document.createElement('a')
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+        const link = document.createElement("a")
         link.href = URL.createObjectURL(blob)
-        link.download = `pays-${new Date().toISOString().split('T')[0]}.csv`
+        link.download = `pays-${new Date().toISOString().split("T")[0]}.csv`
         link.click()
     }
 
@@ -341,7 +367,9 @@ export function CountriesTab() {
                                 Gestion des Pays
                             </CardTitle>
                             <p className="text-sm text-muted-foreground mt-1">
-                                {stats.total} pays au total • {stats.withFsu} avec FSU • {stats.withCoordinator} avec coordinateur
+                                {stats.total} pays au total • {stats.withFsu}{" "}
+                                avec FSU • {stats.withCoordinator} avec
+                                coordinateur
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -377,11 +405,14 @@ export function CountriesTab() {
                             <Input
                                 placeholder="Rechercher par nom, capital, code ISO..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={e => setSearchQuery(e.target.value)}
                                 className="pl-10"
                             />
                         </div>
-                        <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+                        <Select
+                            value={selectedRegion}
+                            onValueChange={setSelectedRegion}
+                        >
                             <SelectTrigger className="w-full sm:w-[180px]">
                                 <SelectValue placeholder="Filtrer par région" />
                             </SelectTrigger>
@@ -422,17 +453,18 @@ export function CountriesTab() {
                                     <TableHead key={column.key}>
                                         {column.sortable ? (
                                             <button
-                                                onClick={() => handleSort(column.key)}
+                                                onClick={() =>
+                                                    handleSort(column.key)
+                                                }
                                                 className="flex items-center gap-1 hover:text-foreground transition-colors"
                                             >
                                                 {column.label}
-                                                {sortField === column.key && (
-                                                    sortOrder === 'asc' ? (
+                                                {sortField === column.key &&
+                                                    (sortOrder === "asc" ? (
                                                         <ChevronUp className="h-4 w-4" />
                                                     ) : (
                                                         <ChevronDown className="h-4 w-4" />
-                                                    )
-                                                )}
+                                                    ))}
                                             </button>
                                         ) : (
                                             column.label
@@ -450,17 +482,24 @@ export function CountriesTab() {
                             {paginatedCountries.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={COLUMNS.length + (isGlobalAdmin ? 2 : 1)}
+                                        colSpan={
+                                            COLUMNS.length +
+                                            (isGlobalAdmin ? 2 : 1)
+                                        }
                                         className="text-center py-12 text-muted-foreground"
                                     >
-                                        {searchQuery || selectedRegion !== "Toutes"
+                                        {searchQuery ||
+                                        selectedRegion !== "Toutes"
                                             ? "Aucun pays ne correspond aux critères de recherche"
                                             : "Aucun pays disponible"}
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 paginatedCountries.map(c => (
-                                    <TableRow key={c.id} className="group hover:bg-muted/50">
+                                    <TableRow
+                                        key={c.id}
+                                        className="group hover:bg-muted/50"
+                                    >
                                         <TableCell>
                                             {c.flag_url && (
                                                 <img
@@ -472,25 +511,37 @@ export function CountriesTab() {
                                         </TableCell>
                                         <TableCell>
                                             <div>
-                                                <div className="font-medium">{c.name_fr}</div>
+                                                <div className="font-medium">
+                                                    {c.name_fr}
+                                                </div>
                                                 {c.official_name && (
                                                     <div className="text-xs text-muted-foreground">
                                                         {c.official_name}
                                                     </div>
                                                 )}
-                                                <Badge variant="outline" className="text-xs mt-1">
+                                                <Badge
+                                                    variant="outline"
+                                                    className="text-xs mt-1"
+                                                >
                                                     {c.code_iso?.toUpperCase()}
                                                 </Badge>
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="secondary">{c.region}</Badge>
+                                            <Badge variant="secondary">
+                                                {c.region}
+                                            </Badge>
                                         </TableCell>
-                                        <TableCell>{c.capital || "-"}</TableCell>
+                                        <TableCell>
+                                            {c.capital || "-"}
+                                        </TableCell>
                                         <TableCell>
                                             {c.fsu_established ? (
                                                 <div className="text-sm">
-                                                    <span className="font-medium">Depuis {c.fsu_established}</span>
+                                                    <span className="font-medium">
+                                                        Depuis{" "}
+                                                        {c.fsu_established}
+                                                    </span>
                                                     {c.fsu_budget && (
                                                         <div className="text-xs text-muted-foreground">
                                                             {c.fsu_budget}
@@ -498,21 +549,29 @@ export function CountriesTab() {
                                                     )}
                                                 </div>
                                             ) : (
-                                                <span className="text-muted-foreground text-sm">Non défini</span>
+                                                <span className="text-muted-foreground text-sm">
+                                                    Non défini
+                                                </span>
                                             )}
                                         </TableCell>
                                         <TableCell>
                                             {c.fsu_coordinator_name ? (
                                                 <div className="text-sm">
-                                                    <div className="font-medium">{c.fsu_coordinator_name}</div>
+                                                    <div className="font-medium">
+                                                        {c.fsu_coordinator_name}
+                                                    </div>
                                                     {c.fsu_coordinator_email && (
                                                         <div className="text-xs text-muted-foreground">
-                                                            {c.fsu_coordinator_email}
+                                                            {
+                                                                c.fsu_coordinator_email
+                                                            }
                                                         </div>
                                                     )}
                                                 </div>
                                             ) : (
-                                                <span className="text-muted-foreground text-sm">Non défini</span>
+                                                <span className="text-muted-foreground text-sm">
+                                                    Non défini
+                                                </span>
                                             )}
                                         </TableCell>
                                         {isGlobalAdmin && (
@@ -521,14 +580,21 @@ export function CountriesTab() {
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        onClick={() => openEdit(c)}
+                                                        onClick={() =>
+                                                            openEdit(c)
+                                                        }
                                                     >
                                                         <Pencil className="h-4 w-4" />
                                                     </Button>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        onClick={() => handleDelete(c.id, c.name_fr)}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                c.id,
+                                                                c.name_fr
+                                                            )
+                                                        }
                                                     >
                                                         <Trash2 className="h-4 w-4 text-destructive" />
                                                     </Button>
@@ -549,7 +615,9 @@ export function CountriesTab() {
                             <span>Lignes par page:</span>
                             <Select
                                 value={itemsPerPage.toString()}
-                                onValueChange={(v) => setItemsPerPage(parseInt(v))}
+                                onValueChange={v =>
+                                    setItemsPerPage(parseInt(v))
+                                }
                             >
                                 <SelectTrigger className="w-[70px]">
                                     <SelectValue />
@@ -562,49 +630,83 @@ export function CountriesTab() {
                                 </SelectContent>
                             </Select>
                             <span>
-                                {Math.min((currentPage - 1) * itemsPerPage + 1, stats.filtered)}-{Math.min(currentPage * itemsPerPage, stats.filtered)} sur {stats.filtered}
+                                {Math.min(
+                                    (currentPage - 1) * itemsPerPage + 1,
+                                    stats.filtered
+                                )}
+                                -
+                                {Math.min(
+                                    currentPage * itemsPerPage,
+                                    stats.filtered
+                                )}{" "}
+                                sur {stats.filtered}
                             </span>
                         </div>
 
                         <Pagination>
                             <PaginationContent>
                                 <PaginationPrevious
-                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                    onClick={() =>
+                                        setCurrentPage(p => Math.max(1, p - 1))
+                                    }
+                                    className={
+                                        currentPage === 1
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
                                 />
 
-                                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                                    let pageNum
-                                    if (totalPages <= 5) {
-                                        pageNum = i + 1
-                                    } else if (currentPage <= 3) {
-                                        pageNum = i + 1
-                                    } else if (currentPage >= totalPages - 2) {
-                                        pageNum = totalPages - 4 + i
-                                    } else {
-                                        pageNum = currentPage - 2 + i
+                                {Array.from(
+                                    { length: Math.min(5, totalPages) },
+                                    (_, i) => {
+                                        let pageNum
+                                        if (totalPages <= 5) {
+                                            pageNum = i + 1
+                                        } else if (currentPage <= 3) {
+                                            pageNum = i + 1
+                                        } else if (
+                                            currentPage >=
+                                            totalPages - 2
+                                        ) {
+                                            pageNum = totalPages - 4 + i
+                                        } else {
+                                            pageNum = currentPage - 2 + i
+                                        }
+
+                                        return (
+                                            <PaginationItem key={pageNum}>
+                                                <PaginationLink
+                                                    onClick={() =>
+                                                        setCurrentPage(pageNum)
+                                                    }
+                                                    isActive={
+                                                        currentPage === pageNum
+                                                    }
+                                                    className="cursor-pointer"
+                                                >
+                                                    {pageNum}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        )
                                     }
-
-                                    return (
-                                        <PaginationItem key={pageNum}>
-                                            <PaginationLink
-                                                onClick={() => setCurrentPage(pageNum)}
-                                                isActive={currentPage === pageNum}
-                                                className="cursor-pointer"
-                                            >
-                                                {pageNum}
-                                            </PaginationLink>
-                                        </PaginationItem>
-                                    )
-                                })}
-
-                                {totalPages > 5 && currentPage < totalPages - 2 && (
-                                    <PaginationEllipsis />
                                 )}
 
+                                {totalPages > 5 &&
+                                    currentPage < totalPages - 2 && (
+                                        <PaginationEllipsis />
+                                    )}
+
                                 <PaginationNext
-                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                                    onClick={() =>
+                                        setCurrentPage(p =>
+                                            Math.min(totalPages, p + 1)
+                                        )
+                                    }
+                                    className={
+                                        currentPage === totalPages
+                                            ? "pointer-events-none opacity-50"
+                                            : "cursor-pointer"
+                                    }
                                 />
                             </PaginationContent>
                         </Pagination>
@@ -624,7 +726,9 @@ export function CountriesTab() {
                     </DialogHeader>
                     <Tabs defaultValue="basic" className="pt-2">
                         <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="basic">Informations de base</TabsTrigger>
+                            <TabsTrigger value="basic">
+                                Informations de base
+                            </TabsTrigger>
                             <TabsTrigger value="fsu">FSU</TabsTrigger>
                             <TabsTrigger value="contact">Contact</TabsTrigger>
                         </TabsList>
@@ -702,7 +806,9 @@ export function CountriesTab() {
                                         placeholder="SADC"
                                     />
                                     <datalist id="regions">
-                                        {REGIONS.filter(r => r !== "Toutes").map(r => (
+                                        {REGIONS.filter(
+                                            r => r !== "Toutes"
+                                        ).map(r => (
                                             <option key={r} value={r} />
                                         ))}
                                     </datalist>
@@ -737,16 +843,12 @@ export function CountriesTab() {
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label>URL du drapeau</Label>
-                                    <Input
+                                    <CountryLogoUpload
+                                        label="Drapeau"
                                         value={form.flag_url}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                flag_url: e.target.value,
-                                            })
+                                        onChange={url =>
+                                            setForm({ ...form, flag_url: url })
                                         }
-                                        placeholder="https://flagcdn.com/w320/za.png"
                                     />
                                 </div>
                             </div>
@@ -767,7 +869,8 @@ export function CountriesTab() {
                                     rows={4}
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    Histoire, objectifs, projets principaux du FSU
+                                    Histoire, objectifs, projets principaux du
+                                    FSU
                                 </p>
                             </div>
 
@@ -809,7 +912,8 @@ export function CountriesTab() {
                                     onChange={e =>
                                         setForm({
                                             ...form,
-                                            fsu_coordinator_name: e.target.value,
+                                            fsu_coordinator_name:
+                                                e.target.value,
                                         })
                                     }
                                     placeholder="Mme Thandi Mbeki"
@@ -825,7 +929,8 @@ export function CountriesTab() {
                                         onChange={e =>
                                             setForm({
                                                 ...form,
-                                                fsu_coordinator_email: e.target.value,
+                                                fsu_coordinator_email:
+                                                    e.target.value,
                                             })
                                         }
                                         placeholder="fsu@southafrica.gov.za"
@@ -838,7 +943,8 @@ export function CountriesTab() {
                                         onChange={e =>
                                             setForm({
                                                 ...form,
-                                                fsu_coordinator_phone: e.target.value,
+                                                fsu_coordinator_phone:
+                                                    e.target.value,
                                             })
                                         }
                                         placeholder="+27 10 000 0000"
@@ -848,7 +954,9 @@ export function CountriesTab() {
 
                             <CountryLogoUpload
                                 value={form.logo_path}
-                                onChange={(path) => setForm({ ...form, logo_path: path })}
+                                onChange={path =>
+                                    setForm({ ...form, logo_path: path })
+                                }
                                 countryCode={form.code_iso}
                             />
                         </TabsContent>

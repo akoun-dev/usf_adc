@@ -77,6 +77,8 @@ const AdminDashboard = lazy(
     () => import("@/features/admin/pages/AdminDashboard")
 )
 const AdminNewsPage = lazy(() => import("@/features/admin/pages/AdminNewsPage"))
+const AdminCategoriesPage = lazy(() => import("@/features/admin/pages/AdminCategoriesPage"))
+const ArticleFormPage = lazy(() => import("@/features/admin/pages/ArticleFormPage").then(module => ({ default: module.ArticleFormPage })))
 const AdminProjectsPage = lazy(
     () => import("@/features/admin/pages/AdminProjectsPage")
 )
@@ -325,6 +327,21 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/admin/news",
         component: AdminNewsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/news/create",
+        component: ArticleFormPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/news/edit/:id",
+        component: ArticleFormPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/categories",
+        component: AdminCategoriesPage,
         roles: ["country_admin", "super_admin"],
     },
     {

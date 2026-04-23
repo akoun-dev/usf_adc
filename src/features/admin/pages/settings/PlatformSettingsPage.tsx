@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useNavigate } from "react-router-dom"
-import { Settings, Shield, Database, Bell, Mail, Globe, Users, ArrowLeft } from "lucide-react"
+import { Settings, Shield, Database, Bell, Mail, Globe, ArrowLeft, FileText } from "lucide-react"
 import { useSettings } from "../../hooks/useSettings"
 import { useUpdateSetting } from "../../hooks/useUpdateSetting"
 import { useToast } from "@/hooks/use-toast"
@@ -110,24 +110,28 @@ export default function PlatformSettingsPage() {
     )
   }
 
-  // Group settings by prefix
-  const settingsByCategory = {
-    general: generalSettings.filter(s => s.key.startsWith('general_')),
-    security: generalSettings.filter(s => s.key.startsWith('security_')),
-    database: generalSettings.filter(s => s.key.startsWith('database_')),
-    notification: generalSettings.filter(s => s.key.startsWith('notification_')),
-    email: generalSettings.filter(s => s.key.startsWith('email_')),
-    system: generalSettings.filter(s => s.key.startsWith('system_')),
-  }
+  // Group settings by category from database
+  const settingsByCategory: Record<string, PlatformSetting[]> = {}
+  generalSettings.forEach(setting => {
+    if (!settingsByCategory[setting.category]) {
+      settingsByCategory[setting.category] = []
+    }
+    settingsByCategory[setting.category].push(setting)
+  })
 
-  const categories = [
-    { key: 'general', icon: Globe, title: t('admin.generalCategory', 'Général'), desc: t('admin.generalCategoryDesc', 'Paramètres généraux de la plateforme') },
-    { key: 'security', icon: Shield, title: t('admin.securityCategory', 'Sécurité'), desc: t('admin.securityCategoryDesc', 'Contrôles d\'accès et sécurité'), hasLink: true, link: '/admin/settings/ip' },
-    { key: 'database', icon: Database, title: t('admin.databaseCategory', 'Base de données'), desc: t('admin.databaseCategoryDesc', 'Configuration de la base de données'), hasLink: true, link: '/admin/settings/backups' },
-    { key: 'notification', icon: Bell, title: t('admin.notificationCategory', 'Notifications'), desc: t('admin.notificationCategoryDesc', 'Alertes et notifications système') },
-    { key: 'email', icon: Mail, title: t('admin.emailCategory', 'Email'), desc: t('admin.emailCategoryDesc', 'Configuration des emails sortants') },
-    { key: 'system', icon: Settings, title: t('admin.systemCategory', 'Système'), desc: t('admin.systemCategoryDesc', 'Paramètres système et performance') },
-  ]
+  // Get unique categories
+  const categoryKeys = Object.keys(settingsByCategory).sort()
+
+  // Category metadata
+  const categoryMeta: Record<string, { icon: any; title: string; desc: string; link?: string }> = {
+    general: { icon: Globe, title: t('admin.generalCategory', 'Général'), desc: t('admin.generalCategoryDesc', 'Paramètres généraux de la plateforme') },
+    fsu: { icon: FileText, title: t('admin.fsuCategory', 'FSU'), desc: t('admin.fsuCategoryDesc', 'Paramètres des soumissions FSU'), link: '/admin/settings/fsu' },
+    security: { icon: Shield, title: t('admin.securityCategory', 'Sécurité'), desc: t('admin.securityCategoryDesc', 'Contrôles d\'accès et sécurité'), link: '/admin/settings/ip' },
+    database: { icon: Database, title: t('admin.databaseCategory', 'Base de données'), desc: t('admin.databaseCategoryDesc', 'Configuration de la base de données'), link: '/admin/settings/backups' },
+    notification: { icon: Bell, title: t('admin.notificationCategory', 'Notifications'), desc: t('admin.notificationCategoryDesc', 'Alertes et notifications système') },
+    email: { icon: Mail, title: t('admin.emailCategory', 'Email'), desc: t('admin.emailCategoryDesc', 'Configuration des emails sortants') },
+    system: { icon: Settings, title: t('admin.systemCategory', 'Système'), desc: t('admin.systemCategoryDesc', 'Paramètres système et performance') },
+  }
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -151,7 +155,7 @@ export default function PlatformSettingsPage() {
         </div>
       </div>
 
-      {/* System Status Card */}
+      {/* System Status Card - Removed hardcoded values, can be re-added with real data */}
       <Card className="border-[#00833d]/20 bg-gradient-to-br from-[#00833d]/5 to-transparent">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -161,64 +165,47 @@ export default function PlatformSettingsPage() {
               </div>
               <div>
                 <CardTitle className="text-[#00833d]">
-                  {t('admin.systemOperational', 'Système Opérationnel')}
+                  {t('admin.systemStatus', 'État du Système')}
                 </CardTitle>
                 <CardDescription>
-                  {t('admin.version', 'Version')} 2.1.0
+                  {t('admin.settingsCount', '{{count}} paramètres configurés', { count: generalSettings.length })}
                 </CardDescription>
               </div>
             </div>
             <Badge variant="outline" className="border-[#00833d]/50 text-[#00833d]">
-              {t('admin.ok', 'OK')}
+              {t('admin.active', 'Actif')}
             </Badge>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">{t('admin.uptime', 'Temps de fonctionnement')}</p>
-              <p className="text-2xl font-semibold text-[#ffe700]">99.9%</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">{t('admin.activeUsers', 'Utilisateurs actifs')}</p>
-              <p className="text-2xl font-semibold text-[#00833d]">
-                {settings?.filter(s => s.key === 'active_users')[0]?.value || 0}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">{t('admin.requests', 'Requêtes (24h)')}</p>
-              <p className="text-2xl font-semibold text-[#00833d]">1.2K</p>
-            </div>
-          </div>
-        </CardContent>
       </Card>
 
       {/* Configuration Cards */}
       <div className="grid gap-6 md:grid-cols-2">
-        {categories.map((cat) => {
-          const Icon = cat.icon
-          const catSettings = settingsByCategory[cat.key as keyof typeof settingsByCategory] || []
+        {categoryKeys.map((categoryKey) => {
+          const catSettings = settingsByCategory[categoryKey] || []
+          const meta = categoryMeta[categoryKey] || { icon: Settings, title: categoryKey, desc: '' }
+          const Icon = meta.icon
           const count = catSettings.length
 
           return (
-            <Card key={cat.key} className="hover:shadow-md transition-all hover:border-[#00833d]/30">
+            <Card key={categoryKey} className="hover:shadow-md transition-all hover:border-[#00833d]/30">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${cat.key === 'notification' ? 'bg-[#ffe700]/30' : 'bg-[#00833d]/20'}`}>
-                    <Icon className={`h-4 w-4 text-[#00833d]`} />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00833d]/20">
+                    <Icon className="h-4 w-4 text-[#00833d]" />
                   </div>
-                  {cat.title}
+                  {meta.title}
                   <Badge variant="secondary" className="ml-auto">{count}</Badge>
                 </CardTitle>
-                <CardDescription>{cat.desc}</CardDescription>
+                <CardDescription>{meta.desc}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {catSettings.map(renderSetting)}
-                {cat.hasLink && (
+                {meta.link && (
                   <Button
                     variant="outline"
                     className="w-full border-[#00833d]/30 text-[#00833d] hover:bg-[#00833d]/10"
-                    onClick={() => cat.link && navigate(cat.link)}
+                    onClick={() => navigate(meta.link!)}
                   >
                     {t('admin.configure', 'Configurer')} →
                   </Button>

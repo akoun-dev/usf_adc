@@ -51,3 +51,81 @@ export interface AuditLogEntry {
   metadata: Record<string, unknown> | null;
   created_at: string;
 }
+
+export interface FaqArticle {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  sort_order: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type NewsStatus = 'draft' | 'in_review' | 'published' | 'archived';
+
+export interface NewsCategory {
+  id: string;
+  name_fr: string;
+  name_en: string;
+  name_pt: string;
+  slug: string;
+  color?: string;
+  icon?: string;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NewsGalleryImage {
+  id: string;
+  news_id: string;
+  image_url: string;
+  caption?: string;
+  alt_text?: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ArticleTranslation {
+  id: string;
+  news_id: string;
+  language: string;
+  title: string;
+  content?: string;
+  excerpt?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EnhancedNewsArticle {
+  id: string;
+  title: string;
+  excerpt?: string;
+  content?: string;
+  category?: string;
+  source?: string;
+  image_url?: string;
+  featured_image?: string;
+  published_at: string;
+  is_public: boolean;
+  author?: string;
+  read_time?: string;
+  language: string;
+  status: NewsStatus;
+  meta_description?: string;
+  meta_keywords?: string;
+  slug?: string;
+  sort_order: number;
+  is_featured: boolean;
+  allow_comments: boolean;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  categories?: NewsCategory[];
+  gallery_images?: NewsGalleryImage[];
+  translations?: ArticleTranslation[];
+}

@@ -1,65 +1,80 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNews, useCreateNews, useUpdateNews, useDeleteNews } from '../hooks/useContentManagement';
-import { useQueryClient } from '@tanstack/react-query';
+import { useEnhancedNews, useDeleteNews, useUpdateNewsStatus } from '../hooks/useContentManagement';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Pencil, Trash2, Plus, Eye, EyeOff } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Pencil, Trash2, Plus, Eye, EyeOff, Send, Save, CheckCircle2, Archive, FileText, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { EnhancedNewsArticle, NewsStatus } from '../types';
+import { StatusBadge } from './news/StatusBadge';
+import { CategoryBadge } from './news/CategoryBadge';
 
-interface NewsFormData {
-  title: string;
-  content: string;
-  category: string;
-  image_url: string;
-}
+
 
 export function NewsTab() {
   const { t } = useTranslation();
-  const { data: news, isLoading } = useNews();
-  const createNews = useCreateNews();
-  const updateNews = useUpdateNews();
+  const { data: news, isLoading } = useEnhancedNews();
   const deleteNews = useDeleteNews();
-  const [isOpen, setIsOpen] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const { register, handleSubmit, reset, setValue } = useForm<NewsFormData>();
+  const updateNewsStatus = useUpdateNewsStatus();
   const navigate = useNavigate();
-
-  const onSubmit = async (data: NewsFormData) => {
-    if (editingId) {
-      await updateNews.mutateAsync({ id: editingId, ...data });
-    } else {
-      await createNews.mutateAsync(data);
-    }
-    reset();
-    setEditingId(null);
-    setIsOpen(false);
-  };
-
-  const handleEdit = (item: any) => {
-    setEditingId(item.id);
-    setValue('title', item.title);
-    setValue('content', item.content);
-    setValue('category', item.category || '');
-    setValue('image_url', item.image_url || '');
-    setIsOpen(true);
-  };
 
   const handleDelete = async (id: string) => {
     if (confirm(t('admin.confirmDelete', 'Êtes-vous sûr de vouloir supprimer ?'))) {
-      await deleteNews.mutateAsync(id);
+      try {
+        await deleteNews.mutateAsync(id);
+      } catch (error) {
+        console.error('Error deleting news:', error);
+      }
     }
   };
 
-  const handleTogglePublish = async (item: any) => {
-    await updateNews.mutateAsync({ id: item.id, is_public: !item.is_public });
+  const handleTogglePublish = async (item: EnhancedNewsArticle) => {
+    try {
+      await updateNewsStatus.mutateAsync({ id: item.id, status: item.status });
+    } catch (error) {
+      console.error('Error toggling publish status:', error);
+    }
+  };
+
+  const handleStatusChange = async (item: EnhancedNewsArticle, newStatus: NewsStatus) => {
+    try {
+      await updateNewsStatus.mutateAsync({ id: item.id, status: newStatus });
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
+  const getStatusActions = (item: EnhancedNewsArticle) => {
+    const actions: { label: string; status: NewsStatus; icon: React.ReactNode }[] = [];
+    
+    switch (item.status) {
+      case 'draft':
+        actions.push(
+          { label: 'Submit for Review', status: 'in_review', icon: <Send className="h-4 w-4" /> },
+          { label: 'Publish', status: 'published', icon: <CheckCircle2 className="h-4 w-4" /> }
+        );
+        break;
+      case 'in_review':
+        actions.push(
+          { label: 'Approve & Publish', status: 'published', icon: <CheckCircle2 className="h-4 w-4" /> },
+          { label: 'Back to Draft', status: 'draft', icon: <FileText className="h-4 w-4" /> }
+        );
+        break;
+      case 'published':
+        actions.push(
+          { label: 'Archive', status: 'archived', icon: <Archive className="h-4 w-4" /> },
+          { label: 'Back to Draft', status: 'draft', icon: <FileText className="h-4 w-4" /> }
+        );
+        break;
+      case 'archived':
+        actions.push(
+          { label: 'Restore to Draft', status: 'draft', icon: <FileText className="h-4 w-4" /> }
+        );
+        break;
+    }
+    
+    return actions;
   };
 
   return (
@@ -70,47 +85,10 @@ export function NewsTab() {
             <CardTitle>{t('admin.newsManagement', 'Gestion des actualités')}</CardTitle>
             <CardDescription>{t('admin.newsManagementDesc', 'Créer et gérer les actualités de la plateforme')}</CardDescription>
           </div>
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => { reset(); setEditingId(null); }}>
-                <Plus className="mr-2 h-4 w-4" />
-                {t('common.add', 'Ajouter')}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>
-                  {editingId ? t('admin.editNews', 'Modifier une actualité') : t('admin.createNews', 'Créer une actualité')}
-                </DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <Label htmlFor="title">{t('news.title', 'Titre')}</Label>
-                  <Input id="title" {...register('title', { required: true })} />
-                </div>
-                <div>
-                  <Label htmlFor="category">{t('news.category', 'Catégorie')}</Label>
-                  <Input id="category" {...register('category')} placeholder="Actualité, Annonce, etc." />
-                </div>
-                <div>
-                  <Label htmlFor="image_url">{t('news.imageUrl', 'URL de l\'image')}</Label>
-                  <Input id="image_url" {...register('image_url')} placeholder="https://..." />
-                </div>
-                <div>
-                  <Label htmlFor="content">{t('news.content', 'Contenu')}</Label>
-                  <Textarea id="content" {...register('content', { required: true })} rows={10} />
-                </div>
-                <div className="flex justify-end gap-2">
-                  <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-                    {t('common.cancel', 'Annuler')}
-                  </Button>
-                  <Button type="submit" disabled={createNews.isPending || updateNews.isPending}>
-                    {t('common.save', 'Enregistrer')}
-                  </Button>
-                </div>
-              </form>
-            </DialogContent>
-          </Dialog>
+          <Button onClick={() => navigate('/admin/news/create')}>
+            <Plus className="mr-2 h-4 w-4" />
+            {t('admin.createArticle', 'Créer un article')}
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -119,8 +97,8 @@ export function NewsTab() {
             <TableRow>
               <TableHead>{t('news.title', 'Titre')}</TableHead>
               <TableHead>{t('news.category', 'Catégorie')}</TableHead>
+              <TableHead>{t('news.status', 'Statut')}</TableHead>
               <TableHead>{t('news.publishedAt', 'Publié le')}</TableHead>
-              <TableHead>{t('common.status', 'Statut')}</TableHead>
               <TableHead className="text-right">{t('common.actions', 'Actions')}</TableHead>
             </TableRow>
           </TableHeader>
@@ -132,23 +110,78 @@ export function NewsTab() {
             ) : (
               news?.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.title}</TableCell>
-                  <TableCell><Badge variant="secondary">{item.category || '-'}</Badge></TableCell>
-                  <TableCell>{item.published_at ? new Date(item.published_at).toLocaleDateString('fr-FR') : '-'}</TableCell>
-                  <TableCell>
-                    <Badge variant={item.is_public ? 'default' : 'outline'}>
-                      {item.is_public ? t('common.published', 'Publié') : t('common.draft', 'Brouillon')}
-                    </Badge>
+                  <TableCell className="font-medium max-w-[300px] truncate">
+                    <Button 
+                      variant="link" 
+                      className="p-0 h-auto justify-start text-left" 
+                      onClick={() => navigate(`/admin/news/edit/${item.id}`)}
+                    >
+                      {item.title}
+                    </Button>
                   </TableCell>
+                  <TableCell>
+                    {item.news_categories ? (
+                      <CategoryBadge category={item.news_categories} />
+                    ) : '-'}
+                  </TableCell>
+                  <TableCell>
+                    <StatusBadge status={item.status as NewsStatus} />
+                  </TableCell>
+                  <TableCell>{item.published_at ? new Date(item.published_at).toLocaleDateString('fr-FR') : '-'}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
-                      <Button size="icon" variant="ghost" onClick={() => handleTogglePublish(item)}>
+                      {/* Status actions dropdown */}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button size="icon" variant="ghost" className="h-8 w-8">
+                            <Clock className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-xs">
+                          <DialogHeader>
+                            <DialogTitle>{t('news.changeStatus', 'Changer le statut')}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-2">
+                            {getStatusActions(item).map((action) => (
+                              <Button
+                                key={action.status}
+                                variant="ghost"
+                                className="w-full justify-start gap-2"
+                                onClick={() => handleStatusChange(item, action.status)}
+                              >
+                                {action.icon}
+                                {action.label}
+                              </Button>
+                            ))}
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={() => handleTogglePublish(item)} 
+                        className="h-8 w-8"
+                        title={item.is_public ? t('news.unpublish', 'Dépublier') : t('news.publish', 'Publier')}
+                      >
                         {item.is_public ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
-                      <Button size="icon" variant="ghost" onClick={() => handleEdit(item)}>
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={() => navigate(`/admin/news/edit/${item.id}`)} 
+                        className="h-8 w-8"
+                        title={t('common.edit', 'Modifier')}
+                      >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button size="icon" variant="ghost" onClick={() => handleDelete(item.id)}>
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={() => handleDelete(item.id)} 
+                        className="h-8 w-8"
+                        title={t('common.delete', 'Supprimer')}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>

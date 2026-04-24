@@ -125,6 +125,9 @@
     "calendarUpcoming": "Événements à Venir",
     "calendarMyEvents": "Mes Événements",
     "calendarSubscriptions": "Abonnements",
+    "webinars": "Webinaires",
+    "elearning": "E-Learning",
+    "myCertifications": "Mes Certifications",
     "alerts": "Alertes",
     "allProjects": "Tous les Projets",
     "validateProjects": "Valider les Projets",
@@ -1093,7 +1096,10 @@
     "progress": "Progression",
     "start": "Commencer",
     "resume": "Reprendre",
-    "completed": "Terminé"
+    "completed": "Terminé",
+    "webinarsDesc": "Webinaires en direct et enregistrés",
+    "elearningDesc": "Cours en ligne et ressources pédagogiques",
+    "certificationsDesc": "Suivi des formations complétées"
   },
   "chat": {
     "title": "Chat en direct",

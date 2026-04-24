@@ -1,81 +1,87 @@
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Video, BookMarked, Globe, Users } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Video, BookMarked, Award } from "lucide-react"
 
 export default function TrainingPage() {
     const { t } = useTranslation()
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 w-full">
             <div>
-                <h1 className="text-3xl font-bold">{t("nav.sectionTraining")}</h1>
+                <h1 className="text-2xl font-bold">{t("nav.sectionTraining")}</h1>
                 <p className="text-muted-foreground">
                     {t("training.desc", "Formation et ressources")}
                 </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
-                <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => window.location.href = "/point-focal/training/webinars"}>
-                    <CardHeader>
-                        <Video className="h-8 w-8 mb-2 text-primary" />
-                        <CardTitle>{t("nav.webinars")}</CardTitle>
-                        <CardDescription>
-                            {t("training.webinarsDesc", "Webinaires à venir et passés")}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-muted-foreground">
-                            {t("training.webinarsAvailable", "webinaires disponibles")}
-                        </p>
-                    </CardContent>
-                </Card>
+            <Tabs defaultValue="webinars" className="space-y-4">
+                <TabsList>
+                    <TabsTrigger value="webinars">
+                        <Video className="mr-2 h-4 w-4" />
+                        {t("nav.webinars", "Webinaires")}
+                    </TabsTrigger>
+                    <TabsTrigger value="elearning">
+                        <BookMarked className="mr-2 h-4 w-4" />
+                        {t("nav.elearning", "E-Learning")}
+                    </TabsTrigger>
+                    <TabsTrigger value="certifications">
+                        <Award className="mr-2 h-4 w-4" />
+                        {t("nav.myCertifications", "Mes Certifications")}
+                    </TabsTrigger>
+                </TabsList>
 
-                <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => window.location.href = "/point-focal/training/elearning"}>
-                    <CardHeader>
-                        <BookMarked className="h-8 w-8 mb-2 text-primary" />
-                        <CardTitle>{t("nav.elearning")}</CardTitle>
-                        <CardDescription>
-                            {t("training.elearningDesc", "Cours en ligne et ressources")}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-muted-foreground">
-                            {t("training.coursesAvailable", "cours disponibles")}
-                        </p>
-                    </CardContent>
-                </Card>
+                <TabsContent value="webinars">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Video className="h-5 w-5" />
+                                {t("nav.webinars")}
+                            </CardTitle>
+                            <CardDescription>
+                                {t("training.webinarsDesc", "Webinaires en direct et enregistrés")}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">{t("common.noData")}</p>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-                <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => window.location.href = "/feeds"}>
-                    <CardHeader>
-                        <Globe className="h-8 w-8 mb-2 text-primary" />
-                        <CardTitle>{t("nav.strategicWatch")}</CardTitle>
-                        <CardDescription>
-                            {t("training.watchDesc", "Flux RSS et alertes personnalisées")}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-muted-foreground">
-                            {t("training.alertsActive", "alertes actives")}
-                        </p>
-                    </CardContent>
-                </Card>
-            </div>
+                <TabsContent value="elearning">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <BookMarked className="h-5 w-5" />
+                                {t("nav.elearning")}
+                            </CardTitle>
+                            <CardDescription>
+                                {t("training.elearningDesc", "Cours en ligne et ressources pédagogiques")}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">{t("common.noData")}</p>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t("nav.webinars")}</CardTitle>
-                    <CardDescription>{t("training.upcomingWebinars", "Webinaires à venir")}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col items-center justify-center h-48 text-muted-foreground">
-                        <Video className="h-12 w-12 mb-4 opacity-50" />
-                        <p>{t("common.noData")}</p>
-                    </div>
-                </CardContent>
-            </Card>
+                <TabsContent value="certifications">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Award className="h-5 w-5" />
+                                {t("nav.myCertifications")}
+                            </CardTitle>
+                            <CardDescription>
+                                {t("training.certificationsDesc", "Suivi des formations complétées")}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">{t("common.noData")}</p>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }

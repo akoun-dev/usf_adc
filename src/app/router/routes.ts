@@ -171,6 +171,7 @@ const PointFocalValidationPage = lazy(() => import("@/features/pointfocal/pages/
 const PointFocalForumPage = lazy(() => import("@/features/pointfocal/pages/ForumPage"))
 const PointFocalTrainingPage = lazy(() => import("@/features/pointfocal/pages/TrainingPage"))
 const AccountPage = lazy(() => import("@/features/pointfocal/pages/AccountPage"))
+const PointFocalCalendarPage = lazy(() => import("@/features/pointfocal/pages/PointFocalCalendarPage"))
 
 // Public pages
 const PublicHomePage = lazy(
@@ -228,9 +229,14 @@ const LeadershipTeamPage = lazy(
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/dashboard", component: DashboardRouter },
+{
+        path: "/point-focal/account",
+        component: AccountPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
     {
-        path: "/dashboard/public",
-        component: PublicExternalDashboard,
+        path: "/point-focal/calendar",
+        component: PointFocalCalendarPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {

@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Rss, ExternalLink, Globe } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Rss, ExternalLink, Globe, Bell } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import PageHero from '@/components/PageHero';
 

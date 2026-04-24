@@ -172,6 +172,8 @@ const PointFocalForumPage = lazy(() => import("@/features/pointfocal/pages/Forum
 const PointFocalTrainingPage = lazy(() => import("@/features/pointfocal/pages/TrainingPage"))
 const AccountPage = lazy(() => import("@/features/pointfocal/pages/AccountPage"))
 const PointFocalCalendarPage = lazy(() => import("@/features/pointfocal/pages/PointFocalCalendarPage"))
+const CmdtContributionsPage = lazy(() => import("@/features/pointfocal/pages/CmdtContributionsPage"))
+const AgencyDirectoryPage = lazy(() => import("@/features/pointfocal/pages/AgencyDirectoryPage"))
 
 // Public pages
 const PublicHomePage = lazy(
@@ -253,6 +255,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/point-focal/projects",
         component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/map",
+        component: ProjectsMapPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
@@ -341,6 +348,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
+        path: "/point-focal/cmdt25",
+        component: CmdtContributionsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
         path: "/point-focal/forum/topics",
         component: PointFocalForumPage,
         roles: ["point_focal", "country_admin", "super_admin"],
@@ -379,6 +391,16 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/country-admin/projects",
         component: CountryAdminProjectsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/map",
+        component: ProjectsMapPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/calendar",
+        component: PointFocalCalendarPage,
         roles: ["country_admin", "super_admin"],
     },
     {
@@ -487,6 +509,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
+        path: "/point-focal/training",
+        component: PointFocalTrainingPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
         path: "/point-focal/training/webinars",
         component: PointFocalTrainingPage,
         roles: ["point_focal", "country_admin", "super_admin"],
@@ -497,8 +524,23 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
+        path: "/point-focal/feeds",
+        component: RssFeedsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/documents",
+        component: DocumentLibraryPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
         path: "/point-focal/codraft",
         component: PointFocalForumPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/directory",
+        component: AgencyDirectoryPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {

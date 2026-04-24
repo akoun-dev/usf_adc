@@ -82,13 +82,12 @@ export default function ProjectsMapPage() {
                 icon={<MapPin className="h-6 w-6 text-secondary" />}
             >
                 <div className="flex gap-2">
-                    {/* US-061: Export map */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border-white/20"
+                                className="bg-primary text-primary-foreground hover:bg-primary/90"
                             >
                                 <FileDown className="mr-1 h-4 w-4" />
                                 {t("map.export", "Exporter")}
@@ -109,12 +108,11 @@ export default function ProjectsMapPage() {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    {/* US-063: Share link */}
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={handleShare}
-                        className="bg-white/15 text-white backdrop-blur-sm hover:bg-white/25 border-white/20"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90"
                     >
                         <Share2 className="mr-1 h-4 w-4" />
                         {t("map.share", "Partager")}

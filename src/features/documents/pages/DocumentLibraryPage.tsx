@@ -10,6 +10,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
     Dialog,
     DialogContent,
@@ -26,6 +27,8 @@ import {
     FileText,
     Search,
     Trash2,
+    Clock,
+    History,
 } from "lucide-react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
@@ -220,10 +223,27 @@ export default function DocumentLibraryPage() {
                 )}
             </PageHero>
 
-            <div className="flex flex-wrap gap-3">
-                <div className="relative flex-1 min-w-[200px]">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
+            <Tabs defaultValue="bytheme" className="space-y-4">
+                <TabsList>
+                    <TabsTrigger value="bytheme">
+                        <FolderOpen className="mr-2 h-4 w-4" />
+                        {t("nav.docsByTheme", "Par Thème")}
+                    </TabsTrigger>
+                    <TabsTrigger value="downloads">
+                        <Download className="mr-2 h-4 w-4" />
+                        {t("nav.myDownloads", "Mes Téléchargements")}
+                    </TabsTrigger>
+                    <TabsTrigger value="versions">
+                        <History className="mr-2 h-4 w-4" />
+                        {t("nav.docVersions", "Historique des Versions")}
+                    </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="bytheme">
+                    <div className="flex flex-wrap gap-3">
+                        <div className="relative flex-1 min-w-[200px]">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
                         placeholder={t("documents.search", "Rechercher...")}
                         value={search}
                         onChange={e => setSearch(e.target.value)}
@@ -307,6 +327,26 @@ export default function DocumentLibraryPage() {
                     ))}
                 </div>
             )}
+                </TabsContent>
+
+                <TabsContent value="downloads">
+                    <Card>
+                        <CardContent className="py-12 text-center text-muted-foreground">
+                            <Download className="mx-auto h-12 w-12 mb-3 opacity-50" />
+                            <p>{t("common.noData")}</p>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="versions">
+                    <Card>
+                        <CardContent className="py-12 text-center text-muted-foreground">
+                            <History className="mx-auto h-12 w-12 mb-3 opacity-50" />
+                            <p>{t("common.noData")}</p>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
     )
 }

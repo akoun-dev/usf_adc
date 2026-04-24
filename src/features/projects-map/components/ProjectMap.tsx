@@ -268,14 +268,15 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
             markersMapRef.current.set(project.id, marker);
         });
 
-        if (geoProjects.length > 0) {
+if (geoProjects.length > 0) {
             const bounds = L.latLngBounds(geoProjects.map((p) => [p.latitude!, p.longitude!] as L.LatLngTuple));
-            //map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
             map.fitBounds(bounds, {
                 paddingTopLeft: [40, 40],
-                paddingBottomRight: [40, 120], // 👈 plus d’espace en bas
+                paddingBottomRight: [40, 120],
                 maxZoom: 6,
             });
+        } else {
+            map.setView([5, 20], 3);
         }
     }, [projects, onProjectClick, mapMode, t]);
 

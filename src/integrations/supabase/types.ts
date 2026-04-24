@@ -1,17 +1,8 @@
-export type Json =
-    | string
-    | number
-    | boolean
-    | null
-    | { [key: string]: Json | undefined }
-    | Json[]
+import type { UserProfile } from '@/core/types/profile'
 
-export type Database = {
-    // Allows to automatically instantiate createClient with right options
-    // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-    __InternalSupabase: {
-        PostgrestVersion: "14.5"
-    }
+export type { UserProfile }
+
+export interface Database {
     public: {
         Tables: {
             audit_logs: {
@@ -45,6 +36,12 @@ export type Database = {
                     target_table?: string | null
                     user_id?: string | null
                 }
+                Relationships: []
+            }
+            cmdt_contributions: {
+                Row: CmdtContribution
+                Insert: Partial<CmdtContribution>
+                Update: Partial<CmdtContribution>
                 Relationships: []
             }
             countries: {
@@ -604,12 +601,6 @@ export type Database = {
                     site_web: string | null
                     telephone_contact: string | null
                     type: string
-                    countries: {
-                        code_iso: string
-                        name_fr: string
-                        name_en: string
-                        id: string
-                    } | null
                 }
                 Insert: {
                     adresse?: string | null
@@ -765,19 +756,7 @@ export type Database = {
                 Relationships: []
             }
             profiles: {
-                Row: {
-                    avatar_url: string | null
-                    country_id: string | null
-                    created_at: string
-                    full_name: string | null
-                    id: string
-                    is_active: boolean
-                    language: string
-                    mfa_method: string
-                    phone: string | null
-                    telegram_chat_id: string | null
-                    updated_at: string
-                }
+                Row: UserProfile
                 Insert: {
                     avatar_url?: string | null
                     country_id?: string | null
@@ -833,12 +812,6 @@ export type Database = {
                     site_web: string | null
                     telephone_contact: string | null
                     type: string
-                    countries: {
-                        code_iso: string
-                        name_fr: string
-                        name_en: string
-                        id: string
-                    } | null
                 }
                 Insert: {
                     adresse?: string | null
@@ -1175,155 +1148,22 @@ export type Database = {
     }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
-
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
-
-export type Tables<
-    DefaultSchemaTableNameOrOptions extends
-        | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-        | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
-        ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-              DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-        : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+export interface CmdtContribution {
+    id: string
+    title: string
+    description: string | null
+    content: string | null
+    status: 'draft' | 'review' | 'pending' | 'validated' | 'rejected'
+    version: string
+    category: string | null
+    country_id: string | null
+    created_by: string | null
+    collaborators: string[]
+    is_pinned: boolean
+    views: number
+    comments_count: number
+    submitted_at: string | null
+    validated_at: string | null
+    created_at: string
+    updated_at: string
 }
-    ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-          DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-          Row: infer R
-      }
-        ? R
-        : never
-    : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-            DefaultSchema["Views"])
-      ? (DefaultSchema["Tables"] &
-            DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-            Row: infer R
-        }
-          ? R
-          : never
-      : never
-
-export type TablesInsert<
-    DefaultSchemaTableNameOrOptions extends
-        | keyof DefaultSchema["Tables"]
-        | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
-        ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-        : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-}
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-          Insert: infer I
-      }
-        ? I
-        : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-      ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-            Insert: infer I
-        }
-          ? I
-          : never
-      : never
-
-export type TablesUpdate<
-    DefaultSchemaTableNameOrOptions extends
-        | keyof DefaultSchema["Tables"]
-        | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
-        ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-        : never = never,
-> = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-}
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-          Update: infer U
-      }
-        ? U
-        : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-      ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-            Update: infer U
-        }
-          ? U
-          : never
-      : never
-
-export type Enums<
-    DefaultSchemaEnumNameOrOptions extends
-        | keyof DefaultSchema["Enums"]
-        | { schema: keyof DatabaseWithoutInternals },
-    EnumName extends DefaultSchemaEnumNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
-        ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-        : never = never,
-> = DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-}
-    ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-    : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-      ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-      : never
-
-export type CompositeTypes<
-    PublicCompositeTypeNameOrOptions extends
-        | keyof DefaultSchema["CompositeTypes"]
-        | { schema: keyof DatabaseWithoutInternals },
-    CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
-        ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-        : never = never,
-> = PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
-}
-    ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-    : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-      ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-      : never
-
-export const Constants = {
-    public: {
-        Enums: {
-            app_role: [
-                "public_external",
-                "point_focal",
-                "country_admin",
-                "super_admin",
-            ],
-            invitation_status: ["pending", "accepted", "expired", "cancelled"],
-            notification_type: ["info", "warning", "action_required", "system"],
-            project_status: [
-                "planned",
-                "in_progress",
-                "completed",
-                "suspended",
-            ],
-            submission_status: [
-                "draft",
-                "submitted",
-                "under_review",
-                "approved",
-                "rejected",
-                "revision_requested",
-            ],
-            ticket_status: ["open", "in_progress", "resolved", "closed"],
-            validation_action_type: [
-                "approve",
-                "reject",
-                "request_revision",
-                "comment",
-            ],
-        },
-    },
-} as const

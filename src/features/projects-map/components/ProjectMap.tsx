@@ -153,13 +153,23 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
     const mapRef = useRef<L.Map | null>(null);
     const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
     const tileLayerRef = useRef<L.TileLayer | null>(null);
+    const maskLayerRef = useRef<L.Polygon | null>(null);
     const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
     const { t } = useTranslation();
 
     useEffect(() => {
         if (!containerRef.current || mapRef.current) return;
 
-        mapRef.current = L.map(containerRef.current).setView([5, 20], 3);
+        mapRef.current = L.map(containerRef.current, {
+            center: [5, 20],
+            zoom: 4,
+            minZoom: 4,
+            maxBounds: L.latLngBounds(
+                [-35, -18],  // Sud-Ouest (Cap de Bonne-Espérance, Sénégal)
+                [37, 52]     // Nord-Est (Méditerranée, Corne de l'Afrique)
+            ),
+            maxBoundsViscosity: 1.0,
+        });
 
         // Create tile layer based on map mode
         const tileUrl = mapMode === 'satellite'
@@ -170,6 +180,39 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
             : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
         tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(mapRef.current);
+
+        // Africa-only mask: covers the world except Africa (expanded outline + blur fade)
+        const africaOutline: L.LatLngExpression[] = [
+            [45, -28], [45, -14], [45, 14], [40, 6], [39, 24],
+            [38, 32], [37, 34], [28, 40], [20, 47], [16, 56],
+            [5, 50], [0, 45], [-5, 43], [-10, 44], [-16, 40],
+            [-22, 38], [-34, 34], [-42, 27], [-44, 20], [-42, 16],
+            [-38, 14], [-30, 10], [-24, 8], [-12, 5], [3, 1],
+            [5, -4], [5, -12], [8, -21], [17, -25], [23, -25],
+            [30, -20], [42, -17], [45, -28]
+        ];
+        const worldBounds: L.LatLngExpression[] = [
+            [-90, -180], [-90, 180], [90, 180], [90, -180]
+        ];
+        const bgColor = getComputedStyle(document.body).backgroundColor;
+        const mask = L.polygon([worldBounds, africaOutline], {
+            fillColor: bgColor === 'rgba(0, 0, 0, 0)' ? '#ffffff' : bgColor,
+            fillOpacity: 0.85,
+            color: 'transparent',
+            weight: 0,
+            interactive: false,
+            className: 'africa-mask-overlay',
+        }).addTo(mapRef.current);
+        maskLayerRef.current = mask;
+
+        // Toggle mask visibility based on zoom level
+        mapRef.current.on('zoomend', () => {
+            const zoom = mapRef.current?.getZoom() ?? 4;
+            const el = maskLayerRef.current?.getElement() as HTMLElement | null;
+            if (el) {
+                el.style.opacity = zoom <= 4 ? '1' : '0';
+            }
+        });
 
         clusterRef.current = L.markerClusterGroup({
             maxClusterRadius: 50,
@@ -238,21 +281,24 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
 
 
 
-    // Fly to selected project
+    // Fly to selected project — zoom and frame within visible map area
     useEffect(() => {
         const map = mapRef.current;
         if (!map || !selectedProjectId) return;
         const marker = markersMapRef.current.get(selectedProjectId);
         if (marker) {
             const latLng = marker.getLatLng();
-            const offsetY = 100; // pixels (ajuste ici)
+            const bounds = L.latLngBounds([latLng, latLng]);
 
-            const point = map.project(latLng, 8);
-            const newPoint = point.subtract([0, offsetY]);
-            const newLatLng = map.unproject(newPoint, 8);
+            map.flyToBounds(bounds, {
+                paddingTopLeft: [280, 80],
+                paddingBottomRight: [40, 40],
+                maxZoom: 8,
+                duration: 0.8,
+            });
 
-            map.flyTo(newLatLng, 8, { duration: 0.8 });
-            marker.openPopup();
+            // Open popup after fly animation completes
+            setTimeout(() => marker.openPopup(), 900);
         }
     }, [selectedProjectId]);
 

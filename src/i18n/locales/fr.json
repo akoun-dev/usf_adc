@@ -1419,7 +1419,18 @@
       "allCategories": "Toutes catégories",
       "allLanguages": "Toutes langues",
       "featured": "À la une",
-      "empty": "Aucun document public trouvé"
+      "empty": "Aucun document public trouvé",
+      "download": "Télécharger le document",
+      "categories": {
+        "all": "Toutes catégories",
+        "guides": "Guides",
+        "reports": "Rapports",
+        "templates": "Modèles",
+        "presentations": "Présentations",
+        "regulations": "Règlements",
+        "studies": "Études",
+        "general": "Général"
+      }
     },
     "forum": {
       "title": "Forum Public",
@@ -2211,7 +2222,9 @@
           "countriesFound": "{{count}} pays trouvé",
           "countriesFound_plural": "{{count}} pays trouvés",
           "noCountryFound": "Aucun pays trouvé",
-          "tryOtherFilters": "Essayez d'autres critères de recherche"
+          "tryOtherFilters": "Essayez d'autres critères de recherche",
+          "legendCapital": "Capitale",
+          "legendPopulation": "Population"
         },
         "countryCard": {
           "projects": "projets",
@@ -2376,6 +2389,21 @@
       "discover": "Découvrir",
       "scroll": "Défiler"
     },
+    "welcome": {
+      "badge": "Mot de Bienvenue",
+      "title": "Messages de bienvenue",
+      "description": "Les dirigeants de l'Union Africaine des Télécommunications vous adressent leurs vœux les plus chaleureux.",
+      "secretaryGeneral": {
+        "name": "M. John Omo",
+        "role": "Secrétaire Général de l'UAT",
+        "message": "Chers partenaires et collègues, c'est avec un immense plaisir que je vous accueille sur la plateforme USF-ADC, un outil stratégique majeur pour l'avenir du numérique en Afrique. Cette plateforme incarne notre vision commune : garantir l'accès universel aux services de télécommunications pour chaque citoyen africain, où qu'il se trouve. Ensemble, nous construisons un continent connecté, inclusif et résilient. Je vous invite à explorer cette plateforme et à contribuer activement à notre mission partagée de transformation numérique."
+      },
+      "director": {
+        "name": "M. Gilles Beugre",
+        "role": "Directeur Général de l'ANSUT (Côte d'Ivoire)",
+        "message": "Bienvenue sur la plateforme USF-ADC, fruit d'un travail collaboratif exemplaire entre nos États membres et nos partenaires techniques. En tant que directeur en charge des radiocommunications, je suis convaincu que la gestion optimale du spectre et le déploiement des infrastructures sont les clés pour atteindre nos objectifs de connectivité universelle. Cette plateforme nous permet de suivre, coordonner et accélérer les projets du Fonds de Service Universel à l'échelle panafricaine. Votre engagement est essentiel pour réussir ce défi."
+      }
+    },
     "featuresSection": {
       "badge": "Fonctionnalités",
       "title": "Une plateforme complète",
@@ -2480,6 +2508,10 @@
     "imageAlt": {
       "hero": "Connectivité numérique africaine",
       "collaboration": "Équipe africaine collaborant sur la plateforme"
+    },
+    "partners": {
+      "badge": "Nos Partenaires",
+      "title": "Ils nous font confiance"
     },
     "atu": "ATU / UAT"
   },

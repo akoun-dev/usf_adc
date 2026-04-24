@@ -206,8 +206,8 @@ export default function AssociatedMembersPage() {
                         ) : (
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {allMembers.map((member) => (
-                                    <Card key={member.id} className="hover:shadow-lg transition-all duration-300 border-2">
-                                        <CardContent className="pt-4 pb-6 px-6">
+                                    <Card key={member.id} className="hover:shadow-lg transition-all duration-300 border-2 h-full">
+                                        <CardContent className="pt-4 pb-6 px-6 flex flex-col h-full">
                                             <div className="items-start gap-4 mb-4">
                                                 <Badge className="font-normal text-sm mb-1 bg-gray-200 text-gray-600 hover:bg-secondary hover:text-black">{member.name}</Badge>
                                                 <div className="h-20 flex items-start justify-center">
@@ -259,7 +259,7 @@ export default function AssociatedMembersPage() {
                                                     </div>
                                                 </div>
                                             )}
-                                            <div className="flex gap-2">
+                                            <div className="flex gap-2 mt-auto pt-4">
                                                 {member.website && (
                                                     <Button asChild variant="outline" size="sm" className="flex-1">
                                                         <a

@@ -20,7 +20,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import { Clock, Download, Filter, FolderOpen, Search } from "lucide-react"
+import { Clock, Download, Filter, FolderOpen, HardDrive, Search, File } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import PageHero from "@/components/PageHero"
 import { PublicLayout } from "../components/PublicLayout"
@@ -34,7 +34,8 @@ import {
 const CATEGORIES = [
     ...Object.entries(DOCUMENT_CATEGORIES).map(([key, val]) => ({
         value: key,
-        label: val,
+        icon: val.icon,
+        labelKey: val.label,
     })),
 ]
 
@@ -121,7 +122,7 @@ export default function PublicDocumentsPage() {
                                 <SelectItem key={item.value} value={item.value}>
                                     {item.value === "all"
                                         ? t("public.documents.allCategories")
-                                        : item.label || item.value}
+                                        : `${item.icon} ${t(item.labelKey)}`}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -271,7 +272,14 @@ export default function PublicDocumentsPage() {
     )
 }
 
+function formatFileSize(bytes: number): string {
+    if (bytes < 1024) return `${bytes} o`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`
+    return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`
+}
+
 function LibraryDocumentCard({ document }: { document: PublicDocument }) {
+    const { t } = useTranslation()
     const categoryInfo =
         DOCUMENT_CATEGORIES[
             document.category as keyof typeof DOCUMENT_CATEGORIES
@@ -280,9 +288,9 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
         DOCUMENT_TYPES[document.type as keyof typeof DOCUMENT_TYPES]
 
     return (
-        <Card className="group overflow-hidden border-primary/10 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[var(--shadow-md)] transition-all">
-            <CardContent className="p-0">
-                <div className="relative h-40 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/15">
+        <Card className="group overflow-hidden border-primary/10 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[var(--shadow-md)] transition-all h-full">
+            <CardContent className="p-0 flex flex-col h-full">
+                <div className="relative h-40 shrink-0 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/15">
                     {document.thumbnail ? (
                         <img
                             src={document.thumbnail}
@@ -293,7 +301,7 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                     <div className="absolute inset-0 bg-gradient-to-t from-[hsl(152,100%,16%)/0.78] via-[hsl(152,100%,18%)/0.20] to-transparent" />
                     <div className="absolute left-4 top-4 flex gap-2">
                         <Badge className="bg-secondary text-gray-900 hover:bg-secondary">
-                            {typeInfo.icon} {typeInfo.label}
+                            {typeInfo?.icon} {typeInfo?.label}
                         </Badge>
                         <Badge
                             variant="outline"
@@ -304,13 +312,13 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                     </div>
                 </div>
 
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-1">
                     {categoryInfo ? (
                         <Badge
                             variant="outline"
                             className="mb-3 border-primary/20 bg-primary/5 text-primary"
                         >
-                            {categoryInfo.icon} {categoryInfo.label}
+                            {categoryInfo.icon} {t(categoryInfo.label)}
                         </Badge>
                     ) : null}
 
@@ -333,21 +341,24 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                         ))}
                     </div>
 
-                    <div className="mb-5 flex items-center justify-between text-xs text-muted-foreground">
+                    <div className="mt-auto pt-4 flex items-center justify-between text-xs text-muted-foreground mb-3">
                         <span className="flex items-center gap-1">
                             <Clock className="h-3.5 w-3.5" />
-                            {formatDocumentDate(document.publishedDate)}
+                            {document.published_at ? formatDocumentDate(document.published_at) : '—'}
                         </span>
-                        <span>{document.fileSize}</span>
+                        <span className="flex items-center gap-1">
+                            <File className="h-3.5 w-3.5" />
+                            {formatFileSize(document.file_size)}
+                        </span>
                     </div>
 
                     <Button
                         asChild
                         className="w-full bg-primary hover:bg-primary/90"
                     >
-                        <a href={document.downloadUrl} download>
+                        <a href={document.download_url || '#'} download>
                             <Download className="mr-2 h-4 w-4" />
-                            Télécharger le document
+                            {t('public.documents.download')}
                         </a>
                     </Button>
                 </div>

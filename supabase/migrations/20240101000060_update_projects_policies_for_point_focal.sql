@@ -93,11 +93,26 @@ CREATE POLICY "project_documents_insert_admins"
 
 -- =====================================================
 -- 6. Update project_tags policies for point_focal
+--    (project_tags has no project_id column, it's a lookup table)
 -- =====================================================
 DROP POLICY IF EXISTS "project_tags_insert_admins" ON public.project_tags;
 
 CREATE POLICY "project_tags_insert_admins"
   ON public.project_tags FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    public.has_role(auth.uid(), 'point_focal')
+    OR public.has_role(auth.uid(), 'country_admin')
+    OR public.has_role(auth.uid(), 'super_admin')
+  );
+
+-- =====================================================
+-- 6b. Update project_project_tags junction policies
+-- =====================================================
+DROP POLICY IF EXISTS "project_project_tags_insert_admins" ON public.project_project_tags;
+
+CREATE POLICY "project_project_tags_insert_admins"
+  ON public.project_project_tags FOR INSERT
   TO authenticated
   WITH CHECK (
     EXISTS (

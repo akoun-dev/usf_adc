@@ -42,7 +42,7 @@ export const PartnersLogoScroller = () => {
     const duplicatedPartners = [...partners, ...partners]
 
     return (
-        <section className="relative px-6 py-12 bg-muted/20 overflow-hidden">
+        <section className="relative px-6 py-12 bg-white overflow-hidden">
             <div
                 ref={ref}
                 className={`container mx-auto max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-100"}`}
@@ -81,7 +81,7 @@ export const PartnersLogoScroller = () => {
                                             title={partner.nom_complet || partner.nom}
                                         >
                                             {partner.logo_url ? (
-                                                <div className="flex items-center justify-center h-20 w-36 rounded-xl bg-card border border-border/50 p-3 transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5">
+                                                <div className="flex items-center justify-center h-20 w-36 rounded-xl bg-card border border-border/50 p-3 transition-all duration-300 hover:-translate-y-0.5">
                                                     <img
                                                         src={partner.logo_url}
                                                         alt={partner.nom_complet || partner.nom}
@@ -90,7 +90,7 @@ export const PartnersLogoScroller = () => {
                                                     />
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center justify-center h-20 w-36 rounded-xl bg-card border border-border/50 p-3 transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5">
+                                                <div className="flex items-center justify-center h-20 w-36 rounded-xl bg-card border border-border/50 p-3 transition-all duration-300 hover:-translate-y-0.5">
                                                     <span className="text-sm font-semibold text-muted-foreground text-center leading-tight">
                                                         {partner.nom_complet || partner.nom}
                                                     </span>

@@ -13,7 +13,7 @@ export interface PublicDocument {
   is_public: boolean;
   type: string | null;
   language: string;
-  published_date: string | null;
+  published_at: string | null;
   download_url: string | null;
   thumbnail: string | null;
   featured: boolean;
@@ -35,26 +35,26 @@ export interface DocumentStats {
   featured: number;
 }
 
-// Document categories based on the mocks
+// Document categories with icons and translation keys
 export const DOCUMENT_CATEGORIES = {
-  all: 'public.document.categories.all',
-  guides: 'public.document.categories.guides',
-  reports: 'public.document.categories.reports',
-  templates: 'public.document.categories.templates',
-  presentations: 'public.document.categories.presentations',
-  regulations: 'public.document.categories.regulations',
-  studies: 'public.document.categories.studies',
-  general: 'public.document.categories.general',
+  all: { icon: '📋', label: 'public.documents.categories.all' },
+  guides: { icon: '📖', label: 'public.documents.categories.guides' },
+  reports: { icon: '📊', label: 'public.documents.categories.reports' },
+  templates: { icon: '📝', label: 'public.documents.categories.templates' },
+  presentations: { icon: '📽️', label: 'public.documents.categories.presentations' },
+  regulations: { icon: '⚖️', label: 'public.documents.categories.regulations' },
+  studies: { icon: '🔬', label: 'public.documents.categories.studies' },
+  general: { icon: '📁', label: 'public.documents.categories.general' },
 } as const;
 
-// Document types
+// Document types with icons and labels
 export const DOCUMENT_TYPES = {
-  pdf: 'PDF',
-  doc: 'Word',
-  xls: 'Excel',
-  ppt: 'PowerPoint',
-  video: 'Vidéo',
-  guide: 'Guide',
+  pdf: { icon: '📄', label: 'PDF' },
+  doc: { icon: '📝', label: 'Word' },
+  xls: { icon: '📊', label: 'Excel' },
+  ppt: { icon: '📽️', label: 'PowerPoint' },
+  video: { icon: '🎥', label: 'Vidéo' },
+  guide: { icon: '📖', label: 'Guide' },
 } as const;
 
 /**
@@ -72,10 +72,7 @@ export async function fetchPublicDocuments(): Promise<DocumentWithTags[]> {
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
 }
 
 /**
@@ -98,10 +95,7 @@ export async function fetchDocumentsByCategory(category: string): Promise<Docume
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
 }
 
 /**
@@ -120,10 +114,7 @@ export async function fetchDocumentsByLanguage(language: string): Promise<Docume
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
 }
 
 /**
@@ -142,10 +133,7 @@ export async function fetchDocumentsByType(type: string): Promise<DocumentWithTa
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
 }
 
 /**
@@ -164,10 +152,7 @@ export async function fetchFeaturedDocuments(): Promise<DocumentWithTags[]> {
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
 }
 
 /**
@@ -189,10 +174,7 @@ export async function fetchDocumentById(id: string): Promise<DocumentWithTags | 
     throw error;
   }
 
-  return {
-    ...data,
-    tags: data.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  };
+  return mapDocumentRow(data);
 }
 
 /**
@@ -245,10 +227,21 @@ export async function searchDocuments(query: string): Promise<DocumentWithTags[]
 
   if (error) throw error;
 
-  return (data || []).map(doc => ({
-    ...doc,
-    tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || []
-  }));
+  return (data || []).map(mapDocumentRow);
+}
+
+/**
+ * Maps a database row to a DocumentWithTags object with computed download_url
+ */
+function mapDocumentRow(doc: Record<string, unknown>): DocumentWithTags {
+  const { document_tags, ...rest } = doc;
+  const filePath = rest.file_path as string;
+  const { data } = supabase.storage.from('documents').getPublicUrl(filePath);
+  return {
+    ...(rest as Omit<PublicDocument, 'download_url' | 'tags'>),
+    download_url: data.publicUrl,
+    tags: (document_tags as Array<{ tag: string }>)?.map((dt) => dt.tag) || [],
+  } as DocumentWithTags;
 }
 
 /**

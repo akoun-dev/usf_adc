@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Globe, Filter, ArrowRight } from 'lucide-react';
+import { Search, Globe, Filter, ArrowRight, Users, Building2 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useCountriesWithProjectCount, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +40,7 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
             />
           </div>
           <div className="absolute top-3 right-3">
-            <Badge className="bg-green-200 text-green-800 hover:bg-green-800 hover:text-white">
+            <Badge className="bg-green-200 text-green-800 hover:bg-green-800 hover:text-white border-green-600/60 transition-colors text-xs">
               {country.region}
             </Badge>
           </div>
@@ -49,8 +49,8 @@ function CountryCard({ country }: { country: CountryWithProjects }) {
           <h3 className="font-bold text-lg mb-0 group-hover:text-primary transition-colors">
             <span className="text-sm font-normal text-muted-foreground mb-3">{country.code_iso.toUpperCase()} - </span> {countryName}
           </h3>
-          <p className="text-sm text-muted-foreground mb-3">
-            {country.capital} | <span className='text-xs'>{t("public.memberCountries.countryInfo.population")} : </span> {country.population ? country.population.toLocaleString() : t("public.memberCountries.countryInfo.populationUnknown")}
+          <p className="inline-flex items-center gap-2 text-sm text-muted-foreground mb-3">
+            <Building2 className="h-4 w-4 text-primary shrink-0" /> {country.capital} | <span className='text-xs'><Users className="h-4 w-4 text-primary shrink-0" /></span> {country.population ? country.population.toLocaleString() : t("public.memberCountries.countryInfo.populationUnknown")}
           </p>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
@@ -184,7 +184,7 @@ export default function CountriesDirectoryPage() {
 
         {/* Search and Filters */}
         <Card className="mb-8">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search */}
               <div className="relative flex-1">
@@ -252,13 +252,24 @@ export default function CountriesDirectoryPage() {
           <p className="text-sm text-muted-foreground">
             {t('public.memberCountries.directory.results.countriesFound', { count: filteredAndSortedCountries.length })}
           </p>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <span className="font-semibold">{t('public.map.legend')} : </span>
+            <span className="flex items-center gap-1">
+              <Building2 className="h-3.5 w-3.5 text-primary" />
+              {t('public.memberCountries.directory.results.legendCapital')}
+            </span>
+            <span className="flex items-center gap-1">
+              <Users className="h-3.5 w-3.5 text-primary" />
+              {t('public.memberCountries.directory.results.legendPopulation')}
+            </span>
+          </div>
         </div>
 
         {/* Countries Grid */}
         {paginatedCountries.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             {paginatedCountries.map((country) => (
-              <CountryCard key={country.code} country={country} />
+              <CountryCard key={country.code_iso} country={country} />
             ))}
           </div>
         ) : (
@@ -335,7 +346,7 @@ export default function CountriesDirectoryPage() {
                   return (
                     <div
                       key={region}
-                      className="p-4 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer"
+                      className="p-4 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer flex flex-col min-h-[120px]"
                       onClick={() => handleRegionChange(region)}
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -347,7 +358,7 @@ export default function CountriesDirectoryPage() {
                       <p className="text-sm text-muted-foreground mb-1">
                         {regionNames[region] || region}
                       </p>
-                      <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-4 text-sm mt-auto pt-2">
                         <span className="text-muted-foreground">
                           <span className="font-semibold text-foreground">{countriesInRegion.length}</span> {t('public.memberCountries.directory.regionsOverview.countries')}
                         </span>

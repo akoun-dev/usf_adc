@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
-import { MapPin, FileDown, Globe, Map, Search, Maximize2, Minimize2, Filter, Layers, TrendingUp, Users, DollarSign, Building2, Wifi, Satellite, Map as MapIcon, X } from 'lucide-react';
+import { MapPin, FileDown, Globe, Map, Search, Maximize2, Minimize2, Layers, TrendingUp, Users, DollarSign, Building2, Wifi, Satellite, Map as MapIcon, X } from 'lucide-react';
 import { ProjectMap } from '@/features/projects-map/components/ProjectMap';
 import { exportMapData } from '@/features/projects-map/utils/export-map';
 import type { Project } from '@/features/projects-map/types';
@@ -19,6 +19,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type MapView = 'projects' | 'countries';
 type MapMode = 'carte' | 'satellite';
@@ -117,7 +118,6 @@ export default function PublicMapPage() {
     const [mapMode, setMapMode] = useState<MapMode>('carte');
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
     const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(null);
-    const [showFilters, setShowFilters] = useState(false);
     const mapContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: publicProjects = [], isLoading } = usePublicProjects();
@@ -236,15 +236,6 @@ export default function PublicMapPage() {
         });
         return counts;
     }, [filteredProjects]);
-
-    const activeFiltersCount = useMemo(() => {
-        return [
-            statusFilter !== 'all' ? 1 : 0,
-            themeFilter !== 'all' ? 1 : 0,
-            regionFilter !== 'all' ? 1 : 0,
-        ].reduce((a, b) => a + b, 0);
-    }, [statusFilter, themeFilter, regionFilter]);
-
 
     useEffect(() => {
         if (search.trim().length > 0) {
@@ -382,23 +373,90 @@ export default function PublicMapPage() {
                                     </div>
                                 </div>
 
-                                {/* Active Filters */}
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm text-muted-foreground">{t('public.map.filters')}:</span>
-                                    {activeFiltersCount > 0 ? (
-                                        <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                                            {activeFiltersCount} {activeFiltersCount > 1 ? t('public.map.active') : t('public.map.activeOne')}
-                                        </Badge>
-                                    ) : (
-                                        <Badge variant="outline" className="text-muted-foreground">
-                                            {t('public.map.none')}
-                                        </Badge>
-                                    )}
-                                    {(activeFiltersCount > 0 || statusFilter !== 'all' || themeFilter !== 'all' || regionFilter !== 'all') && (
+                                {/* Filter Selects */}
+                                <div className="flex items-center gap-3">
+                                    {/* Status Select */}
+                                    <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as PublicProjectFilterStatus)}>
+                                        <SelectTrigger className="w-[200px] h-9">
+                                            <SelectValue placeholder={t('public.map.status.label')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                <span className="flex items-center gap-2">
+                                                    <span className="text-sm font-medium">{t('public.map.allProjects')}</span>
+                                                    <Badge variant="secondary" className="ml-auto text-xs">{activeProjects.length}</Badge>
+                                                </span>
+                                            </SelectItem>
+                                            <SelectItem value="active">
+                                                <span className="flex items-center gap-2">
+                                                    <span className="inline-block h-3 w-3 rounded-full bg-amber-500" />
+                                                    <span className="text-sm font-medium">{t('public.map.status.in_progress')}</span>
+                                                    <Badge variant="secondary" className="ml-auto text-xs">{stats.inProgress}</Badge>
+                                                </span>
+                                            </SelectItem>
+                                            <SelectItem value="completed">
+                                                <span className="flex items-center gap-2">
+                                                    <span className="inline-block h-3 w-3 rounded-full bg-green-500" />
+                                                    <span className="text-sm font-medium">{t('public.map.status.completed')}</span>
+                                                    <Badge variant="secondary" className="ml-auto text-xs">{stats.completed}</Badge>
+                                                </span>
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+
+                                    {/* Theme Select */}
+                                    <Select value={themeFilter} onValueChange={(value) => setThemeFilter(value as ProjectTheme)}>
+                                        <SelectTrigger className="w-[220px] h-9">
+                                            <SelectValue placeholder={t('public.map.themesLabel')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {Object.entries(PROJECT_THEMES).map(([key, { labelKey, icon, color }]) => {
+                                                const count = key === 'all' ? activeProjects.length : themeCounts[key] || 0;
+                                                return (
+                                                    <SelectItem key={key} value={key}>
+                                                        <span className="flex items-center gap-2">
+                                                            <span className="text-lg">{icon}</span>
+                                                            <span className="text-sm font-medium">{t(labelKey)}</span>
+                                                            <Badge variant="secondary" className="ml-auto text-xs">{count}</Badge>
+                                                        </span>
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+
+                                    {/* Region Select */}
+                                    <Select value={regionFilter} onValueChange={(value) => setRegionFilter(value)}>
+                                        <SelectTrigger className="w-[220px] h-9">
+                                            <SelectValue placeholder={t('public.map.region')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                <span className="flex items-center gap-2">
+                                                    <span className="text-sm font-medium">{t('public.map.allRegions')}</span>
+                                                    <Badge variant="secondary" className="ml-auto text-xs">{activeProjects.length}</Badge>
+                                                </span>
+                                            </SelectItem>
+                                            {Object.keys(REGIONS).map(region => {
+                                                const count = regionCounts[region] || 0;
+                                                return (
+                                                    <SelectItem key={region} value={region} disabled={count === 0}>
+                                                        <span className="flex items-center gap-2">
+                                                            <span className="text-sm font-medium">{region}</span>
+                                                            <Badge variant="secondary" className="ml-auto text-xs">{count}</Badge>
+                                                        </span>
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
+
+                                    {/* Reset Button */}
+                                    {(statusFilter !== 'all' || themeFilter !== 'all' || regionFilter !== 'all') && (
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="h-7 text-xs"
+                                            className="h-9 text-xs"
                                             onClick={() => {
                                                 setStatusFilter('all');
                                                 setThemeFilter('all');
@@ -409,188 +467,10 @@ export default function PublicMapPage() {
                                             {t('public.map.reset')}
                                         </Button>
                                     )}
-                                    <Button
-                                        variant={showFilters ? "default" : "outline"}
-                                        size="sm"
-                                        className="gap-2"
-                                        onClick={() => setShowFilters(!showFilters)}
-                                    >
-                                        <Filter className="h-4 w-4" />
-                                        {t('public.map.filtersButton')}
-                                    </Button>
                                 </div>
-
-
-
-
                             </div>
                         </CardContent>
                     </Card>
-
-                    {/* Filters Panel */}
-                    {showFilters && (
-                        <Card className={cn("lg:col-span-1 transition-all mb-5", showFilters ? "" : "max-h-20 overflow-hidden")}>
-                            <CardContent className="p-4">
-                                <div
-                                    className="flex items-center justify-between cursor-pointer mb-4"
-                                    onClick={() => setShowFilters(!showFilters)}
-                                >
-                                    <div className="flex items-center gap-2 font-semibold">
-                                        <Filter className="h-4 w-4 text-primary" />
-                                        {t('public.map.filters')}
-                                    </div>
-                                    <span className="text-muted-foreground">{showFilters ? '▲' : '▼'}</span>
-                                </div>
-
-                                {showFilters && (
-                                    <div className="space-y-6">
-                                        {/* Status Filter */}
-                                        <div>
-                                            <label className="text-sm font-medium mb-3 block flex items-center gap-2">
-                                                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                                                {t('public.map.status.label')}
-                                            </label>
-                                            <div className="flex flex-wrap gap-2">
-                                                <button
-                                                    onClick={() => setStatusFilter('all')}
-                                                    className={cn(
-                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                        statusFilter === 'all'
-                                                            ? "bg-primary/10 border-2 border-primary"
-                                                            : "hover:bg-muted border-2 border-transparent"
-                                                    )}
-                                                >
-                                                    <span className="text-sm font-medium">{t('public.map.allProjects')}</span>
-                                                    <Badge variant={statusFilter === 'all' ? "default" : "secondary"}>
-                                                        {activeProjects.length}
-                                                    </Badge>
-                                                </button>
-                                                <button
-                                                    onClick={() => setStatusFilter('active')}
-                                                    className={cn(
-                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                        statusFilter === 'active'
-                                                            ? "bg-amber-500/10 border-2 border-amber-500"
-                                                            : "hover:bg-muted border-2 border-transparent"
-                                                    )}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="inline-block h-3 w-3 rounded-full bg-amber-500" />
-                                                        <span className="text-sm font-medium">{t('public.map.status.in_progress')}</span>
-                                                    </div>
-                                                    <Badge variant={statusFilter === 'active' ? "default" : "secondary"}>
-                                                        {stats.inProgress}
-                                                    </Badge>
-                                                </button>
-                                                <button
-                                                    onClick={() => setStatusFilter('completed')}
-                                                    className={cn(
-                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                        statusFilter === 'completed'
-                                                            ? "bg-green-500/10 border-2 border-green-500"
-                                                            : "hover:bg-muted border-2 border-transparent"
-                                                    )}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="inline-block h-3 w-3 rounded-full bg-green-500" />
-                                                        <span className="text-sm font-medium">{t('public.map.status.completed')}</span>
-                                                    </div>
-                                                    <Badge variant={statusFilter === 'completed' ? "default" : "secondary"}>
-                                                        {stats.completed}
-                                                    </Badge>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {/* Theme Filter */}
-                                        <div>
-                                            <label className="text-sm font-medium mb-3 block flex items-center gap-2">
-                                                <Wifi className="h-4 w-4 text-muted-foreground" />
-                                                {t('public.map.themesLabel')}
-                                            </label>
-                                            <div className="flex flex-wrap gap-2">
-                                                {Object.entries(PROJECT_THEMES).map(([key, { labelKey, icon, color }]) => {
-                                                    const count = key === 'all' ? activeProjects.length : themeCounts[key] || 0;
-                                                    const isActive = themeFilter === key;
-
-                                                    return (
-                                                        <button
-                                                            key={key}
-                                                            onClick={() => setThemeFilter(key as ProjectTheme)}
-                                                            className={cn(
-                                                                "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                                isActive && key !== 'all'
-                                                                    ? "border-2"
-                                                                    : "hover:bg-muted border-2 border-transparent"
-                                                            )}
-                                                            style={isActive && key !== 'all' ? { borderColor: color, backgroundColor: `${color}10` } : {}}
-                                                        >
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="text-lg">{icon}</span>
-                                                                <span className="text-sm font-medium">{t(labelKey)}</span>
-                                                            </div>
-                                                            <Badge variant={isActive ? "default" : "secondary"}>
-                                                                {count}
-                                                            </Badge>
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-
-                                        {/* Region Filter */}
-                                        <div>
-                                            <label className="text-sm font-medium mb-3 block flex items-center gap-2">
-                                                <Globe className="h-4 w-4 text-muted-foreground" />
-                                                {t('public.map.region')}
-                                            </label>
-                                            <div className="flex flex-wrap gap-2">
-                                                <button
-                                                    onClick={() => setRegionFilter('all')}
-                                                    className={cn(
-                                                        "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                        regionFilter === 'all'
-                                                            ? "bg-primary/10 border-2 border-primary"
-                                                            : "hover:bg-muted border-2 border-transparent"
-                                                    )}
-                                                >
-                                                    <span className="text-sm font-medium">{t('public.map.allRegions')}</span>
-                                                    <Badge variant={regionFilter === 'all' ? "default" : "secondary"}>
-                                                        {activeProjects.length}
-                                                    </Badge>
-                                                </button>
-                                                {Object.keys(REGIONS).map(region => {
-                                                    const count = regionCounts[region] || 0;
-                                                    const isActive = regionFilter === region;
-
-                                                    return (
-                                                        <button
-                                                            key={region}
-                                                            onClick={() => setRegionFilter(isActive ? 'all' : region)}
-                                                            className={cn(
-                                                                "flex items-center gap-2 px-3 py-2 rounded-lg transition-all",
-                                                                isActive
-                                                                    ? "bg-primary/10 border-2 border-primary"
-                                                                    : count > 0 ? "hover:bg-muted border-2 border-transparent" : "opacity-50"
-                                                            )}
-                                                            disabled={count === 0}
-                                                        >
-                                                            <span className="text-sm font-medium">{region}</span>
-                                                            <Badge variant={isActive ? "default" : "secondary"}>
-                                                                {count}
-                                                            </Badge>
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    )}
-
-
 
 
 
@@ -685,11 +565,11 @@ export default function PublicMapPage() {
 
 
                         {/* Map */}
-                        <Card className="lg:col-span-4">
+                        <Card className="lg:col-span-4 relative z-0">
                             <CardContent className="p-0">
-                                <div className="relative" style={{ minHeight: '700px' }}>
+                                <div className="relative z-0" style={{ minHeight: '700px' }}>
                                     {/* Map View Indicator */}
-                                    <div className="absolute top-4 left-4 z-[400] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 border-2 border-primary/20">
+                                    <div className="absolute top-4 left-4 z-[10] bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 border-2 border-primary/20">
                                         <div className="flex items-center gap-2 mb-1">
                                             {mapView === 'projects' ? (
                                                 <>
@@ -709,7 +589,7 @@ export default function PublicMapPage() {
                                     </div>
 
                                     {/* Map */}
-                                    <div className="w-full" style={{ height: '705px' }}>
+                                    <div className="w-full" style={{ height: '1000px' }}>
                                         {mapView === 'projects' ? (
                                             isLoading ? (
                                                 <div className="flex items-center justify-center h-full">

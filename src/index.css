@@ -218,3 +218,12 @@
 .animate-scroll-partners:hover {
   animation-play-state: paused;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Africa Map — Blur mask overlay                                     */
+/* ------------------------------------------------------------------ */
+.africa-mask-overlay {
+  filter: blur(35px);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}

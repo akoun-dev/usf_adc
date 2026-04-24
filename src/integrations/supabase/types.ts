@@ -82,43 +82,70 @@ export type Database = {
                     category: string
                     created_at: string
                     description: string | null
+                    download_count: number
+                    featured: boolean
                     file_name: string
                     file_path: string
                     file_size: number
                     id: string
                     is_public: boolean
+                    language: string
+                    metadata: string | null
                     mime_type: string
+                    published_at: string | null
+                    status: string | null
+                    thumbnail: string | null
                     title: string
+                    type: string | null
                     updated_at: string
                     uploaded_by: string | null
+                    version: string | null
                 }
                 Insert: {
                     category?: string
                     created_at?: string
                     description?: string | null
+                    download_count?: number
+                    featured?: boolean
                     file_name: string
                     file_path: string
                     file_size?: number
                     id?: string
                     is_public?: boolean
+                    language?: string
+                    metadata?: string | null
                     mime_type: string
+                    published_at?: string | null
+                    status?: string | null
+                    thumbnail?: string | null
                     title: string
+                    type?: string | null
                     updated_at?: string
                     uploaded_by?: string | null
+                    version?: string | null
                 }
                 Update: {
                     category?: string
                     created_at?: string
                     description?: string | null
+                    download_count?: number
+                    featured?: boolean
                     file_name?: string
                     file_path?: string
                     file_size?: number
                     id?: string
                     is_public?: boolean
+                    language?: string
+                    metadata?: string | null
                     mime_type?: string
+                    published_at?: string | null
+                    status?: string | null
+                    thumbnail?: string | null
                     title?: string
+                    type?: string | null
                     updated_at?: string
                     uploaded_by?: string | null
+                    version?: string | null
                 }
                 Relationships: []
             }

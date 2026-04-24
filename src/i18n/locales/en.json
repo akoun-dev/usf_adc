@@ -1405,7 +1405,18 @@
       "allCategories": "All categories",
       "allLanguages": "All languages",
       "featured": "Featured",
-      "empty": "No public documents found"
+      "empty": "No public documents found",
+      "download": "Download document",
+      "categories": {
+        "all": "All categories",
+        "guides": "Guides",
+        "reports": "Reports",
+        "templates": "Templates",
+        "presentations": "Presentations",
+        "regulations": "Regulations",
+        "studies": "Studies",
+        "general": "General"
+      }
     },
     "forum": {
       "title": "Public Forum",
@@ -2197,7 +2208,9 @@
           "countriesFound": "{{count}} country found",
           "countriesFound_plural": "{{count}} countries found",
           "noCountryFound": "No country found",
-          "tryOtherFilters": "Try other search criteria"
+          "tryOtherFilters": "Try other search criteria",
+          "legendCapital": "Capital",
+          "legendPopulation": "Population"
         },
         "countryCard": {
           "projects": "projects",
@@ -2362,6 +2375,21 @@
       "discover": "Discover",
       "scroll": "Scroll"
     },
+    "welcome": {
+      "badge": "Welcome Message",
+      "title": "Welcome messages",
+      "description": "The leaders of the African Telecommunications Union extend their warmest wishes to you.",
+      "secretaryGeneral": {
+        "name": "Mr. John Omo",
+        "role": "Secretary General of ATU",
+        "message": "Dear partners and colleagues, it is with great pleasure that I welcome you to the USF-ADC platform, a major strategic tool for the future of digital technology in Africa. This platform embodies our shared vision: guaranteeing universal access to telecommunications services for every African citizen, wherever they may be. Together, we are building a connected, inclusive and resilient continent. I invite you to explore this platform and actively contribute to our shared mission of digital transformation."
+      },
+      "director": {
+        "name": "Mr. Gilles Beugre",
+        "role": "Director General of ANSUT (Côte d'Ivoire)",
+        "message": "Welcome to the USF-ADC platform, the result of exemplary collaborative work between our Member States and technical partners. As Director in charge of radiocommunications, I am convinced that optimal spectrum management and infrastructure deployment are the keys to achieving our universal connectivity goals. This platform enables us to monitor, coordinate and accelerate Universal Service Fund projects on a pan-African scale. Your commitment is essential to meet this challenge."
+      }
+    },
     "featuresSection": {
       "badge": "Features",
       "title": "A Complete Platform",
@@ -2466,6 +2494,10 @@
     "imageAlt": {
       "hero": "African digital connectivity",
       "collaboration": "African team collaborating on the platform"
+    },
+    "partners": {
+      "badge": "Our Partners",
+      "title": "They trust us"
     },
     "atu": "ATU / UAT"
   },

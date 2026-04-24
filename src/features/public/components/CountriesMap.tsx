@@ -56,6 +56,7 @@ export function CountriesMap({ countries, projectsByCountry, onCountryClick, sel
     const containerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<L.Map | null>(null);
     const tileLayerRef = useRef<L.TileLayer | null>(null);
+    const maskLayerRef = useRef<L.Polygon | null>(null);
     const layerGroupRef = useRef<L.LayerGroup | null>(null);
     const [isReady, setIsReady] = useState(false);
 
@@ -75,8 +76,13 @@ export function CountriesMap({ countries, projectsByCountry, onCountryClick, sel
         try {
             const map = L.map(container, {
                 center: [5, 20] as L.LatLngExpression,
-                zoom: 3,
-                minZoom: 2,
+                zoom: 4,
+                minZoom: 4,
+                maxBounds: L.latLngBounds(
+                    [-35, -18] as L.LatLngExpression,  // Sud-Ouest
+                    [37, 52] as L.LatLngExpression      // Nord-Est
+                ),
+                maxBoundsViscosity: 1.0,
                 zoomControl: true,
             });
 
@@ -89,6 +95,39 @@ export function CountriesMap({ countries, projectsByCountry, onCountryClick, sel
                 : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
             tileLayerRef.current = L.tileLayer(tileUrl, { attribution }).addTo(map);
+
+            // Africa-only mask: covers the world except Africa (expanded outline + blur fade)
+            const africaOutline: L.LatLngExpression[] = [
+                [45, -28], [45, -14], [45, 14], [40, 6], [39, 24],
+                [38, 32], [37, 34], [28, 40], [20, 47], [16, 56],
+                [5, 50], [0, 45], [-5, 43], [-10, 44], [-16, 40],
+                [-22, 38], [-34, 34], [-42, 27], [-44, 20], [-42, 16],
+                [-38, 14], [-30, 10], [-24, 8], [-12, 5], [3, 1],
+                [5, -4], [5, -12], [8, -21], [17, -25], [23, -25],
+                [30, -20], [42, -17], [45, -28]
+            ];
+            const worldBounds: L.LatLngExpression[] = [
+                [-90, -180], [-90, 180], [90, 180], [90, -180]
+            ];
+            const bgColor = getComputedStyle(document.body).backgroundColor;
+            const mask = L.polygon([worldBounds, africaOutline], {
+                fillColor: bgColor === 'rgba(0, 0, 0, 0)' ? '#ffffff' : bgColor,
+                fillOpacity: 0.85,
+                color: 'transparent',
+                weight: 0,
+                interactive: false,
+                className: 'africa-mask-overlay',
+            }).addTo(map);
+            maskLayerRef.current = mask;
+
+            // Toggle mask visibility based on zoom level
+            map.on('zoomend', () => {
+                const zoom = map.getZoom();
+                const el = maskLayerRef.current?.getElement() as HTMLElement | null;
+                if (el) {
+                    el.style.opacity = zoom <= 4 ? '1' : '0';
+                }
+            });
 
             const layerGroup = L.layerGroup().addTo(map);
             mapRef.current = map;
@@ -250,7 +289,7 @@ export function CountriesMap({ countries, projectsByCountry, onCountryClick, sel
                 bounds.push([centroid.lat, centroid.lng]);
 
             } catch (error) {
-                console.error(`[CountriesMap] ❌ Error rendering ${country.code}:`, error);
+                console.error(`[CountriesMap] ❌ Error rendering ${country.code_iso}:`, error);
             }
         });
 

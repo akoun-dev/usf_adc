@@ -50,7 +50,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Autoplay from "embla-carousel-autoplay"
-import heroLanding from "@/assets/hero10.png"
+import heroLanding from "@/assets/hero20.png"
 import sectionCollab from "@/assets/section-collaboration.jpg"
 import atuLogo from "@/assets/atu-uat-logo.png"
 import { usePublicNews } from "@/features/public/hooks/usePublicNews"
@@ -59,6 +59,7 @@ import { PublicFooter } from "@/features/public/components/PublicFooter"
 import { PublicHeader } from "@/features/public"
 import { MiniCalendar } from "@/features/public/components/MiniCalendar"
 import { PartnersLogoScroller } from "@/features/public/components/PartnersLogoScroller"
+import { WelcomeSection } from "@/features/public/components/WelcomeSection"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -119,24 +120,23 @@ const HeroSection = () => {
 
             {/* Content */}
             <div className="relative z-10 container mx-auto max-w-6xl px-6 pt-32 pb-20 lg:px-12">
-                <div className="max-w-2xl space-y-8">
+                <div className="max-w-xl space-y-8">
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/90 px-4 py-2 backdrop-blur-md border-2 border-white/30 shadow-lg">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/90 px-4 py-2 backdrop-blur-md border-2 border-white/30">
                         <Wifi className="h-4 w-4 text-white" />
                         <span className="text-sm font-semibold text-white">
                             {t("index.hero.badge")}
                         </span>
                     </div>
 
-                    <h1 className="text-4xl font-bold leading-tight text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
-                        {t("index.hero.title")}
-                        <br />
-                        <span className="text-secondary drop-shadow-xl">
+                    <h1 className="text-4xl font-bold leading-tight text-black drop-shadow-2xl sm:text-5xl lg:text-6xl">
+                        {t("index.hero.title")}                        
+                        <div className="text-secondary bg-primary/90 pl-5 pr-5 py-2 rounded-md mt-3">
                             {t("index.hero.subtitle")}
-                        </span>
+                        </div>
                     </h1>
 
-                    <p className="max-w-lg text-lg leading-relaxed text-white drop-shadow-lg lg:text-xl">
+                    <p className="max-w-lg text-lg leading-relaxed text-black italic lg:text-xl">
                         {t("index.hero.description")}
                     </p>
 
@@ -144,7 +144,7 @@ const HeroSection = () => {
                         <Button
                             asChild
                             size="lg"
-                            className="h-13 px-8 text-base bg-secondary hover:bg-secondary/90 text-gray-900 border-2 border-white/30 shadow-xl backdrop-blur-sm font-semibold"
+                            className="h-13 px-8 text-base bg-secondary hover:bg-secondary/90 text-gray-900 border-2 border-white/30 shadow-md backdrop-blur-sm font-semibold"
                         >
                             <Link to="/login">
                                 {t("index.hero.accessPlatform")}
@@ -155,7 +155,7 @@ const HeroSection = () => {
                             asChild
                             size="lg"
                             variant="outline"
-                            className="h-13 p-3 text-base bg-white/95 text-primary border-2 border-white/40 hover:bg-white shadow-xl backdrop-blur-sm font-semibold"
+                            className="h-13 p-3 text-base bg-white/95 text-primary border-2 border-white/40 hover:bg-white shadow-md backdrop-blur-sm font-semibold"
                         >
                             <a href="#features">
                                 {t("index.hero.discover")}
@@ -972,6 +972,7 @@ const Index = () => (
     <div className="min-h-screen bg-background sarus">
         <PublicHeader variant="transparent" />
         <HeroSection />
+        <WelcomeSection />
         <AboutSection />
         <NewsEventsSection />
         <FeaturesSection />

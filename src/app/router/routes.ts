@@ -23,6 +23,8 @@ const AdminGlobalDashboard = lazy(
     () => import("@/features/dashboard/pages/AdminGlobalDashboard")
 )
 const ProfilePage = lazy(() => import("@/features/profiles/pages/ProfilePage"))
+const ProfilePreferencesPage = lazy(() => import("@/features/profiles/pages/ProfilePreferencesPage"))
+const ProfileSecurityPage = lazy(() => import("@/features/profiles/pages/ProfileSecurityPage"))
 const FsuSubmissionsPage = lazy(
     () => import("@/features/fsu/pages/FsuSubmissionsPage")
 )
@@ -81,6 +83,12 @@ const AdminCategoriesPage = lazy(() => import("@/features/admin/pages/AdminCateg
 const ArticleFormPage = lazy(() => import("@/features/admin/pages/ArticleFormPage").then(module => ({ default: module.ArticleFormPage })))
 const AdminProjectsPage = lazy(
     () => import("@/features/admin/pages/AdminProjectsPage")
+)
+const CreateProjectPage = lazy(
+    () => import("@/features/admin/pages/CreateProjectPage")
+)
+const ProjectDetailPage = lazy(
+    () => import("@/features/admin/pages/ProjectDetailPage")
 )
 const AdminDocumentsPage = lazy(
     () => import("@/features/admin/pages/AdminDocumentsPage")
@@ -146,6 +154,23 @@ const DocumentLibraryPage = lazy(
 )
 const LiveChatPage = lazy(() => import("@/features/chat/pages/LiveChatPage"))
 const RssFeedsPage = lazy(() => import("@/features/feeds/pages/RssFeedsPage"))
+const CountryAdminDashboardPage = lazy(() => import("@/features/country-admin/pages/CountryAdminDashboard"))
+const CountryAdminProjectsPage = lazy(() => import("@/features/country-admin/pages/CountryAdminProjectsPage"))
+const CountryAdminFsuPage = lazy(() => import("@/features/country-admin/pages/CountryAdminFsuPage"))
+const CountryAdminUsersPage = lazy(() => import("@/features/country-admin/pages/CountryAdminUsersPage"))
+const CountryAdminReportsPage = lazy(() => import("@/features/country-admin/pages/CountryAdminReportsPage"))
+const CountryAdminSettingsPage = lazy(() => import("@/features/country-admin/pages/CountryAdminSettingsPage"))
+const CountryAdminForumPage = lazy(() => import("@/features/country-admin/pages/CountryAdminForumPage"))
+const CountryAdminSupportPage = lazy(() => import("@/features/country-admin/pages/CountryAdminSupportPage"))
+const CountryAdminProfilePage = lazy(() => import("@/features/country-admin/pages/CountryAdminProfilePage"))
+const PointFocalDashboardPage = lazy(() => import("@/features/pointfocal/pages/PointFocalDashboard"))
+const MyProjectsPage = lazy(() => import("@/features/pointfocal/pages/MyProjectsPage"))
+const MyTasksPage = lazy(() => import("@/features/pointfocal/pages/MyTasksPage"))
+const FsuDataEntryPage = lazy(() => import("@/features/pointfocal/pages/FsuDataEntryPage"))
+const PointFocalValidationPage = lazy(() => import("@/features/pointfocal/pages/ValidationPage"))
+const PointFocalForumPage = lazy(() => import("@/features/pointfocal/pages/ForumPage"))
+const PointFocalTrainingPage = lazy(() => import("@/features/pointfocal/pages/TrainingPage"))
+const AccountPage = lazy(() => import("@/features/pointfocal/pages/AccountPage"))
 
 // Public pages
 const PublicHomePage = lazy(
@@ -213,6 +238,283 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: PointFocalDashboard,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
+    // Point Focal routes
+    {
+        path: "/point-focal",
+        component: PointFocalDashboardPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects",
+        component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects/new",
+        component: CreateProjectPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects/in-progress",
+        component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects/drafts",
+        component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects/archived",
+        component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/projects/submit",
+        component: MyProjectsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/tasks",
+        component: MyTasksPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/tasks",
+        component: MyTasksPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu",
+        component: FsuDataEntryPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu/new",
+        component: FsuNewSubmissionPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu/history",
+        component: FsuDataEntryPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu/drafts",
+        component: FsuDataEntryPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/validation",
+        component: PointFocalValidationPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/validation/preview",
+        component: PointFocalValidationPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/validation/pending",
+        component: PointFocalValidationPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu/preview",
+        component: PointFocalValidationPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/fsu/pending",
+        component: PointFocalValidationPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/forum",
+        component: PointFocalForumPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/forum/topics",
+        component: PointFocalForumPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/forum/my-topics",
+        component: PointFocalForumPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/forum/groups",
+        component: ForumGroupsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/forum/new",
+        component: ForumNewTopicPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+{
+        path: "/point-focal/training/elearning",
+        component: PointFocalTrainingPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    // Country Admin routes
+    {
+        path: "/country-admin",
+        component: CountryAdminDashboardPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/alerts",
+        component: CountryAdminDashboardPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/projects",
+        component: CountryAdminProjectsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/projects/pending",
+        component: CountryAdminProjectsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/projects/reports",
+        component: CountryAdminProjectsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/fsu/pending",
+        component: CountryAdminFsuPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/fsu/history",
+        component: CountryAdminFsuPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/fsu/export",
+        component: CountryAdminFsuPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/users",
+        component: CountryAdminUsersPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/users/invite",
+        component: CountryAdminUsersPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/users/roles",
+        component: CountryAdminUsersPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/users/activity",
+        component: CountryAdminUsersPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/reports",
+        component: CountryAdminReportsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/reports/generator",
+        component: CountryAdminReportsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/reports/kpis",
+        component: CountryAdminReportsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/reports/uat",
+        component: CountryAdminReportsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/settings",
+        component: CountryAdminSettingsPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/forum/moderation",
+        component: CountryAdminForumPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/forum/stats",
+        component: CountryAdminForumPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/support",
+        component: CountryAdminSupportPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/faq",
+        component: CountryAdminSupportPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/profile",
+        component: CountryAdminProfilePage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/country-admin/audit",
+        component: CountryAdminProfilePage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/reports",
+        component: ReportsPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/training/webinars",
+        component: PointFocalTrainingPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/training/elearning",
+        component: PointFocalTrainingPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/codraft",
+        component: PointFocalForumPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/account",
+        component: AccountPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile",
+        component: ProfilePage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile/preferences",
+        component: ProfilePreferencesPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile/security",
+        component: ProfileSecurityPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
     {
         path: "/dashboard/admin-pays",
         component: AdminPaysDashboard,
@@ -224,6 +526,33 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["super_admin"],
     },
     { path: "/profile", component: ProfilePage },
+    { path: "/profile/preferences", component: ProfilePreferencesPage },
+    { path: "/profile/security", component: ProfileSecurityPage },
+    {
+        path: "/point-focal/account",
+        component: AccountPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile",
+        component: ProfilePage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile/preferences",
+        component: ProfilePreferencesPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/point-focal/profile/security",
+        component: ProfileSecurityPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/fsu/new",
+        component: FsuNewSubmissionPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
     {
         path: "/fsu/submissions",
         component: FsuSubmissionsPage,
@@ -351,6 +680,16 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["country_admin", "super_admin"],
     },
     {
+        path: "/admin/project/new",
+        component: CreateProjectPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/projects/:id",
+        component: ProjectDetailPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
         path: "/admin/documents",
         component: AdminDocumentsPage,
         roles: ["country_admin", "super_admin"],
@@ -362,6 +701,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     },
     {
         path: "/admin/events/new",
+        component: EventFormPage,
+        roles: ["country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/events/:id/edit",
         component: EventFormPage,
         roles: ["country_admin", "super_admin"],
     },

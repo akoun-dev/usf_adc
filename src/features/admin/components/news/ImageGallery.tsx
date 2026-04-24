@@ -242,6 +242,7 @@ export function ImageGallery({
         </Dialog>
       </CardHeader>
       <CardContent>
+        {console.log('ImageGallery rendering, images:', images) || null}
         {images.length === 0 ? (
           <div className="text-center py-8 text-gray-400">
             <ImageIcon className="h-8 w-8 mx-auto mb-2" />

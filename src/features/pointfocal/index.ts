@@ -1,0 +1,8 @@
+export { default as PointFocalDashboard } from "./pages/PointFocalDashboard"
+export { default as MyProjectsPage } from "./pages/MyProjectsPage"
+export { default as MyTasksPage } from "./pages/MyTasksPage"
+export { default as FsuDataEntryPage } from "./pages/FsuDataEntryPage"
+export { default as ValidationPage } from "./pages/ValidationPage"
+export { default as ForumPage } from "./pages/ForumPage"
+export { default as TrainingPage } from "./pages/TrainingPage"
+export { default as AccountPage } from "./pages/AccountPage"

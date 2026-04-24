@@ -27,7 +27,7 @@ export async function fetchInvitations(): Promise<Invitation[]> {
 
   if (error) throw error;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const invitationsData = (data as any) || [];
+  const invitationsData = (invitations as any) || [];
 
   // Fetch inviters profiles separately
   const inviterIds = invitationsData.map((inv: any) => inv.invited_by).filter(Boolean);

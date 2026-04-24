@@ -106,7 +106,7 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="mx-auto max-w-2xl space-y-6 animate-fade-in">
+        <div className="space-y-6 animate-fade-in w-full">
             <PageHero
                 title={t("profile.title")}
                 description={t("profile.desc")}

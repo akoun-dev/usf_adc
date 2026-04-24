@@ -144,7 +144,7 @@ export default function FsuNewSubmissionPage() {
   const isSubmitting = createMutation.isPending || saveDraftMutation.isPending || submitMutation.isPending;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 animate-fade-in">
+    <div className="w-full space-y-6 animate-fade-in">
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" onClick={() => navigate('/fsu/submissions')}>
           <ArrowLeft className="h-4 w-4" />

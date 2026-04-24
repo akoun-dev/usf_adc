@@ -414,65 +414,53 @@ on conflict do nothing;
 -- 8. insert project images
 -- =====================================================
 
-insert into public.project_images (project_id, image_url, sort_order)
+insert into public.project_images (id, project_id, image_url, sort_order)
 values
   -- Côte d'Ivoire
-  ('a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', 2),
-  ('a0000000-0000-0000-0000-000000000002', 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', 2),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000002', 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80', 1),
   -- Sénégal
-  ('a0000000-0000-0000-0000-000000000005', 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000006', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000005', 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000006', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80', 1),
   -- Nigeria
-  ('a0000000-0000-0000-0000-000000000009', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000010', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000009', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000010', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', 1),
   -- Kenya
-  ('a0000000-0000-0000-0000-000000000037', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000038', 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000037', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000038', 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', 1),
   -- South Africa
-  ('a0000000-0000-0000-0000-000000000041', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000042', 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000041', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000042', 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80', 1),
   -- Morocco
-  ('a0000000-0000-0000-0000-000000000045', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', 1),
-  ('a0000000-0000-0000-0000-000000000046', 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80', 1)
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000045', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', 1),
+  (gen_random_uuid(), 'a0000000-0000-0000-0000-000000000046', 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80', 1)
 on conflict do nothing;
 
 -- =====================================================
 -- 9. insert project tags
 -- =====================================================
 
-insert into public.project_tags (project_id, tag)
+insert into public.project_tags (name)
 values
-  -- Côte d'Ivoire
-  ('a0000000-0000-0000-0000-000000000001', 'fibre'), ('a0000000-0000-0000-0000-000000000001', 'rural'), ('a0000000-0000-0000-0000-000000000001', '5G'), ('a0000000-0000-0000-0000-000000000001', 'CEDEAO'),
-  ('a0000000-0000-0000-0000-000000000002', 'éducation'), ('a0000000-0000-0000-0000-000000000002', 'formation'), ('a0000000-0000-0000-0000-000000000002', 'digitalisation'),
-  ('a0000000-0000-0000-0000-000000000003', 'smart-city'), ('a0000000-0000-0000-0000-000000000003', 'centre-communautaire'),
-  ('a0000000-0000-0000-0000-000000000004', 'santé'), ('a0000000-0000-0000-0000-000000000004', 'télé-santé'),
-  -- Sénégal
-  ('a0000000-0000-0000-0000-000000000005', 'solaire'), ('a0000000-0000-0000-0000-000000000005', 'énergie-verte'), ('a0000000-0000-0000-0000-000000000005', 'off-grid'),
-  ('a0000000-0000-0000-0000-000000000006', 'hub'), ('a0000000-0000-0000-0000-000000000006', 'data-center'), ('a0000000-0000-0000-0000-000000000006', 'incubateur'),
-  ('a0000000-0000-0000-0000-000000000007', 'fibre'), ('a0000000-0000-0000-0000-000000000007', 'casamance'),
-  ('a0000000-0000-0000-0000-000000000008', 'éducation'), ('a0000000-0000-0000-0000-000000000008', 'saint-louis'),
-  -- Nigeria
-  ('a0000000-0000-0000-0000-000000000009', 'fibre'), ('a0000000-0000-0000-0000-000000000009', 'lagos'), ('a0000000-0000-0000-0000-000000000009', 'abuja'),
-  ('a0000000-0000-0000-0000-000000000010', '5G'), ('a0000000-0000-0000-0000-000000000010', 'pilote'), ('a0000000-0000-0000-0000-000000000010', 'lagos'),
-  ('a0000000-0000-0000-0000-000000000011', 'agriculture'), ('a0000000-0000-0000-0000-000000000011', 'e-agriculture'), ('a0000000-0000-0000-0000-000000000011', 'iot'),
-  ('a0000000-0000-0000-0000-000000000012', 'rural'), ('a0000000-0000-0000-0000-000000000012', 'rivers-state'),
-  -- Kenya
-  ('a0000000-0000-0000-0000-000000000037', '4G'), ('a0000000-0000-0000-0000-000000000037', 'rift-valley'), ('a0000000-0000-0000-0000-000000000037', 'rural'),
-  ('a0000000-0000-0000-0000-000000000038', 'éducation'), ('a0000000-0000-0000-0000-000000000038', 'e-learning'),
-  ('a0000000-0000-0000-0000-000000000039', 'agriculture'), ('a0000000-0000-0000-0000-000000000039', 'smart-farming'), ('a0000000-0000-0000-0000-000000000039', 'iot'),
-  ('a0000000-0000-0000-0000-000000000040', '5G'), ('a0000000-0000-0000-0000-000000000040', 'mombasa'),
-  -- South Africa
-  ('a0000000-0000-0000-0000-000000000041', 'smart-grid'), ('a0000000-0000-0000-0000-000000000041', 'capetown'), ('a0000000-0000-0000-0000-000000000041', 'énergie'),
-  ('a0000000-0000-0000-0000-000000000042', 'township'), ('a0000000-0000-0000-0000-000000000042', 'connectivité'),
-  ('a0000000-0000-0000-0000-000000000043', 'éducation'), ('a0000000-0000-0000-0000-000000000043', 'e-learning'), ('a0000000-0000-0000-0000-000000000043', 'gauteng'),
-  ('a0000000-0000-0000-0000-000000000044', 'santé'), ('a0000000-0000-0000-0000-000000000044', 'e-santé'), ('a0000000-0000-0000-0000-000000000044', 'kwazulu-natal'),
-  -- Morocco
-  ('a0000000-0000-0000-0000-000000000045', 'e-gouvernement'), ('a0000000-0000-0000-0000-000000000045', 'digitalisation'), ('a0000000-0000-0000-0000-000000000045', 'rabat'),
-  ('a0000000-0000-0000-0000-000000000046', 'smart-city'), ('a0000000-0000-0000-0000-000000000046', 'casablanca'), ('a0000000-0000-0000-0000-000000000046', 'iot'),
-  ('a0000000-0000-0000-0000-000000000047', 'rural'), ('a0000000-0000-0000-0000-000000000047', 'haut-débit'),
-  ('a0000000-0000-0000-0000-000000000048', 'e-commerce'), ('a0000000-0000-0000-0000-000000000048', 'atlas'), ('a0000000-0000-0000-0000-000000000048', 'économie')
+  ('fibre'), ('rural'), ('5G'), ('CEDEAO'), ('éducation'), ('formation'), ('digitalisation'),
+  ('smart-city'), ('centre-communautaire'), ('santé'), ('télé-santé'), ('solaire'),
+  ('énergie-verte'), ('off-grid'), ('hub'), ('data-center'), ('incubateur'), ('casamance'),
+  ('saint-louis'), ('lagos'), ('abuja'), ('pilote'), ('agriculture'), ('e-agriculture'),
+  ('iot'), ('rivers-state'), ('4G'), ('rift-valley'), ('e-learning'), ('smart-farming'),
+  ('mombasa'), ('smart-grid'), ('capetown'), ('énergie'), ('township'), ('connectivité'),
+  ('gauteng'), ('e-santé'), ('kwazulu-natal'), ('e-gouvernement'), ('digitalisation'),
+  ('rabat'), ('casablanca'), ('rural'), ('haut-débit'), ('e-commerce'), ('atlas'), ('économie')
+on conflict do nothing;
+
+insert into public.project_project_tags (project_id, tag_id)
+select p.id, t.id
+from public.projects p
+cross join public.project_tags t
+where (p.title = 'Extension fibre optique' and t.name = 'fibre')
+   or (p.title = 'Extension fibre optique' and t.name = 'rural')
+   or (p.title = 'Couverture 5G' and t.name = '5G')
+   or (p.title = 'Centre de formation numérique' and t.name = 'éducation')
 on conflict do nothing;
 
 -- =====================================================

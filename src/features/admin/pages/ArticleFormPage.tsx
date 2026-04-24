@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useNewsById, useCreateNews, useUpdateNews, useNewsCategories, useUploadNewsImage } from '../hooks/useContentManagement';
+import { useNewsById, useCreateNews, useUpdateNews, useNewsCategories, useUploadNewsImage, useAddNewsGalleryImage } from '../hooks/useContentManagement';
 import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
@@ -31,6 +31,7 @@ export function ArticleFormPage() {
   const createNews = useCreateNews();
   const updateNews = useUpdateNews();
   const uploadImage = useUploadNewsImage();
+  const addGalleryImage = useAddNewsGalleryImage();
   
   // Form state
   const [formData, setFormData] = useState<Partial<EnhancedNewsArticle>>({
@@ -96,11 +97,31 @@ export function ArticleFormPage() {
     e.preventDefault();
     
     try {
+      let articleId = id;
+      
       if (id) {
         await updateNews.mutateAsync({ id, ...formData });
       } else {
-        await createNews.mutateAsync(formData);
+        const newArticle = await createNews.mutateAsync(formData);
+        articleId = newArticle?.id;
       }
+      
+      // Save gallery images if we have an article ID and images
+      if (articleId && galleryImages.length > 0) {
+        console.log('Saving gallery images for article:', articleId);
+        for (let i = 0; i < galleryImages.length; i++) {
+          const img = galleryImages[i];
+          await addGalleryImage.mutateAsync({
+            news_id: articleId,
+            image_url: img.image_url,
+            caption: img.caption || '',
+            alt_text: img.alt_text || '',
+            sort_order: img.sort_order || i
+          });
+        }
+        console.log('Saved', galleryImages.length, 'gallery images');
+      }
+      
       navigate('/admin/news');
     } catch (error) {
       console.error('Error saving article:', error);
@@ -292,11 +313,15 @@ export function ArticleFormPage() {
                   onAddImage={async (file) => {
                     try {
                       const result = await handleUploadImage(file);
+                      console.log('Upload result:', result); // Debug
                       setGalleryImages(prev => [...prev, {
+                        id: Date.now().toString(),
                         image_url: result.url,
                         caption: '',
-                        alt_text: ''
+                        alt_text: '',
+                        sort_order: prev.length
                       }]);
+                      console.log('Updated galleryImages:', [...galleryImages, { image_url: result.url }]);
                     } catch (error) {
                       console.error('Error adding gallery image:', error);
                     }

@@ -16,12 +16,15 @@ async function uploadLogoFile(
 ): Promise<string> {
     try {
         // Validate file exists
-        if (!file) {
+        if (!file || !file.name) {
             throw new Error("No file provided for upload")
         }
         
-        // Validate file type and size
-        if (!file.type?.startsWith("image/")) {
+        const validImageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.bmp']
+        const originalFileName = file.name || ''
+        const fileExt = originalFileName.includes('.') ? originalFileName.split('.').pop()?.toLowerCase() || '' : ''
+        const hasValidExt = fileExt ? validImageExtensions.includes(`.${fileExt}`) : false
+        if (!file.type?.startsWith("image/") && !hasValidExt) {
             throw new Error("Only image files are allowed")
         }
 
@@ -30,12 +33,11 @@ async function uploadLogoFile(
             throw new Error("File size exceeds 5MB limit")
         }
 
-        const fileExt = file.name.split(".").pop()
-        const fileName = `${entityType}/${entityId}/logo.${fileExt}`
+        const newFileName = `${entityType}/${entityId}/logo.${fileExt}`
 
         const { data, error } = await supabase.storage
             .from("logos")
-            .upload(fileName, file, {
+            .upload(newFileName, file, {
                 cacheControl: "3600",
                 upsert: true,
             })
@@ -45,7 +47,7 @@ async function uploadLogoFile(
         // Get public URL
         const {
             data: { publicUrl },
-        } = supabase.storage.from("logos").getPublicUrl(fileName)
+        } = supabase.storage.from("logos").getPublicUrl(newFileName)
 
         return publicUrl
     } catch (error) {
@@ -474,11 +476,15 @@ export async function deleteArticleTranslation(id: string) {
 }
 
 // News Image Upload
-export async function uploadNewsImage(
-    file: File,
-    bucketName: "article-images" | "article-gallery",
+export async function uploadNewsImage({
+    file,
+    bucketName,
+    newsId,
+}: {
+    file: File
+    bucketName: "article-images" | "article-gallery"
     newsId: string
-): Promise<{
+}): Promise<{
     filePath: string
     fileName: string
     fileSize: number
@@ -490,8 +496,12 @@ export async function uploadNewsImage(
         if (!file) {
             throw new Error("No file provided to uploadNewsImage")
         }
-        // Validate file type and size
-        if (!file.type?.startsWith("image/")) {
+        // Validate file type and size - check both MIME type and extension
+        const validImageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.bmp']
+        const originalFileName = file.name || ''
+        const fileExt = originalFileName.includes('.') ? originalFileName.split('.').pop()?.toLowerCase() || '' : ''
+        const hasValidExt = fileExt ? validImageExtensions.includes(`.${fileExt}`) : false
+        if (!file.type?.startsWith("image/") && !hasValidExt) {
             throw new Error("Only image files are allowed")
         }
 
@@ -501,9 +511,8 @@ export async function uploadNewsImage(
         }
 
         // Generate unique file name
-        const fileExt = file.name.split(".").pop()
-        const fileName = `${newsId}/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`
-        const filePath = `${bucketName}/${fileName}`
+        const newFileName = `${newsId}/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`
+        const filePath = `${bucketName}/${newFileName}`
 
         // Upload file to Supabase storage
         const { data, error } = await supabase.storage
@@ -522,7 +531,7 @@ export async function uploadNewsImage(
 
         return {
             filePath,
-            fileName,
+            fileName: newFileName,
             fileSize: file.size,
             mimeType: file.type,
             url: publicUrl,
@@ -555,12 +564,29 @@ export async function getProjects() {
     return data ?? []
 }
 
+export async function getProjectById(id: string) {
+    const { data, error } = await supabase
+        .from("projects")
+        .select("*, countries(name_fr)")
+        .eq("id", id)
+        .single()
+    if (error) throw error
+    return data
+}
+
 export async function createProject(input: {
     title: string
     description?: string
     country_id: string
     status?: string
     region?: string
+    budget?: number
+    start_date?: string
+    end_date?: string
+    objectives?: string
+    indicators?: string
+    latitude?: number
+    longitude?: number
 }) {
     const { data, error } = await supabase
         .from("projects")
@@ -594,6 +620,16 @@ export async function updateProject(
 export async function deleteProject(id: string) {
     const { error } = await supabase.from("projects").delete().eq("id", id)
     if (error) throw error
+}
+
+export async function getProjectHistory(projectId: string) {
+    const { data, error } = await supabase
+        .from("project_history")
+        .select("*, user:user_id(full_name)")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: false })
+    if (error) throw error
+    return data ?? []
 }
 
 export async function uploadDocumentFile(file: File): Promise<{
@@ -706,8 +742,9 @@ export async function createDocument(input: {
     if (docError) throw docError
 
     // Add tags if provided
-    if (input.tags && input.tags.length > 0) {
-        const tagInserts = input.tags.map(tag => ({
+    const tagsArray = Array.isArray(input.tags) ? input.tags : [];
+    if (tagsArray.length > 0) {
+        const tagInserts = tagsArray.map(tag => ({
             document_id: document.id,
             tag: tag.trim(),
         }))
@@ -762,8 +799,9 @@ export async function updateDocument(
         }
 
         // Add new tags
-        if (input.tags && input.tags.length > 0) {
-            const tagInserts = input.tags.map(tag => ({
+        const tagsArray = Array.isArray(input.tags) ? input.tags : [];
+        if (tagsArray.length > 0) {
+            const tagInserts = tagsArray.map(tag => ({
                 document_id: id,
                 tag: tag.trim(),
             }))
@@ -808,14 +846,27 @@ interface SearchDocumentsParams {
     searchTerm?: string
     categories?: string[]
     tags?: string[]
+    status?: string[]
+    dateFrom?: string
+    dateTo?: string
+    page?: number
+    pageSize?: number
 }
 
 export async function searchDocuments({
     searchTerm = "",
     categories = [],
     tags = [],
+    status = [],
+    dateFrom,
+    dateTo,
+    page = 1,
+    pageSize = 20,
 }: SearchDocumentsParams) {
-    let query = supabase.from("documents").select("*, document_tags(tag)")
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    let query = supabase.from("documents").select("*, document_tags(tag)", { count: 'exact' })
 
     // Apply search term filter
     if (searchTerm) {
@@ -829,23 +880,52 @@ export async function searchDocuments({
         query = query.in("category", categories)
     }
 
-    // Apply tags filter (requires subquery)
-    if (tags.length > 0) {
-        query = query.in("id", {
-            text: `SELECT document_id FROM document_tags WHERE tag IN (${tags.map(t => `'${t}'`).join(",")})`,
-        })
+    // Apply status filter
+    if (status.length > 0) {
+        query = query.in("status", status)
     }
 
-    const { data, error } = await query.order("created_at", {
-        ascending: false,
-    })
+    // Apply date range filters
+    if (dateFrom) {
+        query = query.gte("created_at", dateFrom)
+    }
+    if (dateTo) {
+        query = query.lte("created_at", dateTo)
+    }
+
+    // Apply tags filter via join
+    if (tags.length > 0) {
+        // Get document IDs that have matching tags
+        const { data: matchingDocs } = await supabase
+            .from("document_tags")
+            .select("document_id")
+            .in("tag", tags)
+        
+        if (matchingDocs && matchingDocs.length > 0) {
+            const docIds = matchingDocs.map(d => d.document_id)
+            query = query.in("id", docIds)
+        } else {
+            return { documents: [], total: 0 }
+        }
+    }
+
+    // Apply pagination
+    query = query.range(from, to).order("created_at", { ascending: false })
+
+    const { data, error, count } = await query
 
     if (error) throw error
 
-    return (data ?? []).map(doc => ({
-        ...doc,
-        tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || [],
-    }))
+    return {
+        documents: (data ?? []).map(doc => ({
+            ...doc,
+            tags: doc.document_tags?.map((dt: { tag: string }) => dt.tag) || [],
+        })),
+        total: count ?? 0,
+        page,
+        pageSize,
+        totalPages: Math.ceil((count ?? 0) / pageSize),
+    }
 }
 
 export async function getDocumentTags() {
@@ -856,11 +936,136 @@ export async function getDocumentTags() {
 
     if (error) throw error
 
-    // Extract unique tags manually
-    const uniqueTags = Array.from(
-        new Set(data.map((dt: { tag: string }) => dt.tag))
-    )
-    return uniqueTags
+    return (data ?? []).map(d => d.tag)
+}
+
+interface Document {
+    id: string
+    title: string
+    description?: string
+    category: string
+    file_name: string
+    file_path: string
+    file_size?: number
+    mime_type?: string
+    status?: string
+    is_public?: boolean
+    created_at: string
+    tags?: string[]
+}
+
+export function exportDocumentsToCSV(documents: Document[]) {
+    const headers = ['Title', 'Category', 'Status', 'File Name', 'Size', 'Created At', 'Tags']
+    const rows = documents.map(doc => [
+        doc.title,
+        doc.category,
+        doc.status || 'active',
+        doc.file_name,
+        doc.file_size ? `${Math.round(doc.file_size / 1024)} KB` : '',
+        new Date(doc.created_at).toLocaleDateString(),
+        (doc.tags || []).join(', ')
+    ])
+
+    const csvContent = [headers, ...rows]
+        .map(row => row.map(cell => `"${cell}"`).join(','))
+        .join('\n')
+
+    return csvContent
+}
+
+export function downloadCSV(content: string, filename: string) {
+    const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = filename
+    link.click()
+    URL.revokeObjectURL(link.href)
+}
+
+// =====================================================
+// Document Versions
+// =====================================================
+
+export interface DocumentVersion {
+    id: string
+    document_id: string
+    version_number: number
+    file_path: string
+    file_name: string
+    file_size?: number
+    mime_type?: string
+    changelog?: string
+    created_by?: string
+    created_at: string
+}
+
+export async function getDocumentVersions(documentId: string): Promise<DocumentVersion[]> {
+    const { data, error } = await supabase
+        .from('document_versions')
+        .select('*')
+        .eq('document_id', documentId)
+        .order('version_number', { ascending: false })
+
+    if (error) throw error
+    return data ?? []
+}
+
+export async function createDocumentVersion(input: {
+    document_id: string
+    file_path: string
+    file_name: string
+    file_size?: number
+    mime_type?: string
+    changelog?: string
+}): Promise<DocumentVersion> {
+    // Get current max version number
+    const { data: versions } = await supabase
+        .from('document_versions')
+        .select('version_number')
+        .eq('document_id', input.document_id)
+        .order('version_number', { ascending: false })
+        .limit(1)
+    
+    const newVersion = (versions?.[0]?.version_number ?? 0) + 1
+
+    const { data, error } = await supabase
+        .from('document_versions')
+        .insert({
+            ...input,
+            version_number: newVersion,
+        })
+        .select()
+        .single()
+
+    if (error) throw error
+    return data
+}
+
+export async function restoreDocumentVersion(versionId: string): Promise<DocumentVersion> {
+    // Get the version to restore
+    const { data: version, error: fetchError } = await supabase
+        .from('document_versions')
+        .select('*')
+        .eq('id', versionId)
+        .single()
+
+    if (fetchError) throw fetchError
+
+    // Update the main document with the version's file info
+    const { error: updateError } = await supabase
+        .from('documents')
+        .update({
+            file_path: version.file_path,
+            file_name: version.file_name,
+            file_size: version.file_size,
+            mime_type: version.mime_type,
+            updated_at: new Date().toISOString(),
+        })
+        .eq('id', version.document_id)
+
+    if (updateError) throw updateError
+
+    return version
 }
 
 // Events
@@ -1196,6 +1401,41 @@ export async function updatePartner(
 
 export async function deletePartner(id: string) {
     const { error } = await supabase.from("partenaires").delete().eq("id", id)
+    if (error) throw error
+}
+
+export async function getProjectActors(projectId: string) {
+    const { data, error } = await supabase
+        .from("project_actors")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: true })
+    if (error) throw error
+    return data || []
+}
+
+export async function addProjectActor(projectId: string, actor: any) {
+    const { data, error } = await supabase
+        .from("project_actors")
+        .insert({
+            project_id: projectId,
+            name: actor.name,
+            type: actor.type,
+            role: actor.role,
+            organization: actor.organization,
+            contact: actor.contact,
+        })
+        .select()
+        .single()
+    if (error) throw error
+    return data
+}
+
+export async function removeProjectActor(actorId: string) {
+    const { error } = await supabase
+        .from("project_actors")
+        .delete()
+        .eq("id", actorId)
     if (error) throw error
 }
 

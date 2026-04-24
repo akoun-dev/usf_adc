@@ -58,7 +58,7 @@ export async function fetchPublicProjects(): Promise<ProjectWithDetails[]> {
       *,
       country:countries(id, code_iso, name_fr, name_en, region, flag_url),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .order('created_at', { ascending: false });
 
@@ -67,7 +67,9 @@ export async function fetchPublicProjects(): Promise<ProjectWithDetails[]> {
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }
 
@@ -95,7 +97,7 @@ export async function fetchProjectsByCountryCode(countryCode: string): Promise<P
       *,
       country:countries(id, code_iso, name_fr, name_en, region, flag_url),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .eq('country_id', country.id)
     .order('created_at', { ascending: false });
@@ -105,7 +107,9 @@ export async function fetchProjectsByCountryCode(countryCode: string): Promise<P
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }
 
@@ -119,7 +123,7 @@ export async function fetchProjectsByCountryId(countryId: string): Promise<Proje
       *,
       country:countries(id, code_iso, name_fr, name_en, region),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .eq('country_id', countryId)
     .order('created_at', { ascending: false });
@@ -129,7 +133,9 @@ export async function fetchProjectsByCountryId(countryId: string): Promise<Proje
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }
 
@@ -143,7 +149,7 @@ export async function fetchProjectsByThematic(thematic: string): Promise<Project
       *,
       country:countries(id, code_iso, name_fr, name_en, region),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .eq('thematic', thematic)
     .order('created_at', { ascending: false });
@@ -153,7 +159,9 @@ export async function fetchProjectsByThematic(thematic: string): Promise<Project
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }
 
@@ -167,7 +175,7 @@ export async function fetchProjectsByStatus(status: ProjectStatus): Promise<Proj
       *,
       country:countries(id, code_iso, name_fr, name_en, region),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .eq('status', status)
     .order('created_at', { ascending: false });
@@ -177,7 +185,9 @@ export async function fetchProjectsByStatus(status: ProjectStatus): Promise<Proj
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }
 
@@ -191,7 +201,7 @@ export async function fetchProjectById(id: string): Promise<ProjectWithDetails |
       *,
       country:countries(id, code_iso, name_fr, name_en, region),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .eq('id', id)
     .single();
@@ -204,7 +214,9 @@ export async function fetchProjectById(id: string): Promise<ProjectWithDetails |
   return {
     ...data,
     images: data.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: data.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: data.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   };
 }
 
@@ -258,7 +270,7 @@ export async function fetchProjectsForMap(): Promise<ProjectWithDetails[]> {
       *,
       country:countries(id, code_iso, name_fr, name_en, region),
       project_images(image_url),
-      project_tags(tag)
+      project_project_tags(project_tags(name))
     `)
     .not('latitude', 'is', null)
     .not('longitude', 'is', null);
@@ -268,6 +280,8 @@ export async function fetchProjectsForMap(): Promise<ProjectWithDetails[]> {
   return (data || []).map(project => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: project.project_tags?.map((pt: { tag: string }) => pt.tag) || []
+    tags: project.project_project_tags
+      ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
+      .filter(Boolean) || []
   }));
 }

@@ -39,20 +39,21 @@ export function EventsTab() {
   };
 
   const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'draft':
-        return <Badge variant="secondary">{t('event.draft', 'Brouillon')}</Badge>;
-      case 'in_review':
-        return <Badge variant="outline">{t('event.inReview', 'En révision')}</Badge>;
-      case 'published':
-        return <Badge variant="default">{t('event.published', 'Publié')}</Badge>;
-      case 'archived':
-        return <Badge variant="destructive">{t('event.archived', 'Archivé')}</Badge>;
-      case 'cancelled':
-        return <Badge variant="destructive">{t('event.cancelled', 'Annulé')}</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
+    const statusKeys: Record<string, string> = {
+      draft: 'admin.event.draft',
+      in_review: 'admin.event.inReview',
+      published: 'admin.event.published',
+      archived: 'admin.event.archived',
+      cancelled: 'admin.event.cancelled',
+    };
+    const variants: Record<string, 'secondary' | 'outline' | 'default' | 'destructive'> = {
+      draft: 'secondary',
+      in_review: 'outline',
+      published: 'default',
+      archived: 'destructive',
+      cancelled: 'destructive',
+    };
+    return <Badge variant={variants[status] || 'outline'}>{t(statusKeys[status] || status)}</Badge>;
   };
 
   return (
@@ -73,12 +74,12 @@ export function EventsTab() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('event.title')}</TableHead>
-              <TableHead>{t('event.location')}</TableHead>
-              <TableHead>{t('event.startDate')}</TableHead>
-              <TableHead>{t('event.endDate')}</TableHead>
-              <TableHead>{t('event.status')}</TableHead>
-              <TableHead className="text-right">{t('common.actions',)}</TableHead>
+              <TableHead>{t('admin.event.title')}</TableHead>
+              <TableHead>{t('admin.event.location')}</TableHead>
+              <TableHead>{t('admin.event.startDate')}</TableHead>
+              <TableHead>{t('admin.event.endDate')}</TableHead>
+              <TableHead>{t('admin.event.status')}</TableHead>
+              <TableHead className="text-right">{t('common.actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

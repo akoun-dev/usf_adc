@@ -305,17 +305,25 @@ export function useSearchDocuments() {
   const queryClient = useQueryClient();
   
   const mutation = useMutation({
-    mutationFn: (params: { searchTerm?: string; categories?: string[]; tags?: string[] }) => 
-      adminService.searchDocuments(params),
+    mutationFn: (params: { 
+      searchTerm?: string
+      categories?: string[]
+      tags?: string[]
+      status?: string[]
+      dateFrom?: string
+      dateTo?: string
+      page?: number
+      pageSize?: number
+    }) => adminService.searchDocuments(params),
     onSuccess: (data) => {
-      // Update the query cache with search results
       queryClient.setQueryData(['search-results'], data);
     }
   });
-  
+
   const { data } = useQuery({
     queryKey: ['search-results'],
-    initialData: []
+    queryFn: async () => ({ documents: [], total: 0, page: 1, pageSize: 20, totalPages: 0 }),
+    staleTime: Infinity,
   });
   
   return {
@@ -328,6 +336,34 @@ export function useDocumentTags() {
   return useQuery({
     queryKey: ['document-tags'],
     queryFn: adminService.getDocumentTags,
+  });
+}
+
+export function useDocumentVersions(documentId: string) {
+  return useQuery({
+    queryKey: ['document-versions', documentId],
+    queryFn: () => adminService.getDocumentVersions(documentId),
+    enabled: !!documentId,
+  });
+}
+
+export function useCreateDocumentVersion() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createDocumentVersion,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['document-versions', variables.document_id] });
+    },
+  });
+}
+
+export function useRestoreDocumentVersion() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.restoreDocumentVersion,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin-documents'] });
+    },
   });
 }
 
@@ -491,5 +527,51 @@ export function useDeletePartner() {
   return useMutation({
     mutationFn: adminService.deletePartner,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-partners'] }),
+  });
+}
+
+export function useProjectActors(projectId: string) {
+  return useQuery({
+    queryKey: ['project-actors', projectId],
+    queryFn: () => adminService.getProjectActors(projectId),
+    enabled: !!projectId,
+  });
+}
+
+export function useAddProjectActor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ projectId, actor }: { projectId: string; actor: any }) =>
+      adminService.addProjectActor(projectId, actor),
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['project-actors', variables.projectId] });
+    },
+  });
+}
+
+export function useRemoveProjectActor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (actorId: string) => adminService.removeProjectActor(actorId),
+    onSuccess: (_, variables) => {
+      // Note: We don't know the projectId here, so we need to invalidate all project-actors queries
+      qc.invalidateQueries({ queryKey: ['project-actors'] });
+    },
+  });
+}
+
+export function useProjectHistory(projectId: string) {
+  return useQuery({
+    queryKey: ['project-history', projectId],
+    queryFn: () => adminService.getProjectHistory(projectId),
+    enabled: !!projectId,
+  });
+}
+
+export function useProjectById(id: string) {
+  return useQuery({
+    queryKey: ['admin-project', id],
+    queryFn: () => adminService.getProjectById(id),
+    enabled: !!id,
   });
 }

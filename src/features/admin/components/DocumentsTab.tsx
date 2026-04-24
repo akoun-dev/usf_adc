@@ -1,19 +1,20 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDocuments, useCreateDocument, useUpdateDocument, useDeleteDocument, useSearchDocuments, useDocumentTags } from '../hooks/useContentManagement';
+import { useDocuments, useCreateDocument, useUpdateDocument, useDeleteDocument, useSearchDocuments, useDocumentTags, useDocumentVersions, useRestoreDocumentVersion } from '../hooks/useContentManagement';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { Pencil, Trash2, Plus, FileText, Upload, Search, Tag, X, Filter, Download, Eye } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Pencil, Trash2, Plus, FileText, Upload, Search, Tag, X, Filter, Download, Eye, History, RotateCcw, File } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as adminService from '../services/admin-service';
 
@@ -47,26 +48,11 @@ interface DocumentWithTags {
   is_uploading?: boolean;
 }
 
-interface DocumentWithTags {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  file_name: string;
-  file_path: string;
-  file_size: number;
-  mime_type: string;
-  is_public: boolean;
-  created_at: string;
-  tags: string[];
-  upload_progress?: number;
-  is_uploading?: boolean;
-}
-
 const DOCUMENT_CATEGORIES = [
   { value: 'guides', label: 'Guides' },
   { value: 'reports', label: 'Reports' },
   { value: 'policies', label: 'Policies' },
+  { value: 'bulletins', label: 'Bulletins' },
   { value: 'forms', label: 'Forms' },
   { value: 'manuals', label: 'Manuals' },
   { value: 'templates', label: 'Templates' },
@@ -83,11 +69,14 @@ export function DocumentsTab() {
   const createDocument = useCreateDocument();
   const updateDocument = useUpdateDocument();
   const deleteDocument = useDeleteDocument();
-  const searchDocuments = useSearchDocuments();
   const { data: allTags } = useDocumentTags();
+  const restoreVersion = useRestoreDocumentVersion();
   
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedDocForVersions, setSelectedDocForVersions] = useState<string | null>(null);
+  const [isVersionsOpen, setIsVersionsOpen] = useState(false);
+  const { data: versions } = useDocumentVersions(selectedDocForVersions || '');
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -238,6 +227,16 @@ export function DocumentsTab() {
     setIsOpen(true);
   };
 
+  const handleViewVersions = (docId: string) => {
+    setSelectedDocForVersions(docId);
+    setIsVersionsOpen(true);
+  };
+
+  const handleRestoreVersion = async (versionId: string) => {
+    await restoreVersion.mutateAsync(versionId);
+    setIsVersionsOpen(false);
+  };
+
   const handleDelete = async (id: string) => {
     if (confirm(t('admin.confirmDelete', 'Êtes-vous sûr de vouloir supprimer ?'))) {
       await deleteDocument.mutateAsync(id);
@@ -245,6 +244,7 @@ export function DocumentsTab() {
   };
 
   return (
+    <>
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
@@ -499,6 +499,9 @@ export function DocumentsTab() {
                   <TableCell>{item.created_at ? new Date(item.created_at).toLocaleDateString('fr-FR') : '-'}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
+                      <Button size="icon" variant="ghost" onClick={() => handleViewVersions(item.id)} title={t('document.versions', 'Versions')}>
+                        <History className="h-4 w-4" />
+                      </Button>
                       <Button size="icon" variant="ghost" onClick={() => handleEdit(item)}>
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -520,5 +523,61 @@ export function DocumentsTab() {
         </Table>
       </CardContent>
     </Card>
+
+    {/* Versions History Dialog */}
+    <Dialog open={isVersionsOpen} onOpenChange={setIsVersionsOpen}>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <History className="h-5 w-5" />
+            {t('document.versionHistory', 'Historique des versions')}
+          </DialogTitle>
+        </DialogHeader>
+        <ScrollArea className="h-[400px] pr-4">
+          {versions && versions.length > 0 ? (
+            <div className="space-y-3">
+              {versions.map((version) => (
+                <div key={version.id} className="flex items-start justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
+                      <span className="text-sm font-medium">v{version.version_number}</span>
+                    </div>
+                    <div>
+                      <p className="font-medium">{version.file_name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {version.file_size ? `${Math.round(version.file_size / 1024)} KB` : '-'} • {new Date(version.created_at).toLocaleDateString('fr-FR')}
+                      </p>
+                      {version.changelog && (
+                        <p className="text-sm mt-1">{version.changelog}</p>
+                      )}
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleRestoreVersion(version.id)}
+                    disabled={restoreVersion.isPending}
+                  >
+                    <RotateCcw className="h-4 w-4 mr-1" />
+                    {t('document.restore', 'Restaurer')}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              <File className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>{t('document.noVersions', 'Aucune version disponible')}</p>
+            </div>
+          )}
+        </ScrollArea>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setIsVersionsOpen(false)}>
+            {t('common.close', 'Fermer')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }

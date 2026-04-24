@@ -46,99 +46,179 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+const ADMIN_ACCOUNTS = [
+    {
+        email: "admin@test.local",
+        password: "Admin123!",
+        full_name: "Administrator",
+        role: "super_admin",
+        country_id: null,
+    },
+    {
+        email: "togo-admin@test.local",
+        password: "Admin123!",
+        full_name: "Admin Togo",
+        role: "country_admin",
+        country_id: null, // TO SET AFTER FETCHING
+    },
+    {
+        email: "togo-pointfocal@test.local",
+        password: "Admin123!",
+        full_name: "Point Focal Togo",
+        role: "point_focal",
+        country_id: null, // TO SET AFTER FETCHING
+    },
+    {
+        email: "civ-admin@test.local",
+        password: "Admin123!",
+        full_name: "Admin Cote d'Ivoire",
+        role: "country_admin",
+        country_id: null, // TO SET AFTER FETCHING
+    },
+    {
+        email: "civ-pointfocal@test.local",
+        password: "Admin123!",
+        full_name: "Point Focal Cote d'Ivoire",
+        role: "point_focal",
+        country_id: null, // TO SET AFTER FETCHING
+    },
+];
+
+async function getCountries() {
+    const { data, error } = await supabase.from("countries").select("id, name").limit(10);
+    if (error) {
+        console.warn("Impossible de recuperer les pays:", error.message);
+        return [];
+    }
+    return data || [];
+}
+
+async function createUserAccount(account) {
+    console.log(`\n📧 Creation de l'utilisateur: ${account.email}...`);
+
+    const { data: userData, error: userError } = await supabase.auth.admin.createUser({
+        email: account.email,
+        password: account.password,
+        email_confirm: true,
+        user_metadata: {
+            full_name: account.full_name,
+        }
+    });
+
+    if (userError) {
+        if (userError.message.includes("already exists") ||
+            userError.message.includes("duplicate") ||
+            userError.message.includes("been registered")) {
+            console.log(`  ⚠️  L'utilisateur existe deja, recuperation...`);
+            const { data: { users }, error: listError } = await supabase.auth.admin.listUsers();
+            if (listError) throw listError;
+            userData.user = users.find(u => u.email === account.email);
+            if (!userData.user) {
+                throw new Error(`Utilisateur ${account.email} non trouve`);
+            }
+        } else {
+            throw userError;
+        }
+    }
+
+    console.log(`  ✅ Utilisateur cree/trouve: ${userData.user.id}`);
+
+    console.log(`  👤 Configuration du profil...`);
+    const { error: profileError } = await supabase.from("profiles").upsert(
+        {
+            id: userData.user.id,
+            full_name: account.full_name,
+            avatar_url: null,
+            language: "fr",
+            is_active: true,
+            country_id: account.country_id,
+            mfa_method: "email",
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+        },
+        { onConflict: "id" }
+    );
+
+    if (profileError) {
+        throw profileError;
+    }
+    console.log(`  ✅ Profil configure`);
+
+    console.log(`  🔐 Attribution du role ${account.role}...`);
+    const { error: roleError } = await supabase.from("user_roles").upsert(
+        {
+            user_id: userData.user.id,
+            role: account.role,
+            created_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,role" }
+    );
+
+    if (roleError) {
+        throw roleError;
+    }
+    console.log(`  ✅ Role ${account.role} attribue`);
+
+    return { ...account, user_id: userData.user.id };
+}
+
 async function createAndSetupAdmin() {
     try {
-        console.log("🔧 Création et configuration du compte admin...")
+        console.log("🔧 Configuration des comptes administrateur...\n");
 
-        // 1. Créer l'utilisateur dans auth.users
-        console.log("📧 Création de l'utilisateur auth...")
-        const { data: userData, error: userError } = await supabase.auth.admin.createUser({
-            email: "admin@test.local",
-            password: "Admin123!",
-            email_confirm: true,
-            user_metadata: {
-                full_name: "Administrator",
-            }
-        })
+        console.log("🌍 Recuperation des pays...");
+        const countries = await getCountries();
 
-        if (userError) {
-            // L'utilisateur existe peut-être déjà
-            if (userError.message.includes("already exists") ||
-                userError.message.includes("duplicate") ||
-                userError.message.includes("been registered")) {
-                console.log("⚠️  L'utilisateur existe déjà, récupération...")
-                const { data: { users } } = await supabase.auth.admin.listUsers()
-                userData.user = users.find(u => u.email === "admin@test.local")
-                if (!userData.user) {
-                    throw new Error("Utilisateur admin non trouvé dans la liste")
+        const countryMap = {};
+        countries.forEach(c => {
+            const key = c.name.toLowerCase().replace(/[^a-z]/g, '');
+            countryMap[key] = c.id;
+        });
+
+        console.log(`  Trouve ${countries.length} pays`);
+
+        const results = [];
+
+        for (const account of ADMIN_ACCOUNTS) {
+            if (account.country_id === null && account.role !== "super_admin") {
+                const countryName = account.email.split("-")[0].replace(".local", "");
+                const countryKey = countryName.toLowerCase();
+                account.country_id = countryMap[countryKey] || null;
+
+                if (!account.country_id) {
+                    console.warn(`  ⚠️  Pays pour '${countryName}' non trouve dans la base`);
                 }
-            } else {
-                throw userError
+            }
+
+            try {
+                const result = await createUserAccount(account);
+                results.push(result);
+            } catch (error) {
+                console.error(`  ❌ Erreur: ${error.message}`);
             }
         }
 
-        console.log(`✅ Utilisateur créé/trouvé: ${userData.user.id}`)
+        console.log("\n" + "━".repeat(65));
+        console.log("✅ Configuration terminee avec succes!");
+        console.log("━".repeat(65));
 
-        // 2. Créer ou mettre à jour le profil
-        console.log("👤 Configuration du profil...")
-        const { error: profileError } = await supabase.from("profiles").upsert(
-            {
-                id: userData.user.id,
-                full_name: "Administrator",
-                avatar_url: null,
-                language: "fr",
-                is_active: true,
-                country_id: null,
-                mfa_method: "email",
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-            },
-            { onConflict: "id" }
-        )
+        results.forEach(r => {
+            console.log(`\n📧 ${r.full_name} (${r.role})`);
+            console.log(`   Email:    ${r.email}`);
+            console.log(`   Password: ${r.password}`);
+            console.log(`   ID:       ${r.user_id}`);
+            if (r.country_id) {
+                console.log(`   Pays ID:  ${r.country_id}`);
+            }
+        });
 
-        if (profileError) {
-            console.error("❌ Erreur profil:", profileError)
-            throw profileError
-        }
-
-        console.log("✅ Profil configuré")
-
-        // 3. Assigner le rôle super_admin
-        console.log("🔐 Attribution du rôle super_admin...")
-        const { error: roleError } = await supabase.from("user_roles").upsert(
-            {
-                user_id: userData.user.id,
-                role: "super_admin",
-                created_at: new Date().toISOString(),
-            },
-            { onConflict: "user_id,role" }
-        )
-
-        if (roleError) {
-            console.error("❌ Erreur rôle:", roleError)
-            throw roleError
-        }
-
-        console.log("✅ Rôle super_admin attribué")
-
-        // 4. Vérification
-        const { data: roles } = await supabase
-            .from("user_roles")
-            .select("*")
-            .eq("user_id", userData.user.id)
-
-        console.log("\n✅ Configuration admin terminée avec succès!")
-        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        console.log(`📧 Email:    admin@test.local`)
-        console.log(`🔑 Password: Admin123!`)
-        console.log(`🆔 User ID:  ${userData.user.id}`)
-        console.log(`👤 Rôle:     super_admin`)
-        console.log(`🔗 Studio:   http://127.0.0.1:54323`)
-        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        console.log("\n" + "━".repeat(65));
+        console.log(`🔗 Studio:   http://127.0.0.1:54323`);
+        console.log("━".repeat(65));
 
     } catch (error) {
-        console.error("\n❌ Erreur:", error.message)
-        process.exit(1)
+        console.error("\n❌ Erreur:", error.message);
+        process.exit(1);
     }
 }
 

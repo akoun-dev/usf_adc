@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import {
   MapPin, FileText, Newspaper, Users, ArrowRight, Calendar,
   BookOpen, MessageSquare, Briefcase, TrendingUp, Shield, Globe, Clock,
@@ -76,7 +76,7 @@ export default function PublicHomePage() {
     <PublicLayout>
       {/* Hero Section */}
       <section className="py-16 lg:py-20 bg-muted/30 border-b">
-        <div className="container mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="w-full px-6 lg:px-12">
           <div className="max-w-3xl space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2">
               <Globe className="h-4 w-4 text-primary" />
@@ -118,7 +118,7 @@ export default function PublicHomePage() {
 
       {/* Features Section */}
       <section className="py-20 bg-background">
-        <div className="container mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="w-full px-6 lg:px-12">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">{t('public.features.badge')}</Badge>
             <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
@@ -149,7 +149,7 @@ export default function PublicHomePage() {
 
       {/* News Preview Section */}
       <section className="py-20 bg-muted/30">
-        <div className="container mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="w-full px-6 lg:px-12">
           <div className="flex items-center justify-between mb-12">
             <div>
               <Badge variant="secondary" className="mb-4">{t('public.news.badge')}</Badge>
@@ -248,7 +248,7 @@ export default function PublicHomePage() {
 
       {/* Events Preview Section */}
       <section className="py-20 bg-background">
-        <div className="container mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="w-full px-6 lg:px-12">
           <div className="flex items-center justify-between mb-12">
             <div>
               <Badge variant="secondary" className="mb-4">{t('public.events.badge')}</Badge>
@@ -357,7 +357,7 @@ export default function PublicHomePage() {
 
       {/* Authority Message Section */}
       <section className="py-20 bg-muted/30">
-        <div className="container mx-auto max-w-6xl px-6 lg:px-12">
+        <div className="w-full px-6 lg:px-12">
           <div className="grid gap-12 lg:grid-cols-2">
             {/* DG Message */}
             <Card>
@@ -400,7 +400,7 @@ export default function PublicHomePage() {
 
       {/* CTA Section */}
       <section className="py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto max-w-4xl px-6 text-center lg:px-12">
+        <div className="w-full px-6 text-center lg:px-12">
           <h2 className="text-3xl font-bold lg:text-4xl mb-6">
             {t('public.cta.title')}
           </h2>

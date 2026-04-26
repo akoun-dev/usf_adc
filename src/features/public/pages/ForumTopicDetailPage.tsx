@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+﻿import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, User, Clock, MessageSquare, Eye, Pin, Lock, CheckCircle } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicForumTopic } from '../hooks/usePublicForum';
@@ -48,7 +48,7 @@ export default function ForumTopicDetailPage() {
   if (isLoading) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16">
+        <div className="w-full px-4 py-16">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-1/3" />
             <div className="h-4 bg-muted rounded w-1/4" />
@@ -62,7 +62,7 @@ export default function ForumTopicDetailPage() {
   if (error || !topic) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">{t('public.forum.topic.notFound')}</h1>
           <Button asChild>
             <Link to="/forum-public">{t('public.forum.topic.backToForum')}</Link>
@@ -79,7 +79,7 @@ export default function ForumTopicDetailPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="w-full px-4 py-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/forum-public" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />

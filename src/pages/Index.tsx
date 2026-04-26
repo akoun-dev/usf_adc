@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useState, useMemo, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+﻿import React, { lazy, Suspense, useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
     Shield,
@@ -33,7 +33,6 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageSwitcher } from "@/features/shell/components/LanguageSwitcher"
-import { useAuth } from "@/features/auth/hooks/useAuth"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -60,6 +59,7 @@ import { PublicHeader } from "@/features/public"
 import { MiniCalendar } from "@/features/public/components/MiniCalendar"
 import { PartnersLogoScroller } from "@/features/public/components/PartnersLogoScroller"
 import { WelcomeSection } from "@/features/public/components/WelcomeSection"
+import { AboutSection } from "@/features/public/components/AboutSection"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -97,11 +97,6 @@ const roleConfigs = [
 
 const HeroSection = () => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
-    const { isAuthenticated, profile, signOut, user } = useAuth()
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-
 
     return (
         <section className=" relative h-[800px] sm:h-[550px] md:h-[650px] lg:h-[700px] xl:h-[800px] 2xl:h-[1000px] flex items-center">
@@ -130,7 +125,7 @@ const HeroSection = () => {
                     </div>
 
                     <h1 className="text-4xl font-bold leading-tight text-black drop-shadow-2xl sm:text-5xl lg:text-6xl">
-                        {t("index.hero.title")}                        
+                        {t("index.hero.title")}
                         <div className="text-secondary bg-primary/90 pl-5 pr-5 py-2 rounded-md mt-3">
                             {t("index.hero.subtitle")}
                         </div>
@@ -198,7 +193,7 @@ const FeaturesSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-muted/30" />
             <div
                 ref={ref}
-                className={`container mx-auto max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                className={`w-full transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
@@ -611,7 +606,7 @@ const NewsEventsSection = () => {
         >
             <div
                 ref={ref}
-                className={`container mx-auto max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                className={`w-full transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
@@ -717,153 +712,6 @@ const NewsEventsSection = () => {
     )
 }
 
-/* ------------------------------------------------------------------ */
-/*  ABOUT / COLLABORATION                                             */
-/* ------------------------------------------------------------------ */
-
-const AboutSection = () => {
-    const { ref, isVisible } = useScrollAnimation()
-    const { t } = useTranslation()
-    const [currentIndex, setCurrentIndex] = useState(0)
-
-    const carouselItems = [
-        {
-            image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop",
-            titleKey: "index.about.carousel.universal.title",
-            descKey: "index.about.carousel.universal.desc",
-            icon: <Globe className="h-8 w-8" />,
-        },
-        {
-            image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=800&fit=crop",
-            titleKey: "index.about.carousel.dashboard.title",
-            descKey: "index.about.carousel.dashboard.desc",
-            icon: <BarChart3 className="h-8 w-8" />,
-        },
-        {
-            image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&h=800&fit=crop",
-            titleKey: "index.about.carousel.collaboration.title",
-            descKey: "index.about.carousel.collaboration.desc",
-            icon: <Users className="h-8 w-8" />,
-        },
-        {
-            image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=800&fit=crop",
-            titleKey: "index.about.carousel.innovation.title",
-            descKey: "index.about.carousel.innovation.desc",
-            icon: <Zap className="h-8 w-8" />,
-        },
-    ]
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex(prevIndex => (prevIndex + 1) % carouselItems.length)
-        }, 5000)
-        return () => clearInterval(interval)
-    }, [carouselItems.length])
-
-    return (
-        <section id="about" className="relative overflow-hidden bg-muted/30">
-            {/* Bottom transition to Roles */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-background" />
-            <div
-                ref={ref}
-                className="container mx-auto max-w-6xl px-6 py-10 lg:py-20"
-            >
-                {/* Header */}
-                <div
-                    className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-                >
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
-                        <Globe className="h-4 w-4" />
-                        {t("index.about.badge")}
-                    </div>
-                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl mb-4">
-                        {t("index.about.title")}
-                    </h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        {t("index.about.description")}
-                    </p>
-                </div>
-
-                {/* Fade Carousel */}
-                <div
-                    className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-                >
-                    <div className="relative">
-                        {carouselItems.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`transition-opacity duration-1000 ${
-                                    index === currentIndex
-                                        ? "opacity-100"
-                                        : "opacity-0 absolute inset-0 pointer-events-none"
-                                }`}
-                            >
-                                <Card className="border-0 overflow-hidden shadow-2xl">
-                                    <CardContent className="p-0">
-                                        <div className="grid lg:grid-cols-2">
-                                            {/* Image */}
-                                            <div className="relative h-96 lg:h-[600px]">
-                                                <img
-                                                    src={item.image}
-                                                    alt={t(item.titleKey)}
-                                                    className="h-full w-full object-cover"
-                                                    loading="lazy"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent" />
-                                            </div>
-
-                                            {/* Text */}
-                                            <div className="p-12 lg:p-20 flex flex-col justify-center bg-background">
-                                                <div className="inline-flex items-center justify-center w-20 h-20 rounded-xl bg-primary/10 text-primary mb-10">
-                                                    {item.icon}
-                                                </div>
-                                                <h3 className="text-4xl font-bold text-foreground mb-8">
-                                                    {t(item.titleKey)}
-                                                </h3>
-                                                <p className="text-xl text-muted-foreground leading-relaxed mb-10">
-                                                    {t(item.descKey)}
-                                                </p>
-                                                <Button
-                                                    asChild
-                                                    size="lg"
-                                                    variant="outline"
-                                                    className="w-fit text-lg px-8 py-6"
-                                                >
-                                                    <Link to="/a-propos">
-                                                        {t(
-                                                            "index.about.learnMore"
-                                                        )}
-                                                        <ArrowRight className="ml-2 h-5 w-5" />
-                                                    </Link>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        ))}
-
-                        {/* Dots indicators */}
-                        <div className="flex justify-center gap-3 mt-8">
-                            {carouselItems.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setCurrentIndex(index)}
-                                    className={`h-3 rounded-full transition-all duration-300 ${
-                                        index === currentIndex
-                                            ? "w-12 bg-primary"
-                                            : "w-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                                    }`}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
 
 /* ------------------------------------------------------------------ */
 /*  ROLES                                                              */
@@ -878,7 +726,7 @@ const RolesSection = () => {
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-primary/10" />
             <div
                 ref={ref}
-                className={`container mx-auto max-w-5xl text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                className={`w-full text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
                     <Users className="h-4 w-4" />
@@ -929,7 +777,7 @@ const CtaSection = () => {
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
             <div
                 ref={ref}
-                className={`relative z-10 container mx-auto max-w-4xl px-6 py-20 text-center lg:py-20 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-100 scale-95"}`}
+                className={`relative z-10 w-full px-6 py-20 text-center lg:py-20 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-100 scale-95"}`}
             >
                 <h2 className="text-3xl font-bold text-white lg:text-4xl">
                     {t("index.cta.title")}
@@ -972,8 +820,14 @@ const Index = () => (
     <div className="min-h-screen bg-background sarus">
         <PublicHeader variant="transparent" />
         <HeroSection />
-        <WelcomeSection />
-        <AboutSection />
+        <div className="flex flex-col lg:flex-row">
+            <div className="w-full lg:w-1/2 bg-white/30">
+                <WelcomeSection />
+            </div>
+            <div className="w-full lg:w-1/2 bg-muted/30">
+                <AboutSection />
+            </div>
+        </div>
         <NewsEventsSection />
         <FeaturesSection />
         <PartnersLogoScroller />

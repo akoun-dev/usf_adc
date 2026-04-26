@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Newspaper, Search, Calendar, Filter, Mail, Share2, Clock, User, Tag, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
@@ -266,7 +266,7 @@ export default function NewsPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
           title={t('public.news.pageTitle')}
           description={t('public.news.pageDesc')}

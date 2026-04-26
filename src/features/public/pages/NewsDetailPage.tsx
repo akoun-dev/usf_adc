@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+﻿import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Clock, Share2, Tag as TagIcon } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useNewsArticle, usePublicNews } from '../hooks/usePublicNews';
@@ -17,7 +17,7 @@ export default function NewsDetailPage() {
   if (isLoading) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">Chargement...</p>
         </div>
@@ -28,7 +28,7 @@ export default function NewsDetailPage() {
   if (!article) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Article non trouvé</h1>
           <Button asChild>
             <Link to="/actualites">Retour aux actualités</Link>
@@ -42,7 +42,7 @@ export default function NewsDetailPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="w-full px-4 py-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/actualites" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Globe, Filter, ArrowRight, Users, Building2 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
@@ -153,7 +153,7 @@ export default function CountriesDirectoryPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
           title={t('public.memberCountries.directory.title')}
           description={t('public.memberCountries.directory.description', { count: stats.totalCountries })}

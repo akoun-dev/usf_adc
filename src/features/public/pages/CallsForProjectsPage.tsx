@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import {
     Briefcase,
     Calendar,
@@ -176,7 +176,7 @@ export default function CallsForProjectsPage() {
 
     return (
         <PublicLayout>
-            <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
                 <PageHero
                     title={t("public.calls.title")}
                     description={t("public.calls.description")}

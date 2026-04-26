@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next"
+﻿import { useTranslation } from "react-i18next"
 import { PublicLayout } from "../components/PublicLayout"
 import PageHero from "@/components/PageHero"
 import { Card, CardContent } from "@/components/ui/card"
@@ -80,7 +80,7 @@ export default function OurHistoryPage() {
 
     return (
         <PublicLayout>
-            <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
                 <PageHero
                     title={t("ourHistory.hero.title")}
                     description={t("ourHistory.hero.description")}

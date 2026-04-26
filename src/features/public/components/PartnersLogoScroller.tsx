@@ -1,4 +1,4 @@
-import React from "react"
+﻿import React from "react"
 import { useTranslation } from "react-i18next"
 import { usePublicPartners } from "@/features/public/hooks/usePublicPartners"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
@@ -17,7 +17,7 @@ export const PartnersLogoScroller = () => {
     if (isLoading) {
         return (
             <section className="relative px-6 py-12 bg-muted/20 overflow-hidden">
-                <div className="container mx-auto max-w-6xl">
+                <div className="w-full">
                     <div className="text-center mb-8">
                         <div className="h-6 w-48 bg-muted rounded animate-pulse mx-auto" />
                     </div>
@@ -45,7 +45,7 @@ export const PartnersLogoScroller = () => {
         <section className="relative px-6 py-12 bg-white overflow-hidden">
             <div
                 ref={ref}
-                className={`container mx-auto max-w-6xl transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-100"}`}
+                className={`w-full transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-100"}`}
             >
                 {/* Titre de section */}
                 <div className="text-center mb-10">

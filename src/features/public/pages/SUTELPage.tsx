@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
     Shield,
@@ -65,7 +65,7 @@ export default function SUTELPage() {
 
     return (
         <PublicLayout>
-            <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
                 <PageHero
                     title={t('sutel.hero.title')}
                     description={t('sutel.hero.description')}

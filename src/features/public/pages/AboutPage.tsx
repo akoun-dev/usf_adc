@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { Info, Users, Globe, Target, Handshake, Mail, Phone, MapPin, Award, UserCog } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +60,7 @@ export default function AboutPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
           title={t('public.about.title')}
           description={t('public.about.description')}

@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
+﻿import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
 import { MapPin, FileDown, Globe, Map, Search, Maximize2, Minimize2, Layers, TrendingUp, Users, DollarSign, Building2, Wifi, Satellite, Map as MapIcon, X } from 'lucide-react';
 import { ProjectMap } from '@/features/projects-map/components/ProjectMap';
 import { exportMapData } from '@/features/projects-map/utils/export-map';
@@ -254,7 +254,7 @@ export default function PublicMapPage() {
                     isFullscreen && "fixed inset-0 z-50 bg-background p-6 overflow-auto"
                 )}
             >
-                <div className={cn("container mx-auto max-w-[1800px] px-4 py-6", isFullscreen && "max-w-full h-full")}>
+                <div className={cn("w-full px-4 py-6", isFullscreen && "max-w-full h-full")}>
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                         <div>

@@ -1,0 +1,16 @@
+{
+  "name": "logo.jpg",
+  "id": "c9d6549a-80ce-4b41-81df-be8f27ca996d",
+  "updated_at": "2026-04-24T20:41:17.103Z",
+  "created_at": "2026-04-24T20:41:17.103Z",
+  "last_accessed_at": "2026-04-24T20:41:17.103Z",
+  "metadata": {
+    "eTag": "\"c0705b61e9fc721deb481c5abdbf7a11\"",
+    "size": 25678,
+    "mimetype": "image/jpeg",
+    "cacheControl": "max-age=3600",
+    "lastModified": "2026-04-24T20:41:17.095Z",
+    "contentLength": 25678,
+    "httpStatusCode": 200
+  }
+}

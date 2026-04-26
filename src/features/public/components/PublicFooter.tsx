@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import atuLogo from "@/assets/atu-uat-logo.png"
 import atuLogoWhite from "@/assets/atuuat-logo-blc.png"
 import { useTranslation } from "react-i18next"
@@ -49,7 +49,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
     if (variant === "minimal") {
         return (
             <footer className="border-t bg-muted/30">
-                <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="flex items-center gap-2">
                             <img
@@ -83,7 +83,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
 
     return (
         <footer className="border-t bg-primary">
-            <div className="container mx-auto max-w-7xl px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
+            <div className="w-full px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-2">

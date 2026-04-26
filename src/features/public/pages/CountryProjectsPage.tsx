@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Building2, Calendar, DollarSign, Mail, MapPin, Phone, TrendingUp, User, Users } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
@@ -147,7 +147,7 @@ export default function CountryProjectsPage() {
   if (countryLoading) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">{t('public.memberCountries.loading')}</p>
         </div>
@@ -158,7 +158,7 @@ export default function CountryProjectsPage() {
   if (!country) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">{t('public.memberCountries.countryNotFound')}</h1>
           <Button asChild>
             <Link to="/annuaire-pays-membres">{t('public.memberCountries.backToDirectory')}</Link>
@@ -174,7 +174,7 @@ export default function CountryProjectsPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/annuaire-pays-membres" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />

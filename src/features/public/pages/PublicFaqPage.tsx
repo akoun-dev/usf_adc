@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { Search, BookOpen, ChevronDown, ChevronRight, Mail } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -79,7 +79,7 @@ export default function PublicFaqPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
         <PageHero
           title={t('public.faq.title')}
           description={t('public.faq.description')}

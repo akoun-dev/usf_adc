@@ -44,7 +44,12 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
     process.exit(1)
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
+    auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+    },
+})
 
 const ADMIN_ACCOUNTS = [
     {
@@ -52,40 +57,40 @@ const ADMIN_ACCOUNTS = [
         password: "Admin123!",
         full_name: "Administrator",
         role: "super_admin",
-        country_id: null,
+        country_iso: null,
     },
     {
         email: "togo-admin@test.local",
         password: "Admin123!",
         full_name: "Admin Togo",
         role: "country_admin",
-        country_id: null, // TO SET AFTER FETCHING
+        country_iso: "tg",
     },
     {
         email: "togo-pointfocal@test.local",
         password: "Admin123!",
         full_name: "Point Focal Togo",
         role: "point_focal",
-        country_id: null, // TO SET AFTER FETCHING
+        country_iso: "tg",
     },
     {
         email: "civ-admin@test.local",
         password: "Admin123!",
         full_name: "Admin Cote d'Ivoire",
         role: "country_admin",
-        country_id: null, // TO SET AFTER FETCHING
+        country_iso: "ci",
     },
     {
         email: "civ-pointfocal@test.local",
         password: "Admin123!",
         full_name: "Point Focal Cote d'Ivoire",
         role: "point_focal",
-        country_id: null, // TO SET AFTER FETCHING
+        country_iso: "ci",
     },
 ];
 
 async function getCountries() {
-    const { data, error } = await supabase.from("countries").select("id, name").limit(10);
+    const { data, error } = await supabase.from("countries").select("id, name_fr, code_iso");
     if (error) {
         console.warn("Impossible de recuperer les pays:", error.message);
         return [];
@@ -166,27 +171,39 @@ async function createAndSetupAdmin() {
     try {
         console.log("🔧 Configuration des comptes administrateur...\n");
 
+        // Verify admin API access
+        console.log("🔑 Verification de l'acces admin...");
+        const { data: { users: existingUsers }, error: listError } = await supabase.auth.admin.listUsers();
+        if (listError) {
+            console.error("❌ Admin API non accessible:", listError.message);
+            console.error("   Vérifiez votre SUPABASE_SERVICE_ROLE_KEY dans le fichier .env");
+            process.exit(1);
+        }
+        console.log(`  ✅ Admin API OK (${existingUsers?.length || 0} utilisateurs existants)`);
+
         console.log("🌍 Recuperation des pays...");
         const countries = await getCountries();
 
-        const countryMap = {};
+        // Build country map by code_iso
+        const countryByIso = {};
         countries.forEach(c => {
-            const key = c.name.toLowerCase().replace(/[^a-z]/g, '');
-            countryMap[key] = c.id;
+            countryByIso[c.code_iso] = c.id;
         });
 
         console.log(`  Trouve ${countries.length} pays`);
+        if (countries.length > 0) {
+            console.log(`  Pays disponibles:`, countries.map(c => `${c.name_fr} (${c.code_iso})`).join(", "));
+        }
 
         const results = [];
 
         for (const account of ADMIN_ACCOUNTS) {
-            if (account.country_id === null && account.role !== "super_admin") {
-                const countryName = account.email.split("-")[0].replace(".local", "");
-                const countryKey = countryName.toLowerCase();
-                account.country_id = countryMap[countryKey] || null;
+            // Resolve country_id from country_iso code
+            if (account.country_iso && !account.country_id) {
+                account.country_id = countryByIso[account.country_iso] || null;
 
                 if (!account.country_id) {
-                    console.warn(`  ⚠️  Pays pour '${countryName}' non trouve dans la base`);
+                    console.warn(`  ⚠️  Pays avec code_iso '${account.country_iso}' non trouve dans la base`);
                 }
             }
 

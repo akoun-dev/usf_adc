@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+﻿import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, MapPin, Users, ExternalLink, Share2 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useEvent } from '../hooks/usePublicEvents';
@@ -40,7 +40,7 @@ export default function EventDetailPage() {
   if (isLoading) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">Chargement...</p>
         </div>
@@ -51,7 +51,7 @@ export default function EventDetailPage() {
   if (!event) {
     return (
       <PublicLayout>
-        <div className="container mx-auto max-w-4xl px-4 py-16 text-center">
+        <div className="w-full px-4 py-16 text-center">
           <h1 className="text-2xl font-bold mb-4">Événement non trouvé</h1>
           <Button asChild>
             <Link to="/calendrier">Retour au calendrier</Link>
@@ -66,7 +66,7 @@ export default function EventDetailPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="w-full px-4 py-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/calendrier" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />

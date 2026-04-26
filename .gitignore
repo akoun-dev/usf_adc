@@ -28,6 +28,5 @@ dist-ssr
 # Supabase local config
 supabase/config.toml
 liste_fonctionnalite.md
-storage-cli.js
 RAPPORT_AUDIT_IMPLEMENTATION.md
 user.md

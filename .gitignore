@@ -27,6 +27,7 @@ dist-ssr
 
 # Supabase local config
 supabase/config.toml
+supabase/dump.sql
 liste_fonctionnalite.md
 RAPPORT_AUDIT_IMPLEMENTATION.md
 user.md

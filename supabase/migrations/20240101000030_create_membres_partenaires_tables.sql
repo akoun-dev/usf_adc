@@ -1,6 +1,6 @@
 -- Create table for associated members
 CREATE TABLE IF NOT EXISTS public.membres_associes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nom TEXT NOT NULL,
     nom_complet TEXT,
     pays_id UUID REFERENCES public.countries(id) ON DELETE SET NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.membres_associes (
 
 -- Create table for partners
 CREATE TABLE IF NOT EXISTS public.partenaires (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nom TEXT NOT NULL,
     nom_complet TEXT,
     pays_id UUID REFERENCES public.countries(id) ON DELETE SET NULL,

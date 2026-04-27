@@ -66,7 +66,8 @@
     "updated": "تم التحديث",
     "deleteConfirm": "حذف {{item}} هذا؟",
     "manage": "إدارة",
-    "viewAll": "عرض الكل"
+    "viewAll": "عرض الكل",
+    "notAvailable": "غير متاح"
   },
   "nav": {
     "dashboard": "لوحة التحكم",
@@ -131,7 +132,122 @@
     "events": "الأحداث",
     "forumCategories": "إدارة المنتدى",
     "members": "الأعضاء والشركاء",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "activity": "نشاط المستخدمين",
+    "addComment": "إضافة تعليق...",
+    "adminProfile": "الملف الشخصي للمسؤول",
+    "agencies": "وكالات FSU",
+    "alerts": "التنبيهات",
+    "allProjects": "جميع المشاريع",
+    "auditLog": "سجل التدقيق",
+    "autosave": "حفظ تلقائي",
+    "calendar": "التقويم التعاوني",
+    "calendarMyEvents": "أحداثي",
+    "calendarSubscriptions": "الاشتراكات",
+    "calendarUpcoming": "الأحداث القادمة",
+    "cerGroups": "مجموعات CER",
+    "cmdt25": "مساهمات CMDT-25",
+    "cmdt25Desc": "إدارة المساهمات لـ CMDT-25",
+    "codraft": "التحرير المشترك",
+    "comments": "التعليقات",
+    "commentsDesc": "التعليقات والمناقشات",
+    "commentsList": "التعليقات",
+    "compare": "مقارنة",
+    "completed": "مكتمل",
+    "contact": "اتصل",
+    "countrySettings": "إعدادات الدولة",
+    "create": "إنشاء",
+    "createNew": "إنشاء مساهمة جديدة",
+    "customAlerts": "تنبيهات مخصصة",
+    "description": "الوصف",
+    "directory": "دليل الأعضاء",
+    "directoryDesc": "دليل وكالات FSU ونقاط الاتصال",
+    "docLibrary": "المكتبة الوثائقية",
+    "docVersions": "سجل الإصدارات",
+    "docsByTheme": "حسب الموضوع",
+    "drafts": "المسودات",
+    "edit": "تعديل",
+    "editor": "المحرر",
+    "editorPlaceholder": "محرر تعاوني في الوقت الفعلي - اختر مستندًا",
+    "elearning": "التعلم الإلكتروني",
+    "entryHistory": "سجل الإدخالات",
+    "exportData": "تصدير البيانات",
+    "exportDiff": "تصدير الفروقات",
+    "forumStats": "إحصائيات المنتدى",
+    "fsuDataEntry": "إدخال بيانات FSU",
+    "fsuHistory": "سجل الإدخالات",
+    "fsudrafts": "المسودات",
+    "history": "السجل",
+    "home": "الرئيسية",
+    "inReview": "قيد المراجعة",
+    "invite": "دعم مساهمين",
+    "inviteUser": "دعوة مستخدم",
+    "kpis": "مؤشرات الأداء",
+    "manageAccount": "إدارة حسابي",
+    "manageProjects": "إدارة مشاريعك",
+    "moderation": "الإشراف",
+    "myCertifications": "شهاداتي",
+    "myDashboard": "لوحة التحكم الخاصة بي",
+    "myDownloads": "تنزيلاتي",
+    "myProjects": "مشاريعي",
+    "myTasks": "مهامي",
+    "myTopics": "مواضيعي",
+    "newContribution": "مساهمة جديدة",
+    "newEntry": "إدخال جديد",
+    "newProject": "مشروع جديد",
+    "newTopic": "موضوع جديد",
+    "overview": "نظرة عامة",
+    "pending": "قيد الانتظار",
+    "pendingEntries": "إدخالات معلقة",
+    "pendingSubmissions": "الطلبات المعلقة",
+    "pendingValidation": "قيد التحقق",
+    "pointFocal": "نقطة اتصال",
+    "pointsFocal": "نقاط الاتصال",
+    "preferences": "التفضيلات",
+    "preview": "معاينة",
+    "profileDesc": "إدارة ملفك الشخصي",
+    "projectDrafts": "المسودات",
+    "projectReports": "تقارير المشاريع",
+    "projectsArchived": "المؤرشفة",
+    "projectsInProgress": "قيد التنفيذ",
+    "recentProjects": "المشاريع الأخيرة",
+    "recentTopics": "المواضيع الأخيرة",
+    "rejected": "مرفوضة",
+    "reportGenerator": "مولد التقارير",
+    "reportingUat": "تقارير UAT/ANSUT",
+    "restore": "استعادة",
+    "roles": "الأدوار والصلاحيات",
+    "rssFeeds": "خلاصات RSS",
+    "save": "حفظ",
+    "sectionAccount": "حسابي",
+    "sectionDashboard": "لوحة التحكم",
+    "sectionFSU": "إدخال بيانات FSU",
+    "sectionForum": "منتدى النقاش",
+    "sectionProjects": "إدارة المشاريع",
+    "sectionReports": "التقارير والتعاون",
+    "sectionTraining": "التدريب والموارد",
+    "sectionValidation": "التحقق والإرسال",
+    "security": "الأمان",
+    "selectDocument": "اختر مستندًا للتحرير",
+    "statusDraft": "مسودة",
+    "statusPending": "قيد الانتظار",
+    "statusRejected": "مرفوض",
+    "statusReview": "قيد المراجعة",
+    "statusValidated": "تم التحقق",
+    "strategicWatch": "المراقبة الاستراتيجية",
+    "submit": "إرسال",
+    "submitProject": "إرسال مشروع",
+    "supportTickets": "تذاكر الدعم",
+    "tasksList": "قائمة مهامك",
+    "template": "قالب",
+    "templates": "القوالب",
+    "thematicGroups": "المجموعات المواضيعية",
+    "useTemplate": "استخدام",
+    "usersList": "قائمة المستخدمين",
+    "validateProjects": "التحقق من المشاريع",
+    "validated": "تم التحقق",
+    "versionHistory": "سجل الإصدارات",
+    "webinars": "الندوات عبر الإنترنت"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -223,7 +339,18 @@
     "faqDesc": "الأسئلة الشائعة وأدلة المستخدم",
     "latestNews": "آخر الأخبار",
     "latestNewsletters": "أحدث النشرات",
-    "seeAll": "عرض الكل"
+    "seeAll": "عرض الكل",
+    "deadline": "الموعد النهائي",
+    "events": "الأحداث",
+    "eventsDesc": "الأحداث القادمة",
+    "fsuNews": "أخبار FSU",
+    "news": "الأخبار",
+    "newsDesc": "أخبار FSU",
+    "pendingTasks": "المهام المعلقة",
+    "upcomingEvents": "الأحداث القادمة",
+    "urgent": "عاجل",
+    "urgentAlerts": "تنبيهات عاجلة",
+    "view": "عرض"
   },
   "fsu": {
     "title": "إدخال بيانات ص الخدمة الشاملة",
@@ -974,7 +1101,24 @@
     "category": "الفئة",
     "cancel": "إلغاء",
     "add": "إضافة",
-    "temperature": "درجة الحرارة"
+    "temperature": "درجة الحرارة",
+    "confirmDelete": "هل أنت متأكد من أنك تريد الحذف؟",
+    "createCategory": "إنشاء فئة",
+    "createDocument": "إنشاء مستند",
+    "createNews": "إنشاء خبر",
+    "createProject": "إنشاء مشروع",
+    "documentsManagement": "إدارة المستندات",
+    "documentsManagementDesc": "إدارة مكتبة المستندات",
+    "editCategory": "تعديل الفئة",
+    "editDocument": "تعديل المستند",
+    "editNews": "تعديل الخبر",
+    "editProject": "تعديل المشروع",
+    "forumManagement": "إدارة الفئات",
+    "forumManagementDesc": "إدارة فئات المنتدى",
+    "noCategories": "لا توجد فئات",
+    "noDocuments": "لا توجد مستندات",
+    "noEvents": "لا توجد أحداث",
+    "noNews": "لا توجد أخبار"
   },
   "profile": {
     "title": "ملفي الشخصي",
@@ -1065,7 +1209,13 @@
     "size": "الحجم",
     "uploadedBy": "تم الرفع بواسطة",
     "public": "عام",
-    "private": "خاص"
+    "private": "خاص",
+    "noVersions": "لا توجد إصدارات متاحة",
+    "restore": "استعادة",
+    "restoreConfirm": "هل تريد استعادة هذا الإصدار؟",
+    "restored": "تم استعادة الإصدار",
+    "versionHistory": "سجل الإصدارات",
+    "versions": "الإصدارات"
   },
   "training": {
     "title": "التدريب",
@@ -1075,7 +1225,10 @@
     "progress": "التقدم",
     "start": "ابدأ",
     "resume": "استئناف",
-    "completed": "مكتمل"
+    "completed": "مكتمل",
+    "certificationsDesc": "تتبع التدريبات المكتملة",
+    "elearningDesc": "دورات عبر الإنترنت وموارد تعليمية",
+    "webinarsDesc": "ندوات مباشرة ومسجلة عبر الإنترنت"
   },
   "chat": {
     "title": "الدردشة المباشرة",
@@ -1224,7 +1377,10 @@
     },
     "header": {
       "login": "تسجيل الدخول",
-      "register": "إنشاء حساب"
+      "register": "إنشاء حساب",
+      "dashboard": "لوحة التحكم",
+      "logout": "تسجيل الخروج",
+      "profile": "الملف الشخصي"
     },
     "footer": {
       "platform": "المنصة",
@@ -1566,7 +1722,20 @@
         "active": "نشط"
       },
       "views": "مشاهدات",
-      "posts": "رسائل"
+      "posts": "رسائل",
+      "allTopics": "جميع المواضيع",
+      "category": "الفئة",
+      "createTopic": "إنشاء موضوع جديد",
+      "filter": "تصفية",
+      "groupsDesc": "مجموعات حسب الموضوع",
+      "myTopicsDesc": "المواضيع التي أنشأها نقطة الاتصال",
+      "publish": "نشر",
+      "recent": "الأخيرة",
+      "recentTopicsDesc": "آخر مواضيع المنتدى",
+      "tags": "الوسوم",
+      "topicDetails": "تفاصيل الموضوع",
+      "topicTitle": "العنوان",
+      "trending": "المواضيع الرائجة"
     },
     "calls": {
       "title": "المشاريع",
@@ -1991,7 +2160,10 @@
         "vendor": "بائع معدات",
         "tech": "تكنولوجيا",
         "satellite": "الأقمار الصناعية",
-        "organization": "منظمة"
+        "organization": "منظمة",
+        "international": "منظمة دولية",
+        "ngo": "منظمة غير حكومية",
+        "private": "شركة خاصة"
       },
       "benefits": {
         "network": {
@@ -2006,7 +2178,9 @@
           "title": "شراكات مستدامة",
           "desc": "تطوير شراكات مع المنظمين ومشغلي الاتصالات الأفارقة"
         }
-      }
+      },
+      "loadError": "خطأ في تحميل الأعضاء",
+      "noMembers": "لم يتم العثور على أعضاء"
     },
     "ourHistory": {
       "title": "تاريخنا",
@@ -2057,9 +2231,9 @@
         "description": "إفريقيا متكاملة بالكامل ونشطة في مجتمع المعلومات والمعرفة العالمي."
       },
       "briefHistory": {
-        "title": "نبذة تاريخية",
         "1977": "تأسس في 1977 كوكالة متخصصة لمنظمة الوحدة الأفريقية (الآن الاتحاد الأفريقي) في مجال الاتصالات.",
         "1999": "في 1999، الاتحاد الأفريقي للاتصالات (ATU-UAT) يأخذ اسمه الحالي ويتحول إلى شراكة بين الفاعلين العام والخاص في قطاع تكنولوجيا المعلومات والاتصالات.",
+        "title": "نبذة تاريخية",
         "today": "اليوم، ATU-UAT يوفر لفاعلي تكنولوجيا المعلومات والاتصالات مساحة للتبادل لتطوير سياسات واستراتيجيات فعالة، ويمثل مصالح أعضائه في المؤتمرات الدولية، ويعزز المبادرات لدمج الأسواق الإقليمية وجذب الاستثمارات وتعزيز القدرات المؤسسية والبشرية."
       },
       "whatWeDo": {
@@ -2424,7 +2598,25 @@
         "forum": "منتدى التبادل بين نقاط الاتصال"
       },
       "connectedCountries": "دولة متصلة",
-      "learnMore": "اعرف المزيد"
+      "learnMore": "اعرف المزيد",
+      "carousel": {
+        "collaboration": {
+          "desc": "تسهيل التبادل بين الدول الأعضاء والشركاء",
+          "title": "التعاون"
+        },
+        "dashboard": {
+          "desc": "متابعة فعالة لمشاريع وسياسات الصندوق",
+          "title": "المتابعة والتوجيه"
+        },
+        "innovation": {
+          "desc": "دعم الحلول التكنولوجية المبتكرة والمستدامة",
+          "title": "الابتكار"
+        },
+        "universal": {
+          "desc": "ضمان الوصول الشامل لخدمات الاتصالات",
+          "title": "الخدمة الشاملة"
+        }
+      }
     },
     "rolesSection": {
       "badge": "الأدوار والوصول",

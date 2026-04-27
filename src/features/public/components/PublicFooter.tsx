@@ -49,7 +49,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
     if (variant === "minimal") {
         return (
             <footer className="border-t bg-muted/30">
-                <div className="w-full px-4 py-6 sm:px-6 lg:px-8">
+                <div className="w-full py-6 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="flex items-center gap-2">
                             <img
@@ -83,7 +83,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
 
     return (
         <footer className="border-t bg-primary">
-            <div className="w-full px-4 py-10 sm:py-12 sm:px-6 lg:px-8">
+            <div className="w-full py-10 sm:py-12 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-2">

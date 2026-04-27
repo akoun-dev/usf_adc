@@ -2,6 +2,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { imgSiteLogoSmartUATAlt, imgSiteLogoSmartUATBlc } from "@/assets/images";
 import { Trans, useTranslation } from "react-i18next";
+import { ArrowRight, ChevronRight, Wifi } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 
 export function HomeSlideshowSection() {
@@ -52,7 +55,7 @@ export function HomeSlideshowSection() {
                 </>
             ),
             description: t("home.slideshow.projects.desc"),
-            image: "/src/assets/slideshow/slide-techno-stats.jpg",
+            image: "/src/assets/slideshow/slide-techno-africa.jpg",
         },
         {
             id: 7,
@@ -69,21 +72,6 @@ export function HomeSlideshowSection() {
             description: t("home.slideshow.echanges.desc"),
             image: "/src/assets/slideshow/slide-partenariat.jpg",
         },
-        {
-            id: 8,
-            title: (
-                <>
-                    <Trans
-                        i18nKey="home.slideshow.partners"
-                        components={{
-                            highlight: <span className="text-[#ffe700]" />
-                        }}
-                    />
-                </>
-            ),
-            description: t("home.slideshow.partners.desc"),
-            image: "/src/assets/slideshow/slide-contrat-doc.jpg",
-        },
     ]
 
     const [index, setIndex] = useState(0);
@@ -91,7 +79,7 @@ export function HomeSlideshowSection() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length)
-        }, 10000)
+        }, 5000)
         return () => clearInterval(interval)
     }, [slides.length]);
 
@@ -106,7 +94,7 @@ export function HomeSlideshowSection() {
     return (
 
 
-        <div className="relative w-full min-h-[40vh] lg:min-h-[55vh] overflow-hidden">
+        <div className="relative w-full min-h-[40vh] sm:min-h-[50vh] md:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] overflow-hidden">
 
             {/* BACKGROUND IMAGE */}
             <AnimatePresence mode="sync">
@@ -152,36 +140,55 @@ export function HomeSlideshowSection() {
                             transition={{ duration: 0.6 }}
                         >
                             {/* bg-black/40 backdrop-blur-sm */}
-                            <div className="w-full lg:w-1/2 h-full text-center text-white p-8 flex flex-col justify-center items-center bg-gradient-to-br from-green-600/80 to-green-900/40 backdrop-blur-md">
+                            <div className="w-full lg:w-1/2 h-full text-center text-white pt-10 lg:pt-16 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-green-600/80 to-green-900/40 backdrop-blur-md">
 
                                 {/* LOGO UAT */}
                                 <div className="flex justify-center">
                                     <img
                                         src={imgSiteLogoSmartUATBlc}
                                         alt={imgSiteLogoSmartUATAlt}
-                                        className="sm:h-56 md:h-64 lg:h-[10rem] w-auto mb-10"
+                                        className="sm:h-56 md:h-64 lg:h-[10rem] w-auto mb-5"
                                     />
                                 </div>
 
-                                {/* TITLE */}
-                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
-                                    {slides[index].title}
-                                </h1>
+                                {/* Content */}
+                                <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
+                                    <div className="max-w-xl space-y-5">
+                                        <h1 className="text-4xl font-bold leading-snug text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
+                                            {t("index.hero.title")}
+                                            <div className="text-secondary pl-5 pr-5 py-1 rounded-md lg:text-6xl">
+                                                {t("index.hero.subtitle")}
+                                            </div>
+                                        </h1>
 
-                                {/* DESCRIPTION */}
-                                <p className="text-base sm:text-lg text-white/90 mb-8">
-                                    {slides[index].description}
-                                </p>
+                                        <p className="max-w-lg text-lg leading-snug text-white italic lg:text-md mt-3">
+                                            {t("index.hero.description")}
+                                        </p>
 
-                                {/* CTA */}
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                                    <button className="bg-primary px-6 py-3 rounded-full font-semibold hover:bg-primary/90 transition">
-                                        {t("home.slideshow.btn.discover") }
-                                    </button>
-
-                                    <button className="border border-white px-6 py-3 rounded-full hover:bg-white hover:text-black transition">
-                                        {t("home.slideshow.btn.learnmore")}
-                                    </button>
+                                        <div className="flex flex-col gap-4 sm:flex-row">
+                                            <Button
+                                                asChild
+                                                size="lg"
+                                                className="h-13 px-8 text-base bg-secondary hover:bg-secondary/90 text-gray-900 border-2 border-white/30 shadow-md backdrop-blur-sm font-semibold"
+                                            >
+                                                <Link to="/login">
+                                                    {t("index.hero.accessPlatform")}
+                                                    <ArrowRight className="m-4 h-5 w-5" />
+                                                </Link>
+                                            </Button>
+                                            <Button
+                                                asChild
+                                                size="lg"
+                                                variant="outline"
+                                                className="h-13 p-3 text-base bg-white/95 text-primary border-2 border-white/40 hover:bg-white shadow-md backdrop-blur-sm font-semibold"
+                                            >
+                                                <a href="#features">
+                                                    {t("index.hero.discover")}
+                                                    <ChevronRight className="ml-1 h-4 w-4" />
+                                                </a>
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>

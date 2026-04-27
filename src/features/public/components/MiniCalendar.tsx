@@ -100,35 +100,35 @@ export function MiniCalendar() {
   }
 
   return (
-    <Card>
-      <CardContent className="p-4">
+  <Card className="h-full flex flex-col overflow-hidden">
+    <CardContent className="p-2 sm:p-3 flex-1 flex flex-col min-h-0">
         {/* Month Navigation */}
-        <div className="flex items-center justify-between mb-4">
-          <Button variant="outline" size="icon" className="h-7 w-7" onClick={previousMonth}>
-            <ChevronLeft className="h-3.5 w-3.5" />
+        <div className="flex items-center justify-between mb-2 sm:mb-3 shrink-0">
+          <Button variant="outline" size="icon" className="h-6 w-6 sm:h-7 sm:w-7" onClick={previousMonth}>
+            <ChevronLeft className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Button>
-          <h3 className="text-sm font-semibold capitalize">
+          <h3 className="text-xs sm:text-sm md:text-md font-semibold capitalize">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale(i18n.language) })}
           </h3>
-          <Button variant="outline" size="icon" className="h-7 w-7" onClick={nextMonth}>
-            <ChevronRight className="h-3.5 w-3.5" />
+          <Button variant="outline" size="icon" className="h-6 w-6 sm:h-7 sm:w-7" onClick={nextMonth}>
+            <ChevronRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Button>
         </div>
 
         {/* Weekday Headers */}
-        <div className="grid grid-cols-7 gap-1 text-center mb-1">
+        <div className="grid grid-cols-7 gap-0.5 sm:gap-1 text-center mb-0.5 sm:mb-1 shrink-0">
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-            <div key={day} className="text-[10px] font-medium text-muted-foreground py-1">
+            <div key={day} className="text-[12px] sm:text-[14px] font-medium text-muted-foreground py-0.5 sm:py-1">
               {t(`public.calendar.weekdays.${day.toLowerCase()}`)}
             </div>
           ))}
         </div>
 
         {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-0.5 sm:gap-1 flex-1 auto-rows-fr">
           {/* Empty cells for padding before month start */}
           {Array.from({ length: mondayOffset }).map((_, i) => (
-            <div key={`pad-${i}`} className="aspect-square" />
+            <div key={`pad-${i}`} />
           ))}
 
           {daysInMonth.map((day) => {
@@ -151,16 +151,16 @@ export function MiniCalendar() {
                 <PopoverTrigger asChild>
                   <div
                     className={`
-                      aspect-square p-0.5 text-center rounded-md transition-colors flex flex-col items-center justify-center
+                      p-0.5 text-center rounded-md transition-colors flex flex-col items-center justify-center min-h-0
                       ${!isSameMonth(day, currentMonth) ? 'text-muted-foreground/30' : 'hover:bg-muted'}
                       ${hasEvents ? 'bg-primary/10 hover:bg-primary/20 cursor-pointer' : ''}
                     `}
                   >
-                    <span className="text-xs">{format(day, 'd')}</span>
+                    <span className="text-[12px] sm:text-sm md:text-md leading-none">{format(day, 'd')}</span>
                     {hasEvents && (
                       <div className="flex justify-center mt-0.5 gap-0.5">
                         {events.slice(0, 3).map((_, i) => (
-                          <div key={i} className="h-1 w-1 rounded-full bg-primary" />
+                          <div key={i} className="h-0.5 w-0.5 sm:h-1 sm:w-1 rounded-full bg-primary" />
                         ))}
                       </div>
                     )}

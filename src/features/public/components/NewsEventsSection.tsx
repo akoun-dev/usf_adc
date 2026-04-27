@@ -91,11 +91,11 @@ const NewsCarousel = () => {
                 ]}
                 className="w-full"
             >
-                <CarouselContent>
+                <CarouselContent className="-ml-6">
                     {news.map(article => (
                         <CarouselItem
                             key={article.id}
-                            className="md:basis-1/3 lg:basis-1/4"
+                            className="pl-6 md:basis-1/3 lg:basis-1/4"
                         >
                             <Link
                                 to={`/actualites/${article.id}`}
@@ -103,7 +103,7 @@ const NewsCarousel = () => {
                             >
                                 <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden h-full">
                                     {article.image_url && (
-                                        <div className="relative h-60 overflow-hidden">
+                                        <div className="relative h-40 sm:h-48 md:h-56 lg:h-60 overflow-hidden">
                                             <img
                                                 src={article.image_url}
                                                 alt={article.title}
@@ -139,10 +139,10 @@ const NewsCarousel = () => {
                                                 )}
                                             </div>
                                         )}
-                                        <h3 className="font-semibold text-xl mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                        <h3 className="font-semibold text-base sm:text-md lg:text-xl mb-2 group-hover:text-primary transition-colors line-clamp-2">
                                             {article.title}
                                         </h3>
-                                        <p className="text-md text-muted-foreground line-clamp-2">
+                                        <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
                                             {article.content?.substring(0, 150)}
                                             ...
                                         </p>
@@ -216,7 +216,7 @@ const EventsCarousel = () => {
     }
 
     return (
-        <div className="relative">
+        <div className="relative h-full">
             <Carousel
                 opts={{
                     align: "start",
@@ -236,13 +236,13 @@ const EventsCarousel = () => {
                         stopOnMouseEnter: true,
                     }),
                 ]}
-                className="w-full"
+                className="w-full h-full"
             >
-                <CarouselContent>
+                <CarouselContent className="-ml-6 h-full">
                     {events.map(event => (
                         <CarouselItem
                             key={event.id}
-                            className="md:basis-1/2"
+                            className="pl-6 md:basis-1/2 lg:basis-1/3 h-full"
                         >
                             <Link
                                 to={`/calendrier/${event.id}`}
@@ -250,7 +250,7 @@ const EventsCarousel = () => {
                             >
                                 <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden h-full">
                                     {event.image_url && (
-                                        <div className="relative h-40 overflow-hidden">
+                                        <div className="relative h-32 sm:h-36 md:h-40 lg:h-60 overflow-hidden">
                                             <img
                                                 src={event.image_url}
                                                 alt={event.title}
@@ -278,11 +278,11 @@ const EventsCarousel = () => {
                                                 </div>
                                             </div>
                                         )}
-                                        <h4 className="font-semibold text-sm mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                                        <h3 className="font-semibold text-base sm:text-lg lg:text-xl mb-2 group-hover:text-primary transition-colors line-clamp-1">
                                             {event.title}
-                                        </h4>
-                                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                                            {event.start_date && (
+                                        </h3>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                                            {/*event.start_date && (
                                                 <span className="flex items-center gap-1 pointer-events-none">
                                                     <Clock className="h-3 w-3" />
                                                     {new Date(event.start_date).toLocaleDateString(
@@ -290,7 +290,7 @@ const EventsCarousel = () => {
                                                         { day: "numeric", month: "short" }
                                                     )}
                                                 </span>
-                                            )}
+                                            )*/}
                                             {event.location && (
                                                 <span className="flex items-center gap-1 pointer-events-none">
                                                     <MapPin className="h-3 w-3" />
@@ -300,7 +300,7 @@ const EventsCarousel = () => {
                                                 </span>
                                             )}
                                         </div>
-                                        <span className="inline-flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
+                                        <span className="inline-flex items-center gap-1 text-md text-primary opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
                                             {t("index.newsEvents.register")}
                                             <ArrowRight className="h-3 w-3" />
                                         </span>
@@ -328,29 +328,40 @@ export function NewsEventsSection() {
     return (
         <section
             id="news"
-            className="relative px-6 py-10 lg:py-20 bg-gradient-to-b from-muted/30 to-background"
+            className="relative overflow-hidden bg-gradient-to-b from-muted/30 to-background px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10"
         >
             <div
                 ref={ref}
-                className={`w-full transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                className="w-full px-4 sm:px-6 lg:px-10 py-10 lg:py-10"
             >
-                <div className="text-center mb-16">
+                {/* Header */}
+                <div
+                    className={`text-center mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                >
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
                         <Newspaper className="h-4 w-4" />
                         {t("index.newsEvents.badge")}
                     </div>
-                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
+                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl text-primary mb-4">
                         {t("index.newsEvents.title")}
                     </h2>
-                    <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">
+                    <p className="mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
                         {t("index.newsEvents.description")}
                     </p>
                 </div>
 
+            </div>
+
+            {/* Content */}
+
+            <div className="w-full">
+            <div
+                className={`transition-all duration-700 delay-200 px-4 sm:px-6 lg:px-8 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+            >
                 {/* News Carousel */}
-                <div className="mb-12">
+                <div className="mb-8 sm:mb-12">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg lg:text-xl font-bold flex items-center gap-2">
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
                                 <Newspaper className="h-4 w-4 text-primary" />
                             </div>
@@ -363,13 +374,15 @@ export function NewsEventsSection() {
                             </Link>
                         </Button>
                     </div>
-                    <NewsCarousel />
+                    <div className="relative">
+                        <NewsCarousel />
+                    </div>
                 </div>
 
                 {/* Events Carousel + Calendar */}
-                <div className="mb-12">
+                <div className="mb-8 sm:mb-12">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-xl font-bold flex items-center gap-2">
+                        <h3 className="text-base sm:text-lg lg:text-xl font-bold flex items-center gap-2">
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/20">
                                 <Calendar className="h-4 w-4 text-secondary" />
                             </div>
@@ -383,11 +396,11 @@ export function NewsEventsSection() {
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                        <div className="lg:col-span-2 h-[320px] sm:h-[380px] lg:h-[420px]">
                             <EventsCarousel />
                         </div>
-                        <div>
+                        <div className="h-[320px] sm:h-[380px] lg:h-[420px] overflow-hidden">
                             <MiniCalendar />
                         </div>
                     </div>
@@ -397,14 +410,14 @@ export function NewsEventsSection() {
                 <div>
                     <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 border-primary/20 overflow-hidden">
                         <div className="absolute bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjAzIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-50" />
-                        <CardContent className="relative p-8 text-center">
+                        <CardContent className="relative p-4 sm:p-6 lg:p-8 text-center">
                             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
                                 <Bell className="h-6 w-6 text-primary" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">
+                            <h3 className="text-3xl sm:text-lg lg:text-4xl font-bold mb-2">
                                 {t("index.newsEvents.joinCommunity")}
                             </h3>
-                            <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+                            <p className="text-md text-muted-foreground mb-6 max-w-md mx-auto">
                                 {t("index.newsEvents.joinCommunityDesc")}
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -425,6 +438,8 @@ export function NewsEventsSection() {
                     </Card>
                 </div>
             </div>
+</div>
+
         </section>
     )
 }

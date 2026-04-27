@@ -1743,7 +1743,7 @@
       "whatIs": {
         "title": "Qu'est-ce que USF-ADC ?",
         "p1": "USF-ADC (Universal Service Fund - African Digital Connection) est une plateforme panafricaine développée sous l'égide de l'Union Africaine des Télécommunications (UAT).",
-        "p2": "Elle permet aux 54 pays membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel, assurant une meilleure coordination et un impact maximal sur l'inclusion numérique."
+        "p2": "Elle permet aux pays membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel, assurant une meilleure coordination et un impact maximal sur l'inclusion numérique."
       },
       "objectives": {
         "title": "Nos Objectifs",
@@ -2532,7 +2532,7 @@
     "about": {
       "badge": "À propos de la plateforme",
       "title": "Piloter le numérique africain ensemble",
-      "description": "La plateforme USF-ADC est un outil de collaboration panafricain développé sous l'égide de l'Union Africaine des Télécommunications (UAT). Elle permet aux 54 pays membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel.",
+      "description": "La plateforme USF-ADC est un outil de collaboration panafricain développé sous l'égide de l'Union Africaine des Télécommunications (UAT) pour  membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel.",
       "items": {
         "standardized": "Collecte standardisée des données FSU",
         "validation": "Validation multi-niveaux avec traçabilité",

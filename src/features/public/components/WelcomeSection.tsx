@@ -44,7 +44,7 @@ export function WelcomeSection() {
     }, [api, onSelect])
 
     return (
-        <section className="relative bg-white py-16 lg:py-20 overflow-hidden">
+        <section className="relative bg-white py-16 lg:pt-20 lg:pb-20 overflow-hidden">
             {/* Decorative background */}
             <div className="absolute top-0 left-0 w-72 h-72 bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full translate-x-1/3 translate-y-1/3" />
@@ -60,10 +60,10 @@ export function WelcomeSection() {
                         <Quote className="h-4 w-4" />
                         {t('index.welcome.badge')}
                     </div>
-                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl mb-4">
+                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl mb-4 text-primary">
                         {t('index.welcome.title')}
                     </h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                    <p className="text-muted-foreground max-w-3xl mx-auto">
                         {t('index.welcome.description')}
                     </p>
                 </div>
@@ -91,19 +91,22 @@ export function WelcomeSection() {
                             <CarouselContent>
                                 {speakers.map((speaker) => (
                                     <CarouselItem key={speaker.id}>
-                                        <div className="bg-background rounded-2xl border shadow-lg p-8 lg:p-8 hover:shadow-xl transition-shadow duration-300">
+                                        <div className="bg-background rounded-2xl border shadow-lg p-4 sm:p-6 lg:p-8 hover:shadow-xl transition-shadow duration-300 h-[320px] sm:h-[400px] md:h-[500px] lg:h-[530px] flex flex-col">
                                             {/* Photo + Text wrapping */}
-                                            <div className="relative">
-                                                <img
-                                                    src={speaker.photo}
-                                                    alt={t(`index.welcome.${speaker.id}.name`)}
-                                                    className="w-56 h-80 lg:w-56 lg:h-80 rounded-xl object-cover float-right ml-6 mb-4"
-                                                />
+                                            <div className="relative flex-1">
+                                                {/* Photo - centered on mobile, floated right on larger screens */}
+                                                <div className="flex justify-center mb-4 sm:float-right sm:ml-6 sm:mb-4">
+                                                    <img
+                                                        src={speaker.photo}
+                                                        alt={t(`index.welcome.${speaker.id}.name`)}
+                                                        className="w-28 h-40 sm:w-36 sm:h-52 lg:w-56 lg:h-80 rounded-xl object-cover"
+                                                    />
+                                                </div>
                                                 {/* Quote icon */}
-                                                <Quote className="h-8 w-8 text-primary/20 mb-2" />
+                                                <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-primary/20 mb-2" />
                                                 {/* Welcome text */}
                                                 <p
-                                                    className="text-foreground/90 text-xl text-muted-foreground leading-relaxed italic text-justify"
+                                                    className="text-sm sm:text-base lg:text-xl text-foreground/90 text-muted-foreground leading-relaxed italic text-justify"
                                                 >
                                                     {t(`index.welcome.${speaker.id}.message`)}
                                                 </p>
@@ -112,9 +115,9 @@ export function WelcomeSection() {
                                             </div>
 
                                             {/* Signature */}
-                                            <div className="mt-6 pt-6 border-t border-border/50">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
+                                            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-border/50">
+                                                <div className="flex items-center gap-3 sm:gap-4">
+                                                    <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
                                                         <img
                                                             src={speaker.photo}
                                                             alt={t(`index.welcome.${speaker.id}.name`)}
@@ -122,10 +125,10 @@ export function WelcomeSection() {
                                                         />
                                                     </div>
                                                     <div>
-                                                        <p className="font-bold text-foreground">
+                                                        <p className="font-bold text-sm sm:text-base text-foreground">
                                                             {t(`index.welcome.${speaker.id}.name`)}
                                                         </p>
-                                                        <p className="text-sm text-primary font-medium">
+                                                        <p className="text-xs sm:text-sm text-primary font-medium">
                                                             {t(`index.welcome.${speaker.id}.role`)}
                                                         </p>
                                                     </div>

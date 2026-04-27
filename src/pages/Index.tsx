@@ -1,27 +1,17 @@
-﻿import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
-    FileText,
     Users,
-    BarChart3,
-    MessageSquare,
-    Bell,
     ArrowRight,
     Wifi,
     ChevronRight,
-    Zap,
     Lock,
     TrendingUp,
     Globe,
-    Calendar,
-    MapPin,
-    Shield,
-    Map,
+    Zap,
 } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import heroLanding from "@/assets/hero20.png"
 import { PublicFooter } from "@/features/public/components/PublicFooter"
 import { PublicHeader } from "@/features/public"
@@ -29,20 +19,14 @@ import { PartnersLogoScroller } from "@/features/public/components/PartnersLogoS
 import { WelcomeSection } from "@/features/public/components/WelcomeSection"
 import { AboutSection } from "@/features/public/components/AboutSection"
 import { NewsEventsSection } from "@/features/public/components/NewsEventsSection"
+import { FeaturesSection } from "@/features/public/components/FeaturesSection"
+import { HomeSlideshowSection } from "@/features/public/components/HomeSlideshowSection"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
 /* ------------------------------------------------------------------ */
 
-// Static feature data with icon mapping (icons remain static, text is translated)
-const featureIcons = [
-    { icon: Shield, key: "auth", href: "/a-propos" },
-    { icon: FileText, key: "fsu", href: null },
-    { icon: Map, key: "map", href: "/carte-public" },
-    { icon: BarChart3, key: "reports", href: null },
-    { icon: Users, key: "collaboration", href: "/forum-public" },
-    { icon: Bell, key: "notifications", href: null },
-]
+
 
 // Static stats data with icon mapping
 const statIcons = [
@@ -145,98 +129,6 @@ const HeroSection = () => {
         </section>
     )
 }
-
-/* ------------------------------------------------------------------ */
-/*  FEATURES                                                           */
-/* ------------------------------------------------------------------ */
-
-const FeaturesSection = () => {
-    const { ref, isVisible } = useScrollAnimation()
-    const { t } = useTranslation()
-    return (
-        <section
-            id="features"
-            className="relative px-6 pt-8 pb-10 lg:pt-12 lg:pb-16 bg-background"
-        >
-            {/* Bottom transition to About */}
-            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-muted/30" />
-            <div
-                ref={ref}
-                className={`w-full transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-            >
-                <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
-                        <Zap className="h-4 w-4" />
-                        {t("index.featuresSection.badge")}
-                    </div>
-                    <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
-                        {t("index.featuresSection.title")}
-                    </h2>
-                    <p className="mt-3 text-lg text-muted-foreground max-w-2xl mx-auto">
-                        {t("index.featuresSection.description")}
-                    </p>
-                </div>
-
-                {/* Quick Access */}
-                <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <Link to="/carte-public" className="group">
-                        <Card className="hover:shadow-lg transition-all hover:-translate-y-1">
-                            <CardContent className="p-4 text-center">
-                                <MapPin className="h-8 w-8 mx-auto mb-2 text-primary" />
-                                <h4 className="font-semibold text-sm">
-                                    {t("index.quickAccess.map.title")}
-                                </h4>
-                                <p className="text-xs text-muted-foreground mt-1">
-                                    {t("index.quickAccess.map.desc")}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                    <Link to="/documents-publics" className="group">
-                        <Card className="hover:shadow-lg transition-all hover:-translate-y-1">
-                            <CardContent className="p-4 text-center">
-                                <FileText className="h-8 w-8 mx-auto mb-2 text-primary" />
-                                <h4 className="font-semibold text-sm">
-                                    {t("index.quickAccess.documents.title")}
-                                </h4>
-                                <p className="text-xs text-muted-foreground mt-1">
-                                    {t("index.quickAccess.documents.desc")}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                    <Link to="/forum-public" className="group">
-                        <Card className="hover:shadow-lg transition-all hover:-translate-y-1">
-                            <CardContent className="p-4 text-center">
-                                <MessageSquare className="h-8 w-8 mx-auto mb-2 text-primary" />
-                                <h4 className="font-semibold text-sm">
-                                    {t("index.quickAccess.forum.title")}
-                                </h4>
-                                <p className="text-xs text-muted-foreground mt-1">
-                                    {t("index.quickAccess.forum.desc")}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                    <Link to="/projets" className="group">
-                        <Card className="hover:shadow-lg transition-all hover:-translate-y-1">
-                            <CardContent className="p-4 text-center">
-                                <Bell className="h-8 w-8 mx-auto mb-2 text-primary" />
-                                <h4 className="font-semibold text-sm">
-                                    {t("index.quickAccess.projects.title")}
-                                </h4>
-                                <p className="text-xs text-muted-foreground mt-1">
-                                    {t("index.quickAccess.projects.desc")}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                </div>
-            </div>
-        </section>
-    )
-}
-
 
 /* ------------------------------------------------------------------ */
 /*  ROLES                                                              */
@@ -344,8 +236,9 @@ const CtaSection = () => {
 const Index = () => (
     <div className="min-h-screen bg-background sarus">
         <PublicHeader variant="transparent" />
-        <HeroSection />
-        <div className="flex flex-col lg:flex-row">
+        <HomeSlideshowSection />
+        {/*<HeroSection />*/}
+        <div className="flex flex-col lg:flex-row bg-muted/30">
             <div className="w-full lg:w-1/2 bg-white/30">
                 <WelcomeSection />
             </div>

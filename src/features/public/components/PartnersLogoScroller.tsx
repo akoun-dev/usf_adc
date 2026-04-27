@@ -42,7 +42,7 @@ export const PartnersLogoScroller = () => {
     const duplicatedPartners = [...partners, ...partners]
 
     return (
-        <section className="relative px-6 py-12 bg-white overflow-hidden">
+        <section className="relative py-12 bg-white overflow-hidden px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
             <div
                 ref={ref}
                 className={`w-full transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-100"}`}
@@ -53,7 +53,7 @@ export const PartnersLogoScroller = () => {
                         <Handshake className="h-4 w-4" />
                         {t("index.partners.badge")}
                     </div>
-                    <h2 className="text-2xl font-bold text-foreground lg:text-3xl">
+                    <h2 className="text-2xl font-bold text-foreground lg:text-3xl mb-4 text-primary">
                         {t("index.partners.title")}
                     </h2>
                 </div>

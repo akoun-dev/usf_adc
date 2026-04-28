@@ -12,6 +12,8 @@ import mwalePhoto from '@/assets/equipe/Mwale.png';
 import slimaniPhoto from '@/assets/equipe/Slimani.png';
 import boatengPhoto from '@/assets/equipe/Boateng.png';
 import balloPhoto from '@/assets/equipe/Ballo.png';
+import bgHeader from '@/assets/bg-header.jpg';
+
 
 // Directors data with stable IDs
 const directors = [
@@ -60,11 +62,31 @@ export default function AboutPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.about.title')}
-          description={t('public.about.description')}
-        />
+
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.about.title')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t('public.about.description')}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+
         {/* About USF-ADC */}
         <section className="mb-16">
           <div className="grid lg:grid-cols-2 gap-12 items-center">

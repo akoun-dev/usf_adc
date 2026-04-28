@@ -10,13 +10,18 @@ import mwalePhoto from "@/assets/equipe/Mwale.png"
 import slimaniPhoto from "@/assets/equipe/Slimani.png"
 import boatengPhoto from "@/assets/equipe/Boateng.png"
 import balloPhoto from "@/assets/equipe/Ballo.png"
+import bgHeader from '@/assets/bg-header.jpg'
+
+
+
+
 
 // Directors data from original AboutPage
 const directors = [
-  { id: 'mwale', photo: mwalePhoto },
-  { id: 'slimani', photo: slimaniPhoto },
-  { id: 'boateng', photo: boatengPhoto },
-  { id: 'ballo', photo: balloPhoto },
+    { id: 'mwale', photo: mwalePhoto },
+    { id: 'slimani', photo: slimaniPhoto },
+    { id: 'boateng', photo: boatengPhoto },
+    { id: 'ballo', photo: balloPhoto },
 ] as const;
 
 export default function LeadershipTeamPage() {
@@ -24,13 +29,34 @@ export default function LeadershipTeamPage() {
 
     return (
         <PublicLayout>
-            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-                <PageHero
-                    title={t("about.title")}
-                    description={t("about.description")}
-                    icon={<Users className="h-6 w-6 text-secondary" />}
-                />
+            <div className="space-y-12 relative bg-gray-50">
 
+                {/* Hero */}
+                <div
+                    className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+                    style={{ backgroundImage: `url(${bgHeader})` }}
+                >
+                    <div className="absolute inset-0" />
+                    <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                            {t("about.title")}
+                        </h1>
+                        <p className="text-xl text-base !mt-2">
+                            {t("about.description")}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+            <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+                
                 {/* Secretary General - Omo */}
                 <div className="mb-12">
                     <Card className="bg-gradient-to-br from-primary to-secondary text-white dark:from-primary/80 dark:to-secondary/80 border-0">

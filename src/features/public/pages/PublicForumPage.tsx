@@ -29,6 +29,10 @@ import {
 } from '@/components/ui/select';
 import { usePublicForumCategories, usePublicForumTopics, usePopularTags } from '../hooks/usePublicForum';
 import type { ForumCategory, ForumTopic } from '../services/forum.service';
+import bgHeader from '@/assets/bg-header.jpg';
+
+
+
 
 const getStatusBadge = (status: string, t: (key: string) => string) => {
   const badges: Record<string, { label: string; className: string; icon: React.ComponentType<{ className?: string }> }> = {
@@ -41,7 +45,7 @@ const getStatusBadge = (status: string, t: (key: string) => string) => {
 
 function getAvatarColor(name: string) {
   const colors = [
-    'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500',
+    'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-green-500',
     'bg-pink-500', 'bg-indigo-500', 'bg-teal-500', 'bg-orange-500',
   ];
   let hash = 0;
@@ -63,7 +67,7 @@ function TopicCard({ topic, showCategory = true }: { topic: ForumTopic; showCate
       <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full border-2 hover:border-primary/30 overflow-hidden">
         <CardContent className="p-0">
           {/* Header with gradient accent */}
-          <div className={`h-1.5 bg-gradient-to-r ${topic.category?.color || 'from-blue-500 to-purple-500'}`} />
+          <div className={`h-1.5 bg-gradient-to-r ${topic.category?.color || 'from-green-600 to-green-900'}`} />
 
           <div className="p-5">
             <div className="flex items-start gap-4">
@@ -180,11 +184,10 @@ function CategoryCard({ category, topicCount, onClick, isSelected }: {
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left p-5 rounded-2xl transition-all duration-300 group ${
-        isSelected
-          ? 'bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30 shadow-lg scale-[1.02]'
-          : 'hover:bg-muted/50 border-2 border-transparent hover:border-muted-foreground/20'
-      }`}
+      className={`w-full text-left p-5 rounded-2xl transition-all duration-300 group ${isSelected
+        ? 'bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30 shadow-lg scale-[1.02]'
+        : 'hover:bg-muted/50 border-2 border-transparent hover:border-muted-foreground/20'
+        }`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -299,13 +302,36 @@ export default function PublicForumPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.forum.title')}
-          description={t('public.forum.description')}
-          icon={<MessageSquare className="h-6 w-6 text-secondary" />}
-        />
 
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.forum.title')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t("public.forum.description")}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+        
         {/* Info Banner */}
         <Card className="mb-6 bg-primary/5 border-primary/20">
           <CardContent className="p-4 flex items-start gap-3">

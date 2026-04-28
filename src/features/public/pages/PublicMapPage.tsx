@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import bgHeader from '@/assets/bg-header.jpg';
 
 type MapView = 'projects' | 'countries';
 type MapMode = 'carte' | 'satellite';
@@ -247,25 +248,38 @@ export default function PublicMapPage() {
 
     return (
         <PublicLayout>
+
+            <div className="space-y-12 relative bg-gray-50">
+
+                {/* Hero */}
+                <div
+                    className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+                    style={{ backgroundImage: `url(${bgHeader})` }}
+                >
+                    <div className="absolute inset-0" />
+                    <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                            {t('public.map.title')}
+                        </h1>
+                        <p className="text-xl text-base !mt-2">
+                            {t('public.map.description')}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
             <div
                 ref={mapContainerRef}
                 className={cn(
-                    "min-h-screen bg-gradient-to-b from-background to-muted/20",
+                    "min-h-screen bg-gradient-to-b from-background to-muted/20 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10",
                     isFullscreen && "fixed inset-0 z-50 bg-background p-6 overflow-auto"
                 )}
             >
                 <div className={cn("w-full px-4 py-6", isFullscreen && "max-w-full h-full")}>
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-6">
-                        <div>
-                            <h1 className="text-2xl font-bold flex items-center gap-2">
-                                <MapPin className="h-6 w-6 text-primary" />
-                                {t('public.map.title')}
-                            </h1>
-                            <p className="text-sm text-muted-foreground mt-1">
-                                {t('public.map.description')}
-                            </p>
-                        </div>
+                    <div className="flex items-center justify-between mb-6">                        
 
                         <div className="flex items-center gap-3">
                             <Button
@@ -691,7 +705,7 @@ export default function PublicMapPage() {
                         </CardContent>
                     </Card>
 
-                    
+
                 </div>
             </div>
         </PublicLayout>

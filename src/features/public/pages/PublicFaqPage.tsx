@@ -10,6 +10,13 @@ import { useTranslation } from 'react-i18next';
 import PageHero from '@/components/PageHero';
 import { PublicLayout } from '../components/PublicLayout';
 import { Button } from '@/components/ui/button';
+import bgHeader from '@/assets/bg-header.jpg';
+
+
+
+
+
+
 
 function usePublicFaq() {
   return useQuery({
@@ -79,12 +86,33 @@ export default function PublicFaqPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.faq.title')}
-          description={t('public.faq.description')}
-          icon={<BookOpen className="h-6 w-6 text-secondary" />}
-        />
+
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.faq.title')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t('public.faq.description')}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
 
         <div className="relative max-w-md mb-6">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

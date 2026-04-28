@@ -26,6 +26,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import bgHeader from '@/assets/bg-header.jpg';
+
+
+
+
+
 
 const SOURCES = ['all', 'UAT', 'ANSUT', 'UIT', 'Smart Africa'];
 const CATEGORIES = ['all', 'Financement', 'Partenariat', 'Événement', 'Certification', 'Appel à projets', 'Rapport', 'Formation', 'Innovation'];
@@ -77,78 +83,78 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
     return (
       <Link to={`/actualites/${article.id}`} className="block">
         <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full">
-        <div className="relative h-64 sm:h-80 overflow-hidden">
-          {article.image_url ? (
-            <img
-              src={article.image_url}
-              alt={article.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="h-full w-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-              <Newspaper className="h-16 w-16 text-muted-foreground/30" />
-            </div>
-          )}
-          <div className="absolute top-4 left-4 flex gap-2">
-            <Badge className={getSourceColor(article.source)}>{article.source}</Badge>
-            {article.category && (
-              <Badge className={getCategoryColor(article.category)}>{article.category}</Badge>
+          <div className="relative h-64 sm:h-80 overflow-hidden">
+            {article.image_url ? (
+              <img
+                src={article.image_url}
+                alt={article.title}
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <div className="h-full w-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
+                <Newspaper className="h-16 w-16 text-muted-foreground/30" />
+              </div>
             )}
-          </div>
-        </div>
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-            {article.published_at && (
-              <span className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                {new Date(article.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-              </span>
-            )}
-            {article.read_time && (
-              <span className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                {article.read_time}
-              </span>
-            )}
-          </div>
-          <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-            {article.title}
-          </h2>
-          <p className="text-muted-foreground mb-4 line-clamp-3">
-            {article.excerpt || article.content.substring(0, 200) + '...'}
-          </p>
-          {article.author && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <User className="h-4 w-4" />
-              <span>{article.author}</span>
+            <div className="absolute top-4 left-4 flex gap-2">
+              <Badge className={getSourceColor(article.source)}>{article.source}</Badge>
+              {article.category && (
+                <Badge className={getCategoryColor(article.category)}>{article.category}</Badge>
+              )}
             </div>
-          )}
-          {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {article.tags.slice(0, 4).map((tag, i) => (
-                <Badge key={i} variant="outline" className="text-xs">
-                  <Tag className="h-3 w-3 mr-1" />
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          )}
-          <div className="flex items-center justify-between">
-            <Button variant="link" className="px-0 h-auto">
-              {t('public.news.readMore')}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-8 w-8"
-              onClick={handleShare}
-            >
-              <Share2 className="h-4 w-4" />
-            </Button>
           </div>
-        </CardContent>
-      </Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+              {article.published_at && (
+                <span className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  {new Date(article.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </span>
+              )}
+              {article.read_time && (
+                <span className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  {article.read_time}
+                </span>
+              )}
+            </div>
+            <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+              {article.title}
+            </h2>
+            <p className="text-muted-foreground mb-4 line-clamp-3">
+              {article.excerpt || article.content.substring(0, 200) + '...'}
+            </p>
+            {article.author && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                <User className="h-4 w-4" />
+                <span>{article.author}</span>
+              </div>
+            )}
+            {article.tags && article.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {article.tags.slice(0, 4).map((tag, i) => (
+                  <Badge key={i} variant="outline" className="text-xs">
+                    <Tag className="h-3 w-3 mr-1" />
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+            <div className="flex items-center justify-between">
+              <Button variant="link" className="px-0 h-auto">
+                {t('public.news.readMore')}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8"
+                onClick={handleShare}
+              >
+                <Share2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </Link>
     );
   }
@@ -156,67 +162,67 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
   return (
     <Link to={`/actualites/${article.id}`} className="block">
       <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col h-full">
-      {article.image_url && (
-        <div className="relative h-48 overflow-hidden">
-          <img
-            src={article.image_url}
-            alt={article.title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute top-3 left-3 flex gap-2">
-            <Badge className={`${getSourceColor(article.source)} text-xs`}>{article.source}</Badge>
+        {article.image_url && (
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={article.image_url}
+              alt={article.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute top-3 left-3 flex gap-2">
+              <Badge className={`${getSourceColor(article.source)} text-xs`}>{article.source}</Badge>
+            </div>
           </div>
-        </div>
-      )}
-      <CardContent className={`p-5 flex-1 flex flex-col ${!article.image_url ? 'pt-5' : ''}`}>
-        <div className="flex items-center gap-2 mb-3 flex-wrap">
-          {article.category && (
-            <Badge className={`${getCategoryColor(article.category)} text-xs`}>{article.category}</Badge>
-          )}
-        </div>
-        <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-          {article.title}
-        </h3>
-        <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">
-          {article.excerpt || article.content.substring(0, 120) + '...'}
-        </p>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-            {article.published_at && (
-              <span className="flex items-center gap-1">
-                <Calendar className="h-3 w-3" />
-                {new Date(article.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-              </span>
-            )}
-            {article.read_time && (
-              <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                {article.read_time}
-              </span>
+        )}
+        <CardContent className={`p-5 flex-1 flex flex-col ${!article.image_url ? 'pt-5' : ''}`}>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            {article.category && (
+              <Badge className={`${getCategoryColor(article.category)} text-xs`}>{article.category}</Badge>
             )}
           </div>
-          <div className="flex items-center justify-between pt-3 border-t">
-            {article.tags && article.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {article.tags.slice(0, 2).map((tag, i) => (
-                  <span key={i} className="text-xs text-muted-foreground">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            )}
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-7 w-7"
-              onClick={handleShare}
-            >
-              <Share2 className="h-3 w-3" />
-            </Button>
+          <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+            {article.title}
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">
+            {article.excerpt || article.content.substring(0, 120) + '...'}
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              {article.published_at && (
+                <span className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3" />
+                  {new Date(article.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                </span>
+              )}
+              {article.read_time && (
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {article.read_time}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-between pt-3 border-t">
+              {article.tags && article.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {article.tags.slice(0, 2).map((tag, i) => (
+                    <span key={i} className="text-xs text-muted-foreground">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-7 w-7"
+                onClick={handleShare}
+              >
+                <Share2 className="h-3 w-3" />
+              </Button>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
     </Link>
   );
 }
@@ -266,13 +272,34 @@ export default function NewsPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.news.pageTitle')}
-          description={t('public.news.pageDesc')}
-          icon={<Newspaper className="h-6 w-6 text-secondary" />}
-        />
 
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.news.pageTitle')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t("public.news.pageDesc")}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+        
         {/* Newsletter Subscription */}
         <Card className="mb-8 bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20">
           <CardContent className="p-6">
@@ -380,7 +407,7 @@ export default function NewsPage() {
                   <span className="w-1 h-6 bg-primary rounded-full" />
                   {t('public.news.featured')}
                 </h2>
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                   {featured.map((article) => (
                     <NewsCard key={article.id} article={article} featured />
                   ))}
@@ -395,7 +422,7 @@ export default function NewsPage() {
                   <span className="w-1 h-6 bg-secondary rounded-full" />
                   {t('public.news.moreNews')}
                 </h2>
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                   {paginatedRegular.map((article) => (
                     <NewsCard key={article.id} article={article} />
                   ))}
@@ -432,8 +459,8 @@ export default function NewsPage() {
                             page === currentPage + 2
                           ) {
                             return (
-                            <PaginationEllipsis key={page} />
-                          );
+                              <PaginationEllipsis key={page} />
+                            );
                           }
                           return null;
                         })}

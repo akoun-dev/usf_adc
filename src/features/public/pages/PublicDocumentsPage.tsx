@@ -30,6 +30,10 @@ import {
     DOCUMENT_TYPES,
     type PublicDocument,
 } from "../hooks/usePublicDocuments"
+import bgHeader from '@/assets/bg-header.jpg'
+
+
+
 
 const CATEGORIES = [
     ...Object.entries(DOCUMENT_CATEGORIES).map(([key, val]) => ({
@@ -94,13 +98,34 @@ export default function PublicDocumentsPage() {
 
     return (
         <PublicLayout>
-            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-                <PageHero
-                    title={t("public.documents.title")}
-                    description={t("public.documents.description")}
-                    icon={<FolderOpen className="h-6 w-6 text-secondary" />}
-                />
 
+<div className="space-y-12 relative bg-gray-50">
+
+                {/* Hero */}
+                <div
+                    className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+                    style={{ backgroundImage: `url(${bgHeader})` }}
+                >
+                    <div className="absolute inset-0" />
+                    <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                            {t("public.documents.title")}
+                        </h1>
+                        <p className="text-xl text-base !mt-2">
+                            {t("public.documents.description")}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+                
                 {/* Filters */}
                 <div className="flex flex-wrap gap-3 mb-8">
                     <div className="relative flex-1 min-w-[250px]">
@@ -152,7 +177,7 @@ export default function PublicDocumentsPage() {
 
                 {/* Loading State */}
                 {isLoading ? (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         {[1, 2, 3, 4, 5, 6].map(item => (
                             <Card key={item}>
                                 <CardContent className="p-6">
@@ -182,7 +207,7 @@ export default function PublicDocumentsPage() {
                             <span className="w-1 h-6 bg-primary rounded-full" />
                             {t("public.documents.title")}
                         </h2>
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                             {paginatedDocuments.map(document => (
                                 <LibraryDocumentCard
                                     key={document.id}

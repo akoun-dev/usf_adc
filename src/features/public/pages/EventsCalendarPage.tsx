@@ -39,6 +39,12 @@ import fr from 'date-fns/locale/fr';
 import enUS from 'date-fns/locale/en-US';
 // @ts-expect-error - date-fns v3 locale import
 import pt from 'date-fns/locale/pt';
+import bgHeader from '@/assets/bg-header.jpg';
+import imgPeopleSittingConference from '@/assets/image/conference-events.jpg';
+
+
+
+
 
 // Available locales
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,47 +116,69 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
   return (
     <Link to={`/calendrier/${event.id}`} className="block">
       <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group h-full">
-      {event.image_url && (
-        <div className="relative h-40 overflow-hidden">
-          <img
-            src={event.image_url}
-            alt={event.title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute top-3 right-3">
-            <Badge className={getEventTypeColor(event.event_type)}>
-              <TypeIcon className="h-3 w-3 mr-1" />
-              {event.event_type}
-            </Badge>
-          </div>
-          <div className="absolute bottom-3 left-3">
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-white/90 backdrop-blur-sm text-foreground">
-                <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
-                <span className="text-lg font-bold">{startDate.getDate()}</span>
+        {event.image_url && (
+          <div className="relative h-40 overflow-hidden">
+            <img
+              src={event.image_url}
+              alt={event.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div className="absolute top-3 right-3">
+              <Badge className={getEventTypeColor(event.event_type)}>
+                <TypeIcon className="h-3 w-3 mr-1" />
+                {event.event_type}
+              </Badge>
+            </div>
+            <div className="absolute bottom-3 left-3">
+              <div className="flex items-center gap-2">
+                <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-white/90 backdrop-blur-sm text-foreground">
+                  <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
+                  <span className="text-lg font-bold">{startDate.getDate()}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <CardContent className="p-5">
-        {!event.image_url && (
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex flex-col items-center justify-center h-14 w-14 rounded-xl bg-primary/10 text-primary">
-              <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
-              <span className="text-2xl font-bold">{startDate.getDate()}</span>
+        <CardContent className="p-5">
+          {!event.image_url && (
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex flex-col items-center justify-center h-14 w-14 rounded-xl bg-primary/10 text-primary">
+                <span className="text-xs font-medium uppercase">{startDate.toLocaleDateString('fr-FR', { month: 'short' })}</span>
+                <span className="text-2xl font-bold">{startDate.getDate()}</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+                  {event.title}
+                </h3>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                  {event.location ? (
+                    <span className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1">
+                      <Video className="h-3 w-3" />
+                      {t('public.calendar.online')}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+          )}
+
+          {event.image_url && (
+            <>
+              <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                 {event.title}
               </h3>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                 {event.location ? (
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />
-                    {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                    {event.location.length > 40 ? event.location.substring(0, 40) + '...' : event.location}
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
@@ -158,95 +186,73 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
                     {t('public.calendar.online')}
                   </span>
                 )}
+                {isMultiDay && (
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    {Math.ceil((endDate!.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))} {t('public.calendar.days')}
+                  </span>
+                )}
               </div>
-            </div>
-          </div>
-        )}
+            </>
+          )}
 
-        {event.image_url && (
-          <>
-            <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-              {event.title}
-            </h3>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-              {event.location ? (
-                <span className="flex items-center gap-1">
-                  <MapPin className="h-3 w-3" />
-                  {event.location.length > 40 ? event.location.substring(0, 40) + '...' : event.location}
-                </span>
-              ) : (
-                <span className="flex items-center gap-1">
-                  <Video className="h-3 w-3" />
-                  {t('public.calendar.online')}
-                </span>
-              )}
-              {isMultiDay && (
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {Math.ceil((endDate!.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))} {t('public.calendar.days')}
-                </span>
-              )}
-            </div>
-          </>
-        )}
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+            {event.description}
+          </p>
 
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-          {event.description}
-        </p>
-
-        <div className="flex flex-wrap gap-2 mb-4">
-          {event.tags && event.tags.slice(0, 3).map((tag: string, i: number) => (
-            <Badge key={i} variant="outline" className="text-xs">
-              <TagIcon className="h-3 w-3 mr-1" />
-              {tag}
-            </Badge>
-          ))}
-        </div>
-
-        <div className="flex items-center justify-between pt-3 border-t text-sm">
-          <div className="flex items-center gap-4">
-            {event.max_participants && (
-              <span className="flex items-center gap-1 text-muted-foreground">
-                <Users className="h-4 w-4" />
-                {event.max_participants} places
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {event.price && (
-              <Badge variant="outline" className="text-xs">
-                <Ticket className="h-3 w-3 mr-1" />
-                {event.price}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {event.tags && event.tags.slice(0,).map((tag: string, i: number) => (
+              <Badge key={i} variant="outline" className="text-xs">
+                <TagIcon className="h-3 w-3 mr-1" />
+                {tag}
               </Badge>
-            )}
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-7 w-7"
-              onClick={downloadICS}
-              title="Exporter au format .ics"
-            >
-              📅
-            </Button>
+            ))}
           </div>
-        </div>
 
-        {event.registration_url && !past && (
-          <Button
-            className="w-full mt-4"
-            variant={event.price === 'Gratuit' ? 'default' : 'outline'}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              window.open(event.registration_url, '_blank', 'noopener,noreferrer');
-            }}
-          >
-            {event.price === 'Gratuit' ? "S'inscrire gratuitement" : 'S\'inscrire'}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+          <div className="flex items-center justify-between pt-3 border-t text-sm">
+            <div className="flex items-center gap-4">
+              {event.max_participants && (
+                <span className="flex items-center gap-1 text-muted-foreground">
+                  <Users className="h-4 w-4" />
+                  {event.max_participants} places
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {event.price && (
+                <Badge variant="outline" className="text-xs">
+                  <Ticket className="h-3 w-3 mr-1" />
+                  {event.price}
+                </Badge>
+              )}
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-7 w-7"
+                onClick={downloadICS}
+                title="Exporter au format .ics"
+              >
+                📅
+              </Button>
+            </div>
+          </div>
+
+          {event.registration_url && !past && (
+            <Button
+              className="w-full mt-4"
+              variant={event.price === 'Gratuit' ? 'default' : 'outline'}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(event.registration_url, '_blank', 'noopener,noreferrer');
+              }}
+            >
+              {event.price === 'Gratuit' ? "S'inscrire gratuitement" : 'S\'inscrire'}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          )}
+        </CardContent>
+      </Card>
     </Link>
   );
 }
@@ -572,12 +578,33 @@ export default function EventsCalendarPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.calendar.title')}
-          description={t('public.calendar.description')}
-          icon={<CalendarIcon className="h-6 w-6 text-secondary" />}
-        />
+
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.calendar.title')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t("public.calendar.description")}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
 
         {/* Stats Cards */}
         <div className="grid gap-4 sm:grid-cols-3 mb-8">
@@ -683,8 +710,16 @@ export default function EventsCalendarPage() {
 
           <TabsContent value="calendar" className="space-y-6">
             <div className="grid lg:grid-cols-3 gap-6">
+
+              {/* Upcoming Events List - Vertical Snap Scroll */}
+              <UpcomingEventsSnapList
+                events={filteredEvents}
+                isLoading={upcomingLoading}
+                t={t}
+              />
+
               {/* Calendar View */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-1">
                 <Card>
                   <CardContent className="p-6">
                     {/* Month Navigation */}
@@ -818,12 +853,16 @@ export default function EventsCalendarPage() {
                 </Card>
               </div>
 
-              {/* Upcoming Events List - Vertical Snap Scroll */}
-              <UpcomingEventsSnapList
-                events={filteredEvents}
-                isLoading={upcomingLoading}
-                t={t}
-              />
+
+              <div className="lg:col-span-1 flex justify-end">
+                <img
+                  src={imgPeopleSittingConference}
+                  alt="People at conference"
+                  className="object-cover rounded-xl h-full"
+                />
+              </div>
+
+
             </div>
           </TabsContent>
 
@@ -831,7 +870,7 @@ export default function EventsCalendarPage() {
             {listSubTab === 'upcoming' && (
               <div className="space-y-4">
                 {upcomingLoading ? (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                       <Card key={i}>
                         <CardContent className="p-5">
@@ -857,7 +896,7 @@ export default function EventsCalendarPage() {
                   </Card>
                 ) : (
                   <>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {paginatedUpcoming.map((event) => (
                         <EventCard key={event.id} event={event} />
                       ))}
@@ -915,7 +954,7 @@ export default function EventsCalendarPage() {
             {listSubTab === 'past' && (
               <div className="space-y-4">
                 {pastLoading ? (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {[1, 2, 3].map((i) => (
                       <Card key={i}>
                         <CardContent className="p-5">
@@ -937,7 +976,7 @@ export default function EventsCalendarPage() {
                   </Card>
                 ) : (
                   <>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {paginatedPast.map((event) => (
                         <EventCard key={event.id} event={event} past />
                       ))}

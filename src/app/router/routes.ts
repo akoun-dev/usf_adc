@@ -227,6 +227,9 @@ const OurHistoryPage = lazy(
 const LeadershipTeamPage = lazy(
     () => import("@/features/public/pages/LeadershipTeamPage")
 )
+const StrategiesPolitiquesPage = lazy(
+    () => import("@/features/public/pages/StrategiesPolitiquesPage")
+)
 
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
@@ -888,4 +891,5 @@ export const PUBLIC_ROUTES: AppRouteConfig[] = [
     { path: "/membres-associes", component: AssociatedMembersPage },
     { path: "/notre-histoire", component: OurHistoryPage },
     { path: "/equipe-direction", component: LeadershipTeamPage },
+    { path: "/strategies-politiques", component: StrategiesPolitiquesPage },
 ]

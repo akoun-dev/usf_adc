@@ -1,6 +1,7 @@
 ﻿import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Globe, Filter, ArrowRight, Users, Building2 } from 'lucide-react';
+import bgHeader from '@/assets/bg-header.jpg';
 import { PublicLayout } from '../components/PublicLayout';
 import { useCountriesWithProjectCount, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import PageHero from '@/components/PageHero';
 
 function CountryCard({ country }: { country: CountryWithProjects }) {
   const { t, i18n } = useTranslation();
@@ -80,7 +80,9 @@ export default function CountriesDirectoryPage() {
   // Fetch countries - use search hook when searching, otherwise use all countries
   const { data: allCountries = [] } = useCountriesWithProjectCount();
   const { data: searchResults = [] } = useCountrySearch(searchQuery);
-  const countries = searchQuery ? searchResults : (allCountries as CountryWithProjects[]);
+  const countries: CountryWithProjects[] = searchQuery
+    ? searchResults.map(c => ({ ...c, project_count: 0 }))
+    : allCountries;
 
   const filteredAndSortedCountries = useMemo(() => {
     let result = [...countries];
@@ -153,12 +155,29 @@ export default function CountriesDirectoryPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-        <PageHero
-          title={t('public.memberCountries.directory.title')}
-          description={t('public.memberCountries.directory.description', { count: stats.totalCountries })}
-          icon={<Globe className="h-6 w-6 text-secondary" />}
-        />
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.memberCountries.directory.title')}
+            </h1>
+            <p className="text-xl text-base/80 leading-relaxed !mt-2">
+              {t("public.memberCountries.directory.description", { count: stats.totalCountries })}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
 
         {/* Statistics Cards */}
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
@@ -213,7 +232,7 @@ export default function CountriesDirectoryPage() {
                 </SelectContent>
               </Select>
 
-              
+
             </div>
 
             {/* Active Filters */}
@@ -267,7 +286,7 @@ export default function CountriesDirectoryPage() {
 
         {/* Countries Grid */}
         {paginatedCountries.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
             {paginatedCountries.map((country) => (
               <CountryCard key={country.code_iso} country={country} />
             ))}

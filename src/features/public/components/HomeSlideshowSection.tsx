@@ -162,7 +162,7 @@ export function HomeSlideshowSection() {
                                         </h1>
 
                                         <p className="max-w-lg text-lg leading-snug text-white italic lg:text-md mt-3">
-                                            {t("index.hero.description")}
+                                            {/*t("index.hero.description")*/}{slides[index].description}
                                         </p>
 
                                         <div className="flex flex-col gap-4 sm:flex-row">

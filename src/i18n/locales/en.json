@@ -47,6 +47,7 @@
     "filter": "Filter",
     "export": "Export",
     "back": "Back",
+    "retry": "Retry",
     "next": "Next",
     "previous": "Previous",
     "yes": "Yes",
@@ -233,7 +234,7 @@
     "loginSuccess": "Login successful",
     "loginSuccessDesc": "Welcome to the platform.",
     "loginError": "Login error",
-    "platformTitle": "USF-ADC",
+    "platformTitle": "USF-ADCA",
     "platformSubtitle": "African FSU Platform — ANSUT/UAT",
     "inviteOnly": "Registration is by invitation only.",
     "contactAdmin": "Contact your administrator for access.",
@@ -302,7 +303,7 @@
     "validationSupervision": "Validation supervision",
     "globalReports": "Global reports",
     "projectMap": "Projects map",
-    "welcomePublicDesc": "Welcome to the USF-ADC platform — Access public resources",
+    "welcomePublicDesc": "Welcome to the USF-ADCA platform — Access public resources",
     "publicDocuments": "Public documents",
     "publicDocumentsDesc": "Browse available documents and reports",
     "projectsMap": "Projects map",
@@ -1073,7 +1074,7 @@
     "sampleReportTitle": "Q4 2023 Activity Report",
     "sampleReportSummary": "Summary of activities for the fourth quarter of 2023...",
     "last7days": "Last 7 days",
-    "defaultSystemPrompt": "You are the FSU Assistant, a telecommunications expert for USF-ADC.",
+    "defaultSystemPrompt": "You are the FSU Assistant, a telecommunications expert for USF-ADCA.",
     "providerOpenAI": "OpenAI",
     "providerMistral": "Mistral AI",
     "providerAnthropic": "Anthropic (Claude)",
@@ -1353,6 +1354,7 @@
       "elections": "CPL-2026 Elections",
       "candidates": "ATU SG Candidates",
       "faq": "FAQ",
+      "strategies": "Strategies & Policies",
       "login": "Login",
       "register": "Create account"
     },
@@ -1452,7 +1454,7 @@
     },
     "cta": {
       "title": "Ready to contribute to African digital transformation?",
-      "description": "Join the USF-ADC platform and participate in the continent's digital transformation.",
+      "description": "Join the USF-ADCA platform and participate in the continent's digital transformation.",
       "register": "Create an account",
       "contact": "Contact us"
     },
@@ -1578,7 +1580,7 @@
       "login": "Login",
       "register": "Create account",
       "mock": {
-        "t1": "Welcome to the USF-ADC Forum",
+        "t1": "Welcome to the USF-ADCA Forum",
         "d1": "Introduction to forum rules and best practices.",
         "t2": "Sharing USF Best Practices",
         "d2": "Discuss effective strategies for Universal Service."
@@ -1775,18 +1777,18 @@
     },
     "about": {
       "badge": "About",
-      "title": "USF-ADC Platform",
+      "title": "USF-ADCA Platform",
       "description": "The reference platform for monitoring, collecting, and managing the Universal Service Fund across the African continent.",
       "viewMap": "View map",
       "join": "Join",
       "whatIs": {
-        "title": "What is USF-ADC?",
-        "p1": "USF-ADC (Universal Service Fund - African Digital Connection) is a pan-African platform developed under the auspices of the African Telecommunications Union (ATU).",
+        "title": "What is USF-ADCA?",
+        "p1": "USF-ADCA (Universal Service Fund - African Digital Connection) is a pan-African platform developed under the auspices of the African Telecommunications Union (ATU).",
         "p2": "It enables the 54 member countries to collect, track, and manage Universal Service Fund initiatives, ensuring better coordination and maximum impact on digital inclusion."
       },
       "objectives": {
         "title": "Our Objectives",
-        "description": "USF-ADC is built around four main objectives",
+        "description": "USF-ADCA is built around four main objectives",
         "universal": {
           "title": "Universal Service",
           "desc": "Ensure universal access to telecommunications services"
@@ -2028,6 +2030,81 @@
         "description": "ANSUT regularly launches calls for projects for digital inclusion",
         "projectsButton": "View calls for projects",
         "contactButton": "Contact us"
+      }
+    },
+    "strategies": {
+      "hero": {
+        "badge": "Resources",
+        "title": "ATU Strategies and Policies",
+        "description": "Discover the strategic orientations and policies of the African Telecommunications Union for digital development in Africa."
+      },
+      "intro": {
+        "title": "Policies for digital transformation",
+        "description": "The ATU develops strategies and policy frameworks to guide the development of telecommunications and digital technology across the African continent, fostering digital inclusion and universal connectivity.",
+        "highlight": "A commitment to a digitally connected Africa",
+        "vision": "Vision: A fully connected and inclusive African continent",
+        "scope": "Scope: All 54 ATU member states",
+        "beneficiaries": "Beneficiaries: Over one billion African citizens"
+      },
+      "section": {
+        "title": "Strategic Axes",
+        "description": "The key strategic orientations of the ATU for the continent's digital transformation."
+      },
+      "items": {
+        "digitalTransformation": {
+          "title": "Digital Transformation",
+          "desc": "Accelerate the digital transformation of member states through proactive policies and action plans adapted to African realities."
+        },
+        "connectivity": {
+          "title": "Universal Connectivity",
+          "desc": "Deploy the necessary infrastructure to provide universal access to telecommunications and Internet services across the continent."
+        },
+        "regulatoryFramework": {
+          "title": "Harmonized Regulatory Framework",
+          "desc": "Harmonize telecommunications legal and regulatory frameworks to facilitate investments and the development of the African single market."
+        },
+        "inclusion": {
+          "title": "Digital Inclusion",
+          "desc": "Ensure equitable access to digital technologies for all citizens, particularly rural populations and vulnerable groups."
+        },
+        "economicGrowth": {
+          "title": "Economic Growth",
+          "desc": "Leverage digital technologies as a driver of economic growth and job creation for African youth and women."
+        },
+        "innovation": {
+          "title": "Innovation and Research",
+          "desc": "Encourage innovation and research in telecommunications to develop solutions adapted to the continent's needs."
+        }
+      },
+      "documents": {
+        "title": "Reference Documents",
+        "description": "Foundational texts and strategic documents guiding ATU action.",
+        "digitalAgenda": {
+          "title": "African Digital Agenda",
+          "desc": "Roadmap for Africa's digital transformation by 2030.",
+          "year": "2020"
+        },
+        "universalService": {
+          "title": "Universal Service Policy",
+          "desc": "Policy framework for implementing universal service in member states.",
+          "year": "2019"
+        },
+        "spectrumPolicy": {
+          "title": "Spectrum Management Policy",
+          "desc": "Guidelines for harmonized radio spectrum management in Africa.",
+          "year": "2021"
+        },
+        "cyberSecurity": {
+          "title": "Cybersecurity Strategy",
+          "desc": "Strategic framework for digital security and critical infrastructure protection.",
+          "year": "2022"
+        }
+      },
+      "cta": {
+        "title": "Explore our resources",
+        "description": "Access all strategic documents and join discussions on the future of digital technology in Africa.",
+        "documents": "View documents",
+        "forum": "Join the forum"
       }
     },
     "associatedMembers": {
@@ -2272,7 +2349,7 @@
     },
     "register": {
       "title": "Create an Account",
-      "description": "Join the USF-ADC platform",
+      "description": "Join the USF-ADCA platform",
       "errors": {
         "required": "Please fill in all required fields",
         "email": "Invalid email address",
@@ -2310,7 +2387,7 @@
         "title": "Your request will be reviewed",
         "description": "An administrator will review your request. You will receive a response by email within a few days."
       },
-      "terms": "I accept the terms of use and privacy policy of the USF-ADC platform",
+      "terms": "I accept the terms of use and privacy policy of the USF-ADCA platform",
       "previous": "Previous",
       "submitting": "Submitting...",
       "submit": "Submit",
@@ -2443,7 +2520,7 @@
       "associatedMembers": "Associated Members",
       "group": {
         "home": "Home",
-        "usfAdc": "USF-ADC",
+        "usfAdc": "USF-ADCA",
         "sutel": "SUTEL",
         "projects": "Projects",
         "resources": "Resources",
@@ -2519,12 +2596,12 @@
       "secretaryGeneral": {
         "name": "Mr. John Omo",
         "role": "Secretary General of ATU",
-        "message": "Dear partners and colleagues, it is with great pleasure that I welcome you to the USF-ADC platform, a major strategic tool for the future of digital technology in Africa. This platform embodies our shared vision: guaranteeing universal access to telecommunications services for every African citizen, wherever they may be. Together, we are building a connected, inclusive and resilient continent. I invite you to explore this platform and actively contribute to our shared mission of digital transformation."
+        "message": "Dear partners and colleagues, it is with great pleasure that I welcome you to the USF-ADCA platform, a major strategic tool for the future of digital technology in Africa. This platform embodies our shared vision: guaranteeing universal access to telecommunications services for every African citizen, wherever they may be. Together, we are building a connected, inclusive and resilient continent. I invite you to explore this platform and actively contribute to our shared mission of digital transformation."
       },
       "director": {
         "name": "Mr. Gilles Beugre",
         "role": "Director General of ANSUT (Côte d'Ivoire)",
-        "message": "Welcome to the USF-ADC platform, the result of exemplary collaborative work between our Member States and technical partners. As Director in charge of radiocommunications, I am convinced that optimal spectrum management and infrastructure deployment are the keys to achieving our universal connectivity goals. This platform enables us to monitor, coordinate and accelerate Universal Service Fund projects on a pan-African scale. Your commitment is essential to meet this challenge."
+        "message": "Welcome to the USF-ADCA platform, the result of exemplary collaborative work between our Member States and technical partners. As Director in charge of radiocommunications, I am convinced that optimal spectrum management and infrastructure deployment are the keys to achieving our universal connectivity goals. This platform enables us to monitor, coordinate and accelerate Universal Service Fund projects on a pan-African scale. Your commitment is essential to meet this challenge."
       }
     },
     "featuresSection": {
@@ -2563,7 +2640,7 @@
       "featured": "Featured",
       "readMore": "Read more",
       "register": "Register",
-      "joinCommunity": "Join the USF-ADC Community",
+      "joinCommunity": "Join the USF-ADCA Community",
       "joinCommunityDesc": "Check the latest Universal Service news and don't miss any important events",
       "viewNews": "View News",
       "calendar": "Calendar"
@@ -2571,7 +2648,7 @@
     "about": {
       "badge": "About the Platform",
       "title": "Driving African Digital Together",
-      "description": "The USF-ADC platform is a pan-African collaboration tool developed under the auspices of the African Telecommunications Union (ATU). It enables 54 member countries to collect, monitor and manage Universal Service Fund initiatives.",
+      "description": "The USF-ADCA platform is a pan-African collaboration tool developed under the auspices of the African Telecommunications Union (ATU). It enables 54 member countries to collect, monitor and manage Universal Service Fund initiatives.",
       "items": {
         "standardized": "Standardized FSU data collection",
         "validation": "Multi-level validation with traceability",
@@ -2606,7 +2683,7 @@
     },
     "cta": {
       "title": "Ready to Contribute to African Digital?",
-      "description": "Join the USF-ADC platform to access collaboration resources and Universal Service Fund monitoring.",
+      "description": "Join the USF-ADCA platform to access collaboration resources and Universal Service Fund monitoring.",
       "login": "Login",
       "contact": "Contact ATU"
     },
@@ -2695,5 +2772,9 @@
   "admin.project.selectRegion": "Select a region",
   "admin.project.budgetPlaceholder": "Budget amount",
   "admin.projectsManagement": "Projects Management",
-  "admin.projectsManagementDesc": "Manage FSU projects"
+  "admin.projectsManagementDesc": "Manage FSU projects",
+  "home.slideshow.together.desc": "The reference platform for monitoring, collecting, and managing the Universal Service Fund across the continent.",
+  "home.slideshow.development.desc": "A universal service to connect unconnected people",
+  "home.slideshow.projects.desc": "Strengthening universal service for inclusive digital connectivity",
+  "home.slideshow.echanges.desc": "Providing efficient universal service to reduce the digital divide"
 }

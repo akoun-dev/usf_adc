@@ -67,6 +67,7 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                 labelKey: "resources",
                 items: [
                     { href: "/documents-publics", labelKey: "documents" },
+                    { href: "/strategies-politiques", labelKey: "strategies" },
                     { href: "/forum-public", labelKey: "forum" },
                 ],
             },
@@ -104,7 +105,7 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                             className="h-12 w-12 sm:h-10 sm:w-10 rounded-xl p-1"
                         />
                         <span className="text-base sm:text-lg font-bold text-white">
-                            USF-ADC
+                            USF-ADCA
                         </span>
                         <span className="hidden text-xs text-white/70 sm:block">
                             ATU / UAT

@@ -174,7 +174,14 @@ export default function CountryProjectsPage() {
 
   return (
     <PublicLayout>
-      <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
+
+
+
+
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/annuaire-pays-membres" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
@@ -336,7 +343,7 @@ export default function CountryProjectsPage() {
           </Card>
         ) : projects.length > 0 ? (
           <>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {paginatedProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} t={t} locale={locale} />
               ))}

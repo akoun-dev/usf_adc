@@ -49,7 +49,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
     if (variant === "minimal") {
         return (
             <footer className="border-t bg-muted/30">
-                <div className="w-full py-6 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+                <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
                     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                         <div className="flex items-center gap-2">
                             <img

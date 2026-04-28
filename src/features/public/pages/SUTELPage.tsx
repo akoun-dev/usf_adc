@@ -29,6 +29,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import PageHero from "@/components/PageHero"
+import bgHeader from '@/assets/bg-header.jpg'
+
+
+
+
+
+
 
 export default function SUTELPage() {
     const { t } = useTranslation('public')
@@ -65,11 +72,36 @@ export default function SUTELPage() {
 
     return (
         <PublicLayout>
-            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-                <PageHero
-                    title={t('sutel.hero.title')}
-                    description={t('sutel.hero.description')}
-                />
+
+            <div className="space-y-12 relative bg-gray-50">
+
+                {/* Hero */}
+                <div
+                    className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+                    style={{ backgroundImage: `url(${bgHeader})` }}
+                >
+                    <div className="absolute inset-0" />
+                    <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                            {t('sutel.hero.title')}
+                        </h1>
+                        <p className="text-xl text-base !mt-2">
+                            {t('sutel.hero.description')}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+                
                 {/* Definition Section */}
                 <Card className="mb-12 border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
                     <CardContent className="p-8">
@@ -139,7 +171,7 @@ export default function SUTELPage() {
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-4 gap-6">
                         {missions.map((mission, index) => (
                             <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/30 overflow-hidden">
                                 <div className={`h-2 bg-gradient-to-r ${mission.color}`} />

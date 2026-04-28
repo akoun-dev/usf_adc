@@ -36,12 +36,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import bgHeader from '@/assets/bg-header.jpg'
+
+
+
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
-  'planned': { label: 'Planifié', color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
-  'in_progress': { label: 'En cours', color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
-  'completed': { label: 'Terminé', color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
-  'suspended': { label: 'Suspendu', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
+    'planned': { label: 'Planifié', color: 'bg-slate-500/10 text-slate-700 dark:text-slate-400' },
+    'in_progress': { label: 'En cours', color: 'bg-blue-500/10 text-blue-700 dark:text-blue-400' },
+    'completed': { label: 'Terminé', color: 'bg-green-500/10 text-green-700 dark:text-green-400' },
+    'suspended': { label: 'Suspendu', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-400' },
 }
 
 function formatDate(date: string) {
@@ -176,12 +180,31 @@ export default function CallsForProjectsPage() {
 
     return (
         <PublicLayout>
-            <div className="w-full px-4 py-8 sm:px-6 lg:px-8">
-                <PageHero
-                    title={t("public.calls.title")}
-                    description={t("public.calls.description")}
-                    icon={<Briefcase className="h-6 w-6 text-secondary" />}
-                />
+
+            <div className="space-y-12 relative bg-gray-50">
+
+                {/* Hero */}
+                <div
+                    className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+                    style={{ backgroundImage: `url(${bgHeader})` }}
+                >
+                    <div className="absolute inset-0" />
+                    <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+                        <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                            {t("public.calls.title")}
+                        </h1>
+                        <p className="text-xl text-base !mt-2">
+                            {t("public.calls.description")}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
 
                 <Card className="mb-6 bg-primary/5 border-primary/20">
                     <CardContent className="p-6">
@@ -230,7 +253,7 @@ export default function CallsForProjectsPage() {
                 </div>
 
                 {isLoading ? (
-                    <div className="grid gap-6 sm:grid-cols-2">
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {[1, 2, 3, 4].map(i => (
                             <Card key={i}>
                                 <CardContent className="p-6">
@@ -257,7 +280,7 @@ export default function CallsForProjectsPage() {
                     </Card>
                 ) : (
                     <>
-                        <div className="grid gap-6 sm:grid-cols-2">
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {paginatedProjects.map(project => (
                                 <ProjectCard key={project.id} project={project} />
                             ))}

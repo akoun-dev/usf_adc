@@ -47,6 +47,7 @@
     "filter": "Filtrar",
     "export": "Exportar",
     "back": "Voltar",
+    "retry": "Tentar novamente",
     "next": "Próximo",
     "previous": "Anterior",
     "yes": "Sim",
@@ -233,7 +234,7 @@
     "loginSuccess": "Login bem-sucedido",
     "loginSuccessDesc": "Bem-vindo à plataforma.",
     "loginError": "Erro de login",
-    "platformTitle": "USF-ADC",
+    "platformTitle": "USF-ADCA",
     "platformSubtitle": "Plataforma Africana FSU — ANSUT/UAT",
     "inviteOnly": "O registro é feito apenas por convite.",
     "contactAdmin": "Contacte o seu administrador para obter acesso.",
@@ -302,7 +303,7 @@
     "validationSupervision": "Supervisão de validações",
     "globalReports": "Relatórios globais",
     "projectMap": "Mapa de projetos",
-    "welcomePublicDesc": "Bem-vindo à plataforma USF-ADC — Aceda aos recursos públicos",
+    "welcomePublicDesc": "Bem-vindo à plataforma USF-ADCA — Aceda aos recursos públicos",
     "publicDocuments": "Documentos públicos",
     "publicDocumentsDesc": "Consulte documentos e relatórios disponíveis",
     "projectsMap": "Mapa de projetos",
@@ -1073,7 +1074,7 @@
     "sampleReportTitle": "Relatório de Atividades Q4 2023",
     "sampleReportSummary": "Resumo das atividades do quarto trimestre de 2023...",
     "last7days": "Últimos 7 dias",
-    "defaultSystemPrompt": "Você é o Assistente FSU, um especialista em telecomunicações para USF-ADC.",
+    "defaultSystemPrompt": "Você é o Assistente FSU, um especialista em telecomunicações para USF-ADCA.",
     "providerOpenAI": "OpenAI",
     "providerMistral": "Mistral AI",
     "providerAnthropic": "Anthropic (Claude)",
@@ -1349,6 +1350,7 @@
       "sutel": "SUTEL",
       "about": "Sobre",
       "faq": "FAQ",
+      "strategies": "Estratégias e Políticas",
       "login": "Entrar",
       "register": "Criar conta",
       "candidates": "Candidatos ATU SG",
@@ -1452,7 +1454,7 @@
     },
     "cta": {
       "title": "Pronto para contribuir para o digital africano?",
-      "description": "Junte-se à plataforma USF-ADC e participe na transformação digital do continente.",
+      "description": "Junte-se à plataforma USF-ADCA e participe na transformação digital do continente.",
       "register": "Criar uma conta",
       "contact": "Contacte-nos"
     },
@@ -1578,7 +1580,7 @@
       "login": "Entrar",
       "register": "Criar conta",
       "mock": {
-        "t1": "Bem-vindo ao fórum USF-ADC",
+        "t1": "Bem-vindo ao fórum USF-ADCA",
         "d1": "Apresentação das regras e boas práticas do fórum.",
         "t2": "Partilha das melhores práticas FSU",
         "d2": "Discuta estratégias eficazes para o Serviço Universal."
@@ -1775,18 +1777,18 @@
     },
     "about": {
       "badge": "Sobre",
-      "title": "Plataforma USF-ADC",
+      "title": "Plataforma USF-ADCA",
       "description": "A plataforma de referência para o monitoramento, recolha e pilotagem do Fundo de Serviço Universal em todo o continente africano.",
       "viewMap": "Ver mapa",
       "join": "Juntar-se",
       "whatIs": {
-        "title": "O que é USF-ADC?",
-        "p1": "USF-ADC (Universal Service Fund - African Digital Connection) é uma plataforma pan-africana desenvolvida sob a égide da União Africana das Telecomunicações (UAT).",
+        "title": "O que é USF-ADCA?",
+        "p1": "USF-ADCA (Universal Service Fund - African Digital Connection) é uma plataforma pan-africana desenvolvida sob a égide da União Africana das Telecomunicações (UAT).",
         "p2": "Permite aos 54 países membros recolher, seguir e pilotar as iniciativas do Fundo de Serviço Universal, garantindo uma melhor coordenação e um impacto máximo na inclusão digital."
       },
       "objectives": {
         "title": "Nossos Objetivos",
-        "description": "USF-ADC articula-se em torno de quatro objetivos principais",
+        "description": "USF-ADCA articula-se em torno de quatro objetivos principais",
         "universal": {
           "title": "Serviço Universal",
           "desc": "Garantir o acesso universal aos serviços de telecomunicações"
@@ -2028,6 +2030,81 @@
         "description": "A ANSUT lança regularmente chamadas de projetos para a inclusão digital",
         "projectsButton": "Ver chamadas de projetos",
         "contactButton": "Contacte-nos"
+      }
+    },
+    "strategies": {
+      "hero": {
+        "badge": "Recursos",
+        "title": "Estratégias e Políticas da UAT",
+        "description": "Descubra as orientações estratégicas e as políticas da União Africana das Telecomunicações para o desenvolvimento digital em África."
+      },
+      "intro": {
+        "title": "Políticas ao serviço da transformação digital",
+        "description": "A UAT desenvolve estratégias e quadros políticos para orientar o desenvolvimento das telecomunicações e da tecnologia digital em todo o continente africano, promovendo a inclusão digital e a conectividade universal.",
+        "highlight": "Um compromisso com uma África digitalmente conectada",
+        "vision": "Visão: Um continente africano totalmente conectado e inclusivo",
+        "scope": "Abrangência: Todos os 54 Estados membros da UAT",
+        "beneficiaries": "Beneficiários: Mais de um milhar de milhões de cidadãos africanos"
+      },
+      "section": {
+        "title": "Eixos estratégicos",
+        "description": "As grandes orientações estratégicas da UAT para a transformação digital do continente."
+      },
+      "items": {
+        "digitalTransformation": {
+          "title": "Transformação digital",
+          "desc": "Acelerar a transformação digital dos Estados membros através de políticas proativas e planos de ação adaptados às realidades africanas."
+        },
+        "connectivity": {
+          "title": "Conectividade universal",
+          "desc": "Implementar as infraestruturas necessárias para oferecer acesso universal aos serviços de telecomunicações e à Internet em todo o continente."
+        },
+        "regulatoryFramework": {
+          "title": "Quadro regulamentar harmonizado",
+          "desc": "Harmonizar os quadros jurídicos e regulamentares das telecomunicações para facilitar os investimentos e o desenvolvimento do mercado único africano."
+        },
+        "inclusion": {
+          "title": "Inclusão digital",
+          "desc": "Garantir o acesso equitativo às tecnologias digitais para todos os cidadãos, em particular as populações rurais e os grupos vulneráveis."
+        },
+        "economicGrowth": {
+          "title": "Crescimento económico",
+          "desc": "Utilizar as tecnologias digitais como alavanca de crescimento económico e de criação de emprego para os jovens e as mulheres de África."
+        },
+        "innovation": {
+          "title": "Inovação e pesquisa",
+          "desc": "Incentivar a inovação e a pesquisa no domínio das telecomunicações para desenvolver soluções adaptadas às necessidades do continente."
+        }
+      },
+      "documents": {
+        "title": "Documentos de referência",
+        "description": "Os textos fundadores e documentos estratégicos que orientam a ação da UAT.",
+        "digitalAgenda": {
+          "title": "Agenda digital africana",
+          "desc": "Roteiro para a transformação digital de África até 2030.",
+          "year": "2020"
+        },
+        "universalService": {
+          "title": "Política de serviço universal",
+          "desc": "Quadro político para a implementação do serviço universal nos Estados membros.",
+          "year": "2019"
+        },
+        "spectrumPolicy": {
+          "title": "Política de gestão do espetro",
+          "desc": "Diretrizes para a gestão harmonizada do espetro radioelétrico em África.",
+          "year": "2021"
+        },
+        "cyberSecurity": {
+          "title": "Estratégia de cibersegurança",
+          "desc": "Quadro estratégico para a segurança digital e a proteção das infraestruturas críticas.",
+          "year": "2022"
+        }
+      },
+      "cta": {
+        "title": "Explore os nossos recursos",
+        "description": "Aceda a todos os documentos estratégicos e participe nas discussões sobre o futuro do digital em África.",
+        "documents": "Consultar documentos",
+        "forum": "Juntar-se ao fórum"
       }
     },
     "associatedMembers": {
@@ -2272,7 +2349,7 @@
     },
     "register": {
       "title": "Criar uma Conta",
-      "description": "Junte-se à plataforma USF-ADC",
+      "description": "Junte-se à plataforma USF-ADCA",
       "errors": {
         "required": "Por favor preencha todos os campos obrigatórios",
         "email": "Endereço de email inválido",
@@ -2310,7 +2387,7 @@
         "title": "O seu pedido será analisado",
         "description": "Um administrador analisará o seu pedido. Receberá uma resposta por email dentro de poucos dias."
       },
-      "terms": "Aceito os termos de uso e a política de privacidade da plataforma USF-ADC",
+      "terms": "Aceito os termos de uso e a política de privacidade da plataforma USF-ADCA",
       "previous": "Anterior",
       "submitting": "A submeter...",
       "submit": "Submeter",
@@ -2443,7 +2520,7 @@
       "associatedMembers": "Membros Associados",
       "group": {
         "home": "Início",
-        "usfAdc": "USF-ADC",
+        "usfAdc": "USF-ADCA",
         "sutel": "SUTEL",
         "projects": "Projetos",
         "resources": "Recursos",
@@ -2519,12 +2596,12 @@
       "secretaryGeneral": {
         "name": "Sr. John Omo",
         "role": "Secretário-Geral da UAT",
-        "message": "Caros parceiros e colegas, é com enorme prazer que dou as boas-vindas à plataforma USF-ADC, uma ferramenta estratégica fundamental para o futuro do digital em África. Esta plataforma corporiza a nossa visão partilhada: garantir o acesso universal aos serviços de telecomunicações para todos os cidadãos africanos, onde quer que estejam. Juntos, estamos a construir um continente ligado, inclusivo e resiliente. Convido a explorar esta plataforma e a contribuir ativamente para a nossa missão partilhada de transformação digital."
+        "message": "Caros parceiros e colegas, é com enorme prazer que dou as boas-vindas à plataforma USF-ADCA, uma ferramenta estratégica fundamental para o futuro do digital em África. Esta plataforma corporiza a nossa visão partilhada: garantir o acesso universal aos serviços de telecomunicações para todos os cidadãos africanos, onde quer que estejam. Juntos, estamos a construir um continente ligado, inclusivo e resiliente. Convido a explorar esta plataforma e a contribuir ativamente para a nossa missão partilhada de transformação digital."
       },
       "director": {
         "name": "Sr. Gilles Beugre",
         "role": "Diretor-Geral da ANSUT (Costa do Marfim)",
-        "message": "Bem-vindo à plataforma USF-ADC, resultado de um trabalho colaborativo exemplar entre os nossos Estados-Membros e parceiros técnicos. Como diretor responsável pelas radiocomunicações, estou convicto de que a gestão ótima do espetro e a implantação de infraestruturas são as chaves para alcançar os nossos objetivos de conetividade universal. Esta plataforma permite-nos acompanhar, coordenar e acelerar os projetos do Fundo de Serviço Universal à escala pan-africana. O seu empenho é essencial para o sucesso deste desafio."
+        "message": "Bem-vindo à plataforma USF-ADCA, resultado de um trabalho colaborativo exemplar entre os nossos Estados-Membros e parceiros técnicos. Como diretor responsável pelas radiocomunicações, estou convicto de que a gestão ótima do espetro e a implantação de infraestruturas são as chaves para alcançar os nossos objetivos de conetividade universal. Esta plataforma permite-nos acompanhar, coordenar e acelerar os projetos do Fundo de Serviço Universal à escala pan-africana. O seu empenho é essencial para o sucesso deste desafio."
       }
     },
     "featuresSection": {
@@ -2563,7 +2640,7 @@
       "featured": "Em Destaque",
       "readMore": "Ler mais",
       "register": "Inscrever-se",
-      "joinCommunity": "Junte-se à Comunidade USF-ADC",
+      "joinCommunity": "Junte-se à Comunidade USF-ADCA",
       "joinCommunityDesc": "Consulte as últimas notícias do Serviço Universal e não perca nenhum evento importante",
       "viewNews": "Ver Notícias",
       "calendar": "Calendário"
@@ -2571,7 +2648,7 @@
     "about": {
       "badge": "Sobre a Plataforma",
       "title": "Pilotar o Digital Africano Juntos",
-      "description": "A plataforma USF-ADC é uma ferramenta de colaboração pan-africana desenvolvida sob a égide da União Africana das Telecomunicações (UAT). Permite aos 54 países membros recolher, acompanhar e pilotar as iniciativas do Fundo de Serviço Universal.",
+      "description": "A plataforma USF-ADCA é uma ferramenta de colaboração pan-africana desenvolvida sob a égide da União Africana das Telecomunicações (UAT). Permite aos 54 países membros recolher, acompanhar e pilotar as iniciativas do Fundo de Serviço Universal.",
       "items": {
         "standardized": "Recolha padronizada de dados FSU",
         "validation": "Validação multi-níveis com rastreabilidade",
@@ -2606,7 +2683,7 @@
     },
     "cta": {
       "title": "Pronto para Contribuir para o Digital Africano?",
-      "description": "Junte-se à plataforma USF-ADC para aceder aos recursos de colaboração e acompanhamento do Fundo de Serviço Universal.",
+      "description": "Junte-se à plataforma USF-ADCA para aceder aos recursos de colaboração e acompanhamento do Fundo de Serviço Universal.",
       "login": "Entrar",
       "contact": "Contactar a UAT"
     },
@@ -2695,5 +2772,9 @@
   "admin.project.selectRegion": "Selecionar uma região",
   "admin.project.budgetPlaceholder": "Valor do orçamento",
   "admin.projectsManagement": "Gestão de Projetos",
-  "admin.projectsManagementDesc": "Gerir projetos FSU"
+  "admin.projectsManagementDesc": "Gerir projetos FSU",
+  "home.slideshow.together.desc": "A plataforma de referência para o acompanhamento, a cobrança e a gestão do Fundo de Serviço Universal através do continente.",
+  "home.slideshow.development.desc": "Um serviço universal para conectar as pessoas não conectadas",
+  "home.slideshow.projects.desc": "Fortalecer o serviço universal para uma conectividade digital inclusiva",
+  "home.slideshow.echanges.desc": "Fornecer um serviço universal eficiente para reduzir a divisão digital"
 }

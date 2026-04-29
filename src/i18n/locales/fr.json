@@ -2446,6 +2446,78 @@
         "coordinatorPhone": "Téléphone",
         "description": "À propos du pays"
       }
+    },
+    "privacy": {
+      "title": "Politique de Confidentialité",
+      "description": "Comment nous protégeons vos données personnelles",
+      "intro": {
+        "title": "Engagement de confidentialité",
+        "desc": "L'Union Africaine des Télécommunications (ATU/UAT) s'engage à protéger la vie privée et les données personnelles de ses utilisateurs. La présente politique de confidentialité décrit les pratiques de collecte, d'utilisation et de protection des informations lorsque vous utilisez notre plateforme USF-ADCA.",
+        "lastUpdate": "Dernière mise à jour : Avril 2026"
+      },
+      "collection": {
+        "title": "Collecte des données",
+        "desc": "Nous collectons les informations que vous nous fournissez directement lors de la création de votre compte, de la soumission de formulaires FSU ou de vos échanges avec notre équipe. Cela inclut votre nom, adresse e-mail, numéro de téléphone, pays d'origine et données professionnelles. Nous collectons également automatiquement certaines informations techniques lors de votre navigation, telles que l'adresse IP, le type de navigateur et les pages visitées."
+      },
+      "usage": {
+        "title": "Utilisation des données",
+        "desc": "Vos données personnelles sont utilisées pour : fournir et améliorer nos services, traiter les soumissions FSU et les validations, communiquer des informations pertinentes sur les activités de l'ATU/UAT, assurer la sécurité de la plateforme, produire des rapports statistiques agrégés et anonymisés sur le Service Universel en Afrique."
+      },
+      "security": {
+        "title": "Sécurité des données",
+        "desc": "Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, modification, divulgation ou destruction. Cela inclut le chiffrement des données en transit et au repos, l'authentification à deux facteurs (2FA), des contrôles d'accès basés sur les rôles et des audits de sécurité réguliers."
+      },
+      "sharing": {
+        "title": "Partage des données",
+        "desc": "Nous ne partageons vos données personnelles qu'avec les entités suivantes : les administrateurs nationaux de votre pays dans le cadre du suivi FSU, les partenaires institutionnels de l'ATU/UAT pour des projets conjoints (sous accord de confidentialité), les prestataires de services techniques nécessaires au fonctionnement de la plateforme. Aucune donnée personnelle n'est vendue à des tiers."
+      },
+      "rights": {
+        "title": "Vos droits",
+        "desc": "Conformément aux législations applicables en matière de protection des données, vous disposez des droits suivants : droit d'accès à vos données personnelles, droit de rectification des informations inexactes, droit à l'effacement de vos données, droit à la portabilité de vos données, droit d'opposition au traitement de vos données. Pour exercer ces droits, veuillez nous contacter à l'adresse indiquée ci-dessous."
+      },
+      "cookies": {
+        "title": "Cookies et technologies similaires",
+        "desc": "Notre plateforme utilise des cookies et technologies similaires pour améliorer votre expérience de navigation, mémoriser vos préférences linguistiques, analyser l'utilisation de la plateforme à des fins d'amélioration. Vous pouvez configurer votre navigateur pour refuser les cookies, cependant certaines fonctionnalités pourraient ne pas être disponibles."
+      },
+      "contact": {
+        "title": "Nous contacter",
+        "desc": "Pour toute question relative à cette politique de confidentialité ou pour exercer vos droits, vous pouvez nous contacter :"
+      }
+    },
+    "legal": {
+      "title": "Mentions Légales",
+      "description": "Informations légales relatives à la plateforme USF-ADCA",
+      "publisher": {
+        "title": "Éditeur du site",
+        "desc": "Le site USF-ADCA est édité par l'Union Africaine des Télécommunications (ATU/UAT), organisation internationale regroupant les administrations des télécommunications des États africains.\n\nSiège social : Nairobi, Kenya\nStatut juridique : Organisation intergouvernementale"
+      },
+      "director": {
+        "title": "Directeur de la publication",
+        "desc": "Le Directeur de la publication est le Secrétaire Général de l'Union Africaine des Télécommunications (ATU/UAT)."
+      },
+      "hosting": {
+        "title": "Hébergement",
+        "desc": "La plateforme USF-ADCA est hébergée sur des infrastructures cloud sécurisées garantissant la disponibilité, la redondance et la protection des données conformément aux normes internationales."
+      },
+      "intellectual": {
+        "title": "Propriété intellectuelle",
+        "desc": "L'ensemble des contenus présents sur la plateforme USF-ADCA (textes, images, graphismes, logos, icônes, logiciels) est la propriété exclusive de l'ATU/UAT ou de ses partenaires et est protégé par les lois internationales relatives à la propriété intellectuelle.\n\nToute reproduction, représentation, modification, publication ou adaptation de tout ou partie des éléments du site est interdite sans autorisation écrite préalable de l'ATU/UAT."
+      },
+      "liability": {
+        "title": "Limitation de responsabilité",
+        "desc": "L'ATU/UAT s'efforce de fournir des informations aussi précises que possible. Toutefois, elle ne pourra être tenue responsable des omissions, des inexactitudes et des carences dans la mise à jour des informations. L'ATU/UAT décline toute responsabilité pour les dommages directs ou indirects résultant de l'utilisation de la plateforme."
+      },
+      "applicableLaw": {
+        "title": "Droit applicable",
+        "desc": "Les présentes mentions légales sont régies par le droit international et les traités constitutifs de l'Union Africaine des Télécommunications. En cas de litige, les parties s'efforceront de trouver une solution amiable avant toute procédure judiciaire."
+      },
+      "contact": {
+        "title": "Contact",
+        "desc": "Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter :",
+        "org": "Union Africaine des Télécommunications (ATU/UAT)",
+        "address": "Nairobi, Kenya",
+        "phone": "+254 (0) 20 234 555"
+      }
     }
   },
   "users": {

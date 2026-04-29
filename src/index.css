@@ -227,3 +227,42 @@
   pointer-events: none;
   transition: opacity 0.5s ease;
 }
+
+
+
+
+.viewMoreClass {
+  position: relative;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    padding-right: 14px;
+}
+
+.viewMoreClass::after {
+  content: '';
+    position: absolute;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.viewMoreClass::after {
+    width: 35%;
+    height: 200%;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    margin: -5px 0 0 -5px;
+    -webkit-transform-origin: 0 0;
+    -webkit-transform: rotate(-20deg);
+    -moz-transform-origin: 0 0;
+    -moz-transform: rotate(-20deg);
+    -ms-transform-origin: 0 0;
+    -ms-transform: rotate(-20deg);
+    transform-origin: 0 0;
+    transform: rotate(-20deg);
+}

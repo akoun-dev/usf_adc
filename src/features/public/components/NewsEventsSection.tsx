@@ -367,7 +367,7 @@ export function NewsEventsSection() {
                             </div>
                             {t("index.newsEvents.latestNews")}
                         </h3>
-                        <Button variant="ghost" size="sm" asChild>
+                        <Button variant="ghost" size="sm" asChild className="viewMoreClass text-white bg-primary">
                             <Link to="/actualites">
                                 {t("index.newsEvents.viewAll")}
                                 <ArrowRight className="ml-1 h-4 w-4" />

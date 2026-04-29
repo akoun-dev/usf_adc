@@ -152,13 +152,13 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
 
                         <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 text-xs sm:text-sm">
                             <Link
-                                to="/a-propos"
+                                to="/legal-notice"
                                 className="text-white/80 hover:text-secondary"
                             >
                                 {t("public.footer.legal")}
                             </Link>
                             <Link
-                                to="/a-propos"
+                                to="/privacy-policy"
                                 className="text-white/80 hover:text-secondary"
                             >
                                 {t("public.footer.privacy")}

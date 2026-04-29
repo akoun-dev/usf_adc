@@ -94,7 +94,8 @@ export function HomeSlideshowSection() {
     return (
 
 
-        <div className="relative w-full min-h-[40vh] sm:min-h-[50vh] md:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] overflow-hidden">
+        <div className="relative w-full min-h-[40vh] sm:min-h-[50vh] md:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] 
+        pt-6 sm:pt-8 md:pt-10 lg:pt-14 xl:pt-16 overflow-hidden">
 
             {/* BACKGROUND IMAGE */}
             <AnimatePresence mode="sync">

@@ -66,8 +66,8 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
             {
                 labelKey: "resources",
                 items: [
-                    { href: "/documents-publics", labelKey: "documents" },
                     { href: "/strategies-politiques", labelKey: "strategies" },
+                    { href: "/documents-publics", labelKey: "documents" },
                     { href: "/forum-public", labelKey: "forum" },
                 ],
             },

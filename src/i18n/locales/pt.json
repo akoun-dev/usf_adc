@@ -2485,6 +2485,78 @@
         "coordinatorPhone": "Telefone",
         "description": "Sobre o país"
       }
+    },
+    "privacy": {
+      "title": "Política de Privacidade",
+      "description": "Como protegemos os seus dados pessoais",
+      "intro": {
+        "title": "Compromisso de privacidade",
+        "desc": "A União Africana das Telecomunicações (ATU/UAT) compromete-se a proteger a privacidade e os dados pessoais dos seus utilizadores. A presente política de privacidade descreve as práticas de recolha, utilização e proteção das informações quando utiliza a nossa plataforma USF-ADCA.",
+        "lastUpdate": "Última atualização: Abril de 2026"
+      },
+      "collection": {
+        "title": "Recolha de dados",
+        "desc": "Recolhemos as informações que nos fornece diretamente ao criar a sua conta, submeter formulários FSU ou nas suas comunicações com a nossa equipa. Isso inclui o seu nome, endereço de e-mail, número de telefone, país de origem e dados profissionais. Recolhemos também automaticamente certas informações técnicas durante a sua navegação, como o endereço IP, o tipo de navegador e as páginas visitadas."
+      },
+      "usage": {
+        "title": "Utilização dos dados",
+        "desc": "Os seus dados pessoais são utilizados para: fornecer e melhorar os nossos serviços, processar as submissões FSU e as validações, comunicar informações relevantes sobre as atividades da ATU/UAT, garantir a segurança da plataforma, produzir relatórios estatísticos agregados e anonimizados sobre o Serviço Universal em África."
+      },
+      "security": {
+        "title": "Segurança dos dados",
+        "desc": "Implementamos medidas de segurança técnicas e organizacionais adequadas para proteger os seus dados contra qualquer acesso não autorizado, modificação, divulgação ou destruição. Isso inclui a encriptação de dados em trânsito e em repouso, autenticação de dois fatores (2FA), controlos de acesso baseados em funções e auditorias de segurança regulares."
+      },
+      "sharing": {
+        "title": "Partilha de dados",
+        "desc": "Só partilhamos os seus dados pessoais com as seguintes entidades: administradores nacionais do seu país no âmbito do acompanhamento FSU, parceiros institucionais da ATU/UAT para projetos conjuntos (sob acordo de confidencialidade), prestadores de serviços técnicos necessários ao funcionamento da plataforma. Nenhum dado pessoal é vendido a terceiros."
+      },
+      "rights": {
+        "title": "Os seus direitos",
+        "desc": "Em conformidade com a legislação aplicável em matéria de proteção de dados, dispõe dos seguintes direitos: direito de acesso aos seus dados pessoais, direito de retificação das informações inexatas, direito ao apagamento dos seus dados, direito à portabilidade dos seus dados, direito de oposição ao tratamento dos seus dados. Para exercer estes direitos, contacte-nos através do endereço indicado abaixo."
+      },
+      "cookies": {
+        "title": "Cookies e tecnologias similares",
+        "desc": "A nossa plataforma utiliza cookies e tecnologias similares para melhorar a sua experiência de navegação, memorizar as suas preferências linguísticas, analisar a utilização da plataforma para fins de melhoria. Pode configurar o seu navegador para recusar cookies, no entanto algumas funcionalidades podem não estar disponíveis."
+      },
+      "contact": {
+        "title": "Contacte-nos",
+        "desc": "Para qualquer questão relacionada com esta política de privacidade ou para exercer os seus direitos, pode contactar-nos:"
+      }
+    },
+    "legal": {
+      "title": "Aviso Legal",
+      "description": "Informações legais relativas à plataforma USF-ADCA",
+      "publisher": {
+        "title": "Editor do site",
+        "desc": "O site USF-ADCA é editado pela União Africana das Telecomunicações (ATU/UAT), organização internacional que reúne as administrações das telecomunicações dos Estados africanos.\n\nSede: Nairobi, Quénia\nEstatuto jurídico: Organização intergovernamental"
+      },
+      "director": {
+        "title": "Diretor da publicação",
+        "desc": "O Diretor da publicação é o Secretário-Geral da União Africana das Telecomunicações (ATU/UAT)."
+      },
+      "hosting": {
+        "title": "Alojamento",
+        "desc": "A plataforma USF-ADCA está alojada em infraestruturas cloud seguras que garantem a disponibilidade, a redundância e a proteção dos dados em conformidade com as normas internacionais."
+      },
+      "intellectual": {
+        "title": "Propriedade intelectual",
+        "desc": "A totalidade dos conteúdos presentes na plataforma USF-ADCA (textos, imagens, gráficos, logótipos, ícones, software) é propriedade exclusiva da ATU/UAT ou dos seus parceiros e está protegida pelas leis internacionais relativas à propriedade intelectual.\n\nQualquer reprodução, representação, modificação, publicação ou adaptação de todo ou parte dos elementos do site é proibida sem autorização escrita prévia da ATU/UAT."
+      },
+      "liability": {
+        "title": "Limitação de responsabilidade",
+        "desc": "A ATU/UAT esforça-se por fornecer informações o mais precisas possível. No entanto, não poderá ser responsabilizada por omissões, inexatidões e deficiências na atualização das informações. A ATU/UAT declina qualquer responsabilidade por danos diretos ou indiretos resultantes da utilização da plataforma."
+      },
+      "applicableLaw": {
+        "title": "Lei aplicável",
+        "desc": "Os presentes avisos legais são regidos pelo direito internacional e pelos tratados constitutivos da União Africana das Telecomunicações. Em caso de litígio, as partes esforçar-se-ão por encontrar uma solução amigável antes de qualquer processo judicial."
+      },
+      "contact": {
+        "title": "Contacto",
+        "desc": "Para qualquer questão relacionada com os presentes avisos legais, pode contactar-nos:",
+        "org": "União Africana das Telecomunicações (ATU/UAT)",
+        "address": "Nairobi, Quénia",
+        "phone": "+254 (0) 20 234 555"
+      }
     }
   },
   "users": {

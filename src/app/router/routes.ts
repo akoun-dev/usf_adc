@@ -230,6 +230,12 @@ const LeadershipTeamPage = lazy(
 const StrategiesPolitiquesPage = lazy(
     () => import("@/features/public/pages/StrategiesPolitiquesPage")
 )
+const PrivacyPolicyPage = lazy(
+    () => import("@/features/public/pages/PrivacyPolicyPage")
+)
+const LegalNoticePage = lazy(
+    () => import("@/features/public/pages/LegalNoticePage")
+)
 
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
@@ -892,4 +898,6 @@ export const PUBLIC_ROUTES: AppRouteConfig[] = [
     { path: "/notre-histoire", component: OurHistoryPage },
     { path: "/equipe-direction", component: LeadershipTeamPage },
     { path: "/strategies-politiques", component: StrategiesPolitiquesPage },
+    { path: "/privacy-policy", component: PrivacyPolicyPage },
+    { path: "/legal-notice", component: LegalNoticePage },
 ]

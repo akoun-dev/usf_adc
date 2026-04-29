@@ -105,9 +105,7 @@ export function WelcomeSection() {
                                                 {/* Quote icon */}
                                                 <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-primary/20 mb-2" />
                                                 {/* Welcome text */}
-                                                <p
-                                                    className="text-sm sm:text-base lg:text-xl text-foreground/90 text-muted-foreground leading-relaxed italic text-justify"
-                                                >
+                                                <p className="text-sm sm:text-base md:text-sm lg:text-md xl:text-lg text-foreground/90 text-muted-foreground leading-relaxed italic text-justify">
                                                     {t(`index.welcome.${speaker.id}.message`)}
                                                 </p>
                                                 {/* Clear float */}

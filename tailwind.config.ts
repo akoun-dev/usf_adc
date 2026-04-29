@@ -13,7 +13,7 @@ export default {
         "2xl": "1400px",
       },
     },
-    extend: {
+    extend: {      
       fontFamily: {
         sans: ["'Roboto'", "'Inter'", "system-ui", "-apple-system", "sans-serif"],
       },
@@ -110,6 +110,13 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease-out",
       },
+    },
+    screens: {
+      xs: "360px",   // 360+
+      sm: "450px",   // 450+
+      md: "850px",   // 850+
+      lg: "1350px",  // 1350+
+      xl: "1900px",  // 1900+
     },
   },
   plugins: [tailwindcssAnimate],

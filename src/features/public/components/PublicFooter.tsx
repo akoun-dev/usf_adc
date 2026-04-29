@@ -83,8 +83,8 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
 
     return (
         <footer className="border-t bg-primary">
-            <div className="w-full py-10 sm:py-12 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="w-full py-10 sm:py-12 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 xs:px-4 py-10">
+                <div className="grid gap-8 sm:grid-cols-2 xs:grid-cols-1 lg:grid-cols-5">
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-2">
                         <Link to="/" className="flex items-center gap-3 mb-4">
@@ -102,7 +102,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
                                 </p>
                             </div>
                         </Link>
-                        <p className="text-sm text-white/80 mb-4 max-w-xs">
+                        <p className="text-sm text-white/80 mb-4">
                             {t("public.footer.description")}
                         </p>
                         <div className="flex gap-2">

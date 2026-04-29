@@ -87,11 +87,11 @@ export function AboutSection() {
                                         : "opacity-0 absolute inset-0 pointer-events-none"
                                     }`}
                             >
-                                <Card className="border-0 overflow-hidden h-[320px] sm:h-[400px] md:h-[500px] lg:h-[530px]">
+                                <Card className="border-0 overflow-hidden h-[320px] xs:h-[600px] sm:h-[600px] md:h-[500px] lg:h-[530px]">
                                     <CardContent className="p-0 h-full">
-                                        <div className="grid lg:grid-cols-2 h-full">
+                                        <div className="grid sm:grid-cols-2 lg:grid-cols-2 h-full">
                                             {/* Image */}
-                                            <div className="relative h-[140px] sm:h-[180px] md:h-[220px] lg:h-full overflow-hidden">
+                                            <div className="relative h-[140px] xs:h-[360px] sm:h-full md:h-full lg:h-full overflow-hidden">
                                                 <img
                                                     src={item.image}
                                                     alt={t(item.titleKey)}
@@ -113,7 +113,7 @@ export function AboutSection() {
                                                     </h3>
                                                 </div>
 
-                                                <p className="text-sm sm:text-base lg:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8 lg:mb-10">
+                                                <p className="text-sm xs:text-base sm:text-base lg:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8 lg:mb-10">
                                                     {t(item.descKey)}
                                                 </p>
                                                 <Button

@@ -95,7 +95,7 @@ const NewsCarousel = () => {
                     {news.map(article => (
                         <CarouselItem
                             key={article.id}
-                            className="pl-6 md:basis-1/3 lg:basis-1/4"
+                            className="pl-6 md:basis-1/3 sm:basis-1/2 xs:basis-1/1 lg:basis-1/4"
                         >
                             <Link
                                 to={`/actualites/${article.id}`}
@@ -328,7 +328,7 @@ export function NewsEventsSection() {
     return (
         <section
             id="news"
-            className="relative overflow-hidden bg-gradient-to-b from-muted/30 to-background px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10"
+            className="relative overflow-hidden bg-gradient-to-b from-muted/30 to-background px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 xs:px-0 py-10"
         >
             <div
                 ref={ref}
@@ -345,7 +345,7 @@ export function NewsEventsSection() {
                     <h2 className="text-3xl font-bold text-foreground lg:text-4xl text-primary mb-4">
                         {t("index.newsEvents.title")}
                     </h2>
-                    <p className="mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
+                    <p className="mt-2 sm:mt-3 text-sm xs:text-base sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
                         {t("index.newsEvents.description")}
                     </p>
                 </div>
@@ -388,7 +388,7 @@ export function NewsEventsSection() {
                             </div>
                             {t("index.newsEvents.upcomingEvents")}
                         </h3>
-                        <Button variant="ghost" size="sm" asChild>
+                        <Button variant="ghost" size="sm" asChild className="viewMoreClass text-white bg-primary">
                             <Link to="/calendrier">
                                 {t("index.newsEvents.viewAll")}
                                 <ArrowRight className="ml-1 h-4 w-4" />
@@ -396,7 +396,7 @@ export function NewsEventsSection() {
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4 sm:gap-6">
                         <div className="lg:col-span-2 h-[320px] sm:h-[380px] lg:h-[420px]">
                             <EventsCarousel />
                         </div>

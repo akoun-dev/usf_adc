@@ -79,7 +79,7 @@ export function HomeSlideshowSection() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length)
-        }, 5000)
+        }, 50000)
         return () => clearInterval(interval)
     }, [slides.length]);
 
@@ -94,8 +94,10 @@ export function HomeSlideshowSection() {
     return (
 
 
-        <div className="relative w-full min-h-[40vh] sm:min-h-[50vh] md:min-h-[55vh] lg:min-h-[65vh] xl:min-h-[70vh] 
-        pt-6 sm:pt-8 md:pt-10 lg:pt-14 xl:pt-16 overflow-hidden">
+        <div
+            className="relative w-full min-h-[100vh] xs:min-h-[100vh] sm:min-h-[55vh] md:min-h-[60vh] lg:min-h-[65vh]
+            pt-16 xs:pt-20 sm:pt-10 md:pt-12 lg:pt-16 overflow-hidden
+        ">
 
             {/* BACKGROUND IMAGE */}
             <AnimatePresence mode="sync">
@@ -120,7 +122,7 @@ export function HomeSlideshowSection() {
                     <img
                         src={slides[index].image}
                         alt=""
-                        className="w-full h-full object-cover brightness-90"
+                        className="w-full h-full object-cover object-[80%_center] md:object-center brightness-90"
                     />
                 </motion.div>
             </AnimatePresence>
@@ -141,23 +143,23 @@ export function HomeSlideshowSection() {
                             transition={{ duration: 0.6 }}
                         >
                             {/* bg-black/40 backdrop-blur-sm */}
-                            <div className="w-full lg:w-1/2 h-full text-center text-white pt-10 lg:pt-16 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-green-600/80 to-green-900/40 backdrop-blur-md">
+                            <div className="w-full lg:w-1/2 h-full text-center text-white pt-10 xs:px-4 sm:px-8 lg:pt-16 p-8  flex flex-col justify-center items-center bg-gradient-to-br from-green-600/80 to-green-900/40 backdrop-blur-md">
 
                                 {/* LOGO UAT */}
                                 <div className="flex justify-center">
                                     <img
                                         src={imgSiteLogoSmartUATBlc}
                                         alt={imgSiteLogoSmartUATAlt}
-                                        className="sm:h-56 md:h-64 lg:h-[10rem] w-auto mb-5"
+                                        className="h-28 sm:h-32 md:h-48 lg:h-[10rem] w-auto mb-5"
                                     />
                                 </div>
 
                                 {/* Content */}
-                                <div className="relative mx-auto max-w-6xl px-6 lg:px-12">
+                                <div className="relative mx-auto max-w-6xl lg:max-w-4xl xs:max-w-md px-0 lg:px-8">
                                     <div className="max-w-xl space-y-5">
-                                        <h1 className="text-4xl font-bold leading-snug text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
+                                        <h1 className="text-4xl font-bold leading-snug text-white drop-shadow-2xl xs:text-4xl sm:text-5xl lg:text-6xl">
                                             {t("index.hero.title")}
-                                            <div className="text-secondary pl-5 pr-5 py-1 rounded-md lg:text-6xl">
+                                            <div className="text-secondary py-1 rounded-md lg:text-6xl">
                                                 {t("index.hero.subtitle")}
                                             </div>
                                         </h1>

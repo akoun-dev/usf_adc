@@ -249,7 +249,7 @@
     "backToLogin": "Back to login",
     "unauthorized": "Unauthorized access",
     "unauthorizedDesc": "You do not have permission to access this page.",
-    "heroTitle": "Connecting Africa to the Digital World",
+    "heroTitle": "Connect Africa to the Digital World",
     "heroSubtitle": "Universal Service Fund monitoring platform — Digital access for all African citizens.",
     "heroPill1": "2FA Secured",
     "heroPill2": "54 countries connected",
@@ -1377,8 +1377,8 @@
     },
     "hero": {
       "badge": "Pan-African USF Platform",
-      "title": "Connecting Africa",
-      "subtitle": "to digital",
+      "title": "Connect Africa",
+      "subtitle": "to Digital World",
       "description": "The reference platform for monitoring, collecting, and managing the Universal Service Fund across the African continent.",
       "register": "Create an account",
       "viewMap": "View map"
@@ -2654,8 +2654,8 @@
     },
     "hero": {
       "badge": "Pan-African FSU Platform",
-      "title": "Connecting Africa",
-      "subtitle": "to digital",
+      "title": "Connect Africa",
+      "subtitle": "to Digital World",
       "description": "The reference platform for monitoring, collecting and managing the Universal Service Fund across the African continent.",
       "accessPlatform": "Access the platform",
       "discover": "Discover",

@@ -267,7 +267,7 @@
     "backToLogin": "Retour à la connexion",
     "unauthorized": "Accès non autorisé",
     "unauthorizedDesc": "Vous n'avez pas les droits pour accéder à cette page.",
-    "heroTitle": "Connecter l'Afrique au numérique",
+    "heroTitle": "Connecter l'Afrique au Monde Numérique",
     "heroSubtitle": "Plateforme de suivi du Fonds de Service Universel — Accès au numérique pour tous les citoyens africains.",
     "heroPill1": "Sécurisé 2FA",
     "heroPill2": "54 pays connectés",
@@ -1337,7 +1337,7 @@
     "hero": {
       "badge": "Plateforme panafricaine FSU",
       "title": "Connecter l'Afrique",
-      "subtitle": "au numérique",
+      "subtitle": "au Monde Numérique",
       "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
       "register": "Créer un compte",
       "viewMap": "Voir la carte"
@@ -2616,7 +2616,7 @@
     "hero": {
       "badge": "Plateforme panafricaine FSU",
       "title": "Connecter l'Afrique",
-      "subtitle": "au numérique",
+      "subtitle": "au Monde Numérique",
       "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
       "accessPlatform": "Accéder à la plateforme",
       "discover": "Découvrir",

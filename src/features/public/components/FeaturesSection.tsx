@@ -36,7 +36,7 @@ const featureIcons = [
     return (
         <section
             id="features"
-            className="relative pt-8 pb-10 lg:pt-12 lg:pb-16 bg-background px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10"
+            className="relative pt-8 pb-10 lg:pt-12 lg:pb-16 bg-background px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 xs:px-4 py-10"
         >
             {/* Bottom transition to About */}
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-muted/30" />
@@ -58,7 +58,7 @@ const featureIcons = [
                 </div>
 
                 {/* Quick Access */}
-                <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mt-12 grid gap-4 sm:grid-cols-2 xs:grid-cols-1 lg:grid-cols-4">
                     <Link to="/carte-public" className="group">
                         <Card className="hover:shadow-lg transition-all hover:-translate-y-1">
                             <CardContent className="p-4 text-center">

@@ -42,7 +42,7 @@ export const PartnersLogoScroller = () => {
     const duplicatedPartners = [...partners, ...partners]
 
     return (
-        <section className="relative py-12 bg-white overflow-hidden px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+        <section className="relative py-12 bg-white overflow-hidden px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 xs:px-4 py-10">
             <div
                 ref={ref}
                 className={`w-full transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-100"}`}

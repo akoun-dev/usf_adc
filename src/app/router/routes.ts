@@ -175,6 +175,13 @@ const PointFocalCalendarPage = lazy(() => import("@/features/pointfocal/pages/Po
 const CmdtContributionsPage = lazy(() => import("@/features/pointfocal/pages/CmdtContributionsPage"))
 const AgencyDirectoryPage = lazy(() => import("@/features/pointfocal/pages/AgencyDirectoryPage"))
 
+// Co-Rédaction pages
+const AdminCoRedactionPage = lazy(() => import("@/features/co-redaction/pages/AdminCoRedactionPage"))
+const AdminCoRedactionDetailPage = lazy(() => import("@/features/co-redaction/pages/AdminCoRedactionDetailPage"))
+const AdminCoRedactionEditorPage = lazy(() => import("@/features/co-redaction/pages/AdminCoRedactionEditorPage"))
+const PublicCoRedactionPage = lazy(() => import("@/features/co-redaction/pages/PublicCoRedactionPage"))
+const PublicCoRedactionDetailPage = lazy(() => import("@/features/co-redaction/pages/PublicCoRedactionDetailPage"))
+
 // Public pages
 const PublicHomePage = lazy(
     () => import("@/features/public/pages/PublicHomePage")
@@ -872,6 +879,22 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: SupportPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
+    // Co-Rédaction admin routes
+    {
+        path: "/admin/co-redaction",
+        component: AdminCoRedactionPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/co-redaction/:id",
+        component: AdminCoRedactionDetailPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
+    {
+        path: "/admin/co-redaction/:id/edit",
+        component: AdminCoRedactionEditorPage,
+        roles: ["point_focal", "country_admin", "super_admin"],
+    },
 ]
 
 /** Public routes accessible without authentication. */
@@ -900,4 +923,7 @@ export const PUBLIC_ROUTES: AppRouteConfig[] = [
     { path: "/strategies-politiques", component: StrategiesPolitiquesPage },
     { path: "/privacy-policy", component: PrivacyPolicyPage },
     { path: "/legal-notice", component: LegalNoticePage },
+    // Co-Rédaction public routes
+    { path: "/co-redaction", component: PublicCoRedactionPage },
+    { path: "/co-redaction/:id", component: PublicCoRedactionDetailPage },
 ]

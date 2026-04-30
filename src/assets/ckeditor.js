@@ -1,0 +1,1 @@
+Couldn't find the requested file /build/ckeditor.js in ckeditor5.

@@ -24,6 +24,7 @@ import {
     FileEdit,
     Contact,
     MapPin,
+    PenLine,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -54,6 +55,7 @@ const navItems: Record<string, NavItem[]> = {
         { labelKey: "nav.training", path: "/point-focal/training", icon: GraduationCap },
         { labelKey: "nav.strategicWatch", path: "/point-focal/feeds", icon: Globe },
         { labelKey: "nav.docLibrary", path: "/point-focal/documents", icon: BookOpen },
+        { labelKey: "nav.coRedaction", path: "/admin/co-redaction", icon: PenLine },
         { labelKey: "nav.myAccount", path: "/point-focal/account", icon: User },
     ],
     country_admin: [

@@ -72,6 +72,10 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                 ],
             },
             {
+                labelKey: "coRedaction",
+                href: "/co-redaction",
+            },
+            {
                 labelKey: "news",
                 href: "/actualites",
             },

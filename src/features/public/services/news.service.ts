@@ -1,12 +1,13 @@
 import { supabase } from '@/integrations/supabase/client';
+import { TranslatedContent } from '@/types/i18n';
 
 // Types based on Supabase migrations
 export interface NewsArticle {
   id: string;
-  title: string;
-  excerpt: string | null;
-  content: string | null;
-  category: string | null;
+  title: TranslatedContent | string;
+  excerpt: TranslatedContent | string | null;
+  content: TranslatedContent | string | null;
+  category: TranslatedContent | string | null;
   source: string | null;
   image_url: string | null;
   published_at: string | null;
@@ -16,6 +17,7 @@ export interface NewsArticle {
   language: string;
   created_at: string;
   updated_at: string;
+  country_id?: string | null;
   tags?: string[];
 }
 
@@ -127,6 +129,29 @@ export async function fetchLatestNews(limit = 5): Promise<NewsWithTags[]> {
       news_tags(tag)
     `)
     .eq('is_public', true)
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .limit(limit);
+
+  if (error) throw error;
+
+  return (data || []).map(article => ({
+    ...article,
+    tags: article.news_tags?.map((nt: { tag: string }) => nt.tag) || []
+  }));
+}
+
+/**
+ * Fetches news by country ID
+ */
+export async function fetchNewsByCountry(countryId: string, limit = 5): Promise<NewsWithTags[]> {
+  const { data, error } = await supabase
+    .from('news')
+    .select(`
+      *,
+      news_tags(tag)
+    `)
+    .eq('is_public', true)
+    .eq('country_id', countryId)
     .order('published_at', { ascending: false, nullsFirst: false })
     .limit(limit);
 

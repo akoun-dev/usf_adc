@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import {
     Briefcase,
     Calendar,
@@ -136,7 +136,7 @@ export default function CallsForProjectsPage() {
     const [thematic, setThematic] = useState("all")
     const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 12
+    const itemsPerPage = 8
 
     const completedProjects = useMemo(
         () => (projects || []).filter(project => project.status === "completed"),
@@ -293,7 +293,9 @@ export default function CallsForProjectsPage() {
                                         <PaginationPrevious
                                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                             className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                                        />
+                                        >
+                                            {t('common.previous')}
+                                        </PaginationPrevious>
 
                                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
                                             if (
@@ -324,7 +326,9 @@ export default function CallsForProjectsPage() {
                                         <PaginationNext
                                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                             className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                                        />
+                                        >
+                                            {t('common.next')}
+                                        </PaginationNext>
                                     </PaginationContent>
                                 </Pagination>
                             </div>

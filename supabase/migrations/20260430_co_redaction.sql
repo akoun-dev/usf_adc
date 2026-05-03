@@ -68,6 +68,16 @@ CREATE TABLE IF NOT EXISTS public.document_versions (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- S'assurer que les colonnes de la co-rédaction existent si la table existait déjà
+ALTER TABLE public.document_versions
+  ADD COLUMN IF NOT EXISTS content TEXT DEFAULT '',
+  ADD COLUMN IF NOT EXISTS change_summary TEXT NULL;
+
+-- Rendre les colonnes de fichiers optionnelles pour supporter la co-rédaction (texte pur)
+ALTER TABLE public.document_versions 
+  ALTER COLUMN file_path DROP NOT NULL,
+  ALTER COLUMN file_name DROP NOT NULL;
+
 -- Index pour document_versions
 CREATE INDEX IF NOT EXISTS idx_document_versions_document_id ON public.document_versions(document_id);
 CREATE INDEX IF NOT EXISTS idx_document_versions_created_at ON public.document_versions(created_at DESC);

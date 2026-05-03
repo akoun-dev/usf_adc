@@ -16,6 +16,7 @@ import Autoplay from "embla-carousel-autoplay"
 import { usePublicNews } from "@/features/public/hooks/usePublicNews"
 import { usePublicEvents } from "@/features/public/hooks/usePublicEvents"
 import { MiniCalendar } from "./MiniCalendar"
+import { getLangValue } from "@/types/i18n"
 
 /* ------------------------------------------------------------------ */
 /*  NEWS CAROUSEL                                                      */
@@ -24,6 +25,8 @@ import { MiniCalendar } from "./MiniCalendar"
 const NewsCarousel = () => {
     const { t, i18n } = useTranslation()
     const { data: news, isLoading } = usePublicNews()
+    
+    const currentLang = i18n.language;
 
     const formatDateBadge = (dateString: string) => {
         const date = new Date(dateString)
@@ -106,7 +109,7 @@ const NewsCarousel = () => {
                                         <div className="relative h-40 sm:h-48 md:h-56 lg:h-60 overflow-hidden">
                                             <img
                                                 src={article.image_url}
-                                                alt={article.title}
+                                                alt={getLangValue(article.title, currentLang)}
                                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                                 loading="lazy"
                                             />
@@ -134,16 +137,16 @@ const NewsCarousel = () => {
                                                         variant="outline"
                                                         className="text-xs pointer-events-none"
                                                     >
-                                                        {article.category}
+                                                        {getLangValue(article.category, currentLang)}
                                                     </Badge>
                                                 )}
                                             </div>
                                         )}
                                         <h3 className="font-semibold text-base sm:text-md lg:text-xl mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                                            {article.title}
+                                            {getLangValue(article.title, currentLang)}
                                         </h3>
                                         <p className="text-sm sm:text-base text-muted-foreground line-clamp-2">
-                                            {article.content?.substring(0, 150)}
+                                            {getLangValue(article.excerpt, currentLang) || (typeof article.content === 'string' ? article.content : getLangValue(article.content, currentLang)).substring(0, 150)}
                                             ...
                                         </p>
                                         <span className="inline-flex items-center gap-1 text-md text-primary opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 mt-2">
@@ -170,6 +173,8 @@ const NewsCarousel = () => {
 const EventsCarousel = () => {
     const { t, i18n } = useTranslation()
     const { data: events, isLoading } = usePublicEvents()
+    
+    const currentLang = i18n.language;
 
     const formatDateBadge = (dateString: string) => {
         const date = new Date(dateString)
@@ -253,7 +258,7 @@ const EventsCarousel = () => {
                                         <div className="relative h-32 sm:h-36 md:h-40 lg:h-60 overflow-hidden">
                                             <img
                                                 src={event.image_url}
-                                                alt={event.title}
+                                                alt={getLangValue(event.title, currentLang)}
                                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                                 loading="lazy"
                                             />
@@ -279,7 +284,7 @@ const EventsCarousel = () => {
                                             </div>
                                         )}
                                         <h3 className="font-semibold text-base sm:text-lg lg:text-xl mb-2 group-hover:text-primary transition-colors line-clamp-1">
-                                            {event.title}
+                                            {getLangValue(event.title, currentLang)}
                                         </h3>
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                                             {/*event.start_date && (
@@ -295,7 +300,7 @@ const EventsCarousel = () => {
                                                 <span className="flex items-center gap-1 pointer-events-none">
                                                     <MapPin className="h-3 w-3" />
                                                     <span className="truncate">
-                                                        {event.location}
+                                                        {getLangValue(event.location, currentLang)}
                                                     </span>
                                                 </span>
                                             )}

@@ -33,6 +33,10 @@ import {
   useDocument,
   useDocumentRealtime,
 } from '../hooks/useCoRedaction';
+import bgHeader from '@/assets/bg-header.jpg';
+
+
+
 
 export default function PublicCoRedactionDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -85,7 +89,29 @@ export default function PublicCoRedactionDetailPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+<div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.about.title')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t('public.about.description')}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
         {/* Barre d'actions */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <Button variant="outline" onClick={() => navigate('/co-redaction')}>

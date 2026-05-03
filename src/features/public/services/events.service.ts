@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { TranslatedContent } from '@/types/i18n';
 
 // Types based on Supabase migrations
 export type EventStatus = 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
@@ -6,11 +7,11 @@ export type EventType = 'conference' | 'webinar' | 'workshop' | 'training' | 'me
 
 export interface PublicEvent {
   id: string;
-  title: string;
-  description: string | null;
+  title: TranslatedContent | string;
+  description: TranslatedContent | string | null;
   start_date: string;
   end_date: string;
-  location: string | null;
+  location: TranslatedContent | string | null;
   event_type: EventType;
   status: EventStatus;
   max_participants: number | null;

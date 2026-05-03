@@ -1,9 +1,10 @@
-﻿import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Search, Filter, ArrowRight, Tag as TagIcon, Video, Building, Ticket, X } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicEvents, usePastEvents } from '../hooks/usePublicEvents';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -74,9 +75,10 @@ const getDateFnsLocale = (lang: string) => {
   return locales[lang] || fr;
 };
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function EventCard({ event, past = false }: { event: any; past?: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const TypeIcon = getEventTypeIcon(event.event_type);
   const startDate = new Date(event.start_date);
   const endDate = event.end_date ? new Date(event.end_date) : null;
@@ -97,9 +99,9 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
       'BEGIN:VEVENT',
       `DTSTART:${formatDate(startDate)}`,
       `DTEND:${formatDate(endDate || startDate)}`,
-      `SUMMARY:${event.title}`,
-      `DESCRIPTION:${event.description || ''}`,
-      event.location ? `LOCATION:${event.location}` : '',
+      `SUMMARY:${getLangValue(event.title, i18n.language)}`,
+      `DESCRIPTION:${getLangValue(event.description, i18n.language) || ''}`,
+      event.location ? `LOCATION:${getLangValue(event.location, i18n.language)}` : '',
       'END:VEVENT',
       'END:VCALENDAR',
     ].filter(Boolean).join('\r\n');
@@ -108,7 +110,8 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${event.title.replace(/\s+/g, '_')}.ics`;
+    const titleStr = getLangValue(event.title, i18n.language);
+    a.download = `${titleStr.replace(/\s+/g, '_')}.ics`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -120,7 +123,7 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
           <div className="relative h-40 overflow-hidden">
             <img
               src={event.image_url}
-              alt={event.title}
+              alt={getLangValue(event.title, i18n.language)}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -150,13 +153,13 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
-                  {event.title}
+                  {getLangValue(event.title, i18n.language)}
                 </h3>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                   {event.location ? (
                     <span className="flex items-center gap-1">
                       <MapPin className="h-3 w-3" />
-                      {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                      {getLangValue(event.location, i18n.language).length > 30 ? getLangValue(event.location, i18n.language).substring(0, 30) + '...' : getLangValue(event.location, i18n.language)}
                     </span>
                   ) : (
                     <span className="flex items-center gap-1">
@@ -172,13 +175,13 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
           {event.image_url && (
             <>
               <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                {event.title}
+                {getLangValue(event.title, i18n.language)}
               </h3>
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                 {event.location ? (
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />
-                    {event.location.length > 40 ? event.location.substring(0, 40) + '...' : event.location}
+                    {getLangValue(event.location, i18n.language).length > 40 ? getLangValue(event.location, i18n.language).substring(0, 40) + '...' : getLangValue(event.location, i18n.language)}
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
@@ -197,7 +200,7 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
           )}
 
           <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-            {event.description}
+            {getLangValue(event.description, i18n.language)}
           </p>
 
           <div className="flex flex-wrap gap-2 mb-4">
@@ -259,6 +262,7 @@ function EventCard({ event, past = false }: { event: any; past?: boolean }) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function UpcomingEventsSnapList({ events, isLoading, t }: { events: any[]; isLoading: boolean; t: any }) {
+  const { i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isHoveredRef = useRef(false);
@@ -424,7 +428,7 @@ function UpcomingEventsSnapList({ events, isLoading, t }: { events: any[]; isLoa
                                 {t(`public.eventTypes.${event.event_type}`)}
                               </Badge>
                               <h4 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
-                                {event.title}
+                                {getLangValue(event.title, i18n.language)}
                               </h4>
                             </div>
                             <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-primary/10 text-primary shrink-0">
@@ -445,7 +449,7 @@ function UpcomingEventsSnapList({ events, isLoading, t }: { events: any[]; isLoa
                                 <div className="flex items-center gap-1">
                                   <MapPin className="h-3 w-3" />
                                   <span className="line-clamp-1">
-                                    {event.location.length > 30 ? event.location.substring(0, 30) + '...' : event.location}
+                                    {getLangValue(event.location, i18n.language).length > 30 ? getLangValue(event.location, i18n.language).substring(0, 30) + '...' : getLangValue(event.location, i18n.language)}
                                   </span>
                                 </div>
                               )}
@@ -510,10 +514,13 @@ export default function EventsCalendarPage() {
   const filteredEvents = useMemo(() => {
     return (upcomingEvents || []).filter((event) => {
       const matchType = selectedType === 'all' || event.event_type === selectedType;
+      const eventTitle = getLangValue(event.title, i18n.language);
+      const eventDescription = getLangValue(event.description, i18n.language);
+      const eventLocation = getLangValue(event.location, i18n.language);
       const matchSearch = !search ||
-        event.title.toLowerCase().includes(search.toLowerCase()) ||
-        (event.description && event.description.toLowerCase().includes(search.toLowerCase())) ||
-        (event.location && event.location.toLowerCase().includes(search.toLowerCase())) ||
+        eventTitle.toLowerCase().includes(search.toLowerCase()) ||
+        (eventDescription && eventDescription.toLowerCase().includes(search.toLowerCase())) ||
+        (eventLocation && eventLocation.toLowerCase().includes(search.toLowerCase())) ||
         (event.tags && event.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())));
       return matchType && matchSearch;
     });
@@ -521,9 +528,11 @@ export default function EventsCalendarPage() {
 
   const filteredPast = useMemo(() => {
     return (pastEvents || []).filter((event) => {
+      const eventTitle = getLangValue(event.title, i18n.language);
+      const eventDescription = getLangValue(event.description, i18n.language);
       return !search ||
-        event.title.toLowerCase().includes(search.toLowerCase()) ||
-        (event.description && event.description.toLowerCase().includes(search.toLowerCase()));
+        eventTitle.toLowerCase().includes(search.toLowerCase()) ||
+        (eventDescription && eventDescription.toLowerCase().includes(search.toLowerCase()));
     });
   }, [pastEvents, search]);
 
@@ -817,11 +826,11 @@ export default function EventsCalendarPage() {
                                                     {t(`public.eventTypes.${event.event_type}`)}
                                                   </Badge>
                                                   <h5 className="font-semibold text-base line-clamp-2 group-hover:text-primary transition-colors leading-tight">
-                                                    {event.title}
+                                                    {getLangValue(event.title, i18n.language)}
                                                   </h5>
                                                   {event.description && (
                                                     <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                                                      {event.description}
+                                                      {getLangValue(event.description, i18n.language)}
                                                     </p>
                                                   )}
                                                   <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
@@ -831,7 +840,7 @@ export default function EventsCalendarPage() {
                                                   {event.location && (
                                                     <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                                                       <MapPin className="h-4 w-4" />
-                                                      <span className="line-clamp-1">{event.location}</span>
+                                                      <span className="line-clamp-1">{getLangValue(event.location, i18n.language)}</span>
                                                     </div>
                                                   )}
                                                 </div>

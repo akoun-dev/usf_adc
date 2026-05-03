@@ -79,7 +79,7 @@ export function HomeSlideshowSection() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % slides.length)
-        }, 50000)
+        }, 5000)
         return () => clearInterval(interval)
     }, [slides.length]);
 
@@ -95,7 +95,7 @@ export function HomeSlideshowSection() {
 
 
         <div
-            className="relative w-full min-h-[100vh] xs:min-h-[100vh] sm:min-h-[55vh] md:min-h-[60vh] lg:min-h-[65vh]
+            className="relative w-full min-h-[100vh] xs:min-h-[100vh] sm:min-h-[55vh] md:min-h-[60vh] lg:min-h-[70vh]
             pt-16 xs:pt-20 sm:pt-10 md:pt-12 lg:pt-16 overflow-hidden
         ">
 
@@ -110,19 +110,19 @@ export function HomeSlideshowSection() {
                         opacity: 1,
                         scale: [1.15, 1.05],
                         x: [0, -20, 20, 0],
-                        y: [0, -10, 10, 0]
+                        y: [0, 30]
                     }}
                     transition={{
                         opacity: { duration: 1 },
                         scale: { duration: 20, ease: "linear", repeat: Infinity },
                         x: { duration: 20, ease: "linear", repeat: Infinity },
-                        y: { duration: 20, ease: "linear", repeat: Infinity }
+                        y: { duration: 20, ease: "linear", repeat: Infinity, repeatType: "reverse" }
                     }}
                 >
                     <img
                         src={slides[index].image}
                         alt=""
-                        className="w-full h-full object-cover object-[80%_center] md:object-center brightness-90"
+                        className="w-full h-full object-cover object-center brightness-90"
                     />
                 </motion.div>
             </AnimatePresence>

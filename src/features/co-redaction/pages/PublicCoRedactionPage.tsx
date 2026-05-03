@@ -35,6 +35,8 @@ import {
   usePublicDocuments,
   useDocumentsRealtime,
 } from '../hooks/useCoRedaction';
+import bgHeader from '@/assets/bg-header.jpg';
+
 
 const CATEGORIES = [
   { value: 'general', label: 'Général' },
@@ -69,16 +71,30 @@ export default function PublicCoRedactionPage() {
 
   return (
     <PublicLayout>
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* En-tête */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">
-            {t('coRedaction.publicTitle', 'Co-Rédaction')}
-          </h1>
-          <p className="text-muted-foreground">
-            {t('coRedaction.publicSubtitle', 'Documents collaboratifs publiés')}
-          </p>
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+             {t('coRedaction.publicTitle', 'Co-Rédaction')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t('coRedaction.publicSubtitle', 'Documents collaboratifs publiés')}
+            </p>
+          </div>
         </div>
+
+      </div>
+
+
+
+      <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
+        
 
         {/* Barre de recherche */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">

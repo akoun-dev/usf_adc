@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -64,7 +64,7 @@ export default function PublicDocumentsPage() {
     const [category, setCategory] = useState("all")
     const [language, setLanguage] = useState("all")
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 9
+    const itemsPerPage = 8
 
     const allDocuments = useMemo(() => documents ?? [], [documents])
 
@@ -99,7 +99,7 @@ export default function PublicDocumentsPage() {
     return (
         <PublicLayout>
 
-<div className="space-y-12 relative bg-gray-50">
+            <div className="space-y-12 relative bg-gray-50">
 
                 {/* Hero */}
                 <div
@@ -125,7 +125,7 @@ export default function PublicDocumentsPage() {
 
 
             <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
-                
+
                 {/* Filters */}
                 <div className="flex flex-wrap gap-3 mb-8">
                     <div className="relative flex-1 min-w-[250px]">
@@ -177,7 +177,7 @@ export default function PublicDocumentsPage() {
 
                 {/* Loading State */}
                 {isLoading ? (
-                    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    <div className="grid gap-6 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {[1, 2, 3, 4, 5, 6].map(item => (
                             <Card key={item}>
                                 <CardContent className="p-6">
@@ -207,7 +207,7 @@ export default function PublicDocumentsPage() {
                             <span className="w-1 h-6 bg-primary rounded-full" />
                             {t("public.documents.title")}
                         </h2>
-                        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                        <div className="grid gap-6 xs:grid-col-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {paginatedDocuments.map(document => (
                                 <LibraryDocumentCard
                                     key={document.id}
@@ -231,7 +231,9 @@ export default function PublicDocumentsPage() {
                                                     ? "pointer-events-none opacity-50"
                                                     : "cursor-pointer"
                                             }
-                                        />
+                                        >
+                                            {t('common.previous')}
+                                        </PaginationPrevious>
 
                                         {Array.from(
                                             { length: totalPages },
@@ -285,7 +287,9 @@ export default function PublicDocumentsPage() {
                                                     ? "pointer-events-none opacity-50"
                                                     : "cursor-pointer"
                                             }
-                                        />
+                                        >
+                                            {t('common.next')}
+                                        </PaginationNext>
                                     </PaginationContent>
                                 </Pagination>
                             </div>
@@ -307,7 +311,7 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
     const { t } = useTranslation()
     const categoryInfo =
         DOCUMENT_CATEGORIES[
-            document.category as keyof typeof DOCUMENT_CATEGORIES
+        document.category as keyof typeof DOCUMENT_CATEGORIES
         ]
     const typeInfo =
         DOCUMENT_TYPES[document.type as keyof typeof DOCUMENT_TYPES]

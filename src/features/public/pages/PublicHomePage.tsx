@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   MapPin, FileText, Newspaper, Users, ArrowRight, Calendar,
   BookOpen, MessageSquare, Briefcase, TrendingUp, Shield, Globe, Clock,
@@ -7,6 +7,7 @@ import { PublicLayout } from '../components/PublicLayout';
 import { usePublicNews } from '../hooks/usePublicNews';
 import { usePublicEvents } from '../hooks/usePublicEvents';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -68,7 +69,7 @@ const stats = [
 ];
 
 export default function PublicHomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: news, isLoading: newsLoading } = usePublicNews();
   const { data: events, isLoading: eventsLoading } = usePublicEvents();
 
@@ -205,7 +206,7 @@ export default function PublicHomePage() {
                           <div className="relative h-48 overflow-hidden">
                             <img
                               src={article.image_url}
-                              alt={article.title}
+                              alt={getLangValue(article.title, i18n.language)}
                               className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                               loading="lazy"
                             />
@@ -219,11 +220,11 @@ export default function PublicHomePage() {
                         )}
                         <CardContent className="p-6">
                           {article.category && (
-                            <Badge variant="secondary" className="mb-3">{article.category}</Badge>
+                            <Badge variant="secondary" className="mb-3">{getLangValue(article.category, i18n.language)}</Badge>
                           )}
-                          <h3 className="mb-2 font-semibold text-foreground line-clamp-2">{article.title}</h3>
+                          <h3 className="mb-2 font-semibold text-foreground line-clamp-2">{getLangValue(article.title, i18n.language)}</h3>
                           <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                            {article.excerpt || article.content}
+                            {getLangValue(article.excerpt, i18n.language) || getLangValue(article.content, i18n.language)}
                           </p>
                           <span className="text-sm text-primary hover:underline inline-flex items-center gap-1">
                             {t('public.news.readMore')}
@@ -304,7 +305,7 @@ export default function PublicHomePage() {
                           <div className="relative h-48 overflow-hidden">
                             <img
                               src={event.image_url}
-                              alt={event.title}
+                              alt={getLangValue(event.title, i18n.language)}
                               className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                               loading="lazy"
                             />
@@ -320,7 +321,7 @@ export default function PublicHomePage() {
                           <div className="flex items-center gap-2 mb-3">
                             <Badge className="bg-primary/10 text-primary">{t(`public.eventTypes.${event.event_type}`)}</Badge>
                           </div>
-                          <h3 className="mb-2 font-semibold text-foreground line-clamp-1">{event.title}</h3>
+                          <h3 className="mb-2 font-semibold text-foreground line-clamp-1">{getLangValue(event.title, i18n.language)}</h3>
                           <p className="text-sm text-muted-foreground mb-4">
                             {new Date(event.start_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                           </p>
@@ -328,7 +329,7 @@ export default function PublicHomePage() {
                             {event.location && (
                               <span className="flex items-center gap-1">
                                 <MapPin className="h-3 w-3" />
-                                {event.location}
+                                {getLangValue(event.location, i18n.language)}
                               </span>
                             )}
                             {event.start_date && (

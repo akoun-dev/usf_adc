@@ -1,4 +1,4 @@
-﻿import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, MapPin, Users, ExternalLink, Share2 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useEvent } from '../hooks/usePublicEvents';
@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHero from '@/components/PageHero';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
+
 
 const getEventTypeLabel = (type: string) => {
   const labels: Record<string, string> = {
@@ -33,7 +35,7 @@ const getEventTypeColor = (type: string) => {
 };
 
 export default function EventDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data: event, isLoading } = useEvent(id ?? '');
 
@@ -80,7 +82,7 @@ export default function EventDetailPage() {
               <div className="mb-6 rounded-xl overflow-hidden">
                 <img
                   src={event.image_url}
-                  alt={event.title}
+                  alt={getLangValue(event.title, i18n.language)}
                   className="w-full h-[300px] object-cover"
                 />
               </div>
@@ -95,11 +97,11 @@ export default function EventDetailPage() {
               )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{event.title}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{getLangValue(event.title, i18n.language)}</h1>
 
-            {event.description && (
+            {getLangValue(event.description, i18n.language) && (
               <div className="prose prose-lg max-w-none mb-6">
-                {event.description.split('\n').map((paragraph, i) => {
+                {getLangValue(event.description, i18n.language).split('\n').map((paragraph: string, i: number) => {
                   if (paragraph.trim().startsWith('-')) {
                     return (
                       <li key={i} className="ml-4">{paragraph.replace(/^-/, '').trim()}</li>
@@ -160,7 +162,7 @@ export default function EventDetailPage() {
                   <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm text-muted-foreground">Lieu</p>
-                    <p className="font-medium">{event.location}</p>
+                    <p className="font-medium">{getLangValue(event.location, i18n.language)}</p>
                   </div>
                 </div>
 
@@ -215,9 +217,9 @@ VERSION:2.0
 BEGIN:VEVENT
 DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
 ${endDate ? `DTEND:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z` : ''}
-SUMMARY:${event.title}
-LOCATION:${event.location}
-DESCRIPTION:${event.description?.replace(/\n/g, '\\n') || ''}
+SUMMARY:${getLangValue(event.title, i18n.language)}
+LOCATION:${getLangValue(event.location, i18n.language)}
+DESCRIPTION:${getLangValue(event.description, i18n.language)?.replace(/\n/g, '\\n') || ''}
 END:VEVENT
 END:VCALENDAR`}
                     download="event.ics"

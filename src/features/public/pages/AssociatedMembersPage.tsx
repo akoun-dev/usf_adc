@@ -222,7 +222,7 @@ export default function AssociatedMembersPage() {
 
 
             <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
-                
+
                 {/* Benefits Section */}
                 <div className="grid md:grid-cols-3 gap-6 mb-12">
                     {membershipBenefits.map((benefit, index) => (
@@ -284,7 +284,7 @@ export default function AssociatedMembersPage() {
                                 <p className="text-muted-foreground">{t('associatedMembers.noMembers')}</p>
                             </div>
                         ) : (
-                            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                 {allMembers.map((member) => (
                                     <Card key={member.id} className="hover:shadow-lg transition-all duration-300 border-2 h-full">
                                         <CardContent className="pt-4 pb-6 px-6 flex flex-col h-full">

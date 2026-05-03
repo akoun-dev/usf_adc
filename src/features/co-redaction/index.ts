@@ -26,10 +26,11 @@ export {
   useAddComment,
   useDeleteComment,
   useUploadFile,
+  useDocumentRealtime,
+  useDocumentsRealtime,
 } from './hooks/useCoRedaction';
 
 export { useAutosave } from './hooks/useAutosave';
-export { useDocumentRealtime, useDocumentsRealtime } from './hooks/useDocumentRealtime';
 
 export { coRedactionService } from './services/co-redaction-service';
 

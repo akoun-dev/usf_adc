@@ -13,6 +13,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO } from 'date-fns';
+import { getLangValue } from '@/types/i18n';
 // @ts-expect-error - date-fns v3 locale import
 import fr from 'date-fns/locale/fr';
 // @ts-expect-error - date-fns v3 locale import
@@ -204,7 +205,7 @@ export function MiniCalendar() {
                                         {t(`public.eventTypes.${event.event_type}`)}
                                       </Badge>
                                       <h5 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">
-                                        {event.title}
+                                        {getLangValue(event.title, i18n.language)}
                                       </h5>
                                       <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
                                         <Clock className="h-3 w-3" />
@@ -213,7 +214,7 @@ export function MiniCalendar() {
                                       {event.location && (
                                         <div className="flex items-center gap-1 mt-0.5 text-xs text-muted-foreground">
                                           <MapPin className="h-3 w-3" />
-                                          <span className="line-clamp-1">{event.location}</span>
+                                          <span className="line-clamp-1">{getLangValue(event.location, i18n.language)}</span>
                                         </div>
                                       )}
                                     </div>

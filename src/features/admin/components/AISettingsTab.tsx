@@ -24,11 +24,12 @@ import { Bot, Save, ShieldCheck } from "lucide-react"
 import { toast } from "sonner"
 
 interface AISettings {
-    provider: "openai" | "mistral" | "anthropic" | "other"
+    provider: "openai" | "mistral" | "anthropic" | "other" | "libretranslate"
     model: string
     apiKey: string
     systemPrompt: string
     temperature: number
+    localUrl?: string
 }
 
 export function AISettingsTab() {
@@ -44,6 +45,7 @@ export function AISettingsTab() {
         systemPrompt:
             "Vous êtes l'Assistant FSU, un expert en télécommunications et en gestion de contenu pour la plateforme USF-ADC.",
         temperature: 0.7,
+        localUrl: "http://localhost:5000",
     }
 
     const [form, setForm] = useState<AISettings>(currentSettings)
@@ -123,6 +125,9 @@ export function AISettingsTab() {
                                     <SelectItem value="anthropic">
                                         Anthropic (Claude)
                                     </SelectItem>
+                                    <SelectItem value="libretranslate">
+                                        LibreTranslate (Local)
+                                    </SelectItem>
                                     <SelectItem value="other">Autre</SelectItem>
                                 </SelectContent>
                             </Select>
@@ -164,9 +169,23 @@ export function AISettingsTab() {
                                     apiKey: e.target.value,
                                 }))
                             }
-                            placeholder="sk-..."
+                            placeholder={form.provider === "libretranslate" ? "Facultatif" : "sk-..."}
                         />
                     </div>
+
+                    {form.provider === "libretranslate" && (
+                        <div className="space-y-2">
+                            <Label htmlFor="localUrl">
+                                {t("admin.aiLocalUrl", "URL de l'instance locale")}
+                            </Label>
+                            <Input
+                                id="localUrl"
+                                value={form.localUrl}
+                                onChange={e => setForm(prev => ({ ...prev, localUrl: e.target.value }))}
+                                placeholder="http://localhost:5001"
+                            />
+                        </div>
+                    )}
 
                     <div className="space-y-2">
                         <Label htmlFor="systemPrompt">
@@ -199,9 +218,9 @@ export function AISettingsTab() {
                             {isPending
                                 ? t("common.saving", "Enregistrement...")
                                 : t(
-                                      "common.save",
-                                      "Enregistrer la configuration"
-                                  )}
+                                    "common.save",
+                                    "Enregistrer la configuration"
+                                )}
                         </Button>
                     </div>
                 </CardContent>

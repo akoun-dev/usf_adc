@@ -156,6 +156,25 @@ export async function fetchFeaturedDocuments(): Promise<DocumentWithTags[]> {
 }
 
 /**
+ * Fetches documents by country ID
+ */
+export async function fetchDocumentsByCountry(countryId: string): Promise<DocumentWithTags[]> {
+  const { data, error } = await supabase
+    .from('documents')
+    .select(`
+      *,
+      document_tags(tag)
+    `)
+    .eq('is_public', true)
+    .eq('country_id', countryId)
+    .order('published_at', { ascending: false, nullsFirst: false });
+
+  if (error) throw error;
+
+  return (data || []).map(mapDocumentRow);
+}
+
+/**
  * Fetches a single document by ID
  */
 export async function fetchDocumentById(id: string): Promise<DocumentWithTags | null> {

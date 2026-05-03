@@ -56,7 +56,7 @@ export function AboutSection() {
             <div className="absolute bottom-0 left-0 right-0 h-20 bg-muted/30" />
             <div
                 ref={ref}
-                className="w-full px-4 sm:px-6 lg:px-8 py-10 lg:py-20"
+                className="w-full px-4 sm:px-6 lg:px-8 py-10 lg:pt-20 lg:pb-18"
             >
                 {/* Header */}
                 <div
@@ -83,8 +83,8 @@ export function AboutSection() {
                             <div
                                 key={index}
                                 className={`transition-opacity duration-1000 ${index === currentIndex
-                                        ? "opacity-100"
-                                        : "opacity-0 absolute inset-0 pointer-events-none"
+                                    ? "opacity-100"
+                                    : "opacity-0 absolute inset-0 pointer-events-none"
                                     }`}
                             >
                                 <Card className="border-0 overflow-hidden h-[320px] xs:h-[600px] sm:h-[600px] md:h-[500px] lg:h-[530px]">
@@ -143,8 +143,8 @@ export function AboutSection() {
                                     key={index}
                                     onClick={() => setCurrentIndex(index)}
                                     className={`h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                                            ? "w-12 bg-primary"
-                                            : "w-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                                        ? "w-12 bg-primary"
+                                        : "w-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                                         }`}
                                     aria-label={`Go to slide ${index + 1}`}
                                 />

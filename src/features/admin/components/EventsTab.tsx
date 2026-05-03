@@ -10,9 +10,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Pencil, Trash2, Plus, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getLangValue } from '@/types/i18n';
 
 export function EventsTab() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: events, isLoading } = useEvents();
   const deleteEvent = useDeleteEvent();
   const navigate = useNavigate();
@@ -93,10 +94,10 @@ export function EventsTab() {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      {item.title}
+                      {getLangValue(item.title, i18n.language)}
                     </div>
                   </TableCell>
-                  <TableCell>{item.location || t('common.notAvailable', '-')}</TableCell>
+                  <TableCell>{getLangValue(item.location, i18n.language) || t('common.notAvailable', '-')}</TableCell>
                   <TableCell>{formatDate(item.start_date)}</TableCell>
                   <TableCell>{formatDate(item.end_date)}</TableCell>
                   <TableCell>{getStatusBadge(item.status)}</TableCell>

@@ -5,8 +5,8 @@ import {
   fetchDocumentsByLanguage,
   fetchDocumentsByType,
   fetchFeaturedDocuments,
-  fetchDocumentById,
   fetchDocumentStats,
+  fetchDocumentsByCountry,
   searchDocuments,
   getDocumentUrl,
   type DocumentWithTags,
@@ -74,6 +74,18 @@ export function useFeaturedDocuments() {
     queryKey: ['public-documents', 'featured'],
     queryFn: fetchFeaturedDocuments,
     staleTime: 15 * 60 * 1000, // 15 minutes
+  });
+}
+
+/**
+ * Hook to fetch documents by country
+ */
+export function usePublicDocumentsByCountry(countryId: string) {
+  return useQuery({
+    queryKey: ['public-documents', 'country', countryId],
+    queryFn: () => fetchDocumentsByCountry(countryId),
+    enabled: !!countryId,
+    staleTime: 10 * 60 * 1000,
   });
 }
 

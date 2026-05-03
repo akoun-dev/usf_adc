@@ -64,6 +64,7 @@
     "confirm": "Confirmer",
     "actions": "Actions",
     "add": "Ajouter",
+    "directorGeneral": "Directeur Général",
     "update": "Mettre à jour",
     "updated": "mis à jour",
     "deleteConfirm": "Supprimer ce {{item}} ?"
@@ -179,7 +180,6 @@
     "thematicGroups": "Groupes Thématiques",
     "codraft": "Co-rédaction",
     "cmdt25": "Contributions CMDT-25",
-    "cmdt25Desc": "Gestion des contributions pour CMDT-25",
     "cmdt25Desc": "Gestion des contributions pour CMDT-25",
     "drafts": "Brouillons",
     "pending": "En attente validation",
@@ -1545,22 +1545,22 @@
         "t2": "Partage des meilleures pratiques FSU",
         "d2": "Discutez des stratégies efficaces pour le Service Universel."
       },
-"newTopic": "Nouveau sujet",
-    "createTopic": "Creer un nouveau sujet",
-    "topicTitle": "Titre",
-    "category": "Categorie",
-    "description": "Description",
-    "tags": "Tags",
-    "publish": "Publier",
-    "allTopics": "Tous les sujets",
-    "recent": "Recentes",
-    "categories": "Categories",
-    "trending": "Sujets tendance",
-    "filter": "Filtrer",
-    "recentTopicsDesc": "Derniers sujets du forum",
-    "myTopicsDesc": "Sujets crees par le Point Focal",
-    "groupsDesc": "Groupes par theme",
-    "topicDetails": "Details du sujet",
+      "newTopic": "Nouveau sujet",
+      "createTopic": "Creer un nouveau sujet",
+      "topicTitle": "Titre",
+      "category": "Categorie",
+      "description": "Description",
+      "tags": "Tags",
+      "publish": "Publier",
+      "allTopics": "Tous les sujets",
+      "recent": "Recentes",
+      "categories": "Categories",
+      "trending": "Sujets tendance",
+      "filter": "Filtrer",
+      "recentTopicsDesc": "Derniers sujets du forum",
+      "myTopicsDesc": "Sujets crees par le Point Focal",
+      "groupsDesc": "Groupes par theme",
+      "topicDetails": "Details du sujet",
       "createFirst": "Créer le premier sujet",
       "timeAgo": {
         "minutes": "il y a {{count}}m",
@@ -1782,7 +1782,7 @@
           "mwale": {
             "name": "Eng. Kezias Kazuba Mwale",
             "role": "Directeur - Radiocommunications (Spectre)",
-            "description": "En poste depuis 2012. Expert en gestion du spectre, il a contribué à l'attribution de 2477 MHz pour le haut débit et à la récupération de ressources orbitales satellitaires pour 31 pays africains."
+            "description": "En poste depuis 2012. Expert en gestion du spectre, he a contribué à l'attribution de 2477 MHz pour le haut débit et à la récupération de ressources orbitales satellitaires pour 31 pays africains."
           },
           "slimani": {
             "name": "Mme. Meriem Slimani",
@@ -2416,7 +2416,9 @@
         "status": "Statut",
         "allProjects": "Tous les projets visibles",
         "activeProjects": "En cours",
-        "completedProjects": "Terminés"
+        "completedProjects": "Terminés",
+        "thematic": "Thématique",
+        "allThematics": "Toutes les thématiques"
       },
       "tabs": {
         "all": "Tous",
@@ -2445,7 +2447,28 @@
         "coordinatorName": "Point Focal",
         "coordinatorEmail": "Email",
         "coordinatorPhone": "Téléphone",
-        "description": "À propos du pays"
+        "description": "À propos du pays",
+        "legalTexts": "Cadre Juridique",
+        "legalTextsDesc": "Textes juridiques de fond de service",
+        "localNews": {
+          "title": "Actualités FSU du Pays",
+          "description": "Suivez les dernières nouvelles et annonces concernant le Fonds de Service Universel en {{country}}.",
+          "noNews": "Aucune actualité disponible pour ce pays pour le moment.",
+          "readMore": "Lire la suite"
+        },
+        "agenda": {
+          "title": "Agenda du Pays",
+          "description": "Évènements, ateliers et conférences organisés par le FSU en {{country}}.",
+          "noEvents": "Aucun évènement prévu pour ce pays pour le moment.",
+          "viewAll": "Voir tout l'agenda"
+        },
+        "localDocuments": {
+          "title": "Bibliothèque de Documents",
+          "description": "Accédez aux rapports, études et textes réglementaires relatifs au Service Universel en {{country}}.",
+          "noDocuments": "Aucun document disponible pour ce pays pour le moment.",
+          "download": "Télécharger",
+          "viewAll": "Voir tous les documents"
+        }
       }
     },
     "privacy": {
@@ -2535,220 +2558,49 @@
     "promoteDesc": "L'utilisateur aura accès à la saisie FSU, au forum et aux rapports de son pays.",
     "promoteCancel": "Annuler"
   },
-  "index": {
-    "nav": {
-      "home": "Accueil",
-      "map": "Carte",
-      "countries": "Pays membres",
-      "documents": "Documents",
-      "news": "Actualités",
-      "forum": "Forum",
-      "projects": "Projets",
-      "events": "Événements",
-      "sutel": "SUTEL",
-      "about": "À propos",
-      "login": "Se connecter",
-      "ourHistory": "Notre histoire",
-      "leadership": "Direction",
-      "memberStates": "États membres",
-      "associatedMembers": "Membres associés",
-      "group": {
-        "home": "Accueil",
-        "usfAdc": "USF-ADCA",
-        "sutel": "SUTEL",
-        "projects": "Projets",
-        "resources": "Ressources",
-        "about": "À propos",
-        "membership": "Adhésion",
-        "contact": "Contact",
-        "news": "Actualités"
-      }
-    },
-    "features": {
-      "auth": {
-        "title": "Authentification sécurisée",
-        "desc": "Contrôle d'accès par rôle avec vérification 2FA obligatoire pour les administrateurs."
-      },
-      "fsu": {
-        "title": "Collecte FSU structurée",
-        "desc": "Saisie multi-étapes, brouillons automatiques, validation et suivi complet des soumissions."
-      },
-      "map": {
-        "title": "Cartographie interactive",
-        "desc": "Visualisez les projets FSU sur une carte panafricaine dynamique et filtrable."
-      },
-      "reports": {
-        "title": "Rapports & KPIs",
-        "desc": "Tableaux de bord en temps réel, export CSV/PDF et indicateurs de performance."
-      },
-      "collaboration": {
-        "title": "Collaboration",
-        "desc": "Forum thématique, partage de connaissances et gestion d'équipe par pays."
-      },
-      "notifications": {
-        "title": "Notifications & Support",
-        "desc": "Alertes en temps réel, système de tickets et suivi de résolution."
-      }
-    },
-    "stats": {
-      "countries": "Pays africains",
-      "security": "Sécurité renforcée",
-      "availability": "Disponibilité",
-      "traceability": "Traçabilité"
-    },
-    "roles": {
-      "public": {
-        "label": "Public / Externe",
-        "desc": "Consulter les projets publiés et la cartographie."
-      },
-      "focal": {
-        "label": "Point Focal",
-        "desc": "Saisir, soumettre et suivre les données FSU de son pays."
-      },
-      "countryAdmin": {
-        "label": "Admin Pays",
-        "desc": "Valider les soumissions et piloter au niveau national."
-      },
-      "globalAdmin": {
-        "label": "Admin Global",
-        "desc": "Superviser l'ensemble du continent et gérer la plateforme."
-      }
-    },
-    "hero": {
-      "badge": "Plateforme panafricaine FSU",
-      "title": "Connecter l'Afrique",
-      "subtitle": "au Monde Numérique",
-      "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
-      "accessPlatform": "Accéder à la plateforme",
-      "discover": "Découvrir",
-      "scroll": "Défiler"
-    },
-    "welcome": {
-      "badge": "Mot de Bienvenue",
-      "title": "Messages de bienvenue",
-      "description": "Les dirigeants de l'Union Africaine des Télécommunications vous adressent leurs vœux les plus chaleureux.",
-      "secretaryGeneral": {
-        "name": "M. John Omo",
-        "role": "Secrétaire Général de l'UAT",
-        "message": "Chers partenaires et collègues, c'est avec un immense plaisir que je vous accueille sur la plateforme USF-ADCA, un outil stratégique majeur pour l'avenir du numérique en Afrique. Cette plateforme incarne notre vision commune : garantir l'accès universel aux services de télécommunications pour chaque citoyen africain, où qu'il se trouve. Ensemble, nous construisons un continent connecté, inclusif et résilient. Je vous invite à explorer cette plateforme et à contribuer activement à notre mission partagée de transformation numérique."
-      },
-      "director": {
-        "name": "M. Gilles Beugre",
-        "role": "Directeur Général de l'ANSUT (Côte d'Ivoire)",
-        "message": "Bienvenue sur la plateforme USF-ADCA, fruit d'un travail collaboratif exemplaire entre nos États membres et nos partenaires techniques. En tant que directeur en charge des radiocommunications, je suis convaincu que la gestion optimale du spectre et le déploiement des infrastructures sont les clés pour atteindre nos objectifs de connectivité universelle. Cette plateforme nous permet de suivre, coordonner et accélérer les projets du Fonds de Service Universel à l'échelle panafricaine. Votre engagement est essentiel pour réussir ce défi."
-      }
-    },
-    "featuresSection": {
-      "badge": "Fonctionnalités",
-      "title": "Une plateforme complète",
-      "description": "Tous les outils nécessaires pour piloter le Fonds du Service Universel à l'échelle du continent",
-      "learnMore": "En savoir plus"
-    },
-    "quickAccess": {
-      "map": {
-        "title": "Carte des projets",
-        "desc": "Visualisez les projets FSU"
-      },
-      "documents": {
-        "title": "Documents",
-        "desc": "Bibliothèque documentaire"
-      },
-      "forum": {
-        "title": "Forum",
-        "desc": "Échanges thématiques"
-      },
-      "projects": {
-        "title": "Projets",
-        "desc": "Projets realises"
-      }
-    },
-    "newsEvents": {
-      "badge": "Actualités & Événements",
-      "title": "Restez informé",
-      "description": "Suivez l'actualité du Service Universel et les événements à venir",
-      "latestNews": "Dernières actualités",
-      "upcomingEvents": "Événements à venir",
-      "viewAll": "Tout voir",
-      "noNews": "Aucune actualité disponible",
-      "noEvents": "Aucun événement à venir",
-      "featured": "À la une",
-      "readMore": "Lire la suite",
-      "register": "S'inscrire",
-      "joinCommunity": "Rejoignez la communauté USF-ADCA",
-      "joinCommunityDesc": "Consultez les dernières actualités du Service Universel et ne manquez aucun événement important",
-      "viewNews": "Voir les actualités",
-      "calendar": "Calendrier"
-    },
-    "about": {
-      "badge": "À propos de la plateforme",
-      "title": "Piloter le numérique africain ensemble",
-      "description": "La plateforme USF-ADCA est un outil de collaboration panafricain développé sous l'égide de l'Union Africaine des Télécommunications (UAT) pour  membres de collecter, suivre et piloter les initiatives du Fonds de Service Universel.",
-      "items": {
-        "standardized": "Collecte standardisée des données FSU",
-        "validation": "Validation multi-niveaux avec traçabilité",
-        "dashboards": "Tableaux de bord et rapports en temps réel",
-        "forum": "Forum d'échange entre points focaux"
-      },
-      "connectedCountries": "pays connectés",
-      "learnMore": "En savoir plus",
-      "carousel": {
-        "universal": {
-          "title": "Service Universel",
-          "desc": "Garantir l'accès universel aux services de télécommunications pour tous les citoyens africains, sans laisser personne de côté."
-        },
-        "dashboard": {
-          "title": "Tableaux de bord",
-          "desc": "Visualisez les indicateurs clés de performance et suivez l'évolution des projets FSU en temps réel à travers le continent."
-        },
-        "collaboration": {
-          "title": "Collaboration",
-          "desc": "Un espace d'échange et de coopération entre les 54 pays membres pour partager les meilleures pratiques et innover ensemble."
-        },
-        "innovation": {
-          "title": "Innovation Technologique",
-          "desc": "Promouvoir l'adoption de technologies innovantes et de solutions numériques de pointe pour accélérer le développement des télécommunications en Afrique."
-        }
-      }
-    },
-    "rolesSection": {
-      "badge": "Rôles & Accès",
-      "title": "4 niveaux d'accès",
-      "description": "Chaque rôle dispose d'un tableau de bord et de permissions adaptés à ses missions"
-    },
-    "cta": {
-      "title": "Prêt à contribuer au numérique africain ?",
-      "description": "Rejoignez la plateforme USF-ADCA pour accéder aux ressources de collaboration et de suivi du Fonds de Service Universel.",
-      "login": "Se connecter",
-      "contact": "Contacter l'UAT"
-    },
-    "footer": {
-      "platform": "Plateforme panafricaine FSU",
-      "navigation": "Navigation",
-      "features": "Fonctionnalités",
-      "map": "Carte",
-      "about": "À propos",
-      "documents": "Documents",
-      "news": "Actualités",
-      "forum": "Forum",
-      "projects": "Projets",
-      "events": "Événements",
-      "account": "Compte",
-      "login": "Connexion",
-      "faq": "FAQ",
-      "copyright": "© {{year}} ANSUT / Union Africaine des Télécommunications — Tous droits réservés",
-      "legal": "Mentions légales",
-      "privacy": "Confidentialité"
-    },
-    "imageAlt": {
-      "hero": "Connectivité numérique africaine",
-      "collaboration": "Équipe africaine collaborant sur la plateforme"
-    },
-    "partners": {
-      "badge": "Nos Partenaires",
-      "title": "Ils nous font confiance"
-    },
-    "atu": "ATU / UAT"
+  "admin.welcomeMessage": "Mot de bienvenue",
+  "admin.welcomeMessageDesc": "Gérez le message de bienvenue du DG de votre pays",
+  "admin.agency": {
+    "dgMessageUpdated": "Les informations de l'agence ont été mises à jour avec succès.",
+    "agencyDeleted": "L'agence a été supprimée.",
+    "agencyManagement": "Gestion des Agences",
+    "agencyManagementDesc": "Gérez les informations des agences, les responsables et leurs messages.",
+    "agencyInfo": "Informations de l'agence",
+    "agencyName": "Nom de l'institution",
+    "agencyType": "Type",
+    "typeAgency": "Agence dédiée",
+    "typeRegulator": "Régulateur",
+    "typeMinistry": "Ministère",
+    "typeInstitution": "Institution",
+    "typeOrganization": "Organisme",
+    "typePublicService": "Service public",
+    "typePrivateService": "Service privé",
+    "dgName": "Nom du Responsable",
+    "dgMessage": "Mot de bienvenue",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "headquarters": "Siège social",
+    "contactPhone": "Contact téléphonique",
+    "contactEmail": "Email de contact",
+    "agenciesList": "Liste des agences",
+    "noAgencies": "Aucune agence enregistrée.",
+    "addAgency": "Ajouter une agence",
+    "newAgency": "Nouvelle Agence",
+    "editAgency": "Modifier l'agence"
   },
+  "admin.photoUploaded": "Photo téléchargée avec succès.",
+  "admin.uploadError": "Erreur lors du téléchargement de la photo.",
+  "admin.selectCountry": "Sélectionner un pays",
+  "admin.chooseCountry": "Choisir un pays",
+  "admin.messageContent": "Contenu du message",
+  "admin.dgName": "Nom du DG",
+  "admin.fsuName": "Nom du SUTEL / FSU",
+  "admin.message": "Message de bienvenue",
+  "admin.messagePlaceholder": "Saisissez ici le mot de bienvenue...",
+  "admin.photo": "Photo du DG",
+  "admin.photoDesc": "Format recommandé: 400x500px, max 5Mo",
+  "admin.noPhoto": "Aucune photo sélectionnée",
+  "admin.changePhoto": "Changer la photo",
   "admin.event.title": "Titre",
   "admin.event.description": "Description",
   "admin.event.startDate": "Date de début",
@@ -2914,5 +2766,111 @@
     "lock": "Verrou",
     "download": "Télécharger"
   },
-  "coRedaction": "Co-Rédaction"
+  "index": {
+    "nav": {
+      "group": {
+        "home": "Accueil",
+        "usfAdc": "USF-ADC",
+        "projects": "Projets",
+        "resources": "Ressources",
+        "coRedaction": "Co-Rédaction",
+        "news": "Actualités",
+        "about": "À propos",
+        "sutel": "SUTEL"
+      }
+    },
+    "hero": {
+      "badge": "Connecter l'Afrique",
+      "title": "Connecter l'Afrique",
+      "subtitle": "au Monde Numérique",
+      "description": "Plateforme de suivi et de pilotage du Service Universel — Un accès numérique pour tous les citoyens africains.",
+      "accessPlatform": "Accéder à la plateforme",
+      "discover": "Découvrir",
+      "scroll": "Défiler pour découvrir"
+    },
+    "welcome": {
+      "badge": "Mot de bienvenue",
+      "title": "Bienvenue sur USF-ADCA",
+      "description": "Une plateforme panafricaine dédiée à l'inclusion numérique et au développement des infrastructures de télécommunications.",
+      "secretaryGeneral": {
+        "name": "M. Omo",
+        "message": "Chers partenaires et collègues, c'est avec un immense plaisir que je vous accueille sur la plateforme USF-ADCA, un outil stratégique majeur pour l'avenir du numérique en Afrique. Cette plateforme incarne notre vision commune : garantir l'accès universel aux services de télécommunications pour chaque citoyen africain, où qu'il se trouve. Ensemble, nous construisons un continent connecté, inclusif et résilient. Je vous invite à explorer cette plateforme et à contribuer activement à notre mission partagée de transformation numérique.",
+        "role": "Secrétaire Général - UAT"
+      },
+      "director": {
+        "name": "M. Gilles Beugré",
+        "message": "Bienvenue sur la plateforme USF-ADCA, fruit d'un travail collaboratif exemplaire entre nos États membres et nos partenaires techniques. En tant que directeur en charge des radiocommunications, je suis convaincu que la gestion optimale du spectre et le déploiement des infrastructures sont les clés pour atteindre nos objectifs de connectivité universelle. Cette plateforme nous permet de suivre, coordonner et accélérer les projets du Fonds de Service Universel à l'échelle panafricaine. Votre engagement est essentiel pour réussir ce défi.",
+        "role": "Directeur Général - ANSUT"
+      },
+      "otherMembers": "Autres membres"
+    },
+    "about": {
+      "badge": "À propos de nous",
+      "title": "Notre Mission",
+      "description": "Favoriser l'accès universel aux services numériques pour chaque citoyen africain, en soutenant les initiatives locales et régionales.",
+      "carousel": {
+        "universal": {
+          "title": "Accès Universel",
+          "desc": "Garantir que même les zones les plus reculées bénéficient d'une connectivité de qualité."
+        },
+        "dashboard": {
+          "title": "Pilotage de Données",
+          "desc": "Un tableau de bord complet pour le suivi des indicateurs de performance à l'échelle continentale."
+        },
+        "collaboration": {
+          "title": "Espace Collaboratif",
+          "desc": "Faciliter les échanges entre les agences de régulation et les ministères de 54 pays."
+        },
+        "innovation": {
+          "title": "Innovation Numérique",
+          "desc": "Soutenir les projets technologiques qui transforment la vie des populations."
+        }
+      },
+      "learnMore": "En savoir plus"
+    },
+    "newsEvents": {
+      "badge": "Actualités & Événements",
+      "title": "Dernières Nouvelles",
+      "description": "Restez informé des derniers développements du Service Universel en Afrique et participez à nos prochains événements.",
+      "latestNews": "Dernières Actualités",
+      "viewAll": "Voir tout",
+      "upcomingEvents": "Événements à venir",
+      "readMore": "Lire la suite",
+      "register": "S'inscrire",
+      "noNews": "Aucune actualité disponible pour le moment.",
+      "noEvents": "Aucun événement prévu prochainement.",
+      "joinCommunity": "Rejoignez la Communauté",
+      "joinCommunityDesc": "Inscrivez-vous à notre newsletter pour ne rien manquer de nos activités.",
+      "viewNews": "Voir les actus",
+      "calendar": "Calendrier"
+    },
+    "featuresSection": {
+      "badge": "Fonctionnalités",
+      "title": "Une Plateforme Puissante",
+      "description": "Tout ce dont vous avez besoin pour gérer et suivre les fonds de service universel efficacement."
+    },
+    "quickAccess": {
+      "map": {
+        "title": "Carte Interactive",
+        "desc": "Visualisez les projets à travers l'Afrique."
+      },
+      "documents": {
+        "title": "Bibliothèque",
+        "desc": "Accédez aux rapports et politiques publiques."
+      },
+      "forum": {
+        "title": "Espace d'Échange",
+        "desc": "Discutez avec vos pairs et experts."
+      },
+      "projects": {
+        "title": "Gestion de Projets",
+        "desc": "Suivez l'avancement des initiatives FSU."
+      }
+    },
+    "partners": {
+      "badge": "Partenaires",
+      "title": "Nos Partenaires",
+      "subtitle": "Ils nous font confiance"
+    }
+  }
 }

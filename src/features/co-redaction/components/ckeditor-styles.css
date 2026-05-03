@@ -1,0 +1,104 @@
+/* CKEditor Premium Styling */
+
+.ckeditor-wrapper {
+  --ck-border-radius: 12px;
+  --ck-color-base-border: hsl(var(--border));
+  --ck-color-toolbar-background: transparent;
+  --ck-color-toolbar-border: transparent;
+  --ck-color-button-hover-background: hsl(var(--accent));
+  --ck-color-button-on-background: hsl(var(--accent));
+  --ck-inner-shadow: none;
+  --ck-spacing-unit: 8px;
+}
+
+.ck.ck-editor__main > .ck-editor__editable {
+  background: hsl(var(--background));
+  border-bottom-left-radius: var(--ck-border-radius) !important;
+  border-bottom-right-radius: var(--ck-border-radius) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  box-shadow: none !important;
+  min-height: 500px;
+  padding: 2rem 3rem !important;
+  font-family: inherit;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: hsl(var(--foreground));
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:focus {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.1) !important;
+  outline: none !important;
+}
+
+.ck.ck-toolbar {
+  background: hsl(var(--background) / 0.8) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border)) !important;
+  border-top-left-radius: var(--ck-border-radius) !important;
+  border-top-right-radius: var(--ck-border-radius) !important;
+  padding: 0.5rem !important;
+  margin-bottom: -1px;
+}
+
+.ck.ck-toolbar__items {
+  gap: 4px;
+}
+
+.ck.ck-button {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.ck.ck-button:hover {
+  background: hsl(var(--accent)) !important;
+}
+
+.ck.ck-button.ck-on {
+  background: hsl(var(--accent)) !important;
+  color: hsl(var(--primary)) !important;
+}
+
+/* TipTap style placeholder in CKEditor */
+.ck.ck-editor__editable.ck-read-only {
+  background: hsl(var(--muted) / 0.3);
+}
+
+.ck.ck-placeholder::before {
+  color: hsl(var(--muted-foreground)) !important;
+  font-style: italic;
+}
+
+/* Image styles */
+.ck-content .image {
+  margin: 2rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.ck-content .image figcaption {
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* Table styles */
+.ck-content table {
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.ck-content table td, .ck-content table th {
+  border: 1px solid hsl(var(--border));
+  padding: 0.75rem;
+}
+
+.ck-content table th {
+  background: hsl(var(--muted));
+  font-weight: 600;
+}

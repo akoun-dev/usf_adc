@@ -3,7 +3,7 @@ import {
     useEnhancedNews,
     useDeleteNews,
     useUpdateNewsStatus,
-} from "../hooks/useContentManagement"
+} from "@/features/admin/hooks/useContentManagement"
 import {
     Card,
     CardContent,
@@ -41,12 +41,13 @@ import {
     Clock,
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { EnhancedNewsArticle, NewsStatus } from "../types"
-import { StatusBadge } from "./news/StatusBadge"
-import { CategoryBadge } from "./news/CategoryBadge"
+import { EnhancedNewsArticle, NewsStatus } from "@/features/admin/types"
+import { StatusBadge } from "@/features/admin/components/news/StatusBadge"
+import { CategoryBadge } from "@/features/admin/components/news/CategoryBadge"
+import { getLangValue } from "@/types/i18n"
 
 export function NewsTab() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { data: news, isLoading } = useEnhancedNews()
     const deleteNews = useDeleteNews()
     const updateNewsStatus = useUpdateNewsStatus()
@@ -216,7 +217,7 @@ export function NewsTab() {
                                                 )
                                             }
                                         >
-                                            {item.title}
+                                            {getLangValue(item.title, i18n.language)}
                                         </Button>
                                     </TableCell>
                                     <TableCell>

@@ -1,42 +1,62 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { NewsStatus } from '../../types';
-import { Clock, CheckCircle2, Archive, FileText } from 'lucide-react';
+import { NewsStatus, EventStatus } from '@/features/admin/types';
+import { Clock, CheckCircle2, Archive, FileText, AlertCircle, PlayCircle, CheckCircle, Calendar } from 'lucide-react';
 
 interface StatusBadgeProps {
-  status: NewsStatus;
+  status: NewsStatus | EventStatus;
   className?: string;
 }
 
-const statusConfig: Record<NewsStatus, {
+const statusConfig: Record<string, {
   label: string;
   variant: 'default' | 'secondary' | 'destructive' | 'outline';
   icon: React.ReactNode;
 }> = {
   draft: {
-    label: 'Draft',
+    label: 'Brouillon',
     variant: 'outline',
     icon: <FileText className="h-3 w-3" />,
   },
   in_review: {
-    label: 'In Review',
+    label: 'En révision',
     variant: 'secondary',
     icon: <Clock className="h-3 w-3" />,
   },
   published: {
-    label: 'Published',
+    label: 'Publié',
     variant: 'default',
     icon: <CheckCircle2 className="h-3 w-3" />,
   },
   archived: {
-    label: 'Archived',
+    label: 'Archivé',
     variant: 'destructive',
     icon: <Archive className="h-3 w-3" />,
+  },
+  upcoming: {
+    label: 'À venir',
+    variant: 'secondary',
+    icon: <Calendar className="h-3 w-3" />,
+  },
+  ongoing: {
+    label: 'En cours',
+    variant: 'default',
+    icon: <PlayCircle className="h-3 w-3" />,
+  },
+  completed: {
+    label: 'Terminé',
+    variant: 'secondary',
+    icon: <CheckCircle className="h-3 w-3" />,
+  },
+  cancelled: {
+    label: 'Annulé',
+    variant: 'destructive',
+    icon: <AlertCircle className="h-3 w-3" />,
   },
 };
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const config = statusConfig[status] || statusConfig.draft;
+  const config = statusConfig[status as string] || statusConfig.draft;
   
   return (
     <Badge variant={config.variant} className={className}>

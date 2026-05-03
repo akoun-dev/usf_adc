@@ -1,9 +1,10 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Newspaper, Search, Calendar, Filter, Mail, Share2, Clock, User, Tag, ArrowRight } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicNews, NewsArticle } from '../hooks/usePublicNews';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -61,8 +62,9 @@ const getSourceColor = (source: string | null) => {
   return colors[source || ''] || 'bg-muted text-muted-foreground';
 };
 
+
 function NewsCard({ article, featured = false }: { article: NewsArticle; featured?: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleShare = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -70,7 +72,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
     if (navigator.share) {
       try {
         await navigator.share({
-          title: article.title,
+          title: getLangValue(article.title, i18n.language),
           url: window.location.origin + `/actualites/${article.id}`,
         });
       } catch (err) {
@@ -87,7 +89,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
             {article.image_url ? (
               <img
                 src={article.image_url}
-                alt={article.title}
+                alt={getLangValue(article.title, i18n.language)}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             ) : (
@@ -98,7 +100,9 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
             <div className="absolute top-4 left-4 flex gap-2">
               <Badge className={getSourceColor(article.source)}>{article.source}</Badge>
               {article.category && (
-                <Badge className={getCategoryColor(article.category)}>{article.category}</Badge>
+                <Badge className={getCategoryColor(getLangValue(article.category, i18n.language))}>
+                  {getLangValue(article.category, i18n.language)}
+                </Badge>
               )}
             </div>
           </div>
@@ -118,10 +122,10 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
               )}
             </div>
             <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-              {article.title}
+              {getLangValue(article.title, i18n.language)}
             </h2>
             <p className="text-muted-foreground mb-4 line-clamp-3">
-              {article.excerpt || article.content.substring(0, 200) + '...'}
+              {getLangValue(article.excerpt, i18n.language) || getLangValue(article.content, i18n.language).substring(0, 200) + '...'}
             </p>
             {article.author && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -166,7 +170,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
           <div className="relative h-48 overflow-hidden">
             <img
               src={article.image_url}
-              alt={article.title}
+              alt={getLangValue(article.title, i18n.language)}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute top-3 left-3 flex gap-2">
@@ -177,14 +181,16 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
         <CardContent className={`p-5 flex-1 flex flex-col ${!article.image_url ? 'pt-5' : ''}`}>
           <div className="flex items-center gap-2 mb-3 flex-wrap">
             {article.category && (
-              <Badge className={`${getCategoryColor(article.category)} text-xs`}>{article.category}</Badge>
+              <Badge className={`${getCategoryColor(getLangValue(article.category, i18n.language))} text-xs`}>
+                {getLangValue(article.category, i18n.language)}
+              </Badge>
             )}
           </div>
           <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-            {article.title}
+            {getLangValue(article.title, i18n.language)}
           </h3>
           <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">
-            {article.excerpt || article.content.substring(0, 120) + '...'}
+            {getLangValue(article.excerpt, i18n.language) || getLangValue(article.content, i18n.language).substring(0, 120) + '...'}
           </p>
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -228,7 +234,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
 }
 
 export default function NewsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: news, isLoading } = usePublicNews();
   const [search, setSearch] = useState('');
   const [source, setSource] = useState('all');
@@ -236,16 +242,18 @@ export default function NewsPage() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 8;
 
   const filtered = useMemo(() => {
     return (news || []).filter((article) => {
+      const articleTitle = getLangValue(article.title, i18n.language);
+      const articleContent = getLangValue(article.content, i18n.language);
       const matchSearch = !search ||
-        article.title.toLowerCase().includes(search.toLowerCase()) ||
-        (article.content && article.content.toLowerCase().includes(search.toLowerCase())) ||
+        articleTitle.toLowerCase().includes(search.toLowerCase()) ||
+        (articleContent && articleContent.toLowerCase().includes(search.toLowerCase())) ||
         (article.tags && article.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase())));
       const matchSource = source === 'all' || article.source === source;
-      const matchCategory = category === 'all' || article.category === category;
+      const matchCategory = category === 'all' || getLangValue(article.category, i18n.language) === category;
       return matchSearch && matchSource && matchCategory;
     });
   }, [news, search, source, category]);
@@ -299,7 +307,7 @@ export default function NewsPage() {
 
 
       <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
-        
+
         {/* Newsletter Subscription */}
         <Card className="mb-8 bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20">
           <CardContent className="p-6">
@@ -374,7 +382,7 @@ export default function NewsPage() {
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Card key={i}>
                 <CardContent className="p-6">
@@ -407,7 +415,7 @@ export default function NewsPage() {
                   <span className="w-1 h-6 bg-primary rounded-full" />
                   {t('public.news.featured')}
                 </h2>
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <div className="grid gap-6 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {featured.map((article) => (
                     <NewsCard key={article.id} article={article} featured />
                   ))}
@@ -422,7 +430,7 @@ export default function NewsPage() {
                   <span className="w-1 h-6 bg-secondary rounded-full" />
                   {t('public.news.moreNews')}
                 </h2>
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <div className="grid gap-6 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {paginatedRegular.map((article) => (
                     <NewsCard key={article.id} article={article} />
                   ))}
@@ -435,7 +443,9 @@ export default function NewsPage() {
                         <PaginationPrevious
                           onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                           className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                        />
+                        >
+                          {t('common.previous')}
+                        </PaginationPrevious>
 
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
                           if (
@@ -468,7 +478,9 @@ export default function NewsPage() {
                         <PaginationNext
                           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                           className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                        />
+                        >
+                          {t('common.next')}
+                        </PaginationNext>
                       </PaginationContent>
                     </Pagination>
                   </div>

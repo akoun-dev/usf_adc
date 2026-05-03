@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { NewsCategory } from '../../types';
+import { useTranslation } from 'react-i18next';
+import { NewsCategory } from '@/features/admin/types';
 
 interface CategoryBadgeProps {
   category: NewsCategory;
@@ -8,6 +9,14 @@ interface CategoryBadgeProps {
 }
 
 export function CategoryBadge({ category, className }: CategoryBadgeProps) {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  
+  const displayName = (category as any)[`name_${currentLang}`] || 
+                    category.name_fr || 
+                    category.name_en || 
+                    category.slug;
+
   return (
     <Badge
       className={className}
@@ -16,7 +25,7 @@ export function CategoryBadge({ category, className }: CategoryBadgeProps) {
         color: category.color ? getContrastColor(category.color) : undefined
       }}
     >
-      {category.name_fr}
+      {displayName}
     </Badge>
   );
 }

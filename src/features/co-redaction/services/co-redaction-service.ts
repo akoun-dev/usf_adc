@@ -297,6 +297,14 @@ export const coRedactionService = {
       .single();
 
     if (error) throw error;
+
+    // Trigger Edge Function for emails
+    if (['closed', 'reopened'].includes(status)) {
+      supabase.functions
+        .invoke('notify-co-redaction', { body: { document_id: id, action: status } })
+        .catch((err) => console.error('Co-redaction notification failed:', err));
+    }
+
     return data as CoDocument;
   },
 

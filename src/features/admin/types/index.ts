@@ -65,7 +65,7 @@ export interface FaqArticle {
 
 export type NewsStatus = 'draft' | 'in_review' | 'published' | 'archived';
 
-export type EventStatus = 'draft' | 'in_review' | 'published' | 'archived' | 'cancelled';
+export type EventStatus = 'draft' | 'upcoming' | 'ongoing' | 'completed' | 'cancelled' | 'archived';
 
 export type EventType = 'conference' | 'webinar' | 'workshop' | 'training' | 'meeting' | 'other';
 
@@ -107,10 +107,10 @@ export interface ArticleTranslation {
 
 export interface EnhancedNewsArticle {
   id: string;
-  title: string;
-  excerpt?: string;
-  content?: string;
-  category?: string;
+  title: any;
+  excerpt?: any;
+  content?: any;
+  category?: any;
   source?: string;
   image_url?: string;
   featured_image?: string;

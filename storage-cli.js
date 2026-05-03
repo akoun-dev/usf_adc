@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 
 import { createClient } from '@supabase/supabase-js'
 import fs from 'fs'
@@ -6,11 +6,37 @@ import path from 'path'
 
 const command = process.argv[2]
 
-const SUPABASE_URL = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+// ---------------- LOAD ENV ----------------
+function loadEnvFile() {
+    try {
+        const envPath = path.join(process.cwd(), '.env')
+        if (fs.existsSync(envPath)) {
+            const envContent = fs.readFileSync(envPath, 'utf-8')
+            envContent.split('\n').forEach(line => {
+                const [key, ...valueParts] = line.split('=')
+                if (key && valueParts.length > 0 && !line.startsWith('#')) {
+                    let value = valueParts.join('=').trim()
+                    if ((value.startsWith('"') && value.endsWith('"')) ||
+                        (value.startsWith("'") && value.endsWith("'"))) {
+                        value = value.slice(1, -1)
+                    }
+                    process.env[key] = value
+                }
+            })
+        }
+    } catch (error) {
+        // Continue if .env fails to load
+    }
+}
+
+loadEnvFile()
+
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'http://127.0.0.1:54321'
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
     console.error('❌ Missing env variables')
+    console.error('   Vérifiez que SUPABASE_SERVICE_ROLE_KEY est défini dans votre fichier .env')
     process.exit(1)
 }
 

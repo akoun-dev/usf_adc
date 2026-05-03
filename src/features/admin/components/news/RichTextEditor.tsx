@@ -19,9 +19,16 @@ interface RichTextEditorProps {
   onChange?: (content: string) => void;
   placeholder?: string;
   uploadImage?: (file: File) => Promise<string>;
+  minHeight?: string;
 }
 
-export function RichTextEditor({ value, onChange, placeholder = 'Write something amazing...', uploadImage }: RichTextEditorProps) {
+export function RichTextEditor({ 
+  value, 
+  onChange, 
+  placeholder = 'Write something amazing...', 
+  uploadImage,
+  minHeight = '400px'
+}: RichTextEditorProps) {
   const [imageUploading, setImageUploading] = useState(false);
   
   const editor = useEditor({
@@ -47,6 +54,12 @@ export function RichTextEditor({ value, onChange, placeholder = 'Write something
       }
     },
   });
+
+  useEffect(() => {
+    if (editor && value !== undefined && value !== editor.getHTML()) {
+      editor.commands.setContent(value);
+    }
+  }, [value, editor]);
 
   const addImage = async (file: File) => {
     if (!uploadImage) return;
@@ -227,7 +240,11 @@ export function RichTextEditor({ value, onChange, placeholder = 'Write something
         </Button>
       </div>
       
-      <EditorContent editor={editor} className="editor-content min-h-[300px] p-4 focus:outline-none" />
+      <EditorContent 
+        editor={editor} 
+        style={{ minHeight }}
+        className="editor-content p-4 focus:outline-none cursor-text prose prose-sm max-w-none [&_.ProseMirror]:min-h-[inherit]" 
+      />
     </div>
   );
-}
+}

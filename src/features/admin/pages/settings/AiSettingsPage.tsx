@@ -27,12 +27,13 @@ import { useUpdateSetting } from "../../hooks/useUpdateSetting"
 import { toast } from "sonner"
 
 interface AISettings {
-    provider: "openai" | "mistral" | "anthropic" | "other"
+    provider: "openai" | "mistral" | "anthropic" | "other" | "libretranslate"
     model: string
     apiKey: string
     systemPrompt: string
     temperature: number
     enabled: boolean
+    localUrl?: string
 }
 
 export default function AiSettingsPage() {
@@ -49,6 +50,7 @@ export default function AiSettingsPage() {
         systemPrompt: t("admin.defaultSystemPrompt", "You are the FSU Assistant, a telecommunications expert for USF-ADC."),
         temperature: 0.7,
         enabled: true,
+        localUrl: "http://localhost:5001",
     }
 
     const [form, setForm] = useState<AISettings>(currentSettings)
@@ -76,6 +78,7 @@ export default function AiSettingsPage() {
         { value: "openai", label: t("admin.providerOpenAI", "OpenAI"), icon: "🤖" },
         { value: "mistral", label: t("admin.providerMistral", "Mistral AI"), icon: "🌀" },
         { value: "anthropic", label: t("admin.providerAnthropic", "Anthropic (Claude)"), icon: "🧠" },
+        { value: "libretranslate", label: t("admin.providerLibreTranslate", "LibreTranslate (Local)"), icon: "🌐" },
         { value: "other", label: t("admin.providerOther", "Other"), icon: "⚙️" },
     ]
 
@@ -234,14 +237,35 @@ export default function AiSettingsPage() {
                             type="password"
                             value={form.apiKey}
                             onChange={e => setForm(prev => ({ ...prev, apiKey: e.target.value }))}
-                            placeholder="sk-..."
+                            placeholder={form.provider === "libretranslate" ? "Facultatif (si configuré)" : "sk-..."}
                             disabled={!form.enabled}
                             className="font-mono"
                         />
                         <p className="text-xs text-muted-foreground">
-                            {t("admin.apiKeyDesc", "Votre clé API est stockée de manière sécurisée et n'est jamais partagée.")}
+                            {form.provider === "libretranslate" 
+                                ? t("admin.apiKeyLibreTranslateDesc", "Clé API optionnelle pour votre instance LibreTranslate.")
+                                : t("admin.apiKeyDesc", "Votre clé API est stockée de manière sécurisée et n'est jamais partagée.")}
                         </p>
                     </div>
+
+                    {/* Local URL for LibreTranslate */}
+                    {form.provider === "libretranslate" && (
+                        <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
+                            <Label htmlFor="localUrl">
+                                {t("admin.aiLocalUrl", "URL de l'instance locale")}
+                            </Label>
+                            <Input
+                                id="localUrl"
+                                value={form.localUrl}
+                                onChange={e => setForm(prev => ({ ...prev, localUrl: e.target.value }))}
+                                placeholder="http://localhost:5001"
+                                disabled={!form.enabled}
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                {t("admin.localUrlDesc", "L'URL de votre serveur LibreTranslate (ex: http://localhost:5001)")}
+                            </p>
+                        </div>
+                    )}
 
                     {/* System Prompt */}
                     <div className="space-y-2">

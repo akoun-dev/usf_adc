@@ -1,4 +1,5 @@
-import { NewsTab } from "../components/NewsTab"
+import React from 'react'
+import { NewsTab } from "@/features/admin/components/NewsTab"
 
 export default function AdminNewsPage() {
     return (

@@ -14,6 +14,7 @@ export interface Country {
   fsu_coordinator_email: string | null;
   fsu_coordinator_phone: string | null;
   description: string | null;
+  legal_texts: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -105,20 +106,39 @@ export async function fetchAllRegions(): Promise<string[]> {
  * Fetches countries with project count
  */
 export async function fetchCountriesWithProjectCount(): Promise<CountryWithProjects[]> {
-  const { data, error } = await supabase
+  // Fetch all countries
+  const { data: countries, error: countriesError } = await supabase
     .from('countries')
-    .select(`
-      *,
-      projects(count)
-    `)
+    .select('*')
     .order('name_fr');
 
-  if (error) throw error;
+  if (countriesError) throw countriesError;
 
-  return ((data || []) as unknown as CountryWithProjects[]).map(country => ({
-    ...country,
-    project_count: (country as unknown as { projects?: { count: number }[] }).projects?.[0]?.count || 0,
-  }));
+  // Fetch only visible projects (in_progress or completed)
+  const { data: projects, error: projectsError } = await supabase
+    .from('projects')
+    .select('country_id, status')
+    .in('status', ['in_progress', 'completed']);
+
+  if (projectsError) throw projectsError;
+
+  // Count projects by country_id using a Map for better key handling
+  const projectCounts = new Map<string, number>();
+  (projects || []).forEach(p => {
+    if (p.country_id) {
+      const cid = String(p.country_id).toLowerCase();
+      projectCounts.set(cid, (projectCounts.get(cid) || 0) + 1);
+    }
+  });
+
+  // Map counts to countries
+  return (countries || []).map(country => {
+    const cid = String(country.id).toLowerCase();
+    return {
+      ...country,
+      project_count: projectCounts.get(cid) || 0,
+    };
+  });
 }
 
 /**

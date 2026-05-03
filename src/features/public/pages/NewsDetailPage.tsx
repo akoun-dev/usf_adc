@@ -1,4 +1,4 @@
-﻿import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Clock, Share2, Tag as TagIcon } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useNewsArticle, usePublicNews } from '../hooks/usePublicNews';
@@ -7,12 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import PageHero from '@/components/PageHero';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
+import bgHeader from '@/assets/bg-header.jpg';
+
 
 export default function NewsDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data: article, isLoading } = useNewsArticle(id ?? '');
-  const { data: allNews = [] } = usePublicNews(20);
+  const { data: allNews = [] } = usePublicNews();
 
   if (isLoading) {
     return (
@@ -42,24 +45,47 @@ export default function NewsDetailPage() {
 
   return (
     <PublicLayout>
+
+      <div className="space-y-12 relative bg-gray-50">
+
+        {/* Hero */}
+        <div
+          className="relative bg-cover bg-center bg-no-repeat pb-5 !m-0 border-b"
+          style={{ backgroundImage: `url(${bgHeader})` }}
+        >
+          <div className="absolute inset-0" />
+          <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              {t('public.news.pageTitle')}
+            </h1>
+            <p className="text-xl text-base !mt-2">
+              {t("public.news.pageDesc")}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+
       <div className="w-full px-4 py-8">
         <Button asChild variant="ghost" className="mb-6">
           <Link to="/actualites" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Retour aux actualités
+            {t('common.backToNews', 'Retour aux actualités')}
           </Link>
         </Button>
 
         <article>
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <Badge className="bg-primary/10 text-primary">{article.category}</Badge>
+              <Badge className="bg-primary/10 text-primary">{getLangValue(article.category, i18n.language)}</Badge>
               <Badge variant="outline">{article.source}</Badge>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{article.title}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4">{getLangValue(article.title, i18n.language)}</h1>
 
-            <p className="text-xl text-muted-foreground mb-6">{article.excerpt}</p>
+            <p className="text-xl text-muted-foreground mb-6">{getLangValue(article.excerpt, i18n.language)}</p>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
@@ -81,14 +107,14 @@ export default function NewsDetailPage() {
             <div className="mb-8 rounded-xl overflow-hidden">
               <img
                 src={article.image_url}
-                alt={article.title}
+                alt={getLangValue(article.title, i18n.language)}
                 className="w-full h-[400px] object-cover"
               />
             </div>
           )}
 
           <div className="prose prose-lg max-w-none mb-8">
-            {article.content.split('\n').map((paragraph, i) => {
+            {getLangValue(article.content, i18n.language).split('\n').map((paragraph: string, i: number) => {
               if (paragraph.trim().startsWith('-')) {
                 return (
                   <li key={i} className="ml-4">{paragraph.replace(/^-/, '').trim()}</li>
@@ -155,16 +181,16 @@ export default function NewsDetailPage() {
                     {related.image_url && (
                       <img
                         src={related.image_url}
-                        alt={related.title}
+                        alt={getLangValue(related.title, i18n.language)}
                         className="w-full h-48 object-cover rounded-t-lg"
                       />
                     )}
                     <CardContent className="p-4">
-                      <Badge className="mb-2 text-xs">{related.category}</Badge>
+                      <Badge className="mb-2 text-xs">{getLangValue(related.category, i18n.language)}</Badge>
                       <h3 className="font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                        {related.title}
+                        {getLangValue(related.title, i18n.language)}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{related.excerpt}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2">{getLangValue(related.excerpt, i18n.language)}</p>
                     </CardContent>
                   </Card>
                 </Link>

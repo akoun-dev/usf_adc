@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 .env
 .env
+.venv/*
 
 # Supabase local config
 supabase/config.toml
@@ -32,3 +33,5 @@ liste_fonctionnalite.md
 RAPPORT_AUDIT_IMPLEMENTATION.md
 user.md
 data.txt
+
+scratch/

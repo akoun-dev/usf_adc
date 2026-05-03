@@ -5,6 +5,7 @@ import {
   fetchNewsByCategory,
   fetchNewsByLanguage,
   fetchLatestNews,
+  fetchNewsByCountry,
   type NewsWithTags,
 } from '../services';
 
@@ -65,6 +66,18 @@ export function useLatestNews(limit = 5) {
   return useQuery({
     queryKey: ['public-news', 'latest', { limit }],
     queryFn: () => fetchLatestNews(limit),
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+/**
+ * Hook to fetch news by country ID
+ */
+export function useNewsByCountry(countryId: string, limit = 5) {
+  return useQuery({
+    queryKey: ['public-news', 'country', countryId, { limit }],
+    queryFn: () => fetchNewsByCountry(countryId, limit),
+    enabled: !!countryId,
     staleTime: 5 * 60 * 1000,
   });
 }

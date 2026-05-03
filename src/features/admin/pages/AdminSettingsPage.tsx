@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import {
     Settings,
     Key,
@@ -19,6 +20,7 @@ import {
     Bot,
     FileText,
     Search,
+    Quote,
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
@@ -26,6 +28,7 @@ import { useState } from "react"
 export default function AdminSettingsPage() {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const { hasRole } = useAuth()
     const [searchQuery, setSearchQuery] = useState("")
 
     const settingsSections = [
@@ -39,6 +42,7 @@ export default function AdminSettingsPage() {
             icon: FileText,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/fsu",
+            roles: ["super_admin"]
         },
         {
             value: "apikeys",
@@ -50,6 +54,7 @@ export default function AdminSettingsPage() {
             icon: Key,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/apikeys",
+            roles: ["super_admin"]
         },
         {
             value: "ip",
@@ -61,6 +66,7 @@ export default function AdminSettingsPage() {
             icon: ShieldAlert,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/ip",
+            roles: ["super_admin"]
         },
         {
             value: "backups",
@@ -72,6 +78,7 @@ export default function AdminSettingsPage() {
             icon: Database,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/backups",
+            roles: ["super_admin"]
         },
         {
             value: "audit",
@@ -83,6 +90,7 @@ export default function AdminSettingsPage() {
             icon: ScrollText,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/audit",
+            roles: ["super_admin"]
         },
         {
             value: "faq",
@@ -94,6 +102,7 @@ export default function AdminSettingsPage() {
             icon: BookOpen,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/faq",
+            roles: ["super_admin"]
         },
         {
             value: "quarterly",
@@ -105,6 +114,7 @@ export default function AdminSettingsPage() {
             icon: CalendarClock,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/quarterly",
+            roles: ["super_admin"]
         },
         {
             value: "ai",
@@ -116,6 +126,19 @@ export default function AdminSettingsPage() {
             icon: Bot,
             color: "bg-[#00833d]/20 text-[#00833d]",
             path: "/admin/settings/ai",
+            roles: ["super_admin"]
+        },
+        {
+            value: "welcome",
+            title: t("admin.welcomeMessage", "Mot de bienvenue"),
+            description: t(
+                "admin.welcomeMessageDesc",
+                "Gérez le message de bienvenue du DG de votre pays"
+            ),
+            icon: Quote,
+            color: "bg-[#00833d]/20 text-[#00833d]",
+            path: "/admin/settings/welcome",
+            roles: ["super_admin", "country_admin"]
         },
     ]
 
@@ -151,15 +174,14 @@ export default function AdminSettingsPage() {
             {/* Settings Cards Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {settingsSections
-                    .filter(
-                        section =>
-                            section.title
-                                .toLowerCase()
-                                .includes(searchQuery.toLowerCase()) ||
-                            section.description
-                                .toLowerCase()
-                                .includes(searchQuery.toLowerCase())
-                    )
+                    .filter(section => {
+                        const matchesSearch = section.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            section.description.toLowerCase().includes(searchQuery.toLowerCase());
+                        
+                        const hasRequiredRole = !section.roles || section.roles.some(role => hasRole(role));
+                        
+                        return matchesSearch && hasRequiredRole;
+                    })
                     .map(section => {
                         const Icon = section.icon
                         return (

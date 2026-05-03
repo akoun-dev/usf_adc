@@ -2600,8 +2600,18 @@
         "about": "Sobre",
         "membership": "Adesão",
         "contact": "Contato",
-        "news": "Notícias"
+        "news": "Notícias",
+        "coRedaction": "Co-Autoria"
       }
+    },
+    "hero": {
+      "badge": "Conectar África",
+      "title": "Um Serviço Universal para",
+      "subtitle": "Conectar os não-conectados",
+      "description": "Plataforma de monitorização e pilotagem do Serviço Universal — Acesso digital para todos os cidadãos africanos.",
+      "accessPlatform": "Aceder à plataforma",
+      "discover": "Descobrir",
+      "scroll": "Rolar para descobrir"
     },
     "features": {
       "auth": {
@@ -2654,27 +2664,27 @@
       }
     },
     "hero": {
-      "badge": "Plataforma pan-africana FSU",
-      "title": "Conectar a África",
-      "subtitle": "ao digital",
-      "description": "A plataforma de referência para o acompanhamento, recolha e pilotagem do Fundo de Serviço Universal em todo o continente africano.",
+      "badge": "Conectar África",
+      "title": "Conectar África",
+      "subtitle": "ao Mundo Digital",
+      "description": "Plataforma de monitorização e pilotagem do Serviço Universal — Acesso digital para todos os cidadãos africanos.",
       "accessPlatform": "Aceder à plataforma",
       "discover": "Descobrir",
-      "scroll": "Rolar"
+      "scroll": "Rolar para descobrir"
     },
     "welcome": {
       "badge": "Mensagem de Boas-vindas",
-      "title": "Mensagens de boas-vindas",
-      "description": "Os líderes da União Africana das Telecomunicações dirigem-lhe os seus mais calorosos votos.",
+      "title": "Bem-vindo à USF-ADCA",
+      "description": "Uma plataforma pan-africana dedicada à inclusão digital e ao desenvolvimento de infraestruturas de telecomunicações.",
       "secretaryGeneral": {
-        "name": "Sr. John Omo",
-        "role": "Secretário-Geral da UAT",
-        "message": "Caros parceiros e colegas, é com enorme prazer que dou as boas-vindas à plataforma USF-ADCA, uma ferramenta estratégica fundamental para o futuro do digital em África. Esta plataforma corporiza a nossa visão partilhada: garantir o acesso universal aos serviços de telecomunicações para todos os cidadãos africanos, onde quer que estejam. Juntos, estamos a construir um continente ligado, inclusivo e resiliente. Convido a explorar esta plataforma e a contribuir ativamente para a nossa missão partilhada de transformação digital."
+        "name": "Sr. Omo",
+        "message": "Caros parceiros e colegas, é com imenso prazer que vos dou as boas-vindas à plataforma USF-ADCA, uma ferramenta estratégica fundamental para o futuro digital em África. Esta plataforma encarna a nossa visão partilhada: garantir o acesso universal aos serviços de telecomunicações para todos os cidadãos africanos, onde quer que estejam. Juntos, estamos a construir um continente conectado, inclusivo e resiliente. Convido-vos a explorar esta plataforma e a contribuir ativamente para a nossa missão partilhada de transformação digital.",
+        "role": "Secretário-Geral - UAT"
       },
       "director": {
-        "name": "Sr. Gilles Beugre",
-        "role": "Diretor-Geral da ANSUT (Costa do Marfim)",
-        "message": "Bem-vindo à plataforma USF-ADCA, resultado de um trabalho colaborativo exemplar entre os nossos Estados-Membros e parceiros técnicos. Como diretor responsável pelas radiocomunicações, estou convicto de que a gestão ótima do espetro e a implantação de infraestruturas são as chaves para alcançar os nossos objetivos de conetividade universal. Esta plataforma permite-nos acompanhar, coordenar e acelerar os projetos do Fundo de Serviço Universal à escala pan-africana. O seu empenho é essencial para o sucesso deste desafio."
+        "name": "Sr. Gilles Beugré",
+        "message": "Bem-vindo à plataforma USF-ADCA, fruto de um trabalho colaborativo exemplar entre os nossos Estados-Membros e os nossos parceiros técnicos. Como diretor responsável pelas radiocomunicações, estou convencido de que a gestão ideal do espetro e a implantação de infraestruturas são chaves para atingir os nossos objetivos de conectividade universal. Esta plataforma permite-nos acompanhar, coordenar e acelerar os projetos do Fundo de Serviço Universal à escala pan-africana. O vosso empenho é essencial para o sucesso deste desafio.",
+        "role": "Diretor-Geral - ANSUT"
       }
     },
     "featuresSection": {
@@ -2783,11 +2793,28 @@
       "collaboration": "Equipa africana a colaborar na plataforma"
     },
     "partners": {
-      "badge": "Nossos Parceiros",
-      "title": "Eles confiam em nós"
+      "badge": "Parceiros",
+      "title": "Nossos Parceiros",
+      "subtitle": "Eles confiam em nós"
     },
     "atu": "ATU / UAT"
   },
+  "admin.welcomeMessage": "Mensagem de Boas-vindas",
+  "admin.welcomeMessageDesc": "Gerencie a mensagem de boas-vindas do DG do seu país",
+  "admin.dgMessageUpdated": "A mensagem do DG foi atualizada com sucesso.",
+  "admin.photoUploaded": "Foto carregada com sucesso.",
+  "admin.uploadError": "Erro ao carregar a foto.",
+  "admin.selectCountry": "Selecionar País",
+  "admin.chooseCountry": "Escolher um país",
+  "admin.messageContent": "Conteúdo da Mensagem",
+  "admin.dgName": "Nome do DG",
+  "admin.fsuName": "Nome do SUTEL / FSU",
+  "admin.message": "Mensagem de Boas-vindas",
+  "admin.messagePlaceholder": "Digite a mensagem de boas-vindas aqui...",
+  "admin.photo": "Foto do DG",
+  "admin.photoDesc": "Formato recomendado: 400x500px, máx 5MB",
+  "admin.noPhoto": "Nenhuma foto selecionada",
+  "admin.changePhoto": "Alterar Foto",
   "admin.event.title": "Título",
   "admin.event.description": "Descrição",
   "admin.event.startDate": "Data de início",
@@ -2951,6 +2978,5 @@
     "lastModified": "Última modificação",
     "lock": "Bloqueio",
     "download": "Descarregar"
-  },
-  "coRedaction": "Co-Autoria"
+  }
 }

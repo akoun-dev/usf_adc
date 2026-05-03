@@ -1,9 +1,9 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Globe, Filter, ArrowRight, Users, Building2 } from 'lucide-react';
 import bgHeader from '@/assets/bg-header.jpg';
 import { PublicLayout } from '../components/PublicLayout';
-import { useCountriesWithProjectCount, useCountrySearch, type CountryWithProjects } from '../hooks/useCountries';
+import { useCountriesWithProjectCount, type CountryWithProjects } from '../hooks/useCountries';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -75,17 +75,23 @@ export default function CountriesDirectoryPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const itemsPerPage = 12;
+  const itemsPerPage = 15;
 
-  // Fetch countries - use search hook when searching, otherwise use all countries
+  // Fetch countries
   const { data: allCountries = [] } = useCountriesWithProjectCount();
-  const { data: searchResults = [] } = useCountrySearch(searchQuery);
-  const countries: CountryWithProjects[] = searchQuery
-    ? searchResults.map(c => ({ ...c, project_count: 0 }))
-    : allCountries;
-
+  
   const filteredAndSortedCountries = useMemo(() => {
-    let result = [...countries];
+    let result = [...allCountries];
+
+    // Filter by search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(c => 
+        c.name_fr.toLowerCase().includes(q) || 
+        c.name_en.toLowerCase().includes(q) || 
+        c.code_iso.toLowerCase().includes(q)
+      );
+    }
 
     // Filter by region
     if (selectedRegion !== 'all') {
@@ -104,7 +110,7 @@ export default function CountriesDirectoryPage() {
     });
 
     return result;
-  }, [countries, selectedRegion, sortBy, i18n.language]);
+  }, [allCountries, searchQuery, selectedRegion, sortBy, i18n.language]);
 
   // Pagination
   const totalPages = Math.ceil(filteredAndSortedCountries.length / itemsPerPage);

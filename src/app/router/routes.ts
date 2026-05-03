@@ -80,7 +80,7 @@ const AdminDashboard = lazy(
 )
 const AdminNewsPage = lazy(() => import("@/features/admin/pages/AdminNewsPage"))
 const AdminCategoriesPage = lazy(() => import("@/features/admin/pages/AdminCategoriesPage"))
-const ArticleFormPage = lazy(() => import("@/features/admin/pages/ArticleFormPage").then(module => ({ default: module.ArticleFormPage })))
+const ArticleFormPage = lazy(() => import("@/features/admin/pages/ArticleFormPage"))
 const AdminProjectsPage = lazy(
     () => import("@/features/admin/pages/AdminProjectsPage")
 )
@@ -135,10 +135,13 @@ const AiSettingsPage = lazy(
 const FsuSettingsPage = lazy(
     () => import("@/features/admin/pages/settings/FsuSettingsPage")
 )
+const DgMessageSettingsPage = lazy(
+    () => import("@/features/admin/pages/settings/DgMessageSettingsPage")
+)
 const AdminSetupPage = lazy(
     () => import("@/features/admin/pages/AdminSetupPage")
 )
-const EventFormPage = lazy(() => import("@/features/admin/pages/EventFormPage").then(module => ({ default: module.EventFormPage })))
+const EventFormPage = lazy(() => import("@/features/admin/pages/EventFormPage"))
 const FaqPage = lazy(() => import("@/features/support/pages/FaqPage"))
 const NewslettersPage = lazy(
     () => import("@/features/newsletters/pages/NewslettersPage")
@@ -791,7 +794,7 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/admin/settings",
         component: AdminSettingsPage,
-        roles: ["super_admin"],
+        roles: ["super_admin", "country_admin"],
     },
     {
         path: "/admin/settings/platform",
@@ -837,6 +840,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         path: "/admin/settings/fsu",
         component: FsuSettingsPage,
         roles: ["super_admin"],
+    },
+    {
+        path: "/admin/settings/welcome",
+        component: DgMessageSettingsPage,
+        roles: ["country_admin", "super_admin"],
     },
     // Admin access to general features
     {

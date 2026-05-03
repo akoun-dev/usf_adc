@@ -63,6 +63,7 @@
     "confirm": "Confirm",
     "actions": "Actions",
     "add": "Add",
+    "directorGeneral": "Director General",
     "update": "Update",
     "updated": "updated",
     "deleteConfirm": "Delete this {{item}}?",
@@ -2574,220 +2575,24 @@
     "promoteDesc": "The user will gain access to FSU data entry, forum, and country reports.",
     "promoteCancel": "Cancel"
   },
-  "index": {
-    "nav": {
-      "home": "Home",
-      "map": "Map",
-      "countries": "Member Countries",
-      "documents": "Documents",
-      "news": "News",
-      "forum": "Forum",
-      "projects": "Projects",
-      "events": "Events",
-      "sutel": "SUTEL",
-      "about": "About",
-      "login": "Login",
-      "ourHistory": "Our History",
-      "leadership": "Leadership",
-      "memberStates": "Member States",
-      "associatedMembers": "Associated Members",
-      "group": {
-        "home": "Home",
-        "usfAdc": "USF-ADCA",
-        "sutel": "SUTEL",
-        "projects": "Projects",
-        "resources": "Resources",
-        "about": "About",
-        "membership": "Membership",
-        "contact": "Contact",
-        "news": "News"
-      }
-    },
-    "features": {
-      "auth": {
-        "title": "Secure Authentication",
-        "desc": "Role-based access control with mandatory 2FA verification for administrators."
-      },
-      "fsu": {
-        "title": "Structured FSU Collection",
-        "desc": "Multi-step entry, automatic drafts, validation and complete submission tracking."
-      },
-      "map": {
-        "title": "Interactive Mapping",
-        "desc": "Visualize FSU projects on a dynamic and filterable pan-African map."
-      },
-      "reports": {
-        "title": "Reports & KPIs",
-        "desc": "Real-time dashboards, CSV/PDF export and performance indicators."
-      },
-      "collaboration": {
-        "title": "Collaboration",
-        "desc": "Thematic forum, knowledge sharing and team management by country."
-      },
-      "notifications": {
-        "title": "Notifications & Support",
-        "desc": "Real-time alerts, ticket system and resolution tracking."
-      }
-    },
-    "stats": {
-      "countries": "African Countries",
-      "security": "Enhanced Security",
-      "availability": "Availability",
-      "traceability": "Traceability"
-    },
-    "roles": {
-      "public": {
-        "label": "Public / External",
-        "desc": "View published projects and mapping."
-      },
-      "focal": {
-        "label": "Focal Point",
-        "desc": "Enter, submit and track your country's FSU data."
-      },
-      "countryAdmin": {
-        "label": "Country Admin",
-        "desc": "Validate submissions and coordinate at national level."
-      },
-      "globalAdmin": {
-        "label": "Global Admin",
-        "desc": "Supervise the entire continent and manage the platform."
-      }
-    },
-    "hero": {
-      "badge": "Pan-African FSU Platform",
-      "title": "Connect Africa",
-      "subtitle": "to Digital World",
-      "description": "The reference platform for monitoring, collecting and managing the Universal Service Fund across the African continent.",
-      "accessPlatform": "Access the platform",
-      "discover": "Discover",
-      "scroll": "Scroll"
-    },
-    "welcome": {
-      "badge": "Welcome Message",
-      "title": "Welcome messages",
-      "description": "The leaders of the African Telecommunications Union extend their warmest wishes to you.",
-      "secretaryGeneral": {
-        "name": "Mr. John Omo",
-        "role": "Secretary General of ATU",
-        "message": "Dear partners and colleagues, it is with great pleasure that I welcome you to the USF-ADCA platform, a major strategic tool for the future of digital technology in Africa. This platform embodies our shared vision: guaranteeing universal access to telecommunications services for every African citizen, wherever they may be. Together, we are building a connected, inclusive and resilient continent. I invite you to explore this platform and actively contribute to our shared mission of digital transformation."
-      },
-      "director": {
-        "name": "Mr. Gilles Beugre",
-        "role": "Director General of ANSUT (Côte d'Ivoire)",
-        "message": "Welcome to the USF-ADCA platform, the result of exemplary collaborative work between our Member States and technical partners. As Director in charge of radiocommunications, I am convinced that optimal spectrum management and infrastructure deployment are the keys to achieving our universal connectivity goals. This platform enables us to monitor, coordinate and accelerate Universal Service Fund projects on a pan-African scale. Your commitment is essential to meet this challenge."
-      }
-    },
-    "featuresSection": {
-      "badge": "Features",
-      "title": "A Complete Platform",
-      "description": "All the tools needed to manage the Universal Service Fund at continental scale",
-      "learnMore": "Learn more"
-    },
-    "quickAccess": {
-      "map": {
-        "title": "Project Map",
-        "desc": "View FSU projects"
-      },
-      "documents": {
-        "title": "Documents",
-        "desc": "Document Library"
-      },
-      "forum": {
-        "title": "Forum",
-        "desc": "Thematic Discussions"
-      },
-      "projects": {
-        "title": "Projects",
-        "desc": "Completed Projects"
-      }
-    },
-    "newsEvents": {
-      "badge": "News & Events",
-      "title": "Stay Informed",
-      "description": "Follow Universal Service news and upcoming events",
-      "latestNews": "Latest News",
-      "upcomingEvents": "Upcoming Events",
-      "viewAll": "View All",
-      "noNews": "No news available",
-      "noEvents": "No upcoming events",
-      "featured": "Featured",
-      "readMore": "Read more",
-      "register": "Register",
-      "joinCommunity": "Join the USF-ADCA Community",
-      "joinCommunityDesc": "Check the latest Universal Service news and don't miss any important events",
-      "viewNews": "View News",
-      "calendar": "Calendar"
-    },
-    "about": {
-      "badge": "About the Platform",
-      "title": "Driving African Digital Together",
-      "description": "The USF-ADCA platform is a pan-African collaboration tool developed under the auspices of the African Telecommunications Union (ATU). It enables 54 member countries to collect, monitor and manage Universal Service Fund initiatives.",
-      "items": {
-        "standardized": "Standardized FSU data collection",
-        "validation": "Multi-level validation with traceability",
-        "dashboards": "Real-time dashboards and reports",
-        "forum": "Exchange forum between focal points"
-      },
-      "connectedCountries": "countries connected",
-      "learnMore": "Learn more",
-      "carousel": {
-        "universal": {
-          "title": "Universal Service",
-          "desc": "Ensuring universal access to telecommunications services for all African citizens, leaving no one behind."
-        },
-        "dashboard": {
-          "title": "Dashboards",
-          "desc": "Visualize key performance indicators and track USF project evolution in real-time across the continent."
-        },
-        "collaboration": {
-          "title": "Collaboration",
-          "desc": "A space for exchange and cooperation between the 54 member countries to share best practices and innovate together."
-        },
-        "innovation": {
-          "title": "Technological Innovation",
-          "desc": "Promoting the adoption of innovative technologies and cutting-edge digital solutions to accelerate telecommunications development across Africa."
-        }
-      }
-    },
-    "rolesSection": {
-      "badge": "Roles & Access",
-      "title": "4 Access Levels",
-      "description": "Each role has a dashboard and permissions adapted to their mission"
-    },
-    "cta": {
-      "title": "Ready to Contribute to African Digital?",
-      "description": "Join the USF-ADCA platform to access collaboration resources and Universal Service Fund monitoring.",
-      "login": "Login",
-      "contact": "Contact ATU"
-    },
-    "footer": {
-      "platform": "Pan-African FSU Platform",
-      "navigation": "Navigation",
-      "features": "Features",
-      "map": "Map",
-      "about": "About",
-      "documents": "Documents",
-      "news": "News",
-      "forum": "Forum",
-      "projects": "Projects",
-      "events": "Events",
-      "account": "Account",
-      "login": "Login",
-      "faq": "FAQ",
-      "copyright": "© {{year}} ANSUT / African Telecommunications Union — All rights reserved",
-      "legal": "Legal Notice",
-      "privacy": "Privacy"
-    },
-    "imageAlt": {
-      "hero": "African digital connectivity",
-      "collaboration": "African team collaborating on the platform"
-    },
-    "partners": {
-      "badge": "Our Partners",
-      "title": "They trust us"
-    },
-    "atu": "ATU / UAT"
-  },
+
+
+  "admin.welcomeMessage": "Welcome Message",
+  "admin.welcomeMessageDesc": "Manage the welcome message for your country's DG",
+  "admin.dgMessageUpdated": "The DG message has been updated successfully.",
+  "admin.photoUploaded": "Photo uploaded successfully.",
+  "admin.uploadError": "Error uploading photo.",
+  "admin.selectCountry": "Select Country",
+  "admin.chooseCountry": "Choose a country",
+  "admin.messageContent": "Message Content",
+  "admin.dgName": "DG Name",
+  "admin.fsuName": "SUTEL / FSU Name",
+  "admin.message": "Welcome Message",
+  "admin.messagePlaceholder": "Enter the welcome message here...",
+  "admin.photo": "DG Photo",
+  "admin.photoDesc": "Recommended format: 400x500px, max 5MB",
+  "admin.noPhoto": "No photo selected",
+  "admin.changePhoto": "Change Photo",
   "admin.event.title": "Title",
   "admin.event.description": "Description",
   "admin.event.startDate": "Start Date",
@@ -2952,5 +2757,139 @@
     "lock": "Lock",
     "download": "Download"
   },
-  "coRedaction": "Co-Authoring"
+  "admin.agency": {
+    "dgMessageUpdated": "Agency information updated successfully.",
+    "agencyDeleted": "Agency deleted.",
+    "agencyManagement": "Agency Management",
+    "agencyManagementDesc": "Manage agency information, responsible officers, and their messages.",
+    "agencyInfo": "Agency Information",
+    "agencyName": "Institution Name",
+    "agencyType": "Type",
+    "typeAgency": "Dedicated Agency",
+    "typeRegulator": "Regulator",
+    "typeMinistry": "Ministry",
+    "typeInstitution": "Institution",
+    "typeOrganization": "Organization",
+    "typePublicService": "Public Service",
+    "typePrivateService": "Private Service",
+    "dgName": "Manager Name",
+    "dgMessage": "Welcome Message",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "headquarters": "Headquarters",
+    "contactPhone": "Contact Phone",
+    "contactEmail": "Contact Email",
+    "agenciesList": "Agencies List",
+    "noAgencies": "No agencies registered.",
+    "addAgency": "Add Agency",
+    "newAgency": "New Agency",
+    "editAgency": "Edit Agency"
+  },
+  "index": {
+    "nav": {
+      "group": {
+        "home": "Home",
+        "usfAdc": "USF-ADC",
+        "projects": "Projects",
+        "resources": "Resources",
+        "coRedaction": "Co-Authoring",
+        "news": "News",
+        "about": "About",
+        "sutel": "SUTEL"
+      }
+    },
+    "hero": {
+      "badge": "Connecting Africa",
+      "title": "Connecting Africa",
+      "subtitle": "to the Digital World",
+      "description": "Universal Service monitoring and steering platform — Digital access for all African citizens.",
+      "accessPlatform": "Access Platform",
+      "discover": "Discover",
+      "scroll": "Scroll to discover"
+    },
+    "welcome": {
+      "badge": "Welcome Message",
+      "title": "Welcome to USF-ADCA",
+      "description": "A pan-African platform dedicated to digital inclusion and telecommunications infrastructure development.",
+      "secretaryGeneral": {
+        "name": "Mr. Omo",
+        "message": "Dear partners and colleagues, it is with great pleasure that I welcome you to the USF-ADCA platform, a major strategic tool for Africa's digital future. This platform embodies our shared vision: ensuring universal access to telecommunications services for every African citizen, wherever they are. Together, we are building a connected, inclusive, and resilient continent. I invite you to explore this platform and contribute actively to our shared mission of digital transformation.",
+        "role": "Secretary General - ATU"
+      },
+      "director": {
+        "name": "Mr. Gilles Beugré",
+        "message": "Welcome to the USF-ADCA platform, the fruit of exemplary collaborative work between our member states and our technical partners. As director in charge of radiocommunications, I am convinced that optimal spectrum management and infrastructure deployment are keys to achieving our universal connectivity goals. This platform allows us to monitor, coordinate, and accelerate Universal Service Fund projects on a pan-African scale. Your commitment is essential to succeeding in this challenge.",
+        "role": "General Manager - ANSUT"
+      },
+      "otherMembers": "Other members"
+    },
+    "about": {
+      "badge": "About Us",
+      "title": "Our Mission",
+      "description": "To promote universal access to digital services for every African citizen, by supporting local and regional initiatives.",
+      "carousel": {
+        "universal": {
+          "title": "Universal Access",
+          "desc": "Ensure that even the most remote areas benefit from quality connectivity."
+        },
+        "dashboard": {
+          "title": "Data Steering",
+          "desc": "A comprehensive dashboard for monitoring performance indicators at a continental scale."
+        },
+        "collaboration": {
+          "title": "Collaborative Space",
+          "desc": "Facilitate exchanges between regulatory agencies and ministries in 54 countries."
+        },
+        "innovation": {
+          "title": "Digital Innovation",
+          "desc": "Support technological projects that transform lives."
+        }
+      },
+      "learnMore": "Learn More"
+    },
+    "newsEvents": {
+      "badge": "News & Events",
+      "title": "Latest News",
+      "description": "Stay informed about the latest Universal Service developments in Africa and participate in our upcoming events.",
+      "latestNews": "Latest News",
+      "viewAll": "View all",
+      "upcomingEvents": "Upcoming Events",
+      "readMore": "Read more",
+      "register": "Register",
+      "noNews": "No news available at the moment.",
+      "noEvents": "No events scheduled soon.",
+      "joinCommunity": "Join the Community",
+      "joinCommunityDesc": "Sign up for our newsletter to stay updated on our activities.",
+      "viewNews": "View news",
+      "calendar": "Calendar"
+    },
+    "featuresSection": {
+      "badge": "Features",
+      "title": "A Powerful Platform",
+      "description": "Everything you need to effectively manage and monitor universal service funds."
+    },
+    "quickAccess": {
+      "map": {
+        "title": "Interactive Map",
+        "desc": "Visualize projects across Africa."
+      },
+      "documents": {
+        "title": "Library",
+        "desc": "Access reports and public policies."
+      },
+      "forum": {
+        "title": "Exchange Space",
+        "desc": "Discuss with your peers and experts."
+      },
+      "projects": {
+        "title": "Project Management",
+        "desc": "Track the progress of FSU initiatives."
+      }
+    },
+    "partners": {
+      "badge": "Partners",
+      "title": "Our Partners",
+      "subtitle": "They trust us"
+    }
+  }
 }

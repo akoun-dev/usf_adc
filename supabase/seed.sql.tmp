@@ -1,0 +1,1117 @@
+SET session_replication_role = replica;
+
+--
+-- PostgreSQL database dump
+--
+
+-- \restrict 6BDMzXsUORseb6wfnEnBJFskfm2KfUYGfinu93Dcnfid0h7kAS0j3Im6Yfc8Jw5
+
+-- Dumped from database version 17.6
+-- Dumped by pg_dump version 17.6
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created_at", "ip_address") VALUES
+	('00000000-0000-0000-0000-000000000000', '64376a45-90eb-4dfb-a6cd-51c40ea6eee9', '{"action":"user_signedup","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"provider":"email","user_email":"admin@test.local","user_id":"d29411a5-6ce9-475b-977c-dbda749b943b","user_phone":""}}', '2026-04-27 09:26:46.529093+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8a223de7-1597-4184-9baa-972a4079a502', '{"action":"user_signedup","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"provider":"email","user_email":"togo-admin@test.local","user_id":"2c826e6d-8b93-4b83-a9df-d08b4403074e","user_phone":""}}', '2026-04-27 09:26:46.641784+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b8e97748-8a45-47f9-8550-e8462cb19269', '{"action":"user_signedup","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"provider":"email","user_email":"togo-pointfocal@test.local","user_id":"27532cd4-aa56-483e-ad7b-411d745eaa42","user_phone":""}}', '2026-04-27 09:26:46.730652+00', ''),
+	('00000000-0000-0000-0000-000000000000', '867d2db9-3f9b-42f9-9dce-1c732ccc3ada', '{"action":"user_signedup","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"provider":"email","user_email":"civ-admin@test.local","user_id":"9ca48a5d-393a-4e20-b3d2-84dd6ff87be9","user_phone":""}}', '2026-04-27 09:26:46.821736+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8b1f80e4-b57a-446a-85c0-93967eb6c0e5', '{"action":"user_signedup","actor_id":"00000000-0000-0000-0000-000000000000","actor_username":"service_role","actor_via_sso":false,"log_type":"team","traits":{"provider":"email","user_email":"civ-pointfocal@test.local","user_id":"9068e130-64ac-49a1-8285-e64aedb862b8","user_phone":""}}', '2026-04-27 09:26:46.906584+00', ''),
+	('00000000-0000-0000-0000-000000000000', '648f23ea-4c07-437e-a7e1-330f207e6bb2', '{"action":"login","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-04-27 09:27:16.007745+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'a641c274-a924-4bc5-8d2f-2598e83654e4', '{"action":"token_refreshed","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 10:26:33.375968+00', ''),
+	('00000000-0000-0000-0000-000000000000', '58af5b4a-ba79-4492-a0b5-152be892aeae', '{"action":"token_revoked","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 10:26:33.38157+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd1581d0c-1888-4297-8e13-a866f5f38ce3', '{"action":"token_refreshed","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 11:26:09.494652+00', ''),
+	('00000000-0000-0000-0000-000000000000', '306079ff-5d97-4c98-9b44-55eeb44852f4', '{"action":"token_revoked","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 11:26:09.501086+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b54a143c-5fb9-4085-96ac-1aa6baf440cd', '{"action":"token_refreshed","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 12:36:21.635507+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b0c1faf6-5d1f-4949-b6eb-8e98fc74d6ae', '{"action":"token_revoked","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 12:36:21.642198+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8f7bf1b6-12ad-4d7b-b011-b3511be9aaee', '{"action":"token_refreshed","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 13:34:49.565732+00', ''),
+	('00000000-0000-0000-0000-000000000000', '047c9042-7dbf-46e5-bc72-83598608654b', '{"action":"token_revoked","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-04-27 13:34:49.571644+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd11b3106-8f53-45c9-a2ce-c6ce2fbbdfdd', '{"action":"logout","actor_id":"d29411a5-6ce9-475b-977c-dbda749b943b","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-04-27 14:09:09.924467+00', '');
+
+
+--
+-- Data for Name: custom_oauth_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: flow_state; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encrypted_password", "email_confirmed_at", "invited_at", "confirmation_token", "confirmation_sent_at", "recovery_token", "recovery_sent_at", "email_change_token_new", "email_change", "email_change_sent_at", "last_sign_in_at", "raw_app_meta_data", "raw_user_meta_data", "is_super_admin", "created_at", "updated_at", "phone", "phone_confirmed_at", "phone_change", "phone_change_token", "phone_change_sent_at", "email_change_token_current", "email_change_confirm_status", "banned_until", "reauthentication_token", "reauthentication_sent_at", "is_sso_user", "deleted_at", "is_anonymous") VALUES
+	('00000000-0000-0000-0000-000000000000', 'd29411a5-6ce9-475b-977c-dbda749b943b', 'authenticated', 'authenticated', 'admin@test.local', '$2a$10$Yu9Q6aT4NdzEYn4rLYa05.UYHqsZnh3OV9xl7//aUjOpLBnYa52YS', '2026-04-27 09:26:46.531359+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-04-27 09:27:16.008536+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Administrator", "email_verified": true}', NULL, '2026-04-27 09:26:46.519054+00', '2026-04-27 13:34:49.583617+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '2c826e6d-8b93-4b83-a9df-d08b4403074e', 'authenticated', 'authenticated', 'togo-admin@test.local', '$2a$10$Ms/NbYGsSI2aTSO6uxLCAuEav.N7SuBErhDZukyJoz/OkVlnawX5W', '2026-04-27 09:26:46.644514+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Admin Togo", "email_verified": true}', NULL, '2026-04-27 09:26:46.638652+00', '2026-04-27 09:26:46.64504+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '27532cd4-aa56-483e-ad7b-411d745eaa42', 'authenticated', 'authenticated', 'togo-pointfocal@test.local', '$2a$10$stWgZteKxBKnft409hiMaOlXIkulsbfEQrU1eWdkJAC4/GxaYGKUC', '2026-04-27 09:26:46.731541+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Point Focal Togo", "email_verified": true}', NULL, '2026-04-27 09:26:46.727894+00', '2026-04-27 09:26:46.73197+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', 'authenticated', 'authenticated', 'civ-admin@test.local', '$2a$10$27SNwIGqvNfaxqRDJbU7PO0hPqU.CN2AIi0baE1lJAF33U1ZENHWy', '2026-04-27 09:26:46.822711+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Admin Cote d''Ivoire", "email_verified": true}', NULL, '2026-04-27 09:26:46.818599+00', '2026-04-27 09:26:46.823176+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '9068e130-64ac-49a1-8285-e64aedb862b8', 'authenticated', 'authenticated', 'civ-pointfocal@test.local', '$2a$10$HsUMjINKb.sq.9QrwD1aAe8ekzk0l2Ud1k/yL2pvgdozmRR3eDryG', '2026-04-27 09:26:46.907562+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Point Focal Cote d''Ivoire", "email_verified": true}', NULL, '2026-04-27 09:26:46.903758+00', '2026-04-27 09:26:46.907987+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+
+
+--
+-- Data for Name: identities; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "provider", "last_sign_in_at", "created_at", "updated_at", "id") VALUES
+	('d29411a5-6ce9-475b-977c-dbda749b943b', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{"sub": "d29411a5-6ce9-475b-977c-dbda749b943b", "email": "admin@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-04-27 09:26:46.52809+00', '2026-04-27 09:26:46.528116+00', '2026-04-27 09:26:46.528116+00', '3b705bfd-91ac-4d73-81ef-af998f55b1c4'),
+	('2c826e6d-8b93-4b83-a9df-d08b4403074e', '2c826e6d-8b93-4b83-a9df-d08b4403074e', '{"sub": "2c826e6d-8b93-4b83-a9df-d08b4403074e", "email": "togo-admin@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-04-27 09:26:46.641116+00', '2026-04-27 09:26:46.641148+00', '2026-04-27 09:26:46.641148+00', '986a2c45-a664-466f-87c2-c3a020cdc722'),
+	('27532cd4-aa56-483e-ad7b-411d745eaa42', '27532cd4-aa56-483e-ad7b-411d745eaa42', '{"sub": "27532cd4-aa56-483e-ad7b-411d745eaa42", "email": "togo-pointfocal@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-04-27 09:26:46.730003+00', '2026-04-27 09:26:46.730024+00', '2026-04-27 09:26:46.730024+00', '62d69d15-2b11-47bd-8023-04f6891c9e0c'),
+	('9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', '9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', '{"sub": "9ca48a5d-393a-4e20-b3d2-84dd6ff87be9", "email": "civ-admin@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-04-27 09:26:46.820898+00', '2026-04-27 09:26:46.820927+00', '2026-04-27 09:26:46.820927+00', '7927836a-3f3c-4102-9dae-c33d9a28c998'),
+	('9068e130-64ac-49a1-8285-e64aedb862b8', '9068e130-64ac-49a1-8285-e64aedb862b8', '{"sub": "9068e130-64ac-49a1-8285-e64aedb862b8", "email": "civ-pointfocal@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-04-27 09:26:46.9059+00', '2026-04-27 09:26:46.905931+00', '2026-04-27 09:26:46.905931+00', 'a85b381b-0f17-486a-9e1b-bf683ca873ec');
+
+
+--
+-- Data for Name: instances; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: oauth_clients; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_factors; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: mfa_challenges; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: oauth_authorizations; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: oauth_client_states; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: oauth_consents; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: one_time_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sso_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: saml_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: saml_relay_states; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: sso_domains; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: webauthn_challenges; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: webauthn_credentials; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
+--
+
+
+
+--
+-- Data for Name: api_keys; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: news_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."news_categories" ("id", "name_fr", "name_en", "name_pt", "slug", "color", "icon", "sort_order", "is_active", "created_at", "updated_at") VALUES
+	('10000000-0000-0000-0000-000000000001', 'Financement', 'Funding', 'Financiamento', 'financement', '#3B82F6', NULL, 1, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000002', 'Partenariat', 'Partnership', 'Parceria', 'partenariat', '#10B981', NULL, 2, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000003', '├ëv├®nement', 'Event', 'Evento', 'evenement', '#EF4444', NULL, 3, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000004', 'Certification', 'Certification', 'Certifica├º├úo', 'certification', '#F59E0B', NULL, 4, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000005', 'Innovation', 'Innovation', 'Inova├º├úo', 'innovation', '#8B5CF6', NULL, 5, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000006', 'Technologie', 'Technology', 'Tecnologia', 'technologie', '#EC4899', NULL, 6, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000007', 'Formation', 'Training', 'Forma├º├úo', 'formation', '#06B6D4', NULL, 7, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('10000000-0000-0000-0000-000000000008', 'R├®glementation', 'Regulation', 'Regulamenta├º├úo', 'reglementation', '#14B8A6', NULL, 8, true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: news; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."news" ("id", "title", "excerpt", "content", "category", "source", "image_url", "published_at", "is_public", "author", "read_time", "language", "created_by", "created_at", "updated_at", "status", "featured_image", "meta_description", "meta_keywords", "slug", "sort_order", "is_featured", "allow_comments", "category_id") VALUES
+	('d0000000-0000-0000-0000-000000000001', 'Lancement du Fonds de Service Universel pan-africain', 'Une initiative historique pour combler la fracture num├®rique en Afrique.', 'L''Union Africaine des T├®l├®communications annonce la cr├®ation d''un fonds de service universel ├á l''├®chelle continentale. Ce fonds vise ├á financer les infrastructures de t├®l├®communications dans les zones non desservies d''Afrique.', 'financement', 'UAT', 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1200', '2026-04-12 08:14:17.863291+00', true, 'UAT Communication', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000002', 'Partenariat avec la Banque Mondiale', 'Accord de financement de 500 millions USD pour les infrastructures.', 'La Banque Mondiale s''engage ├á soutenir les projets de connectivit├® dans 15 pays africains prioritaires. Ce financement permettra le d├®ploiement de 10 000 km de fibre optique.', 'partenariat', 'UAT', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200', '2026-04-15 08:14:17.863291+00', true, 'UAT Communication', '4 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000003', 'Formation des Points Focaux', 'Premi├¿re session de formation r├®ussie ├á Ouagadougou.', '25 points focaux de 10 pays diff├®rents ont particip├® ├á la formation sur l''utilisation de la plateforme USF-ADC. Cette session marque le d├®but d''un programme de renforcement des capacit├®s.', 'formation', 'UAT', 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200', '2026-04-17 08:14:17.863291+00', true, 'UAT Formation', '3 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000004', ' d├®ploiement de la 5G en Afrique : Enjeux et opportunit├®s', 'Analyse des d├®fis du d├®ploiement de la 5G sur le continent africain.', 'La 5G repr├®sente une opportunit├® unique pour acc├®l├®rer la transformation num├®rique de l''Afrique. Cet article analyse les enjeux r├®glementaires, ├®conomiques et techniques du d├®ploiement.', 'innovation', 'UAT', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200', '2026-04-18 08:14:17.863291+00', true, 'Dr. Amadou Diallo', '7 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000005', 'Rapport annuel 2025 : Un an de progr├¿s', 'Bilan des activit├®s de l''UAT pour l''ann├®e 2025.', 'Le rapport annuel 2025 marque une ├®tape significative dans le d├®veloppement des t├®l├®communications en Afrique. D├®couvrez les chiffres cl├®s et les projets marquants de l''ann├®e.', 'rapport', 'UAT', 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200', '2026-04-19 08:14:17.863291+00', true, 'UAT Communication', '6 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000006', 'Nouveau cadre r├®glementaire pour le FSU', 'Les pays membres adoptent un cadre r├®glementaire harmonis├®.', 'Dans un effort d''harmonisation, les pays membres de l''UAT ont adopt├® un nouveau cadre r├®glementaire pour la gestion des Fonds de Service Universel.', 'r├¿glementation', 'UAT', 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200', '2026-04-20 08:14:17.863291+00', true, 'UAT Juridique', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000007', 'Connectivit├® des zones rurales : Le mod├¿le s├®n├®galais', 'Comment le S├®n├®gal r├®ussit le d├®fi de la connectivit├® rurale.', 'Le S├®n├®gal pr├®sente un mod├¿le innovant de d├®ploiement d''infrastructures dans les zones rurales, bas├® sur un partenariat public-priv├® efficace.', '├®tude', 'UAT', 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200', '2026-04-21 08:14:17.863291+00', true, 'Marie Kouassi', '8 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000008', 'Assembl├®e G├®n├®rale 2026 : Les d├®cisions cl├®s', 'Compte rendu de l''Assembl├®e G├®n├®rale de Kigali.', 'L''Assembl├®e G├®n├®rale 2026 a pris plusieurs d├®cisions importantes pour l''avenir des t├®l├®communications en Afrique. D├®couvrez les principaux votes et r├®solutions.', '├®v├®nement', 'UAT', 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1200', '2026-04-22 08:14:17.863291+00', true, 'UAT Communication', '4 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000009', 'L''├®ducation num├®rique en Afrique de l''Est', 'Initiatives pour l''├®ducation num├®rique dans la r├®gion EAC.', 'Les pays de la Communaut├® d''Afrique de l''Est lancent des initiatives conjointes pour promouvoir l''├®ducation num├®rique dans les ├®coles rurales.', '├®ducation', 'UAT-EAC', 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200', '2026-04-23 08:14:17.863291+00', true, 'Bureau EAC', '6 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000010', 'Financement innovant : Les obligations zones blanches', 'Comment les obligations de d├®ploiement financent le FSU.', 'Les obligations de couverture zones blanches repr├®sentent un m├®canisme de financement innovant pour les Fonds de Service Universel.', 'financement', 'UAT', 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1200', '2026-04-24 08:14:17.863291+00', true, 'Jean-Pierre Mbengue', '7 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000011', 'Infrastructure 5G : Le projet pilote du Nigeria', 'Le Nigeria lance son premier projet 5G ├á Lagos.', 'Le Nigeria devient le premier pays de la r├®gion ├á lancer un projet pilote 5G avec le soutien du Fonds de Service Universel.', 'innovation', 'UAT', 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200', '2026-04-25 08:14:17.863291+00', true, 'D├®l├®gu├® Nigeria', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000013', 'T├®l├®consultation m├®dicale en Afrique rurale', 'Comment la t├®l├®consultation sauve des vies gr├óce au FSU.', 'Le d├®ploiement d''infrastructures de t├®l├®communication dans les zones rurales permet le d├®veloppement de services de t├®l├®consultation m├®dicale vitaux.', 'sant├®', 'UAT', 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200', '2026-04-26 12:14:17.863291+00', true, 'Dr. A├»cha Kon├®', '6 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', 'draft', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000012', 'Renforcement des capacit├®s : Programme 2026-2030', 'Le nouveau programme de renforcement des capacit├®s de l''UAT.', 'L''UAT lance un programme ambitieux de formation de 10 000 professionnels des t├®l├®communications d''ici 2030.', 'formation', 'UAT', 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200', '2026-04-26 08:14:17.863291+00', true, 'UAT Formation', '4 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:27:53.236787+00', 'published', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000014', 'L''agriculture num├®rique en zone C├®d├®ao', 'La transformation num├®rique de l''agriculture en Afrique de l''Ouest.', 'Les projets de connectivit├® rurale financ├®s par le FSU permettent le d├®veloppement de solutions d''agriculture num├®rique.', 'agriculture', 'UAT', 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1200', '2026-04-26 14:14:17.863291+00', true, 'Bureau CEDEAO', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:27:56.938988+00', 'published', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000016', 'Entreprenariat num├®rique : Concours 2026', 'Lancement du concours d''entreprenariat num├®rique de l''UAT.', 'L''UAT lance son concours d''entreprenariat num├®rique pour soutenir les start-ups du secteur des t├®l├®communications.', 'concours', 'UAT', 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200', '2026-04-26 20:14:17.863291+00', true, 'UAT Innovation', '4 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:28:02.15289+00', 'published', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000017', 'Coop├®ration r├®gionale : Accord UAT-UE', 'Nouvel accord de coop├®ration entre l''UAT et l''Union Europ├®enne.', 'L''accord pr├®voit un financement de 200 millions d''euros pour les projets de connectivit├® en Afrique.', 'partenariat', 'UAT', 'https://eauxetforets.gouv.ci/sites/default/files/styles/page-actu-top/public/actualite/apv1.jpg?itok=Br6GV27r', '2026-04-26 22:14:17.863291+00', true, 'UAT Communication', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:31:05.922415+00', 'published', '', '', '', '', 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000015', 'S├®curit├® des r├®seaux : Nouvelles directives', 'Directives de l''UAT pour la s├®curit├® des r├®seaux de t├®l├®communications.', 'L''UAT publie de nouvelles directives pour renforcer la cybers├®curit├® des r├®seaux de t├®l├®communications nationaux.', 's├®curit├®', 'UAT', 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200', '2026-04-26 17:14:17.863291+00', true, 'UAT Technique', '7 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:27:43.314035+00', 'published', NULL, NULL, NULL, NULL, 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000018', 'Digitalisation des services publics', 'Comment le FSU finance la digitalisation administrative.', 'Les projets financ├®s par le FSU permettent la digitalisation des services publics dans les zones rurales.', 'e-gouvernement', 'UAT', 'https://images.theconversation.com/files/625175/original/file-20241011-15-350guy.jpg?ixlib=rb-4.1.0&rect=0%2C0%2C4243%2C2828&q=50&auto=format&w=768&h=512&fit=crop&dpr=2', '2026-04-27 00:14:17.863291+00', true, 'Bureau SADC', '6 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:39:08.448239+00', 'published', '', '', '', '', 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000019', '├ënergie solaire pour les sites t├®l├®coms', 'Initiatives pour une t├®l├®communication verte en Afrique.', '<p>Les technologies de l''information et de la communication (TIC) jouent un r├┤le essentiel dans la r├®alisation du Programme 2030 pour le d├®veloppement durable. La disponibilit├® de l''├®nergie est indispensable au secteur des TIC, ├á ses services et ├á ses applications. L''├®lectricit├® est n├®cessaire pour la plupart des TIC, pour recharger les appareils, alimenter les stations de base mobiles, faire fonctionner les centres de donn├®es et les r├®seaux, pour ne citer que quelques exemples. L''acc├¿s ├á une alimentation ├®lectrique fiable et abordable reste une contrainte majeure, en particulier dans les pays les moins avanc├®s (PMA), les pays en d├®veloppement sans littoral (PDSL) et les petits ├ëtats insulaires en d├®veloppement (PEID), ainsi que dans les zones rurales et recul├®es, o├╣ les populations pourraient tirer le meilleur parti du pouvoir de transformation des TIC, mais o├╣ l''acc├¿s au r├®seau ├®lectrique est tr├¿s limit├® et les revenus faibles. Il existe une relation symbiotique entre l''├®nergie et la connectivit├® ├á Internet dans les endroits qui ne sont pas encore connect├®s, notamment parce que les mod├¿les commerciaux hors r├®seau reposent sur la connectivit├® pour la gestion ├á distance. En outre, les mod├¿les commerciaux de connectivit├® b├®n├®ficient de l''utilisation accrue des services mobiles, notamment des services financiers. Les r├®seaux ├®lectriques peuvent ├®galement ├¬tre exploit├®s pour ├®tendre les r├®seaux dorsaux nationaux et ruraux large bande. Le partage et la r├®utilisation des infrastructures peuvent constituer un outil important pour r├®duire les co├╗ts et ├®tendre les services, ce qui souligne l''importance de la coop├®ration et de la coordination entre les secteurs des TIC et de l''├®nergie pour connecter les zones rurales. Bien qu''il existe un large ├®ventail de sources d''├®nergie renouvelables, la fourniture de cette ├®nergie par des m├®thodes traditionnelles peut se r├®v├®ler co├╗teuse. Le co├╗t prohibitif de l''installation et de l''entretien des lignes et des c├óbles ├®lectriques laisse souvent de nombreuses personnes dans les zones rurales sans source d''├®nergie fiable. Dans de telles situations, l''espace et les nouvelles technologies large bande par satellite ainsi que des solutions innovantes comme les syst├¿mes de transmission d''├®nergie sans fil peuvent offrir une voie vers une connectivit├® Internet ├®conomique.</p>', 'environnement', 'UAT', 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200', '2026-04-27 02:14:17.863291+00', true, 'UAT Environnement', '5 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:42:07.047124+00', 'published', '', '', '', '', 0, false, true, NULL),
+	('d0000000-0000-0000-0000-000000000020', 'Conf├®rence Spectrum 2026', 'Pr├®paratifs de la Conf├®rence Spectrum 2026 ├á Nairobi.', '<p>Coorganis├® par le Forum sud-africain des r├®gulateurs de lÔÇÖinformation, de la communication, des technologies et des m├®dias, et le Social Media 4 Peace South Africa (SM4PSA), lÔÇÖ├®v├®nement ├®tait organis├® avec le soutien de lÔÇÖUNESCO, du R├®seau des autorit├®s africaines de r├®gulation de la communication (RIARC), du R├®seau francophone des r├®gulateurs des m├®dias (REFRAM), du R├®seau de connaissances I4T, ainsi que de lÔÇÖUnion.</p><p>Cette deuxi├¿me ├®dition a r├®uni des r├®gulateurs des m├®dias et de la communication, des gouvernements, des autorit├®s ├®lectorales, des plateformes num├®riques, des repr├®sentants de la soci├®t├® civile, du milieu acad├®mique, ainsi que des organisations internationales et r├®gionales de toutes les r├®gions du monde, afin de faire progresser des approches de gouvernance num├®rique fond├®es sur les droits humains et le multiacteur, et dÔÇÖ├®valuer les avanc├®es r├®alis├®es dans la mise en ┼ôuvre desÔÇ»<a target="_blank" rel="noopener noreferrer nofollow" href="https://unesdoc.unesco.org/ark:/48223/pf0000387359"><u>Principes de lÔÇÖUNESCO pour la gouvernance des plateformes num├®riques</u></a>.&nbsp;</p><p>Des s├®ances pl├®ni├¿res publiques et des ├®v├®nements parall├¿les se sont d├®roul├®s tout au long de la conf├®rence, pr├®sentant des perspectives r├®gionales, des discussions th├®matiques et une collaboration multipartite afin de renforcer la libert├® d''expression et l''int├®grit├® de l''information en ligne.&nbsp;</p><p>Cette conf├®rence mondiale constituait ├®galement la deuxi├¿me r├®union annuelle du Forum mondial des r├®seaux (GFN), lanc├® en 2024 ├á Dubrovnik, en Croatie, lors de la premi├¿re Conf├®rence internationale sur la gouvernance des plateformes num├®riques.&nbsp;</p>', '├®v├®nement', 'UAT', 'https://www.elearning-africa.com/conference2026/ressources/images/content/2024/home_countries_3.jpg', '2026-04-27 04:14:17.863291+00', true, 'UAT Communication', '3 min', 'fr', NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 09:43:39.818459+00', 'published', '', '', '', '', 0, false, true, NULL);
+
+
+--
+-- Data for Name: article_translations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: audit_logs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+/* INSERT INTO "public"."countries" ("id", "code_iso", "name_fr", "name_en", "region", "official_name", "flag_url", "description", "population", "capital", "fsu_established", "fsu_budget", "fsu_coordinator_name", "fsu_coordinator_email", "fsu_coordinator_phone", "logo_path", "created_at", "updated_at") VALUES
+	('5e75213f-9c7d-466a-8881-1d96b13367e1', 'ci', 'C├┤te d''Ivoire', 'Ivory Coast', 'CEDEAO', 'R├®publique de C├┤te d''Ivoire', 'https://flagcdn.com/w320/ci.png', 'La C├┤te d''Ivoire a ├®tabli son Fonds de Service Universel en 2019 avec pour mission de connecter 1000 localit├®s rurales d''ici 2026. Le programme se concentre sur la connectivit├® scolaire, les centres de sant├® communautaires et l''inclusion num├®rique des femmes.', '27,5 millions', 'Yamoussoukro', '2019', '20 milliards FCFA', 'Dr. Amani Kouassi', 'fsu@gouv.ci', '+225 27 20 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:15.620796+00'),
+	('86cb31a0-151e-4639-ae87-f0aa2b6bfdf2', 'gh', 'Ghana', 'Ghana', 'CEDEAO', 'R├®publique du Ghana', 'https://flagcdn.com/w320/gh.png', 'Le Ghana a un FSU mature depuis 2017, avec un focus particulier sur l''├®ducation num├®rique et les t├®l├®centres communautaires. Le programme est cit├® comme mod├¿le dans la sous-r├®gion.', '32,8 millions', 'Accra', '2017', '30 milliards FCFA', 'M. Kwame Mensah', 'fsu@ghana.gov', '+233 30 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:15.620796+00'),
+	('512c08a7-fce4-40db-b76f-40cd708fa00e', 'sn', 'S├®n├®gal', 'Senegal', 'CEDEAO', 'R├®publique du S├®n├®gal', 'https://flagcdn.com/w320/sn.png', 'Pionnier dans la r├®gion, le S├®n├®gal a cr├®├® son FSU en 2018 et a obtenu la certification ISO 9001 en 2024. Le programme s├®n├®galais est reconnu pour ses innovations dans les sites solaires autonomes et son mod├¿le de subvention efficace.', '17,4 millions', 'Dakar', '2018', '25 milliards FCFA', 'Mme Fatou Diallo', 'fsu@senegal.gouv', '+221 33 800 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:15.620796+00'),
+	('e9634471-9635-4b70-bbf8-d90f6a3ac7e7', 'mz', 'Mozambique', 'Mozambique', 'SADC', 'R├®publique du Mozambique', 'https://flagcdn.com/w320/mz.png', 'Le Mozambique a cr├®├® son FSU en 2021 pour connecter les zones rurales apr├¿s les cyclones. Le programme finance des infrastructures r├®silientes.', '31,3 millions', 'Maputo', '2021', '22 milliards FCFA', 'M. Carlos Machava', 'fsu@mozambique.mz', '+258 20 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:15.620796+00'),
+	('20301efe-55ff-4a23-ba8b-1c0543b3ec57', 'za', 'Afrique du Sud', 'South Africa', 'SADC', 'R├®publique d''Afrique du Sud', 'https://flagcdn.com/w320/za.png', 'L''Afrique du Sud dispose d''un FSU mature depuis 2016, finan├ºant des projets de connectivit├® broadband et de centres num├®riques communautaires dans les townships.', '60,0 millions', 'Pretoria', '2016', '60 milliards FCFA', 'Mme Thandi Mbeki', 'fsu@southafrica.gov.za', '+27 10 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:15.620796+00'),
+	('751ff0c0-8c39-4d67-806e-f8c27dc3bf95', 'bj', 'B├®nin', 'Benin', 'CEDEAO', 'R├®publique du B├®nin', 'https://flagcdn.com/w320/bj.png', 'Le B├®nin a lanc├® son Fonds de Service Universel en 2020 pour ├®tendre la connectivit├® dans les zones rurales et p├®riurbaines. Le programme met l''accent sur le num├®rique ├®ducatif et les cybercentres communautaires.', '13,7 millions', 'Porto-Novo', '2020', '8 milliards FCFA', 'M. Cossi Hou├®nou', 'fsu@benin.gouv', '+229 21 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('b890e92e-9ae6-44a9-855b-0bad081f299f', 'bf', 'Burkina Faso', 'Burkina Faso', 'CEDEAO', 'Burkina Faso', 'https://flagcdn.com/w320/bf.png', 'Le Burkina Faso a ├®tabli son FSU en 2019 avec pour ambition de r├®duire la fracture num├®rique dans les zones rurales. Le programme finance des projets de connectivit├® broadband et des centres num├®riques de proximit├®.', '22,1 millions', 'Ouagadougou', '2019', '12 milliards FCFA', 'M. Abdoulaye Sawadogo', 'fsu@burkina.gouv', '+226 25 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('d0bae82d-fd97-47e0-a91e-80113d79b55e', 'cv', 'Cap-Vert', 'Cape Verde', 'CEDEAO', 'R├®publique du Cap-Vert', 'https://flagcdn.com/w320/cv.png', 'Le Cap-Vert, pays insulaire, a cr├®├® son FSU en 2021 pour garantir l''acc├¿s aux t├®l├®communications sur l''ensemble de ses ├«les. Le programme priorise la connectivit├® inter-├«les et les services num├®riques maritimes.', '0,6 millions', 'Praia', '2021', '3 milliards FCFA', 'Mme Maria Santos', 'fsu@caboverde.gov', '+238 260 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('207076c7-fce3-41f8-b1c5-29e92ec9c9cf', 'gm', 'Gambie', 'Gambia', 'CEDEAO', 'R├®publique de Gambie', 'https://flagcdn.com/w320/gm.png', 'La Gambie a initi├® son FSU en 2022 pour connecter les communaut├®s rurales le long du fleuve Gambie. Le programme cible les ├®coles, les centres de sant├® et les march├®s ruraux.', '2,6 millions', 'Banjul', '2022', '2 milliards FCFA', 'M. Lamin Jammeh', 'fsu@gambia.gov', '+220 400 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('b0717627-e99c-4e26-a424-1283afb17ca6', 'gn', 'Guin├®e', 'Guinea', 'CEDEAO', 'R├®publique de Guin├®e', 'https://flagcdn.com/w320/gn.png', 'La Guin├®e a mis en place son FSU en 2020 pour d├®velopper la connectivit├® dans les zones enclav├®es du pays. Le programme se concentre sur le d├®ploiement de la fibre optique et les centres multim├®dia communautaires.', '13,9 millions', 'Conakry', '2020', '10 milliards FCFA', 'M. Mamadou Bah', 'fsu@guinee.gov', '+224 620 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('9ce3b90c-1d06-4519-9ad5-f6b1a2ba3d5f', 'gw', 'Guin├®e-Bissau', 'Guinea-Bissau', 'CEDEAO', 'R├®publique de Guin├®e-Bissau', 'https://flagcdn.com/w320/gw.png', 'La Guin├®e-Bissau a lanc├® son FSU en 2023 avec le soutien de partenaires internationaux. Le programme vise ├á ├®tendre la couverture mobile et les services num├®riques de base dans les r├®gions int├®rieures.', '2,1 millions', 'Bissau', '2023', '1,5 milliard FCFA', 'M. Braima Sanh├í', 'fsu@guinebissau.gov', '+245 320 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('6b7c37f9-6fe4-4f06-9b8a-e2127900998e', 'lr', 'Lib├®ria', 'Liberia', 'CEDEAO', 'R├®publique du Lib├®ria', 'https://flagcdn.com/w320/lr.png', 'Le Lib├®ria a ├®tabli son FSU en 2021 dans le cadre de la reconstruction post-conflit. Le programme finance l''extension des r├®seaux mobiles et la connectivit├® des ├®tablissements publics dans les comt├®s ruraux.', '5,4 millions', 'Monrovia', '2021', '4 milliards FCFA', 'Mme Grace Freeman', 'fsu@liberia.gov', '+231 880 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('79433e10-7e03-46a3-8b38-06f223f5bde7', 'ml', 'Mali', 'Mali', 'CEDEAO', 'R├®publique du Mali', 'https://flagcdn.com/w320/ml.png', 'Le Mali a cr├®├® son FSU en 2018 pour lutter contre la fracture num├®rique dans les vastes zones sah├®liennes. Le programme soutient les cybercentres ruraux et la connectivit├® des services de sant├® et d''├®ducation.', '22,6 millions', 'Bamako', '2018', '15 milliards FCFA', 'M. Oumar Traor├®', 'fsu@mali.gov', '+223 70 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('0408c862-df2f-4d13-b705-894a8c88bdb0', 'ne', 'Niger', 'Niger', 'CEDEAO', 'R├®publique du Niger', 'https://flagcdn.com/w320/ne.png', 'Le Niger a mis en place son FSU en 2020 pour connecter les vastes zones sahariennes et sah├®liennes du pays. Le programme priorise la couverture mobile rurale et les solutions num├®riques pour l''├®ducation et la sant├®.', '27,2 millions', 'Niamey', '2020', '8 milliards FCFA', 'M. Issaka Abdou', 'fsu@niger.gov', '+227 90 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('929ed0dd-682f-40ee-abe7-a87e4392c9ed', 'ng', 'Nigeria', 'Nigeria', 'CEDEAO', 'R├®publique F├®d├®rale du Nigeria', 'https://flagcdn.com/w320/ng.png', 'Le Nigeria dispose du plus grand FSU d''Afrique de l''Ouest, cr├®├® en 2016. Le programme finance le d├®ploiement de la fibre optique, la connectivit├® broadband et les projets pilotes 5G. Il coute les zones non desservies et sous-desservies du territoire national.', '223,8 millions', 'Abuja', '2016', '120 milliards FCFA', 'M. Chukwu Eze', 'fsu@nigeria.gov.ng', '+234 800 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('e9e5365c-e3d4-4942-b931-1d2a9ed44a89', 'sl', 'Sierra Leone', 'Sierra Leone', 'CEDEAO', 'R├®publique de Sierra Leone', 'https://flagcdn.com/w320/sl.png', 'La Sierra Leone a lanc├® son FSU en 2022 pour acc├®l├®rer l''inclusion num├®rique apr├¿s la p├®riode post-Ebola. Le programme finance les t├®l├®centres communautaires et la connectivit├® des ├®tablissements scolaires.', '8,6 millions', 'Freetown', '2022', '3 milliards FCFA', 'M. Ibrahim Kamara', 'fsu@sierraleone.gov', '+232 76 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('2e5808c1-4d30-4c29-b3e4-8d486d3951e2', 'tg', 'Togo', 'Togo', 'CEDEAO', 'R├®publique Togolaise', 'https://flagcdn.com/w320/tg.png', 'Le Togo a cr├®├® son FSU en 2019 avec une vision ambitieuse de transformation num├®rique. Le programme finance des projets de connectivit├® rurale, des espaces num├®riques de coworking et l''e-administration dans les pr├®fectures.', '8,8 millions', 'Lom├®', '2019', '7 milliards FCFA', 'Mme Afi Mensah', 'fsu@togo.gouv', '+228 22 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('89da8dfd-f297-474d-be38-4389c842cfd6', 'cm', 'Cameroun', 'Cameroon', 'CEEAC', 'R├®publique du Cameroun', 'https://flagcdn.com/w320/cm.png', 'Le Cameroun a ├®tabli son FSU en 2017 pour r├®duire la fracture num├®rique entre zones urbaines et rurales. Le programme finance le d├®ploiement de la fibre optique et les centres multim├®dia communautaires dans les r├®gions enclav├®es.', '28,6 millions', 'Yaound├®', '2017', '18 milliards FCFA', 'M. Paul Nganou', 'fsu@cameroun.gov', '+237 6 00 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('ea80e2cb-2d97-46b8-b40a-8bf7d8a3f48c', 'cf', 'Centrafrique', 'Central African Republic', 'CEEAC', 'R├®publique centrafricaine', 'https://flagcdn.com/w320/cf.png', 'La Centrafrique a initi├® son FSU en 2022 avec l''appui de partenaires internationaux pour reconstruire les infrastructures de t├®l├®communication. Le programme cible la connectivit├® des zones post-conflit et les services num├®riques de base.', '5,7 millions', 'Bangui', '2022', '2,5 milliards FCFA', 'M. Jean-B├®del Bango', 'fsu@centrafrique.gov', '+236 70 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('28ff7047-4702-490f-b8a8-11c2d8177130', 'td', 'Tchad', 'Chad', 'CEEAC', 'R├®publique du Tchad', 'https://flagcdn.com/w320/td.png', 'Le Tchad a cr├®├® son FSU en 2021 pour ├®tendre la couverture t├®l├®com dans les vastes zones sahariennes et sah├®liennes. Le programme priorise la connectivit├® des services publics et les solutions satellitaires pour les zones isol├®es.', '18,3 millions', 'N''Djamena', '2021', '5 milliards FCFA', 'M. Hassan Mahamat', 'fsu@tchad.gov', '+235 66 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('0b464792-f794-4903-ad13-5808df3caa71', 'cg', 'Congo', 'Congo', 'CEEAC', 'R├®publique du Congo', 'https://flagcdn.com/w320/cg.png', 'Le Congo a ├®tabli son FSU en 2019 pour d├®velopper la connectivit├® dans les zones foresti├¿res et rurales. Le programme finance la fibre optique le long du fleuve Congo et les centres num├®riques d├®partementaux.', '5,8 millions', 'Brazzaville', '2019', '6 milliards FCFA', 'M. Guy Okemba', 'fsu@congo.gov', '+242 06 000 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('02eb6a56-6cce-4b54-8089-7e30afe77c57', 'ga', 'Gabon', 'Gabon', 'CEEAC', 'R├®publique gabonaise', 'https://flagcdn.com/w320/ga.png', 'Le Gabon a cr├®├® son FSU en 2018 pour acc├®l├®rer la transformation num├®rique du pays. Le programme finance la connectivit├® broadband, les r├®seaux urbains et les projets d''inclusion num├®rique dans les provinces.', '2,4 millions', 'Libreville', '2018', '10 milliards FCFA', 'Mme Nadine Ondo', 'fsu@gabon.gov', '+241 01 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('f628fc22-e0fc-46e0-bc18-cee940f70695', 'gq', 'Guin├®e ├®quatoriale', 'Equatorial Guinea', 'CEEAC', 'R├®publique de Guin├®e ├®quatoriale', 'https://flagcdn.com/w320/gq.png', 'La Guin├®e ├®quatoriale a lanc├® son FSU en 2022 pour ├®tendre la connectivit├® sur l''├«le de Bioko et dans la r├®gion continentale. Le programme finance les infrastructures de t├®l├®communication et les services num├®riques.', '1,7 millions', 'Malabo', '2022', '4 milliards FCFA', 'M. Teodoro Obiang Jr.', 'fsu@guineaecuatorial.gov', '+240 333 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('346eb1c2-2e3f-4378-a270-7e694a479243', 'st', 'Sao Tom├®-et-Principe', 'S├úo Tom├® and Pr├¡ncipe', 'CEEAC', 'R├®publique d├®mocratique de Sao Tom├®-et-Principe', 'https://flagcdn.com/w320/st.png', 'Sao Tom├®-et-Principe a initi├® son FSU en 2023 pour garantir l''acc├¿s universel aux t├®l├®communications sur les deux ├«les. Le programme cible la connectivit├® broadband et les services num├®riques publics.', '0,2 millions', 'Sao Tom├®', '2023', '1 milliard FCFA', 'M. Carlos Neves', 'fsu@saotome.gov', '+239 222 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('6e87fabb-5d94-416a-b85d-652adaa1f4df', 'bi', 'Burundi', 'Burundi', 'EAC', 'R├®publique du Burundi', 'https://flagcdn.com/w320/bi.png', 'Le Burundi a cr├®├® son FSU en 2021 pour ├®tendre la connectivit├® dans les collines et les zones rurales dens├®ment peupl├®es. Le programme finance les cybercentres communautaires et la connectivit├® des ├®tablissements scolaires.', '13,2 millions', 'Gitega', '2021', '3 milliards FCFA', 'M. Pierre Ndayishimiye', 'fsu@burundi.gov', '+257 79 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('9114e456-a326-439e-8699-a8705c39cd36', 'km', 'Comores', 'Comoros', 'EAC', 'Union des Comores', 'https://flagcdn.com/w320/km.png', 'Les Comores ont ├®tabli leur FSU en 2022 pour connecter les quatre ├«les de l''archipel. Le programme priorise la connectivit├® inter-├«les par fibre sous-marine et les services num├®riques pour les populations isol├®es.', '0,9 millions', 'Moroni', '2022', '1,5 milliard FCFA', 'M. Ahmed Soilihi', 'fsu@comores.gov', '+269 770 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('ce7a7472-e592-4a97-985a-969dba1a4d2f', 'dj', 'Djibouti', 'Djibouti', 'EAC', 'R├®publique de Djibouti', 'https://flagcdn.com/w320/dj.png', 'Djibouti a lanc├® son FSU en 2020 pour tirer parti de sa position strat├®gique de hub de c├óbles sous-marins. Le programme finance la connectivit├® des zones int├®rieures et les services num├®riques pour les populations nomades.', '1,1 millions', 'Djibouti', '2020', '2 milliards FCFA', 'M. Omar Farah', 'fsu@djibouti.gov', '+253 77 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('a062f559-18c0-4ba1-9917-974febff9642', 'er', '├ërythr├®e', 'Eritrea', 'EAC', '├ëtat d''├ërythr├®e', 'https://flagcdn.com/w320/er.png', 'L''├ërythr├®e a initi├® son FSU en 2023 pour d├®velopper les infrastructures de t├®l├®communication dans les zones montagneuses et semi-arides. Le programme vise la connectivit├® rurale et les services num├®riques de base.', '3,7 millions', 'Asmara', '2023', '1,5 milliard FCFA', 'M. Yohannes Ghebre', 'fsu@eritrea.gov', '+291 1 00 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('d7d9bd99-0e87-4ba1-8e7e-12138ecb192e', 'et', '├ëthiopie', 'Ethiopia', 'EAC', 'R├®publique f├®d├®rale d├®mocratique d''├ëthiopie', 'https://flagcdn.com/w320/et.png', 'L''├ëthiopie a cr├®├® son FSU en 2019 pour accompagner l''ouverture du secteur des t├®l├®communications. Le programme finance le d├®ploiement de la fibre optique, la connectivit├® rurale et les projets de transformation num├®rique ├á grande ├®chelle.', '126,5 millions', 'Addis-Abeba', '2019', '45 milliards FCFA', 'M. Dawit Abebe', 'fsu@ethiopia.gov', '+251 11 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('e7b65baf-47cb-4298-bf05-b158d966b47c', 'ke', 'Kenya', 'Kenya', 'EAC', 'R├®publique du Kenya', 'https://flagcdn.com/w320/ke.png', 'Le Kenya dispose d''un FSU mature depuis 2015, pionnier de l''innovation num├®rique en Afrique de l''Est. Le programme finance la connectivit├® broadband, les hubs num├®riques ruraux et les projets de mobile banking dans les zones non bancaris├®es.', '55,1 millions', 'Nairobi', '2015', '50 milliards FCFA', 'M. James Ochieng', 'fsu@kenya.go.ke', '+254 700 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('4a301198-5bd2-43ae-9163-e86860b3aa65', 'mw', 'Malawi', 'Malawi', 'EAC', 'R├®publique du Malawi', 'https://flagcdn.com/w320/mw.png', 'Le Malawi a ├®tabli son FSU en 2020 pour ├®tendre la connectivit├® dans les zones rurales et lacustres. Le programme finance les t├®l├®centres communautaires et la connectivit├® des services de sant├® et d''├®ducation.', '20,4 millions', 'Lilongwe', '2020', '4 milliards FCFA', 'M. Chimwemwe Banda', 'fsu@malawi.gov', '+265 888 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('df7b55f9-5925-4cc7-b15d-56ab8d074773', 'mu', 'Maurice', 'Mauritius', 'EAC', 'R├®publique de Maurice', 'https://flagcdn.com/w320/mu.png', 'L''├«le Maurice dispose d''un FSU avanc├® depuis 2014, mod├¿le de connectivit├® insulaire en Afrique. Le programme finance la fibre jusqu''au foyer, les smart cities et l''inclusion num├®rique des communaut├®s vuln├®rables.', '1,3 millions', 'Port-Louis', '2014', '5 milliards FCFA', 'Mme Priya Ramgoolam', 'fsu@mauritius.gov', '+230 200 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('e80c3507-71b0-46ad-a716-ff403fa51a08', 'ug', 'Ouganda', 'Uganda', 'EAC', 'R├®publique de l''Ouganda', 'https://flagcdn.com/w320/ug.png', 'L''Ouganda a cr├®├® son FSU en 2017 pour ├®tendre la connectivit├® dans les zones rurales et les districts frontaliers. Le programme finance le d├®ploiement de la fibre optique nationale et les centres d''innovation num├®rique.', '48,6 millions', 'Kampala', '2017', '20 milliards FCFA', 'M. Robert Mugisha', 'fsu@uganda.go.ug', '+256 700 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('dc8cf694-62af-48ab-9614-4f8f68d9284b', 'cd', 'RD Congo', 'DR Congo', 'EAC', 'R├®publique d├®mocratique du Congo', 'https://flagcdn.com/w320/cd.png', 'La RD Congo a ├®tabli son FSU en 2019 pour relever le d├®fi de la connectivit├® dans le plus grand pays d''Afrique subsaharienne. Le programme finance la fibre optique, la couverture mobile des zones rurales et les centres num├®riques provinciaux.', '102,3 millions', 'Kinshasa', '2019', '35 milliards FCFA', 'M. F├®lix Kabongo', 'fsu@rdcongo.gov', '+243 810 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('4c5a1e51-93ad-473b-9804-7d82aee64704', 'rw', 'Rwanda', 'Rwanda', 'EAC', 'R├®publique du Rwanda', 'https://flagcdn.com/w320/rw.png', 'Le Rwanda dispose d''un FSU performant depuis 2016, reconnu pour son approche innovante de la transformation num├®rique. Le programme finance la fibre optique nationale, les smart villages et l''e-gouvernement ├á l''├®chelle locale.', '14,1 millions', 'Kigali', '2016', '15 milliards FCFA', 'Mme Claire Uwimana', 'fsu@rwanda.gov', '+250 780 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('affafeb4-be71-4e44-8e78-830581f27190', 'sc', 'Seychelles', 'Seychelles', 'EAC', 'R├®publique des Seychelles', 'https://flagcdn.com/w320/sc.png', 'Les Seychelles ont cr├®├® leur FSU en 2018 pour garantir une connectivit├® optimale sur l''ensemble de l''archipel. Le programme finance la fibre sous-marine inter-├«les et les services num├®riques pour les ├«les ext├®rieures.', '0,1 millions', 'Victoria', '2018', '1 milliard FCFA', 'M. Jean-Paul Adam', 'fsu@seychelles.gov', '+248 400 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('198d52d7-79d9-46c1-986b-bdba79aa68c9', 'so', 'Somalie', 'Somalia', 'EAC', 'R├®publique f├®d├®rale de Somalie', 'https://flagcdn.com/w320/so.png', 'La Somalie a initi├® son FSU en 2023 pour reconstruire les infrastructures de t├®l├®communication apr├¿s des d├®cennies de conflit. Le programme finance la connectivit├® mobile et les services num├®riques dans les r├®gions stabilis├®es.', '18,1 millions', 'Mogadiscio', '2023', '2 milliards FCFA', 'M. Hassan Mohamud', 'fsu@somalia.gov', '+252 61 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('9757a6b9-f5b5-4ce2-b373-a5a129ace77e', 'ss', 'Soudan du Sud', 'South Sudan', 'EAC', 'R├®publique du Soudan du Sud', 'https://flagcdn.com/w320/ss.png', 'Le Soudan du Sud a lanc├® son FSU en 2023 pour d├®velopper les t├®l├®communications dans le plus jeune pays d''Afrique. Le programme cible la couverture mobile des zones rurales et la connectivit├® des services essentiels.', '11,6 millions', 'Djouba', '2023', '1,5 milliard FCFA', 'M. John Garang Jr.', 'fsu@southsudan.gov', '+211 920 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('0e8b6a4e-253d-406b-8e30-f62d656d8f24', 'tz', 'Tanzanie', 'Tanzania', 'EAC', 'R├®publique unie de Tanzanie', 'https://flagcdn.com/w320/tz.png', 'La Tanzanie a cr├®├® son FSU en 2017 pour connecter les zones rurales et les ├«les de Zanzibar. Le programme finance le d├®ploiement de la fibre optique nationale et les centres num├®riques de district.', '65,5 millions', 'Dodoma', '2017', '25 milliards FCFA', 'M. Joseph Mwambe', 'fsu@tanzania.go.tz', '+255 760 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('c5815c15-a6b7-42f7-88a5-3fc782cdc5bb', 'zm', 'Zambie', 'Zambia', 'EAC', 'R├®publique de Zambie', 'https://flagcdn.com/w320/zm.png', 'La Zambie a ├®tabli son FSU en 2018 pour ├®tendre la connectivit├® dans les zones rurales et mini├¿res. Le programme finance les tours de t├®l├®communication, la fibre optique et les centres num├®riques communautaires.', '20,0 millions', 'Lusaka', '2018', '12 milliards FCFA', 'M. Chanda Bwalya', 'fsu@zambia.gov', '+260 970 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('fc5a693d-e210-48be-9dbd-ca1792e82c45', 'ao', 'Angola', 'Angola', 'SADC', 'R├®publique d''Angola', 'https://flagcdn.com/w320/ao.png', 'L''Angola a cr├®├® son FSU en 2019 pour diversifier l''├®conomie au-del├á du p├®trole via le num├®rique. Le programme finance la fibre optique nationale, la connectivit├® des provinces int├®rieures et les centres num├®riques communautaires.', '36,7 millions', 'Luanda', '2019', '25 milliards FCFA', 'M. Ant├│nio Domingos', 'fsu@angola.gov', '+244 920 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('64ff801f-a06e-46e7-8fe0-1b6d9e77ef71', 'bw', 'Botswana', 'Botswana', 'SADC', 'R├®publique du Botswana', 'https://flagcdn.com/w320/bw.png', 'Le Botswana a ├®tabli son FSU en 2017 pour connecter les communaut├®s rurales du d├®sert du Kalahari. Le programme finance la fibre optique, les r├®seaux mobiles et les smart villages dans les districts recul├®s.', '2,6 millions', 'Gaborone', '2017', '8 milliards FCFA', 'M. Tshiamo Phiri', 'fsu@botswana.gov', '+267 390 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('ddfc7c8f-6db5-45db-b805-15bb40d42c0f', 'sz', 'Eswatini', 'Eswatini', 'SADC', 'Royaume d''Eswatini', 'https://flagcdn.com/w320/sz.png', 'Eswatini a cr├®├® son FSU en 2019 pour ├®tendre la connectivit├® dans les zones rurales du royaume. Le programme finance les cybercentres communautaires et les projets de num├®rique ├®ducatif.', '1,2 millions', 'Mbabane', '2019', '2 milliards FCFA', 'M. Sibusiso Dlamini', 'fsu@eswatini.gov', '+268 2404 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('5a596058-d3aa-4cf8-a6d9-0f8d2176bcf3', 'ls', 'Lesotho', 'Lesotho', 'SADC', 'Royaume du Lesotho', 'https://flagcdn.com/w320/ls.png', 'Le Lesotho a ├®tabli son FSU en 2020 pour connecter les communaut├®s de montagne difficiles d''acc├¿s. Le programme finance les solutions sans fil et les centres num├®riques dans les districts montagneux.', '2,3 millions', 'Maseru', '2020', '2,5 milliards FCFA', 'Mme Limakatso Mosisili', 'fsu@lesotho.gov', '+266 2200 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('05e47b40-9d5e-4d0d-819f-b35da6d00b5c', 'mg', 'Madagascar', 'Madagascar', 'SADC', 'R├®publique de Madagascar', 'https://flagcdn.com/w320/mg.png', 'Madagascar a cr├®├® son FSU en 2020 pour ├®tendre la connectivit├® dans les vastes zones rurales de l''├«le. Le programme finance les infrastructures r├®silientes aux cyclones et les centres num├®riques communautaires.', '30,3 millions', 'Antananarivo', '2020', '10 milliards FCFA', 'M. Hery Rakotomanana', 'fsu@madagascar.gov', '+261 32 00 000 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('0ac48f6b-1fd8-4b9d-b0db-c387d200f88e', 'na', 'Namibie', 'Namibia', 'SADC', 'R├®publique de Namibie', 'https://flagcdn.com/w320/na.png', 'La Namibie a ├®tabli son FSU en 2018 pour connecter les vastes zones arides et peu peupl├®es du pays. Le programme finance les solutions sans fil ├á longue port├®e et les centres num├®riques r├®gionaux.', '2,6 millions', 'Windhoek', '2018', '5 milliards FCFA', 'M. Gideon Shikongo', 'fsu@namibia.gov', '+264 61 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('434edd44-2ea9-4165-a42c-c73fb69264d0', 'zw', 'Zimbabwe', 'Zimbabwe', 'SADC', 'R├®publique du Zimbabwe', 'https://flagcdn.com/w320/zw.png', 'Le Zimbabwe a cr├®├® son FSU en 2019 pour d├®velopper la connectivit├® dans les zones rurales et les communaut├®s agricoles. Le programme finance les tours de t├®l├®communication et les centres d''innovation num├®rique.', '16,7 millions', 'Harare', '2019', '8 milliards FCFA', 'M. Tendai Moyo', 'fsu@zimbabwe.gov', '+263 770 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('00ba3a6c-87f5-429c-8115-75e5005cb97f', 'dz', 'Alg├®rie', 'Algeria', 'UMA', 'R├®publique alg├®rienne d├®mocratique et populaire', 'https://flagcdn.com/w320/dz.png', 'L''Alg├®rie a ├®tabli son FSU en 2017 pour acc├®l├®rer la transformation num├®rique du pays. Le programme finance le d├®ploiement de la fibre optique ├á grande ├®chelle, la connectivit├® du Sahara et les services num├®riques publics.', '45,6 millions', 'Alger', '2017', '80 milliards FCFA', 'M. Karim Benali', 'fsu@algeria.gov.dz', '+213 21 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('1148ee74-6051-48ad-a6df-430650c00433', 'ly', 'Libye', 'Libya', 'UMA', '├ëtat de Libye', 'https://flagcdn.com/w320/ly.png', 'La Libye a initi├® son FSU en 2023 pour reconstruire les infrastructures de t├®l├®communication apr├¿s les conflits. Le programme finance la connectivit├® des zones stabilis├®es et les services num├®riques essentiels.', '7,2 millions', 'Tripoli', '2023', '5 milliards FCFA', 'M. Omar El-Mabrouk', 'fsu@libya.gov', '+218 21 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('daceb590-8f20-42da-bd79-5bd448ed93f3', 'ma', 'Maroc', 'Morocco', 'UMA', 'Royaume du Maroc', 'https://flagcdn.com/w320/ma.png', 'Le Maroc dispose d''un FSU mature depuis 2015, reconnu pour son programme ambitieux de g├®n├®ralisation du broadband. Le programme finance la fibre optique, les r├®seaux 4G/5G et les projets d''inclusion num├®rique dans les zones montagneuses et rurales.', '37,8 millions', 'Rabat', '2015', '70 milliards FCFA', 'Mme Fatima-Zahra El Amrani', 'fsu@maroc.gov.ma', '+212 5 00 00 00 00', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('a1f28d47-af4f-4657-987c-10f62416bb56', 'mr', 'Mauritanie', 'Mauritania', 'UMA', 'R├®publique islamique de Mauritanie', 'https://flagcdn.com/w320/mr.png', 'La Mauritanie a cr├®├® son FSU en 2020 pour connecter les vastes zones sahariennes et les communaut├®s nomades. Le programme finance les solutions satellitaires et les centres num├®riques dans les wilayas int├®rieures.', '4,9 millions', 'Nouakchott', '2020', '4 milliards FCFA', 'M. Mohamed Ould Ahmed', 'fsu@mauritanie.gov', '+222 2000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('f84f1b4f-d5f0-4d86-a1e6-ab2dd81b1c84', 'eh', 'Sahara occidental', 'Western Sahara', 'UMA', 'R├®publique arabe sahraouie d├®mocratique', 'https://flagcdn.com/w320/eh.png', 'Territoire en cours de stabilisation, des initiatives de connectivit├® sont en cours avec le soutien de partenaires r├®gionaux pour fournir l''acc├¿s aux t├®l├®communications de base aux populations locales.', '0,6 millions', 'La├óyoune', NULL, NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('df046224-864b-41bd-b670-b0f20ca69fae', 'tn', 'Tunisie', 'Tunisia', 'UMA', 'R├®publique tunisienne', 'https://flagcdn.com/w320/tn.png', 'La Tunisie a ├®tabli son FSU en 2016 pour acc├®l├®rer la transformation num├®rique post-r├®volution. Le programme finance la fibre optique, les smart cities et les projets d''inclusion num├®rique dans les r├®gions int├®rieures.', '12,5 millions', 'Tunis', '2016', '20 milliards FCFA', 'M. Amine Boukadida', 'fsu@tunisie.gov.tn', '+216 71 000 000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'),
+	('3eb4bc79-7cdb-4673-b7ad-487a02de0fdd', 'eg', '├ëgypte', 'Egypt', 'North Africa', 'R├®publique arabe d''├ëgypte', 'https://flagcdn.com/w320/eg.png', 'L''├ëgypte dispose d''un FSU mature depuis 2014, l''un des plus anciens d''Afrique. Le programme finance le d├®ploiement de la fibre optique, les r├®seaux 4G/5G et les projets de digitalisation des services publics ├á l''├®chelle nationale.', '109,3 millions', 'Le Caire', '2014', '100 milliards FCFA', 'M. Hassan El-Sayed', 'fsu@egypt.gov.eg', '+20 2 000 0000', NULL, '2026-04-27 08:14:15.620796+00', '2026-04-27 08:14:17.281896+00'); */
+
+
+--
+-- Data for Name: cmdt_contributions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: profiles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."profiles" ("id", "full_name", "avatar_url", "country_id", "language", "phone", "is_active", "telegram_chat_id", "mfa_method", "created_at", "updated_at") VALUES
+	('d29411a5-6ce9-475b-977c-dbda749b943b', 'Administrator', NULL, NULL, 'fr', NULL, true, NULL, 'email', '2026-04-27 09:26:46.537+00', '2026-04-27 09:26:46.547897+00'),
+	('2c826e6d-8b93-4b83-a9df-d08b4403074e', 'Admin Togo', NULL, '2e5808c1-4d30-4c29-b3e4-8d486d3951e2', 'fr', NULL, true, NULL, 'email', '2026-04-27 09:26:46.648+00', '2026-04-27 09:26:46.650493+00'),
+	('27532cd4-aa56-483e-ad7b-411d745eaa42', 'Point Focal Togo', NULL, '2e5808c1-4d30-4c29-b3e4-8d486d3951e2', 'fr', NULL, true, NULL, 'email', '2026-04-27 09:26:46.735+00', '2026-04-27 09:26:46.73854+00'),
+	('9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', 'Admin Cote d''Ivoire', NULL, '5e75213f-9c7d-466a-8881-1d96b13367e1', 'fr', NULL, true, NULL, 'email', '2026-04-27 09:26:46.826+00', '2026-04-27 09:26:46.829033+00'),
+	('9068e130-64ac-49a1-8285-e64aedb862b8', 'Point Focal Cote d''Ivoire', NULL, '5e75213f-9c7d-466a-8881-1d96b13367e1', 'fr', NULL, true, NULL, 'email', '2026-04-27 09:26:46.91+00', '2026-04-27 09:26:46.91311+00');
+
+
+--
+-- Data for Name: documents; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."documents" ("id", "title", "description", "category", "file_name", "file_path", "file_size", "mime_type", "is_public", "type", "language", "published_at", "thumbnail", "featured", "created_at", "updated_at", "uploaded_by", "download_count", "version", "status", "metadata") VALUES
+	('d0000000-0000-0000-0000-000000000001', 'Guide de mise en ┼ôuvre du FSU', 'Guide complet pour la mise en place d''un Fonds de Service Universel national.', 'guides', 'guide_fsu_implementation.pdf', 'documents/guide_fsu_implementation.pdf', 2500000, 'application/pdf', true, 'pdf', 'fr', '2026-03-28 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000002', 'Guide des bonnes pratiques FSU', 'Recueil des bonnes pratiques pour la gestion des FSU.', 'guides', 'bonnes_practices_fsu.pdf', 'documents/bonnes_practices_fsu.pdf', 3200000, 'application/pdf', true, 'pdf', 'fr', '2026-04-02 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000003', 'Guide de financement t├®l├®com', 'Strat├®gies de financement pour les projets t├®l├®coms.', 'guides', 'guide_financement_telecom.pdf', 'documents/guide_financement_telecom.pdf', 2800000, 'application/pdf', true, 'pdf', 'fr', '2026-04-07 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000004', 'Guide de la r├®glementation UAT', 'Vue d''ensemble de la r├®glementation UAT.', 'guides', 'guide_reglement_uat.pdf', 'documents/guide_reglement_uat.pdf', 1900000, 'application/pdf', true, 'pdf', 'fr', '2026-04-09 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000005', 'Guide de la 5G en Afrique', 'Comprendre le d├®ploiement de la 5G en Afrique.', 'guides', 'guide_5g_afrique.pdf', 'documents/guide_5g_afrique.pdf', 4500000, 'application/pdf', true, 'pdf', 'fr', '2026-04-12 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000006', 'Guide des partenariats PPP', 'Comment structurer des partenariats public-priv├®.', 'guides', 'guide_ppp_telecom.pdf', 'documents/guide_ppp_telecom.pdf', 3600000, 'application/pdf', true, 'pdf', 'fr', '2026-04-15 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000007', 'Guide de l''audit FSU', 'M├®thodologie d''audit des Fonds de Service Universel.', 'guides', 'guide_audit_fsu.pdf', 'documents/guide_audit_fsu.pdf', 2800000, 'application/pdf', true, 'pdf', 'fr', '2026-04-17 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000008', 'Guide de la gouvernance num├®rique', 'Principes de gouvernance pour le secteur num├®rique.', 'guides', 'guide_gouvernance_numerique.pdf', 'documents/guide_gouvernance_numerique.pdf', 3100000, 'application/pdf', true, 'pdf', 'fr', '2026-04-19 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000009', 'Rapport annuel 2025', 'Rapport d''activit├® de l''Union Africaine des T├®l├®communications pour l''ann├®e 2025.', 'reports', 'rapport_annuel_2025.pdf', 'documents/rapport_annuel_2025.pdf', 5200000, 'application/pdf', true, 'pdf', 'fr', '2026-04-22 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000010', 'Rapport sur la connectivit├® 2025', 'Analyse de l''├®tat de la connectivit├® en Afrique.', 'reports', 'rapport_connectivite_2025.pdf', 'documents/rapport_connectivite_2025.pdf', 4800000, 'application/pdf', true, 'pdf', 'fr', '2026-03-30 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000011', 'Rapport FSU CEDEAO 2025', 'Situation des FSU dans la zone CEDEAO.', 'reports', 'rapport_fsu_cedeao_2025.pdf', 'documents/rapport_fsu_cedeao_2025.pdf', 3900000, 'application/pdf', true, 'pdf', 'fr', '2026-04-05 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000012', 'Rapport FSU EAC 2025', 'Situation des FSU dans la zone EAC.', 'reports', 'rapport_fsu_eac_2025.pdf', 'documents/rapport_fsu_eac_2025.pdf', 3500000, 'application/pdf', true, 'pdf', 'en', '2026-04-07 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000013', 'Rapport FSU SADC 2025', 'Situation des FSU dans la zone SADC.', 'reports', 'rapport_fsu_sadc_2025.pdf', 'documents/rapport_fsu_sadc_2025.pdf', 4200000, 'application/pdf', true, 'pdf', 'en', '2026-04-09 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000014', '├ëtude sur le haut d├®bit rural', 'Analyse des solutions de connectivit├® rurale.', 'reports', 'etude_haut_debit_rural.pdf', 'documents/etude_haut_debit_rural.pdf', 5500000, 'application/pdf', true, 'pdf', 'fr', '2026-04-12 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000015', 'Rapport sur l''├®ducation num├®rique', '├ëtat des lieux de l''├®ducation num├®rique en Afrique.', 'reports', 'rapport_education_numerique.pdf', 'documents/rapport_education_numerique.pdf', 4700000, 'application/pdf', true, 'pdf', 'fr', '2026-04-15 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000016', 'Rapport sur la t├®l├®-sant├®', 'Analyse des solutions de t├®l├®-sant├®.', 'reports', 'rapport_telesante.pdf', 'documents/rapport_telesante.pdf', 5100000, 'application/pdf', true, 'pdf', 'fr', '2026-04-17 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000017', 'Rapport sur l''├®nergie solaire', 'Utilisation de l''├®nergie solaire pour les t├®l├®coms.', 'reports', 'rapport_energie_solaire.pdf', 'documents/rapport_energie_solaire.pdf', 4300000, 'application/pdf', true, 'pdf', 'fr', '2026-04-19 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000018', 'Rapport sur le financement innovant', 'M├®canismes innovants de financement des t├®l├®coms.', 'reports', 'rapport_financement_innovant.pdf', 'documents/rapport_financement_innovant.pdf', 4900000, 'application/pdf', true, 'pdf', 'fr', '2026-04-21 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000019', 'Template de soumission de projet', 'Mod├¿le de document pour soumettre un projet au FSU.', 'templates', 'template_soumission_projet.docx', 'documents/template_soumission_projet.docx', 450000, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', true, 'doc', 'fr', '2026-04-24 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000020', 'Template de rapport d''activit├®', 'Mod├¿le de rapport d''activit├® trimestriel.', 'templates', 'template_rapport_activite.docx', 'documents/template_rapport_activite.docx', 380000, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', true, 'doc', 'fr', '2026-04-02 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000021', 'Template de demande de financement', 'Mod├¿le de demande de financement.', 'templates', 'template_demande_financement.xlsx', 'documents/template_demande_financement.xlsx', 250000, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true, 'xls', 'fr', '2026-04-07 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000022', 'Template de plan d''action', 'Mod├¿le de plan d''action FSU.', 'templates', 'template_plan_action.docx', 'documents/template_plan_action.docx', 420000, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', true, 'doc', 'fr', '2026-04-12 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000023', 'Template de budget pr├®visionnel', 'Mod├¿le de budget pr├®visionnel.', 'templates', 'template_budget.xlsx', 'documents/template_budget.xlsx', 280000, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', true, 'xls', 'fr', '2026-04-17 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000024', 'Pr├®sentation de la plateforme USF-ADC', 'Pr├®sentation PowerPoint des fonctionnalit├®s de la plateforme.', 'presentations', 'presentation_usf_adc.pptx', 'documents/presentation_usf_adc.pptx', 3800000, 'application/vnd.openxmlformats-officedocument.presentationml.presentation', true, 'ppt', 'fr', '2026-04-26 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000025', 'Pr├®sentation UAT 2026', 'Pr├®sentation des activit├®s de l''UAT.', 'presentations', 'presentation_uat_2026.pptx', 'documents/presentation_uat_2026.pptx', 5200000, 'application/vnd.openxmlformats-officedocument.presentationml.presentation', true, 'ppt', 'fr', '2026-04-22 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000026', 'Pr├®sentation 5G en Afrique', 'Pr├®sentation sur le d├®ploiement de la 5G.', 'presentations', 'presentation_5g_afrique.pptx', 'documents/presentation_5g_afrique.pptx', 4800000, 'application/vnd.openxmlformats-officedocument.presentationml.presentation', true, 'ppt', 'fr', '2026-04-20 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000027', 'Pr├®sentation financement FSU', 'Pr├®sentation sur le financement du FSU.', 'presentations', 'presentation_financement_fsu.pptx', 'documents/presentation_financement_fsu.pptx', 4100000, 'application/vnd.openxmlformats-officedocument.presentationml.presentation', true, 'ppt', 'fr', '2026-04-24 08:14:17.863291+00', NULL, false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000028', 'Cadre r├®glementaire FSU', 'Document r├®glementaire sur les FSU.', 'regulations', 'cadre_reglementaire_fsu.pdf', 'documents/cadre_reglementaire_fsu.pdf', 3400000, 'application/pdf', true, 'pdf', 'fr', '2026-03-18 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', true, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000029', 'Directive UAT sur les t├®l├®coms', 'Directive de l''UAT sur les t├®l├®communications.', 'regulations', 'directive_uat_telecom.pdf', 'documents/directive_uat_telecom.pdf', 2900000, 'application/pdf', true, 'pdf', 'fr', '2026-03-23 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL),
+	('d0000000-0000-0000-0000-000000000030', 'Charte des bons principes FSU', 'Charte des bons principes pour la gestion des FSU.', 'regulations', 'charte_principes_fsu.pdf', 'document
+s_principes_fsu.pdf', 2100000, 'application/pdf', true, 'pdf', 'fr', '2026-03-28 08:14:17.863291+00', 'https://images.unsplash.com/photo-1551269901-5c5e14c25df7?w=300', false, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00', NULL, 0, NULL, 'active', NULL);
+
+
+--
+-- Data for Name: document_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."document_tags" ("document_id", "tag", "created_at") VALUES
+	('d0000000-0000-0000-0000-000000000001', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000001', 'Guide', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000001', 'Mise en ┼ôuvre', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000002', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000002', 'Bonnes pratiques', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000002', 'Gestion', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000003', 'Financement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000003', 'T├®l├®coms', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000003', 'Investissement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000004', 'R├¿glementation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000004', 'UAT', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000004', 'Cadre l├®gal', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000005', '5G', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000005', 'Afrique', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000005', 'D├®ploiement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000006', 'PPP', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000006', 'Partenariat', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000006', 'Public-priv├®', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000007', 'Audit', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000007', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000007', 'Contr├┤le', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000008', 'Gouvernance', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000008', 'Num├®rique', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000008', 'Strat├®gie', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000009', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000009', 'Annuel', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000009', '2025', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000009', 'Bilan', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000010', 'Connectivit├®', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000010', 'Analyse', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000010', 'Afrique', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000011', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000011', 'CEDEAO', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000011', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000012', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000012', 'EAC', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000012', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000013', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000013', 'SADC', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000013', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000014', 'Haut d├®bit', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000014', 'Rural', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000014', '├ëtude', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000015', '├ëducation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000015', 'Num├®rique', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000015', 'Analyse', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000016', 'T├®l├®-sant├®', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000016', 'Sant├®', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000016', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000017', 'Solaire', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000017', '├ënergie', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000017', 'T├®l├®coms', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000018', 'Financement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000018', 'Innovation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000018', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000019', 'Template', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000019', 'Projet', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000019', 'Soumission', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000020', 'Template', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000020', 'Rapport', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000020', 'Activit├®', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000021', 'Template', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000021', 'Financement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000021', 'Demande', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000022', 'Template', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000022', 'Plan', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000022', 'Action', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000023', 'Template', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000023', 'Budget', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000023', 'Pr├®visionnel', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000024', 'Pr├®sentation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000024', 'Plateforme', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000024', 'USF-ADC', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000025', 'Pr├®sentation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000025', 'UAT', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000025', 'Activit├®s', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000026', 'Pr├®sentation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000026', '5G', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000026', 'Afrique', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000027', 'Pr├®sentation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000027', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000027', 'Financement', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000028', 'R├¿glementation', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000028', 'FSU', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000028', 'Cadre', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000029', 'Directive', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000029', 'UAT', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000029', 'T├®l├®coms', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000030', 'Charte', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000030', 'Principes', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000030', 'FSU', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: document_versions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."events" ("id", "title", "description", "start_date", "end_date", "location", "event_type", "status", "max_participants", "registration_url", "price", "image_url", "organizer", "is_public", "country_id", "created_by", "created_at", "updated_at") VALUES
+	('d0000000-0000-0000-0000-000000000001', 'Sommet Africa Tech 2026', 'Le plus grand rassemblement des acteurs du num├®rique en Afrique. ├ëditions pr├®c├®dentes : 3000 participants, 50 pays repr├®sent├®s, 200 conf├®renciers.', '2026-05-15 09:00:00+00', '2026-05-18 18:00:00+00', 'Palais des Congr├¿s, Abidjan, C├┤te d''Ivoire', 'conference', 'upcoming', 3000, 'https://atuuat.africa/events/africa-tech-2025', 'Gratuit sur invitation', 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=630&fit=crop', 'Union Africaine des T├®l├®communications', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000002', 'Webinaire : Strat├®gies de mobilisation du FSU', 'D├®couvrez les strat├®gies efficaces pour mobiliser les ressources du Fonds de Service Universel.', '2026-05-22 14:00:00+00', '2026-05-22 17:00:00+00', 'En ligne', 'webinar', 'upcoming', 500, 'https://atuuat.africa/webinars/fsu-financement', 'Gratuit', 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1200&h=630&fit=crop', 'UAT - Programmes', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000003', 'Atelier Pratique : Gestion de la plateforme USF-ADC', 'Formation pratique intensive sur l''utilisation de la plateforme USF-ADC pour les Points Focaux et Administrateurs Pays.', '2026-06-10 09:00:00+00', '2026-06-12 17:00:00+00', 'H├┤tel Noom, Ouagadougou, Burkina Faso', 'workshop', 'upcoming', 40, 'https://atuuat.africa/training/usf-adc', 'Gratuit (frais de voyage pris en charge)', 'https://images.unsplash.com/photo-1543269664-76bc3997d9ea?w=1200&h=630&fit=crop', 'UAT - Formation', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000004', 'Conf├®rence R├®gionale : L''Inclusion Num├®rique au Sahel', 'Une conf├®rence d├®di├®e aux d├®fis et opportunit├®s de l''inclusion num├®rique dans la r├®gion du Sahel.', '2026-07-08 09:00:00+00', '2026-07-10 17:00:00+00', 'Centre de Conf├®rences, Niamey, Niger', 'conference', 'upcoming', 300, 'https://atuuat.africa/events/sahel-inclusion', 'Gratuit', 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=630&fit=crop', 'UAT - R├®gion Sahel', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000005', 'Session de Certification : Auditeurs du FSU', 'Programme de certification pour devenir auditeur qualifi├® des Fonds de Service Universel.', '2026-08-24 09:00:00+00', '2026-08-28 17:00:00+00', 'Institut Sup├®rieur des T├®l├®communications, Dakar, S├®n├®gal', 'training', 'upcoming', 25, 'https://atuuat.africa/certification/audit', '500 000 FCFA (hors frais de voyage)', 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1200&h=630&fit=crop', 'UAT - Certification', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000006', 'Forum annuel : Partenariats Public-Priv├® pour le FSU', 'Le forum annuel de l''UAT sur les partenariats public-priv├® comme levier de financement du Service Universel.', '2026-09-20 09:00:00+00', '2026-09-22 17:00:00+00', 'Kempinski, Accra, Ghana', 'conference', 'upcoming', 200, 'https://atuuat.africa/events/ppp-forum', '200 000 FCFA (early bird: 150 000 FCFA)', 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=630&fit=crop', 'UAT - Partenariats', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000007', 'Hackathon : Solutions innovantes pour le FSU', '48 heures pour imaginer et prototyper des solutions innovantes au service du Fonds de Service Universel.', '2026-10-25 09:00:00+00', '2026-10-27 18:00:00+00', 'Technopark, Kigali, Rwanda', 'workshop', 'upcoming', 150, 'https://atuuat.africa/hackathon/fsu', 'Gratuit (sur s├®lection)', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=630&fit=crop', 'UAT - Innovation', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000008', 'Webinaire : Financement 5G en Afrique', 'Strat├®gies de financement pour le d├®ploiement de la 5G en Afrique.', '2026-06-15 15:00:00+00', '2026-06-15 17:00:00+00', 'En ligne', 'webinar', 'upcoming', 1000, 'https://atuuat.africa/webinars/5g-funding', 'Gratuit', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop', 'UAT - T├®l├®com', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000009', 'Conf├®rence : Connectivit├® rurale', 'Solutions innovantes pour connecter les zones rurales africaines.', '2026-08-05 09:00:00+00', '2026-08-06 17:00:00+00', 'Hotel Serena, Kigali, Rwanda', 'conference', 'upcoming', 250, 'https://atuuat.africa/events/rural-connectivity', '150 000 FCFA', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=630&fit=crop', 'UAT - Infrastructure', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('d0000000-0000-0000-0000-000000000010', 'Atelier : Gouvernance des FSU', 'Formation ├á la gouvernance et la transparence des Fonds de Service Universel.', '2026-09-05 09:00:00+00', '2026-09-07 17:00:00+00', 'Radisson Blu, Dakar, S├®n├®gal', 'workshop', 'upcoming', 60, 'https://atuuat.africa/workshops/fsu-governance', 'Gratuit pour membres', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=630&fit=crop', 'UAT - Gouvernance', true, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: event_registrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: event_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."event_tags" ("id", "event_id", "tag") VALUES
+	('9567d9c8-a468-4cd1-9fec-eebeaa632763', 'd0000000-0000-0000-0000-000000000001', 'Conf├®rence'),
+	('eba71dcf-647f-4511-a8c5-7ed330445b4e', 'd0000000-0000-0000-0000-000000000001', 'Sommet'),
+	('ce7ab197-145e-4db3-8489-fa4a76112027', 'd0000000-0000-0000-0000-000000000001', 'Technologie'),
+	('3dde869f-2636-422f-8b01-e6e45837522d', 'd0000000-0000-0000-0000-000000000001', 'Innovation'),
+	('91ed07ef-2023-46a2-a1f8-6013df03ab8a', 'd0000000-0000-0000-0000-000000000002', 'Webinaire'),
+	('3d07f583-39a8-4c0e-9c99-b9756112925b', 'd0000000-0000-0000-0000-000000000002', 'Financement'),
+	('2e864dae-7459-4814-bc17-423fb3500daa', 'd0000000-0000-0000-0000-000000000002', 'FSU'),
+	('20eaa338-d8c1-43c4-a917-c94afb83a4e8', 'd0000000-0000-0000-0000-000000000002', 'Formation'),
+	('f63e9045-84d8-4217-bcca-da54b36ef593', 'd0000000-0000-0000-0000-000000000003', 'Formation'),
+	('36bdb7bf-b0c4-41af-bf08-3f3f935a093a', 'd0000000-0000-0000-0000-000000000003', 'Atelier'),
+	('1a52636a-e217-45ba-9962-f88ef0094233', 'd0000000-0000-0000-0000-000000000003', 'Plateforme'),
+	('3517d788-231c-430e-b53a-b9dc4f4a4e3a', 'd0000000-0000-0000-0000-000000000003', 'Pratique'),
+	('0c578339-7ac3-44a1-935d-c700ca7e6207', 'd0000000-0000-0000-0000-000000000004', 'Conf├®rence'),
+	('31cd6407-7eda-410f-9960-0df21c959939', 'd0000000-0000-0000-0000-000000000004', 'Sahel'),
+	('83306960-f884-4353-b8fe-5f47b0134d7a', 'd0000000-0000-0000-0000-000000000004', 'Inclusion'),
+	('43ea308f-427a-4d85-aac9-e894237e8172', 'd0000000-0000-0000-0000-000000000004', 'R├®gional'),
+	('ca917bd1-5330-412f-bfa5-0a4a86062550', 'd0000000-0000-0000-0000-000000000005', 'Certification'),
+	('bcc7afdd-fafb-4595-98d7-e8b6751ad7ac', 'd0000000-0000-0000-0000-000000000005', 'Audit'),
+	('13a3ad28-c29d-4864-ad80-0cc57375ff23', 'd0000000-0000-0000-0000-000000000005', 'Formation'),
+	('e13cab03-2d52-4ae7-8077-002079132981', 'd0000000-0000-0000-0000-000000000005', 'Qualit├®'),
+	('ff850c4b-d378-4d01-b98c-d5a1154cc178', 'd0000000-0000-0000-0000-000000000006', 'Conf├®rence'),
+	('088ac49e-cd7a-4430-8ca5-c9d6f43213dc', 'd0000000-0000-0000-0000-000000000006', 'PPP'),
+	('8d3a4074-68bd-48c7-9957-de91aed4bd4d', 'd0000000-0000-0000-0000-000000000006', 'Partenariat'),
+	('f1060cf9-d52d-41e5-94b2-681dfc2da7a9', 'd0000000-0000-0000-0000-000000000006', 'Financement'),
+	('221abf8b-55bd-43c6-8a5e-95190c9fee88', 'd0000000-0000-0000-0000-000000000007', 'Hackathon'),
+	('ae7bf917-d03f-4f15-aa04-646a7fdaea2a', 'd0000000-0000-0000-0000-000000000007', 'Innovation'),
+	('9aff2ff5-fd6f-4f03-b4ff-1231fdc43600', 'd0000000-0000-0000-0000-000000000007', 'Tech'),
+	('eef337b6-a413-4512-af92-2d44570b4795', 'd0000000-0000-0000-0000-000000000007', 'Concours'),
+	('eb13966e-fc17-42f0-b336-be98d7abfc98', 'd0000000-0000-0000-0000-000000000008', 'Webinaire'),
+	('b3551c3f-aee0-470f-b21d-75fbb7de4fad', 'd0000000-0000-0000-0000-000000000008', '5G'),
+	('ca7174b2-1d10-4e3a-9a48-738cc02da603', 'd0000000-0000-0000-0000-000000000008', 'Financement'),
+	('88426914-582f-4333-83f4-4e68d0240301', 'd0000000-0000-0000-0000-000000000008', 'T├®l├®com'),
+	('684614d5-426a-43af-9572-b1e0eb8b6003', 'd0000000-0000-0000-0000-000000000009', 'Conf├®rence'),
+	('72237a9a-b794-4faa-a114-77ebc3a35f20', 'd0000000-0000-0000-0000-000000000009', 'Connectivit├®'),
+	('f7fa7173-e464-4909-ac25-eb89a22bb1da', 'd0000000-0000-0000-0000-000000000009', 'Rural'),
+	('ca17f886-e756-46c2-bbc0-542776968354', 'd0000000-0000-0000-0000-000000000009', 'Infrastructure'),
+	('8de6e175-8391-4e1f-b644-7d91b9306202', 'd0000000-0000-0000-0000-000000000010', 'Atelier'),
+	('3fb50192-abc6-4ac0-aa39-ea06344e1fc8', 'd0000000-0000-0000-0000-000000000010', 'Gouvernance'),
+	('73f0faef-6b2d-41bd-83a2-cc29e212e396', 'd0000000-0000-0000-0000-000000000010', 'FSU'),
+	('a68b0873-7880-4c37-a3f2-c1948e594016', 'd0000000-0000-0000-0000-000000000010', 'Transparence');
+
+
+--
+-- Data for Name: faq_articles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."faq_articles" ("id", "title", "content", "category", "sort_order", "is_published", "created_at", "updated_at") VALUES
+	('0da1680a-fdca-4f72-ba46-9b8cdef9e3fc', 'Comment cr├®er un compte ?', 'Pour cr├®er un compte, cliquez sur le bouton "S''inscrire" en haut ├á droite de la page. Remplissez le formulaire avec vos informations et validez votre adresse email.', 'general', 1, true, '2026-04-27 08:14:17.227269+00', '2026-04-27 08:14:17.227269+00'),
+	('945059cb-be13-4118-ad44-c4084a7e0bca', 'Comment r├®initialiser mon mot de passe ?', 'Cliquez sur "Mot de passe oubli├®" sur la page de connexion. Entrez votre adresse email et suivez les instructions envoy├®es par email.', 'account', 1, true, '2026-04-27 08:14:17.227269+00', '2026-04-27 08:14:17.227269+00'),
+	('b2d08a95-f832-4f21-9e81-d720c27cf1a9', 'Qu''est-ce qu''une soumission FSU ?', 'Une soumission FSU (Forum des Syndicats Unifi├®s) est un document ou une information soumise par votre syndicat pour partage et validation.', 'fsu', 1, true, '2026-04-27 08:14:17.227269+00', '2026-04-27 08:14:17.227269+00'),
+	('a282ac66-4aaf-4556-b54f-e3d60e96d311', 'Comment soumettre un document FSU ?', 'Allez dans la section FSU, cliquez sur "Nouvelle soumission", remplissez le formulaire et ajoutez vos pi├¿ces jointes.', 'fsu', 2, true, '2026-04-27 08:14:17.227269+00', '2026-04-27 08:14:17.227269+00');
+
+
+--
+-- Data for Name: forum_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."forum_categories" ("id", "name", "description", "slug", "sort_order", "icon", "color", "created_at") VALUES
+	('a52044c3-85da-4429-b093-44a17a498834', 'Connectivit├®', 'Discussions sur les infrastructures de connectivit├® et acc├¿s Internet', 'connectivite', 1, NULL, NULL, '2026-04-27 08:14:16.030933+00'),
+	('0d727776-4340-4243-a6ba-c5348e6dccf7', 'Financement', '├ëchanges sur les m├®canismes de financement et budgets', 'financement', 2, NULL, NULL, '2026-04-27 08:14:16.030933+00'),
+	('b8a69c73-cd53-4580-b978-e6b69e58b10a', 'R├®glementation', 'Cadre r├®glementaire et politiques num├®riques', 'reglementation', 3, NULL, NULL, '2026-04-27 08:14:16.030933+00'),
+	('dc8a291b-1582-47ca-804a-c44ba44514c7', 'G├®n├®ral', 'Discussions g├®n├®rales et sujets divers', 'general', 4, NULL, NULL, '2026-04-27 08:14:16.030933+00'),
+	('b0000000-0000-0000-0000-000000000001', 'Annonces', 'Communications officielles de l''UAT', 'annonces', 1, '­ƒôó', 'bg-blue-500', '2026-04-27 08:14:17.863291+00'),
+	('b0000000-0000-0000-0000-000000000002', 'Pr├®sentations', 'Pr├®sentez-vous et votre pays', 'presentations', 2, '­ƒæï', 'bg-green-500', '2026-04-27 08:14:17.863291+00'),
+	('b0000000-0000-0000-0000-000000000003', 'Aide et Support', 'Questions sur la plateforme USF-ADC', 'aide-support', 3, 'ÔØô', 'bg-amber-500', '2026-04-27 08:14:17.863291+00'),
+	('b0000000-0000-0000-0000-000000000004', 'Bonnes Pratiques', 'Partage d''exp├®riences r├®ussies', 'bonnes-pratiques', 4, '­ƒÆí', 'bg-purple-500', '2026-04-27 08:14:17.863291+00'),
+	('b0000000-0000-0000-0000-000000000006', 'Technique', 'Aspects techniques du d├®ploiement', 'technique', 6, '­ƒöº', 'bg-slate-500', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: forum_topics; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."forum_topics" ("id", "title", "content", "category_id", "created_by", "is_pinned", "is_locked", "is_public", "views", "status", "created_at", "updated_at") VALUES
+	('ec32aef7-0c4c-4098-a0ef-565baca1a39a', 'Bienvenue sur le forum USF-ADC', 'Bienvenue sur le forum public de la plateforme USF-ADC ! Cette plateforme est d├®di├®e ├á la collaboration et ├á l''├®change d''exp├®riences entre les points focaux et les experts des Fonds de Service Universel en Afrique. N''h├®sitez pas ├á poser vos questions et ├á partager vos expertise.', 'dc8a291b-1582-47ca-804a-c44ba44514c7', NULL, true, false, true, 0, 'open', '2026-03-28 08:14:16.752077+00', '2026-03-28 08:14:16.752077+00'),
+	('3129a76a-5d77-46da-80c6-3b32df92c47b', 'Strat├®gies de financement du FSU', 'Quelles sont les meilleures pratiques pour mobiliser les ressources du Fonds de Service Universel ? Partagez vos exp├®riences et vos strat├®gies r├®ussies.', '0d727776-4340-4243-a6ba-c5348e6dccf7', NULL, false, false, true, 0, 'open', '2026-04-02 08:14:16.752077+00', '2026-04-02 08:14:16.752077+00'),
+	('d96d7d57-f5a0-48e8-a16e-600ba3d0dfde', 'Probl├¿mes d''acc├¿s ├á la plateforme', 'Je rencontre des difficult├®s pour me connecter ├á la plateforme. Comment puis-je r├®soudre ce probl├¿me ?', 'dc8a291b-1582-47ca-804a-c44ba44514c7', NULL, false, false, true, 0, 'solved', '2026-04-07 08:14:16.752077+00', '2026-04-09 08:14:16.752077+00'),
+	('791b3df9-2c37-48da-95d8-b080b4a17aea', 'Utilisation de la 5G pour le FSU', 'Avez-vous des projets de d├®ploiement 5G utilisant les ressources du FSU ? Partagez les d├®tails et les d├®fis rencontr├®s.', 'a52044c3-85da-4429-b093-44a17a498834', NULL, false, false, true, 0, 'open', '2026-04-12 08:14:16.752077+00', '2026-04-12 08:14:16.752077+00'),
+	('103e321f-cdfd-489c-8af3-4a511adaca97', 'Connectivit├® rurale efficace', 'Quelle est la solution la plus rentable pour connecter les zones rurales ? Retours d''exp├®rience bienvenus.', 'a52044c3-85da-4429-b093-44a17a498834', NULL, true, false, true, 0, 'open', '2026-04-17 08:14:16.752077+00', '2026-04-19 08:14:16.752077+00'),
+	('e036712e-ebb5-4557-8187-fba2e0271b92', 'Gouvernance des FSU', 'Comment garantir une bonne gouvernance des Fonds de Service Universel au niveau national ?', 'b8a69c73-cd53-4580-b978-e6b69e58b10a', NULL, false, false, true, 0, 'open', '2026-04-20 08:14:16.752077+00', '2026-04-20 08:14:16.752077+00'),
+	('420a214b-a2da-4286-9747-e9c097a2526c', 'Partnership PPP dans le secteur t├®l├®com', 'Exemple de partenariats public-priv├® r├®ussis pour les t├®l├®communications en Afrique.', '0d727776-4340-4243-a6ba-c5348e6dccf7', NULL, false, false, true, 0, 'open', '2026-04-22 08:14:16.752077+00', '2026-04-23 08:14:16.752077+00'),
+	('7b065b8a-eb14-4c36-9ce3-ec9e6baf92de', 'Annonce : Nouvelle version de la plateforme', 'La version 2.0 de la plateforme USF-ADC est maintenant en ligne avec de nombreuses nouvelles fonctionnalit├®s.', 'dc8a291b-1582-47ca-804a-c44ba44514c7', NULL, true, false, true, 0, 'open', '2026-04-24 08:14:16.752077+00', '2026-04-24 08:14:16.752077+00');
+
+
+--
+-- Data for Name: forum_posts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."forum_posts" ("id", "topic_id", "created_by", "content", "is_solution", "created_at", "updated_at") VALUES
+	('6998c43f-4717-4bf2-88dc-7d118a821132', '3129a76a-5d77-46da-80c6-3b32df92c47b', NULL, 'De mon exp├®rience, il est crucial de combiner le financement gouvernemental avec les investissements priv├®s pour maximiser les ressources du FSU.', false, '2026-04-03 08:14:16.752077+00', '2026-04-03 08:14:16.752077+00'),
+	('97c98c92-e87b-4b8b-9d45-bc18cc09a068', '3129a76a-5d77-46da-80c6-3b32df92c47b', NULL, 'Absolument ! Au S├®n├®gal, nous avons utilis├® un mod├¿le mixte avec succ├¿s. Les op├®rateurs priv├®s contribuent 30% du financement.', true, '2026-04-04 08:14:16.752077+00', '2026-04-04 08:14:16.752077+00'),
+	('9a0fa41b-e9a7-4e93-9156-8d71347fd9c0', 'd96d7d57-f5a0-48e8-a16e-600ba3d0dfde', NULL, 'Avez-vous v├®rifi├® votre connexion internet ? Essayez de vider le cache de votre navigateur.', false, '2026-04-08 08:14:16.752077+00', '2026-04-08 08:14:16.752077+00'),
+	('d735966f-98d3-4c1a-89dc-10a42d065dde', 'd96d7d57-f5a0-48e8-a16e-600ba3d0dfde', NULL, 'Cela a r├®solu mon probl├¿me ! Merci beaucoup.', true, '2026-04-09 08:14:16.752077+00', '2026-04-09 08:14:16.752077+00'),
+	('afd5b4d3-b337-40d4-8cc4-934048d5cadd', '791b3df9-2c37-48da-95d8-b080b4a17aea', NULL, 'Nous avons lanc├® un projet pilote 5G au Nigeria avec le soutien du FSU. Les r├®sultats sont tr├¿s prometteurs.', false, '2026-04-13 08:14:16.752077+00', '2026-04-13 08:14:16.752077+00'),
+	('ba4276c0-17d9-4779-ac98-a3f434fc9a57', '103e321f-cdfd-489c-8af3-4a511adaca97', NULL, 'La fibre optique reste la solution la plus efficace pour les zones rurales, malgr├® les co├╗ts initiaux ├®lev├®s.', false, '2026-04-18 08:14:16.752077+00', '2026-04-18 08:14:16.752077+00'),
+	('3ef1750e-3e8f-4d07-8c9f-0e3d60622572', '103e321f-cdfd-489c-8af3-4a511adaca97', NULL, 'D''accord, mais avez-vous consid├®r├® les solutions par satellite pour les zones tr├¿s recul├®es ?', false, '2026-04-19 08:14:16.752077+00', '2026-04-19 08:14:16.752077+00'),
+	('4697c61c-184d-41dc-9525-d63e20035945', '420a214b-a2da-4286-9747-e9c097a2526c', NULL, 'Au Kenya, le partenariat PPP avec Safaricom a permis d''├®tendre la couverture mobile ├á 85% du pays.', false, '2026-04-23 08:14:16.752077+00', '2026-04-23 08:14:16.752077+00');
+
+
+--
+-- Data for Name: forum_reports; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: forum_topic_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: fsu_submissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: fsu_submission_attachments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: fsu_submission_versions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: fsu_validation_actions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: invitations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: ip_restrictions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: membres_associes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."membres_associes" ("id", "nom", "nom_complet", "pays_id", "logo_url", "type", "secteur", "depuis", "site_web", "description", "projets", "email_contact", "telephone_contact", "adresse", "est_actif", "date_creation", "date_mise_a_jour") VALUES
+	('a1b2c3d4-5678-90ef-1234-567890abcdef', 'ANSUT', 'Agence Nationale du Service Universel des Telecommunications', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/a1b2c3d4-5678-90ef-1234-567890abcdef/logo.png', 'agence', 'Service Universel', '2019', 'https://ansut.ci', 'Agence nationale ivoirienne responsable de la mise en oeuvre du Service Universel des Telecommunications', '{"projets": ["Deploiement 4G rural", "Ecoles connectees"]}', 'contact@ansut.ci', '+225 00 00 00 00', 'Abidjan, Cote d''Ivoire', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('d4e5f6a7-8901-2345-6789-012345678901', 'Huawei', 'Huawei Technologies Co. Ltd.', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/d4e5f6a7-8901-2345-6789-012345678901/logo.png', 'operateur', 'Equipements Reseaux', '2019', 'https://www.huawei.com', 'Leader mondial des solutions ICT et equipements de telecommunications', '{"projets": ["Infrastructure 5G", "Smart Cities"]}', 'contact@huawei.com', '+86 10 000 0000', 'Shenzhen, China', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('b2c3d4e5-6789-0123-4567-890123456789', 'MTN Group', 'MTN Group Limited', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/b2c3d4e5-6789-0123-4567-890123456789/logo.svg', 'operateur', 'Operateur Mobile', '2019', 'https://www.mtn.com', 'Groupe panafricain de telecommunications mobiles, present dans 21 pays africains', '{"projets": ["Connectivite transfrontaliere", "Infrastructure 5G"]}', 'info@mtn.com', '+27 10 000 0000', 'Johannesburg, South Africa', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('c3d4e5f6-7890-1234-5678-901234567890', 'Orange Group', 'Orange Middle East & Africa', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/c3d4e5f6-7890-1234-5678-901234567890/logo.png', 'operateur', 'Operateur Telecoms', '2020', 'https://www.orange.com', 'Operateur present en 20+ pays d''Afrique de l''Ouest et du Centre', '{"projets": ["Partage d''infrastructure", "Services numeriques"]}', 'contact@orange.com', '+33 1 00 00 00 00', 'Paris, France', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00');
+
+
+--
+-- Data for Name: mfa_challenges; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: news_gallery_images; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: news_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."news_tags" ("id", "news_id", "tag") VALUES
+	('39328f31-3cae-425c-b353-5f1a1f708996', 'd0000000-0000-0000-0000-000000000001', 'FSU'),
+	('d603ec9a-697e-487f-8da0-31010ee74c3d', 'd0000000-0000-0000-0000-000000000001', 'Financement'),
+	('2d6af561-5442-4fcd-bcd4-681d2bdd6e85', 'd0000000-0000-0000-0000-000000000001', 'Infrastructure'),
+	('9a249066-9a7e-4dde-a608-fffbe2c86fb1', 'd0000000-0000-0000-0000-000000000001', 'Pan-africain'),
+	('e43ec14a-9998-434c-808c-15ee1571c320', 'd0000000-0000-0000-0000-000000000002', 'Partenariat'),
+	('27a2123a-1d14-45d4-9c33-2355da0249e6', 'd0000000-0000-0000-0000-000000000002', 'Banque Mondiale'),
+	('29539688-9275-4831-af58-09853a0e49d5', 'd0000000-0000-0000-0000-000000000002', 'Investissement'),
+	('62de1598-2d58-4bb6-b2ad-66742bd50c3e', 'd0000000-0000-0000-0000-000000000002', 'D├®veloppement'),
+	('456fa328-7bee-4a7b-b687-a1bce1ed7c93', 'd0000000-0000-0000-0000-000000000003', 'Formation'),
+	('28f22c07-3948-4020-9d3a-6e1205928290', 'd0000000-0000-0000-0000-000000000003', 'Capacity Building'),
+	('ba8d23c7-0d13-47d7-b30e-c16953cdbd19', 'd0000000-0000-0000-0000-000000000003', 'Points Focaux'),
+	('19b5a181-743d-4f22-a005-c0df66a23377', 'd0000000-0000-0000-0000-000000000004', '5G'),
+	('50dff676-0473-4218-ba05-ca5578ac80ad', 'd0000000-0000-0000-0000-000000000004', 'Innovation'),
+	('e80f3644-cf9e-4dd4-a4f2-a80577265193', 'd0000000-0000-0000-0000-000000000004', 'Technologie'),
+	('3971b2df-e700-4b2d-8c38-35aba3d54d95', 'd0000000-0000-0000-0000-000000000004', 'D├®ploiement'),
+	('1d6e484b-e4ea-4ae0-84c6-0c644f0f0f68', 'd0000000-0000-0000-0000-000000000005', 'Rapport'),
+	('ab8d72bb-7a9e-46f5-a94a-f95647523932', 'd0000000-0000-0000-0000-000000000005', 'Annuel'),
+	('5bf32d63-ccd7-4d7a-ad3b-bc7d51c3e0d9', 'd0000000-0000-0000-0000-000000000005', '2025'),
+	('54340ff4-161c-4062-a7a2-fedfaf10c28c', 'd0000000-0000-0000-0000-000000000005', 'Bilan'),
+	('bd368cf8-bcdf-4194-9929-376020189b17', 'd0000000-0000-0000-0000-000000000006', 'R├¿glementation'),
+	('8aa12bd7-1313-41fc-b093-99f912e60010', 'd0000000-0000-0000-0000-000000000006', 'Harmonisation'),
+	('c8c7197c-0c0b-453c-891a-5c8ada696cf1', 'd0000000-0000-0000-0000-000000000006', 'Cadre l├®gal'),
+	('c68d1c01-0d76-4402-9861-bc08705a9c7b', 'd0000000-0000-0000-0000-000000000007', 'Connectivit├®'),
+	('334ac784-6999-467f-8a2c-c1ed82981830', 'd0000000-0000-0000-0000-000000000007', 'S├®n├®gal'),
+	('886a2433-4b55-4254-acbf-a8c3d1a433ba', 'd0000000-0000-0000-0000-000000000007', 'PPP'),
+	('b1ff616b-14f7-4ff9-8a53-4e54842963ec', 'd0000000-0000-0000-0000-000000000007', 'Rural'),
+	('9826c7d2-fe80-4f29-9a63-a9c60c6870a1', 'd0000000-0000-0000-0000-000000000008', 'Assembl├®e'),
+	('2c55d235-9e68-4444-a815-314f8df8b78e', 'd0000000-0000-0000-0000-000000000008', 'Kigali'),
+	('9e2431d8-42e3-4c75-a738-7a76cf187598', 'd0000000-0000-0000-0000-000000000008', 'D├®cisions'),
+	('8c3794cf-4922-4f30-a8b7-8b511b6084f2', 'd0000000-0000-0000-0000-000000000009', '├ëducation'),
+	('f8320d79-959c-4451-aa9c-8563ab50a138', 'd0000000-0000-0000-0000-000000000009', 'EAC'),
+	('6dc08302-dc0c-4ac6-bbaf-e2ec60853342', 'd0000000-0000-0000-0000-000000000009', 'Num├®rique'),
+	('5f87da6e-012e-42bc-952e-047ab1b46ded', 'd0000000-0000-0000-0000-000000000010', 'Financement'),
+	('776efd4e-98dd-4ca4-8aa8-d46d1d07a801', 'd0000000-0000-0000-0000-000000000010', 'Zones blanches'),
+	('683c7d0d-bca6-4ac2-8c00-8ca0841f8d8c', 'd0000000-0000-0000-0000-000000000010', 'Obligations'),
+	('6262ec61-3a81-4188-a569-1387fcb12ce3', 'd0000000-0000-0000-0000-000000000011', '5G'),
+	('dc3a699b-9857-45b6-a5b1-1c992d74a01a', 'd0000000-0000-0000-0000-000000000011', 'Nigeria'),
+	('9e9d1ab4-cb2f-467e-8f8e-b4594b35a687', 'd0000000-0000-0000-0000-000000000011', 'Pilote'),
+	('c7544517-a5bc-45ce-bd83-8d3880714e39', 'd0000000-0000-0000-0000-000000000011', 'Lagos'),
+	('46518d84-1b0a-44f1-bfc1-513e63e05292', 'd0000000-0000-0000-0000-000000000012', 'Formation'),
+	('9a8e6466-3510-4be5-a63d-63fdf8fd9ca5', 'd0000000-0000-0000-0000-000000000012', 'Capacit├®s'),
+	('dcd9428d-02eb-4fb4-8810-9b524fa5cd23', 'd0000000-0000-0000-0000-000000000012', '2026-2030'),
+	('de1cd0be-b155-4926-b9dc-7a8b7c77d775', 'd0000000-0000-0000-0000-000000000013', 'Sant├®'),
+	('044d9df8-1208-4102-9cbe-9dd8f9dbd7b9', 'd0000000-0000-0000-0000-000000000013', 'T├®l├®consultation'),
+	('6696e019-eee0-4d41-bc79-861af9c7e5b2', 'd0000000-0000-0000-0000-000000000013', 'Rural'),
+	('f7b882df-bd16-43ee-8d2e-ba99dffedb1c', 'd0000000-0000-0000-0000-000000000013', 'Vie'),
+	('7c007917-0566-4bc1-b3f3-7a9bc6de09fd', 'd0000000-0000-0000-0000-000000000014', 'Agriculture'),
+	('94c8af63-73be-42e7-badd-b7856ca83e54', 'd0000000-0000-0000-0000-000000000014', 'CEDEAO'),
+	('4c750762-de9e-4011-b956-e7e99a3a1594', 'd0000000-0000-0000-0000-000000000014', 'Num├®rique'),
+	('437c9434-f5de-4e21-a509-3d824a56bccf', 'd0000000-0000-0000-0000-000000000015', 'S├®curit├®'),
+	('4e7a1cfa-79c9-4329-b5b0-e3f955596d89', 'd0000000-0000-0000-0000-000000000015', 'Cybers├®curit├®'),
+	('afa27824-e4bb-4406-9cf0-fd4a81c799e0', 'd0000000-0000-0000-0000-000000000015', 'Directives'),
+	('0d20b9ca-59f3-453d-a316-5b43877bd21e', 'd0000000-0000-0000-0000-000000000016', 'Concours'),
+	('5edce14a-3b6d-4458-8e85-4f4db84254e8', 'd0000000-0000-0000-0000-000000000016', 'Start-up'),
+	('69da30ec-59d1-482c-93ba-f476e0d325df', 'd0000000-0000-0000-0000-000000000016', 'Innovation'),
+	('a34fb898-41a0-49c0-a59f-82babe316aab', 'd0000000-0000-0000-0000-000000000017', 'Coop├®ration'),
+	('5e7290e2-ec7d-41ef-8832-7b6150382f3f', 'd0000000-0000-0000-0000-000000000017', 'UE'),
+	('ac5576d3-c996-4a64-b518-526f25c3364d', 'd0000000-0000-0000-0000-000000000017', 'Financement'),
+	('395bc5ee-8e22-4391-85cb-b8e47e599d51', 'd0000000-0000-0000-0000-000000000018', 'E-gouvernement'),
+	('a8c48ebf-aba1-42c9-ab4a-3d11eb8c84de', 'd0000000-0000-0000-0000-000000000018', 'Digitalisation'),
+	('c8a31360-d868-47db-8b28-231df744dc75', 'd0000000-0000-0000-0000-000000000018', 'SADC'),
+	('a62d677d-5ca7-4441-8180-dbb06234a47f', 'd0000000-0000-0000-0000-000000000019', 'Environnement'),
+	('a8d0b251-ae05-4a3f-ac89-81a1c794e983', 'd0000000-0000-0000-0000-000000000019', 'Solaire'),
+	('fc84fd7d-4914-400e-918e-4801641affeb', 'd0000000-0000-0000-0000-000000000019', 'Vert'),
+	('43aed061-ac9e-4445-aca6-e71d76328140', 'd0000000-0000-0000-0000-000000000020', 'Conf├®rence'),
+	('34a0d02d-d3fc-4455-9fa8-e483aee29c8a', 'd0000000-0000-0000-0000-000000000020', 'Spectrum'),
+	('54888b43-cbfc-4598-87b5-80f8f1ea58d7', 'd0000000-0000-0000-0000-000000000020', 'Nairobi'),
+	('01bcf5d5-b943-4192-9ae8-41126b0c5647', 'd0000000-0000-0000-0000-000000000020', 'R├®gulation');
+
+
+--
+-- Data for Name: newsletters; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."notifications" ("id", "user_id", "type", "title", "message", "link", "read_at", "created_at") VALUES
+	('44d6a6f0-756b-4d80-8215-eb4bf0f17032', '27532cd4-aa56-483e-ad7b-411d745eaa42', 'info', 'Promotion en Point Focal', 'F├®licitations ! Vous avez ├®t├® promu(e) au r├┤le de Point Focal National.', '/dashboard', NULL, '2026-04-27 09:26:46.74426+00'),
+	('88b69ceb-fed0-42d6-b706-5187013137ef', 'd29411a5-6ce9-475b-977c-dbda749b943b', 'info', 'Nouveau Point Focal', 'Point Focal Togo a ├®t├® promu(e) au r├┤le de Point Focal National.', '/users', NULL, '2026-04-27 09:26:46.74426+00'),
+	('06796818-e313-45c5-96e2-1448d96af31a', '9068e130-64ac-49a1-8285-e64aedb862b8', 'info', 'Promotion en Point Focal', 'F├®licitations ! Vous avez ├®t├® promu(e) au r├┤le de Point Focal National.', '/dashboard', NULL, '2026-04-27 09:26:46.917202+00'),
+	('98dedace-0eb9-4010-9b8c-4d6682737084', 'd29411a5-6ce9-475b-977c-dbda749b943b', 'info', 'Nouveau Point Focal', 'Point Focal Cote d''Ivoire a ├®t├® promu(e) au r├┤le de Point Focal National.', '/users', NULL, '2026-04-27 09:26:46.917202+00');
+
+
+--
+-- Data for Name: partenaires; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."partenaires" ("id", "nom", "nom_complet", "pays_id", "logo_url", "type", "domaine", "depuis", "site_web", "description", "projets", "email_contact", "telephone_contact", "adresse", "est_actif", "date_creation", "date_mise_a_jour") VALUES
+	('a7b8c9d0-1234-5678-9012-345678901234', 'Amazon Data Services', 'Amazon Web Services (AWS)', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/a7b8c9d0-1234-5678-9012-345678901234/logo.png', 'international', 'Cloud & Infrastructure', '2022', 'https://aws.amazon.com', 'Services cloud et infrastructures pour les projets de connectivite', '{"projets": ["Data centers", "Cloud infrastructure"]}', 'africa-partners@amazon.com', '+1 206 000 0000', 'Seattle, WA, USA', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('a3b4c5d6-7890-1234-5678-901234567890', 'Eutelsat', 'Eutelsat Group', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/a3b4c5d6-7890-1234-5678-901234567890/logo.png', 'international', 'Satellites & Connectivite', '2020', 'https://www.eutelsat.com', 'Operateur satellite europeen couvrant l''Afrique avec des services de connectivite', '{"projets": ["Services satellite", "Broadband rural"]}', 'contact@eutelsat.com', '+33 1 00 00 00 00', 'Paris, France', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('e5f6a7b8-9012-3456-7890-123456789012', 'Google', 'Google LLC', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/e5f6a7b8-9012-3456-7890-123456789012/logo.png', 'international', 'Technologie & Services Numeriques', '2021', 'https://www.google.com', 'Services cloud, connectivite et initiatives de digitalisation en Afrique', '{"projets": ["Google Station WiFi", "Cloud services"]}', 'africa-partnerships@google.com', '+1 650 000 0000', 'Mountain View, CA, USA', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('f2a3b4c5-6789-0123-4567-890123456789', 'GSMA', 'GSM Association', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/f2a3b4c5-6789-0123-4567-890123456789/logo.png', 'ong', 'Association Professionnelle', '2019', 'https://www.gsma.com', 'Association representant les operateurs mobiles mondiaux et l''ecosysteme mobile', '{"projets": ["Rapports FSU", "Best practices"]}', 'info@gsma.com', '+44 00 0000 0000', 'London, United Kingdom', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('b4c5d6e7-8901-2345-6789-012345678901', 'Intelsat', 'Intelsat S.A.', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/b4c5d6e7-8901-2345-6789-012345678901/logo.png', 'international', 'Satellites & Connectivite', '2019', 'https://www.intelsat.com', 'Operateur satellite fournissant des services de connectivite en Afrique', '{"projets": ["Reseaux cellulaires", "Services IP"]}', 'sales@intelsat.com', '+352 00 000 0000', 'Luxembourg City, Luxembourg', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('f6a7b8c9-0123-4567-8901-234567890123', 'Microsoft', 'Microsoft Corporation', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/f6a7b8c9-0123-4567-8901-234567890123/logo.jpg', 'international', 'Cloud & Solutions Numeriques', '2020', 'https://www.microsoft.com', 'Solutions cloud et services numeriques pour les entreprises et administrations', '{"projets": ["Formation digitale", "Cloud computing"]}', 'africa@microsoft.com', '+1 425 000 0000', 'Redmond, WA, USA', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('b8c9d0e1-2345-6789-0123-456789012345', 'Nokia Solutions', 'Nokia Corporation', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/b8c9d0e1-2345-6789-0123-456789012345/logo.svg', 'prive', 'Equipements & Solutions Reseaux', '2019', 'https://www.nokia.com', 'Equipements reseaux, solutions 5G et services professionnels', '{"projets": ["Reseaux mobiles", "IoT solutions"]}', 'contact@nokia.com', '+358 10 000 0000', 'Espoo, Finland', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('d0e1f2a3-4567-8901-2345-678901234567', 'SES Luxembourg', 'SES S.A.', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/d0e1f2a3-4567-8901-2345-678901234567/logo.svg', 'international', 'Satellites & Connectivite', '2021', 'https://www.ses.com', 'Operateur satellite mondial fournissant une connectivite high-speed', '{"projets": ["Connectivite satellite", "Services broadband"]}', 'contact@ses.com', '+352 00 00 0000', 'Luxembourg City, Luxembourg', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('e1f2a3b4-5678-9012-3456-789012345678', 'SpaceX', 'SpaceX - Starlink', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/e1f2a3b4-5678-9012-3456-789012345678/logo.png', 'international', 'Satellites & Connectivite', '2023', 'https://www.starlink.com', 'Constellation satellites Starlink pour la connectivite mondiale et rurale', '{"projets": ["Internet satellite", "Zones mal desservies"]}', 'starlink@spacex.com', '+1 000 000 0000', 'Hawthorne, CA, USA', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('c9d0e1f2-3456-7890-1234-567890123456', 'Vodacom Group', 'Vodacom Group Limited', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/c9d0e1f2-3456-7890-1234-567890123456/logo.svg', 'prive', 'Operateur Mobile', '2020', 'https://www.vodacom.com', 'Operateur mobile panafricain, filiale de Vodafone', '{"projets": ["Services mobiles", "Data services"]}', 'info@vodacom.com', '+27 11 000 0000', 'Johannesburg, South Africa', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00'),
+	('c5d6e7f8-9012-3456-7890-123456789012', 'ZTE', 'ZTE Corporation', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/partners/c5d6e7f8-9012-3456-7890-123456789012/logo.png', 'prive', 'Equipements & Solutions Reseaux', '2019', 'https://www.zte.com.cn/global', 'Equipementier chinois proposant des solutions reseaux et telecoms', '{"projets": ["Infrastructure 4G/5G", "Solutions broadband"]}', 'global@zte.com.cn', '+86 755 0000 0000', 'Shenzhen, China', true, '2026-04-27 08:14:17.050923+00', '2026-04-27 08:14:17.050923+00');
+
+
+--
+-- Data for Name: platform_settings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."platform_settings" ("id", "key", "value", "label", "category", "created_at", "updated_at") VALUES
+	('6fda3a7b-1d45-44a7-9010-aef3bd445e2e', 'site_name', '"USF-ADC"', 'Nom de la plateforme', 'general', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('9ed9e31c-7ff4-4749-a4ed-d51c588a8057', 'default_language', '"fr"', 'Langue par d├®faut', 'general', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('374c0d40-3aff-4b1f-b697-07ecf4fb06d2', 'maintenance_mode', 'false', 'Mode maintenance', 'general', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('73f0d36c-0163-4185-b94b-84fdcfb133b2', 'welcome_message', '"Bienvenue sur la plateforme USF-ADC de suivi des indicateurs de service universel en Afrique."', 'Message d''accueil', 'general', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('4c333a65-8e9a-4a73-a1f3-d7aee400ec62', 'fsu_submission_deadline_days', '30', 'D├®lai de soumission FSU (jours)', 'fsu', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('2924e5ed-22ca-4f64-9746-774c9ec4e988', 'fsu_auto_reminder', 'true', 'Rappels automatiques FSU', 'fsu', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00'),
+	('3ed43e87-587b-442c-a01d-59e58e43a174', 'fsu_reminder_days_before', '7', 'Jours avant rappel FSU', 'fsu', '2026-04-27 08:14:16.16003+00', '2026-04-27 08:14:16.16003+00');
+
+
+--
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."projects" ("id", "country_id", "title", "description", "status", "budget", "latitude", "longitude", "region", "progress", "beneficiaries", "operator", "thematic", "start_date", "end_date", "objectives", "indicators", "created_by", "created_at", "updated_at") VALUES
+	('a0000000-0000-0000-0000-000000000001', '5e75213f-9c7d-466a-8881-1d96b13367e1', 'Connectivit├® Rurale Phase 1 - Nord', 'D├®ploiement de la connectivit├® haut d├®bit dans 150 localit├®s du Nord de la C├┤te d''Ivoire.', 'in_progress', 45000000.00, 9.7902, -4.0333, 'CEDEAO', 65, '300000', 'Orange CI', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000002', '5e75213f-9c7d-466a-8881-1d96b13367e1', '├ëcoles Num├®riques C├┤te d''Ivoire', '├ëquipement de 200 ├®coles primaires en ordinateurs et connexion internet.', 'in_progress', 12000000.00, 5.36, -4.0083, 'CEDEAO', 40, '50000', 'MTN CI', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000003', '5e75213f-9c7d-466a-8881-1d96b13367e1', 'Centres Communautaires Num├®riques - Abidjan', 'Cr├®ation de 50 centres communautaires num├®riques dans les quartiers d''Abidjan.', 'planned', 8000000.00, 5.36, -3.8789, 'CEDEAO', 0, '200000', 'Moov CI', 'social', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000004', '5e75213f-9c7d-466a-8881-1d96b13367e1', 'T├®l├®-sant├® R├®gion Ouest', 'D├®ploiement de plateformes de t├®l├®-sant├® dans 30 centres de sant├® r├®gion Ouest.', 'completed', 6500000.00, 6.82, -6.68, 'CEDEAO', 100, '150000', 'Orange CI', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000005', '512c08a7-fce4-40db-b76f-40cd708fa00e', 'Sites Solaires Autonomes', 'D├®ploiement de 150 sites t├®l├®coms aliment├®s par ├®nergie solaire.', 'completed', 32000000.00, 14.7167, -17.4677, 'CEDEAO', 100, '300000', 'Orange S├®n├®gal', 'energie', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000006', '512c08a7-fce4-40db-b76f-40cd708fa00e', 'Hub num├®rique de Dakar', 'Centre de donn├®es et incubateur technologique.', 'planned', 12000000.00, 14.7167, -17.4677, 'CEDEAO', 0, '50000', 'Sonatel', 'infrastructure', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000007', '512c08a7-fce4-40db-b76f-40cd708fa00e', 'Fibre Optique Casamance', 'Extension du r├®seau fibre optique dans la r├®gion de Casamance.', 'in_progress', 28000000.00, 12.55, -16.27, 'CEDEAO', 45, '180000', 'Orange S├®n├®gal', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000008', '512c08a7-fce4-40db-b76f-40cd708fa00e', '├ëducation Num├®rique Saint-Louis', '├ëquipement de 100 ├®coles de la r├®gion de Saint-Louis.', 'in_progress', 9000000.00, 16.02, -16.45, 'CEDEAO', 60, '80000', 'Free S├®n├®gal', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000009', '929ed0dd-682f-40ee-abe7-a87e4392c9ed', 'R├®seau fibre optique Lagos-Abuja', 'D├®ploiement de 900 km de fibre optique reliant Lagos ├á Abuja.', 'in_progress', 45000000.00, 7.4951, 3.3947, 'CEDEAO', 75, '1500000', 'MTN Nigeria', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000010', '929ed0dd-682f-40ee-abe7-a87e4392c9ed', '5G Pilot Project - Lagos', 'Projet pilote 5G dans 5 districts de Lagos.', 'planned', 35000000.00, 6.5244, 3.3792, 'CEDEAO', 0, '2000000', 'MTN Nigeria', 'innovation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000011', '929ed0dd-682f-40ee-abe7-a87e4392c9ed', 'E-Agriculture Nord Nigeria', 'Plateforme d''e-agriculture pour 500 000 agriculteurs.', 'in_progress', 15000000.00, 11.58, 7.52, 'CEDEAO', 55, '500000', 'Airtel Nigeria', 'agriculture', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000012', '929ed0dd-682f-40ee-abe7-a87e4392c9ed', 'Connectivit├® Rivers State', 'D├®ploiement haut d├®bit dans 200 localit├®s Rivers State.', 'completed', 22000000.00, 4.81, 6.82, 'CEDEAO', 100, '800000', 'Globacom', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000013', '86cb31a0-151e-4639-ae87-f0aa2b6bfdf2', 'Digital Accra Project', 'Transformation num├®rique compl├¿te d''Accra avec WiFi public.', 'completed', 28000000.00, 5.55, -0.21, 'CEDEAO', 100, '500000', 'MTN Ghana', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000014', '86cb31a0-151e-4639-ae87-f0aa2b6bfdf2', '├ëcoles Connect├®es Ghana', 'Connexion internet de 500 ├®coles primaires.', 'in_progress', 18000000.00, 7.95, -1.08, 'CEDEAO', 70, '300000', 'Vodafone Ghana', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000015', '86cb31a0-151e-4639-ae87-f0aa2b6bfdf2', 'T├®l├®-m├®decine Northern Region', 'Centres de t├®l├®-m├®decine dans 50 districts du Nord.', 'planned', 12000000.00, 9.4, -0.84, 'CEDEAO', 0, '200000', 'AirtelTigo', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000016', '79433e10-7e03-46a3-8b38-06f223f5bde7', 'Connectivit├® R├®gion Nord', 'D├®ploiement haut d├®bit dans les r├®gions de Tombouctou et Gao.', 'in_progress', 35000000.00, 17.57, -3.05, 'CEDEAO', 50, '400000', 'Malitel', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000017', '79433e10-7e03-46a3-8b38-06f223f5bde7', 'Projets ├ëducation Rurale', 'Tablettes num├®riques pour 200 ├®coles rurales.', 'completed', 8500000.00, 13.45, -5.55, 'CEDEAO', 100, '120000', 'Orange Mali', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000018', '79433e10-7e03-46a3-8b38-06f223f5bde7', 'Eau Connect├®e Mali', 'Syst├¿me de gestion intelligente de l''eau connect├® IoT.', 'planned', 9500000.00, 12.65, -7.55, 'CEDEAO', 0, '250000', 'Malitel', 'environnement', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000019', 'b890e92e-9ae6-44a9-855b-0bad081f299f', 'R├®seau National Haut D├®bit', 'D├®ploiement fibre optique sur 2000 km.', 'in_progress', 42000000.00, 12.2383, -1.5616, 'CEDEAO', 60, '800000', 'Orange Burkina', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000020', 'b890e92e-9ae6-44a9-855b-0bad081f299f', 'Centres Multifonctionnels', '50 centres multifonctionnels avec internet.', 'planned', 15000000.00, 12.35, -1.55, 'CEDEAO', 0, '300000', 'Telmob', 'social', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000021', 'b890e92e-9ae6-44a9-855b-0bad081f299f', 'E-Sant├® Burkina', 'Plateforme e-sant├® pour les zones rurales.', 'completed', 11000000.00, 11.15, -0.35, 'CEDEAO', 100, '200000', 'Orange Burkina', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000022', '751ff0c0-8c39-4d67-806e-f8c27dc3bf95', 'Smart Cotonou', 'Ville intelligente avec IoT et connectivit├®.', 'in_progress', 25000000.00, 6.3956, 2.4367, 'CEDEAO', 55, '400000', 'MTN Benin', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000023', '751ff0c0-8c39-4d67-806e-f8c27dc3bf95', '├ëcoles Num├®riques', '150 ├®coles ├®quip├®es en mat├®riel informatique.', 'completed', 9000000.00, 7.45, 2.05, 'CEDEAO', 100, '180000', 'Benin Telecom', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000024', '2e5808c1-4d30-4c29-b3e4-8d486d3951e2', 'Fibre Optique Lom├®-Kara', 'D├®ploiement fibre optique sur l''axe Lom├®-Kara.', 'in_progress', 28000000.00, 8.62, 1.12, 'CEDEAO', 70, '500000', 'TogoCom', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000025', '2e5808c1-4d30-4c29-b3e4-8d486d3951e2', 'T├®l├®-enseignement', 'Programme de t├®l├®-enseignement pour 100 ├®coles.', 'planned', 8000000.00, 7.55, 0.85, 'CEDEAO', 0, '150000', 'Moov Togo', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000026', '0408c862-df2f-4d13-b705-894a8c88bdb0', 'Connectivit├® R├®gions Sah├®liennes', 'D├®ploiement dans les r├®gions de Tillab├®ri et Zinder.', 'in_progress', 32000000.00, 17.75, 8.05, 'CEDEAO', 45, '350000', 'Orange Niger', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000027', '0408c862-df2f-4d13-b705-894a8c88bdb0', 'Eau Num├®rique', 'Projet de gestion intelligente de l''eau.', 'completed', 10000000.00, 13.55, 5.55, 'CEDEAO', 100, '280000', 'Niger Telecom', 'environnement', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000028', 'b0717627-e99c-4e26-a424-1283afb17ca6', 'R├®seau National Guin├®e', 'Extension du r├®seau mobile 4G.', 'planned', 45000000.00, 9.9456, -9.6966, 'CEDEAO', 0, '600000', 'MTN Guin├®e', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000029', 'b0717627-e99c-4e26-a424-1283afb17ca6', 'Formation Digitale', 'Centres de formation num├®rique jeunes.', 'in_progress', 7500000.00, 10.15, -13.55, 'CEDEAO', 40, '100000', 'Orange Guin├®e', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000030', '89da8dfd-f297-474d-be38-4389c842cfd6', 'Fibre Optique Douala-Yaound├®', 'Autoroute informationnelle entre les deux capitales.', 'completed', 55000000.00, 4.05, 11.55, 'CEEAC', 100, '1200000', 'MTN Cameroun', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000031', '89da8dfd-f297-474d-be38-4389c842cfd6', '├ëcoles Rurales Cameroun', '300 ├®coles rurales connect├®es.', 'in_progress', 22000000.00, 5.65, 12.05, 'CEEAC', 65, '250000', 'Orange Cameroun', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000032', '89da8dfd-f297-474d-be38-4389c842cfd6', 'Smart Agriculture Cameroun', 'Plateforme d''agriculture intelligente.', 'planned', 18000000.00, 3.85, 11.55, 'CEEAC', 0, '200000', 'Nexttel', 'agriculture', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000033', '89da8dfd-f297-474d-be38-4389c842cfd6', 'E-Sant├® Douala', 'H├┤pitaux connect├®s de Douala.', 'in_progress', 14000000.00, 4.05, 9.75, 'CEEAC', 50, '180000', 'MTN Cameroun', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000034', 'dc8cf694-62af-48ab-9614-4f8f68d9284b', 'Connectivit├® Est RDC', 'D├®ploiement dans les provinces de l''Est.', 'in_progress', 48000000.00, -0.55, 25.25, 'SADC', 40, '800000', 'Vodacom DRC', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000035', 'dc8cf694-62af-48ab-9614-4f8f68d9284b', '├ëducation Num├®rique Kinshasa', '200 ├®coles de Kinshasa ├®quip├®es.', 'planned', 16000000.00, -4.35, 15.35, 'SADC', 0, '400000', 'Orange RDC', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000036', 'dc8cf694-62af-48ab-9614-4f8f68d9284b', 'T├®l├®-m├®decine RDC', 'Plateforme nationale de t├®l├®-m├®decine.', 'completed', 25000000.00, -2.85, 23.65, 'SADC', 100, '500000', 'Airtel DRC', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000037', 'e7b65baf-47cb-4298-bf05-b158d966b47c', 'Connectivit├® rurale Rift Valley', 'Extension du r├®seau mobile 4G dans la vall├®e du Rift.', 'in_progress', 8500000.00, -0.0236, 37.9062, 'EAC', 55, '350000', 'Safaricom', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000038', 'e7b65baf-47cb-4298-bf05-b158d966b47c', 'DigiSchool Kenya', 'Num├®risation de 500 ├®coles primaires.', 'completed', 20000000.00, -1.2864, 36.8219, 'EAC', 100, '400000', 'Telkom Kenya', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000039', 'e7b65baf-47cb-4298-bf05-b158d966b47c', 'Smart Farming Kenya', 'Agriculture intelligente avec IoT.', 'in_progress', 15000000.00, -0.0236, 35.25, 'EAC', 65, '250000', 'Safaricom', 'agriculture', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000040', 'e7b65baf-47cb-4298-bf05-b158d966b47c', '5G Mombasa', 'D├®ploiement 5G ├á Mombasa.', 'planned', 30000000.00, -4.05, 39.65, 'EAC', 0, '800000', 'Safaricom', 'innovation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000041', '20301efe-55ff-4a23-ba8b-1c0543b3ec57', 'Smart Grid Cape Town', 'R├®seau ├®lectrique intelligent pour la r├®gion du Cap.', 'completed', 32000000.00, -33.9249, 18.4241, 'SADC', 100, '600000', 'Vodacom', 'energie', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000042', '20301efe-55ff-4a23-ba8b-1c0543b3ec57', 'Township Connectivity', 'Connectivit├® haut d├®bit pour 100 townships.', 'in_progress', 45000000.00, -26.2, 28.05, 'SADC', 70, '2500000', 'MTN SA', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000043', '20301efe-55ff-4a23-ba8b-1c0543b3ec57', 'E-Learning Gauteng', 'Programme e-learning pour 400 ├®coles.', 'planned', 28000000.00, -26.25, 28.15, 'SADC', 0, '800000', 'Vodacom', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000044', '20301efe-55ff-4a23-ba8b-1c0543b3ec57', 'Digital Health KwaZulu-Natal', 'Plateforme sant├® num├®rique provinciale.', 'in_progress', 22000000.00, -28.55, 30.85, 'SADC', 45, '500000', 'Telkom SA', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000045', 'daceb590-8f20-42da-bd79-5bd448ed93f3', 'Plateforme e-gouvernement Rabat', 'Digitalisation des services administratifs.', 'in_progress', 15000000.00, 34.0209, -6.8416, 'UMA', 75, '1200000', 'IAM', 'e-gouvernement', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000046', 'daceb590-8f20-42da-bd79-5bd448ed93f3', 'Smart City Casablanca', 'Projet ville intelligente Casablanca.', 'completed', 55000000.00, 33.5731, -7.5898, 'UMA', 100, '3500000', 'IAM', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000047', 'daceb590-8f20-42da-bd79-5bd448ed93f3', 'Connectivit├® Rurale Maroc', 'D├®ploiement haut d├®bit zones rurales.', 'in_progress', 42000000.00, 31.65, -5.85, 'UMA', 60, '1500000', 'IAM', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000048', 'daceb590-8f20-42da-bd79-5bd448ed93f3', 'E-Commerce Atlas', 'Plateforme e-commerce pour r├®gions Atlas.', 'planned', 12000000.00, 31.85, -6.95, 'UMA', 0, '300000', 'IAM', 'economie', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000049', 'df046224-864b-41bd-b670-b0f20ca69fae', 'Smart Tunis', 'Transformation num├®rique de Tunis.', 'completed', 35000000.00, 36.8065, 10.1815, 'UMA', 100, '900000', 'Tunisie T├®l├®com', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000050', 'df046224-864b-41bd-b670-b0f20ca69fae', 'Education Num├®rique', '400 ├®coles ├®quip├®es.', 'in_progress', 18000000.00, 34.75, 10.75, 'UMA', 70, '400000', 'Ooredoo TN', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000051', 'df046224-864b-41bd-b670-b0f20ca69fae', 'E-Sant├® Tunisie', 'H├┤pitaux connect├®s.', 'planned', 14000000.00, 33.85, 9.55, 'UMA', 0, '250000', 'Tunisie T├®l├®com', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000052', '00ba3a6c-87f5-429c-8115-75e5005cb97f', 'Fibre Optique Sud', 'D├®ploiement fibre optique Sud alg├®rien.', 'in_progress', 65000000.00, 26.85, 5.05, 'UMA', 50, '2000000', 'Alg├®rie T├®l├®com', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000053', '00ba3a6c-87f5-429c-8115-75e5005cb97f', 'Smart Farming', 'Agriculture intelligente Sud.', 'planned', 28000000.00, 28.05, 2.65, 'UMA', 0, '400000', 'Mobilis', 'agriculture', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000054', '00ba3a6c-87f5-429c-8115-75e5005cb97f', 'E-Learning Alg├®rie', 'Plateforme nationale e-learning.', 'completed', 35000000.00, 36.75, 3.05, 'UMA', 100, '3000000', 'Alg├®rie T├®l├®com', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000055', 'd7d9bd99-0e87-4ba1-8e7e-12138ecb192e', 'Digital Ethiopia', 'Strat├®gie de transformation num├®rique.', 'in_progress', 100000000.00, 9.145, 40.4897, 'EAC', 60, '5000000', 'Ethio Telecom', 'digitalisation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000056', 'd7d9bd99-0e87-4ba1-8e7e-12138ecb192e', 'Rural Connectivity', 'Connectivit├® rurale nationale.', 'planned', 75000000.00, 8.55, 39.85, 'EAC', 0, '15000000', 'Ethio Telecom', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000057', 'd7d9bd99-0e87-4ba1-8e7e-12138ecb192e', 'Health Tech Ethiopia', 'Technologie sant├®.', 'completed', 45000000.00, 9.05, 38.75, 'EAC', 100, '800000', 'Ethio Telecom', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000058', 'e9634471-9635-4b70-bbf8-d90f6a3ac7e7', 'Fibre Maputo', 'R├®seau fibre Maputo.', 'in_progress', 28000000.00, -25.9692, 32.5732, 'SADC', 55, '400000', 'Vodacom Mozambique', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000059', 'e9634471-9635-4b70-bbf8-d90f6a3ac7e7', '├ëcoles Num├®riques', '200 ├®coles connect├®es.', 'planned', 12000000.00, -18.85, 35.55, 'SADC', 0, '300000', 'Movitel', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000060', 'c5815c15-a6b7-42f7-88a5-3fc782cdc5bb', 'Smart Farming Zambia', 'Agriculture intelligente.', 'completed', 18000000.00, -13.25, 27.85, 'SADC', 100, '500000', 'MTN Zambia', 'agriculture', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000061', 'c5815c15-a6b7-42f7-88a5-3fc782cdc5bb', 'Health Connect', 'H├┤pitaux connect├®s.', 'in_progress', 14000000.00, -15.45, 28.35, 'SADC', 65, '250000', 'Airtel Zambia', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000062', '0e8b6a4e-253d-406b-8e30-f62d656d8f24', 'Fibre Tanzania', 'R├®seau national fibre.', 'in_progress', 55000000.00, -6.369, 34.8888, 'SADC', 70, '2000000', 'Vodacom Tanzania', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000063', '0e8b6a4e-253d-406b-8e30-f62d656d8f24', 'Education Tech', '├ëcoles connect├®es.', 'planned', 20000000.00, -5.05, 35.75, 'SADC', 0, '500000', 'Tigo Tanzania', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000064', '4c5a1e51-93ad-473b-9804-7d82aee64704', 'Smart Kigali', 'Ville intelligente Kigali.', 'completed', 40000000.00, -1.9706, 30.1044, 'EAC', 100, '1200000', 'MTN Rwanda', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000065', '4c5a1e51-93ad-473b-9804-7d82aee64704', 'Rural Broadband', 'Haut d├®bit rural.', 'in_progress', 25000000.00, -1.65, 29.85, 'EAC', 75, '600000', 'MTN Rwanda', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000066', '4c5a1e51-93ad-473b-9804-7d82aee64704', 'E-Health Rwanda', 'Sant├® num├®rique.', 'planned', 18000000.00, -2.05, 30.55, 'EAC', 0, '300000', 'Airtel Rwanda', 'sante', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000067', 'e80c3507-71b0-46ad-a716-ff403fa51a08', 'National Broadband', 'Haut d├®bit national.', 'in_progress', 45000000.00, 1.3733, 32.2903, 'EAC', 60, '1500000', 'MTN Uganda', 'connectivite', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000068', 'e80c3507-71b0-46ad-a716-ff403fa51a08', 'Education Connect', '├ëcoles connect├®es.', 'completed', 15000000.00, 0.35, 32.55, 'EAC', 100, '400000', 'Airtel Uganda', 'education', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000069', '3eb4bc79-7cdb-4673-b7ad-487a02de0fdd', 'Digital Egypt', 'Transformation num├®rique.', 'in_progress', 120000000.00, 26.8206, 30.8025, 'North Africa', 75, '10000000', 'Telecom Egypt', 'digitalisation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000070', '5e75213f-9c7d-466a-8881-1d96b13367e1', 'Smart San Pedro', 'Ville intelligente San Pedro.', 'planned', 18000000.00, 4.75, -6.65, 'CEDEAO', 0, '200000', 'Orange CI', 'smart-city', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000071', '512c08a7-fce4-40db-b76f-40cd708fa00e', 'Digital Saint-Louis', 'Transformation num├®rique Saint-Louis.', 'in_progress', 15000000.00, 16.02, -16.45, 'CEDEAO', 45, '150000', 'Orange S├®n├®gal', 'digitalisation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000072', 'e7b65baf-47cb-4298-bf05-b158d966b47c', 'Tech Hubs Kenya', 'Incubateurs technologiques.', 'completed', 22000000.00, -1.2864, 36.8219, 'EAC', 100, '100000', 'Safaricom', 'innovation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000073', '20301efe-55ff-4a23-ba8b-1c0543b3ec57', '5G South Africa', 'D├®ploiement 5G national.', 'in_progress', 150000000.00, -30.55, 25.75, 'SADC', 50, '5000000', 'Vodacom', 'innovation', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00'),
+	('a0000000-0000-0000-0000-000000000074', 'daceb590-8f20-42da-bd79-5bd448ed93f3', 'Renewable Energy Tech', '├ënergie renouvelable t├®l├®coms.', 'planned', 25000000.00, 31.65, -7.95, 'UMA', 0, '300000', 'IAM', 'energie', NULL, NULL, NULL, NULL, NULL, '2026-04-27 08:14:17.863291+00', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: project_actors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: project_documents; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: project_images; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."project_images" ("id", "project_id", "image_url", "sort_order", "created_at") VALUES
+	('6dd8936a-ec8f-4673-8e80-a7f27e270c96', 'a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('b24bf93d-136e-4292-8a36-c0e259105c09', 'a0000000-0000-0000-0000-000000000001', 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80', 2, '2026-04-27 08:14:17.863291+00'),
+	('3ed24110-7fb1-4483-9c78-37db91abcdea', 'a0000000-0000-0000-0000-000000000002', 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('d4ffd51e-bd2f-4005-a6e1-883a8a4e4a01', 'a0000000-0000-0000-0000-000000000005', 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('0e1736c3-d716-4fdd-9d85-10c076c20b91', 'a0000000-0000-0000-0000-000000000006', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('dfa4f5fe-9e59-48fb-bbbf-6f51e010d9f1', 'a0000000-0000-0000-0000-000000000009', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('ac58e939-26f9-4a9a-8f93-178b3a290e69', 'a0000000-0000-0000-0000-000000000010', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('3f8f2d1a-75a8-4a9f-9307-6b673d73e535', 'a0000000-0000-0000-0000-000000000037', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('794e7592-8d6a-47e4-8127-db25f9206a06', 'a0000000-0000-0000-0000-000000000038', 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('b6d8534e-38a5-494b-9b52-bc396cc8ec63', 'a0000000-0000-0000-0000-000000000041', 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('d649a3cb-b691-481e-abf4-e4b3b5c313d1', 'a0000000-0000-0000-0000-000000000042', 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('bb1f46a1-be17-4430-a2a6-9411555858a6', 'a0000000-0000-0000-0000-000000000045', 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00'),
+	('44e09df1-9ba3-4776-be7f-6ada0fd1acac', 'a0000000-0000-0000-0000-000000000046', 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&q=80', 1, '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: project_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."project_tags" ("id", "name", "created_at") VALUES
+	('8a538bee-86bc-4f70-9ed8-b3b656163d6a', 'fibre', '2026-04-27 08:14:17.863291+00'),
+	('2f589ed6-d83c-4c25-ac56-bfc0e25cd34d', 'rural', '2026-04-27 08:14:17.863291+00'),
+	('629c4541-b5b1-4541-be2c-76a9d6ae2590', '5G', '2026-04-27 08:14:17.863291+00'),
+	('5cc9d927-9ce0-4323-b093-df2f4c030c26', 'CEDEAO', '2026-04-27 08:14:17.863291+00'),
+	('8c8ffdf0-c339-43ac-a73a-203155d6ab30', '├®ducation', '2026-04-27 08:14:17.863291+00'),
+	('2772fb09-0190-44b4-9d02-5b0e12c3e6cb', 'formation', '2026-04-27 08:14:17.863291+00'),
+	('c4d3dd75-b265-4bbb-9716-c9de5f22614f', 'digitalisation', '2026-04-27 08:14:17.863291+00'),
+	('07668bb7-1b3e-4d49-a313-9e383a73ef6f', 'smart-city', '2026-04-27 08:14:17.863291+00'),
+	('6de554dc-8fbf-4087-ba83-428dc8e473c8', 'centre-communautaire', '2026-04-27 08:14:17.863291+00'),
+	('f1bd2de6-6162-4b48-86d2-5a1b0ec5355a', 'sant├®', '2026-04-27 08:14:17.863291+00'),
+	('86b4f212-683f-4af9-b91b-e910f4511cbb', 't├®l├®-sant├®', '2026-04-27 08:14:17.863291+00'),
+	('154e0ac0-3be1-48e3-b434-d02c69b2d1b4', 'solaire', '2026-04-27 08:14:17.863291+00'),
+	('e1cd0b41-f760-4a22-b0ff-0bb6a5837539', '├®nergie-verte', '2026-04-27 08:14:17.863291+00'),
+	('e8351d46-d806-4e33-b7e2-08d4a691d758', 'off-grid', '2026-04-27 08:14:17.863291+00'),
+	('01fda764-c8f4-4aa8-b5d6-b541ba6ae61d', 'hub', '2026-04-27 08:14:17.863291+00'),
+	('f5890023-92bf-4ba7-8a49-b687b4b7673e', 'data-center', '2026-04-27 08:14:17.863291+00'),
+	('5856336f-2493-4d9c-ac46-cd7b40f32594', 'incubateur', '2026-04-27 08:14:17.863291+00'),
+	('05f8f8a9-6525-45df-a7c0-f73a42b142dc', 'casamance', '2026-04-27 08:14:17.863291+00'),
+	('1fb2f570-1f87-415e-8a26-e3f223874621', 'saint-louis', '2026-04-27 08:14:17.863291+00'),
+	('f0081c36-4738-4350-b299-38b6937a2ffa', 'lagos', '2026-04-27 08:14:17.863291+00'),
+	('5fc6a9fd-f172-4767-9b8a-6252ae6bbcf3', 'abuja', '2026-04-27 08:14:17.863291+00'),
+	('69492d8a-4c1e-40ba-92c2-ee6663a96d2f', 'pilote', '2026-04-27 08:14:17.863291+00'),
+	('b222e10c-e23b-40b6-aa5d-a5d4b151f5b8', 'agriculture', '2026-04-27 08:14:17.863291+00'),
+	('2b029a74-cbb8-424e-8294-b6ea2ab6dfcb', 'e-agriculture', '2026-04-27 08:14:17.863291+00'),
+	('4e9276f3-0350-40a1-a5e5-11434e3efd52', 'iot', '2026-04-27 08:14:17.863291+00'),
+	('9b23f328-c0f2-43ce-8543-cf208558659f', 'rivers-state', '2026-04-27 08:14:17.863291+00'),
+	('47c854fb-54e3-4833-8489-cd03b9e728a1', '4G', '2026-04-27 08:14:17.863291+00'),
+	('582ef133-4b0f-4f0c-9c9b-a72ed8486609', 'rift-valley', '2026-04-27 08:14:17.863291+00'),
+	('0c869f1f-9a70-4657-8eaf-725ed668c35e', 'e-learning', '2026-04-27 08:14:17.863291+00'),
+	('1d5053f0-b586-444e-87df-445af047df7f', 'smart-farming', '2026-04-27 08:14:17.863291+00'),
+	('bb81d0ee-c225-4b4b-93e4-466adac71a82', 'mombasa', '2026-04-27 08:14:17.863291+00'),
+	('7ae407b1-55dc-43d9-9962-b451900c54dc', 'smart-grid', '2026-04-27 08:14:17.863291+00'),
+	('492bd31f-69f8-424e-8b43-1d406b1168d5', 'capetown', '2026-04-27 08:14:17.863291+00'),
+	('ca5b3f40-6287-40b7-b62f-d687b5797051', '├®nergie', '2026-04-27 08:14:17.863291+00'),
+	('8d26ccf1-add0-4538-9870-c571f2c489ba', 'township', '2026-04-27 08:14:17.863291+00'),
+	('2daa36ec-ba17-4404-84e1-2715ffbcd085', 'connectivit├®', '2026-04-27 08:14:17.863291+00'),
+	('c6820b0e-30dc-40f7-a2ad-a947a8633f7e', 'gauteng', '2026-04-27 08:14:17.863291+00'),
+	('b6dccb3c-708d-4456-b568-2d9914855a27', 'e-sant├®', '2026-04-27 08:14:17.863291+00'),
+	('c122f4bd-3065-4b42-a790-4d6d34766607', 'kwazulu-natal', '2026-04-27 08:14:17.863291+00'),
+	('bb49ec0a-a518-4deb-81cb-dc7c5b2321c5', 'e-gouvernement', '2026-04-27 08:14:17.863291+00'),
+	('eaaa6c23-9b4a-4c70-ad85-70cd05358664', 'rabat', '2026-04-27 08:14:17.863291+00'),
+	('ef9d0629-720c-4eec-bba2-20858c185e7e', 'casablanca', '2026-04-27 08:14:17.863291+00'),
+	('d20d4398-8f99-4925-9467-65658927bcce', 'haut-d├®bit', '2026-04-27 08:14:17.863291+00'),
+	('d44b04f2-a3a7-4041-94d4-56f8bd6a6dbf', 'e-commerce', '2026-04-27 08:14:17.863291+00'),
+	('99b257d7-f2a1-4ae2-b3ee-bf3c8bca7d29', 'atlas', '2026-04-27 08:14:17.863291+00'),
+	('020ca9f9-2bd5-4627-845a-2d41578bb12d', '├®conomie', '2026-04-27 08:14:17.863291+00');
+
+
+--
+-- Data for Name: project_project_tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: quarterly_reports; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: role_promotions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."role_promotions" ("id", "user_id", "role", "created_at") VALUES
+	('616de372-7b6c-44bd-974a-06c30475a972', 'd29411a5-6ce9-475b-977c-dbda749b943b', 'super_admin', '2026-04-27 09:26:46.563284+00'),
+	('3c0cafc4-8bb1-46cb-a5ce-85099eb066a7', '2c826e6d-8b93-4b83-a9df-d08b4403074e', 'country_admin', '2026-04-27 09:26:46.65655+00'),
+	('c0272639-f8b9-40f1-b65a-b64565e50189', '27532cd4-aa56-483e-ad7b-411d745eaa42', 'point_focal', '2026-04-27 09:26:46.74426+00'),
+	('a6234392-b81d-48d2-93c5-d6b6e3c409f5', '9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', 'country_admin', '2026-04-27 09:26:46.834709+00'),
+	('cf0be218-3e70-42ec-aeb9-f2542a0d6459', '9068e130-64ac-49a1-8285-e64aedb862b8', 'point_focal', '2026-04-27 09:26:46.917202+00');
+
+
+--
+-- Data for Name: submission_periods; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: support_tickets; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: support_ticket_comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: user_roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO "public"."user_roles" ("id", "user_id", "role", "created_at") VALUES
+	('1795dd09-cd37-4ae5-bc80-9d3899f2015f', 'd29411a5-6ce9-475b-977c-dbda749b943b', 'super_admin', '2026-04-27 09:26:46.553+00'),
+	('df527fd1-9be9-4d27-b9a8-2df8fb90ac9d', '2c826e6d-8b93-4b83-a9df-d08b4403074e', 'country_admin', '2026-04-27 09:26:46.654+00'),
+	('1909d39b-4f9a-4ea2-9f07-515dc7bdda2d', '27532cd4-aa56-483e-ad7b-411d745eaa42', 'point_focal', '2026-04-27 09:26:46.741+00'),
+	('63589c9b-54a5-4edc-88b7-7ed9e4e38a56', '9ca48a5d-393a-4e20-b3d2-84dd6ff87be9', 'country_admin', '2026-04-27 09:26:46.832+00'),
+	('73437fa7-4ab5-45a1-8ff7-072847c5edda', '9068e130-64ac-49a1-8285-e64aedb862b8', 'point_focal', '2026-04-27 09:26:46.915+00');
+
+
+--
+-- Data for Name: validation_workflow_settings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- Data for Name: buckets; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+INSERT INTO "storage"."buckets" ("id", "name", "owner", "created_at", "updated_at", "public", "avif_autodetection", "file_size_limit", "allowed_mime_types", "owner_id", "type") VALUES
+	('logos', 'logos', NULL, '2026-04-27 08:14:17.097407+00', '2026-04-27 08:14:17.097407+00', true, false, 5242880, '{image/png,image/jpeg,image/webp,image/svg+xml}', NULL, 'STANDARD'),
+	('documents', 'documents', NULL, '2026-04-27 08:14:17.148048+00', '2026-04-27 08:14:17.148048+00', true, false, 52428800, '{application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/png,image/jpeg,image/webp}', NULL, 'STANDARD'),
+	('article-images', 'article-images', NULL, '2026-04-27 08:14:17.559055+00', '2026-04-27 08:14:17.559055+00', true, false, 10485760, '{image/png,image/jpeg,image/webp,image/gif}', NULL, 'STANDARD'),
+	('article-gallery', 'article-gallery', NULL, '2026-04-27 08:14:17.559055+00', '2026-04-27 08:14:17.559055+00', true, false, 10485760, '{image/png,image/jpeg,image/webp,image/gif}', NULL, 'STANDARD'),
+	('countries-logos', 'countries-logos', NULL, '2026-04-27 08:14:16.932306+00', '2026-04-27 08:14:16.932306+00', true, false, 5242880, '{image/png,image/jpeg,image/webp,image/svg+xml}', NULL, 'STANDARD'),
+	('country-flags', 'country-flags', NULL, '2026-04-27 08:14:17.366163+00', '2026-04-27 08:14:17.366163+00', true, false, 5242880, '{image/png,image/jpeg,image/webp,image/svg+xml}', NULL, 'STANDARD'),
+	('attachments', 'attachments', NULL, '2026-04-27 08:14:15.762417+00', '2026-04-27 08:14:15.762417+00', false, false, 52428800, NULL, NULL, 'STANDARD');
+
+
+--
+-- Data for Name: buckets_analytics; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: buckets_vectors; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: iceberg_namespaces; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: iceberg_tables; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: objects; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at", "updated_at", "last_accessed_at", "metadata", "version", "owner_id", "user_metadata") VALUES
+	('1aa95818-484c-4c9c-936d-1d6c4dfe8c23', 'logos', 'members/a1b2c3d4-5678-90ef-1234-567890abcdef/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:00.99492+00', '2026-04-27 12:06:55.014262+00', '2026-04-27 08:19:00.99492+00', '{"eTag": "\"ec7541d9c5571117017f878bca6932a5\"", "size": 70417, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:06:55.002Z", "contentLength": 70417, "httpStatusCode": 200}', '6a131b63-a173-43f9-91a7-b20fc6639de7', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('14aa80f0-95e5-4c28-bbfc-93eac4cbde60', 'logos', 'partners/a3b4c5d6-7890-1234-5678-901234567890/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.09989+00', '2026-04-27 12:08:07.485082+00', '2026-04-27 08:19:01.09989+00', '{"eTag": "\"a8ddde5e7bce8e86889ddee2b8048ee1\"", "size": 61473, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:07.478Z", "contentLength": 61473, "httpStatusCode": 200}', '5e6e3cf0-ce35-48f0-9b44-dc1ccd9a5b6f', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('248b9866-6f98-40e8-9a03-ee6b47f7f420', 'logos', 'members/d4e5f6a7-8901-2345-6789-012345678901/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.074108+00', '2026-04-27 12:07:10.154257+00', '2026-04-27 08:19:01.074108+00', '{"eTag": "\"4beff927353ad1ef0477812d37a6f970\"", "size": 69339, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:07:10.151Z", "contentLength": 69339, "httpStatusCode": 200}', 'de7e82b3-edf9-48b6-bc96-6f63b569213a', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('9270e25f-b56a-487d-9e2e-0fbaf1072134', 'logos', 'members/c3d4e5f6-7890-1234-5678-901234567890/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.048888+00', '2026-04-27 12:07:32.839959+00', '2026-04-27 08:19:01.048888+00', '{"eTag": "\"2259da546a425f9f31842f3456040d2a\"", "size": 15517, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:07:32.833Z", "contentLength": 15517, "httpStatusCode": 200}', '9f81e52b-2ae5-4717-a3ac-6a22eda0323f', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('c4f11fa4-1781-4578-a899-c4e058cc732f', 'logos', 'members/b2c3d4e5-6789-0123-4567-890123456789/logo.svg', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.024529+00', '2026-04-27 12:07:24.628601+00', '2026-04-27 08:19:01.024529+00', '{"eTag": "\"499f5c481a4a2f26c099d9f4b83dcf21\"", "size": 881, "mimetype": "image/svg+xml", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:07:24.620Z", "contentLength": 881, "httpStatusCode": 200}', '10f02fe3-1c34-482e-887f-3cf837dac229', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('33b10611-7abb-4425-9d04-53db76dc0ef5', 'logos', 'partners/a7b8c9d0-1234-5678-9012-345678901234/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.128356+00', '2026-04-27 12:07:57.624212+00', '2026-04-27 08:19:01.128356+00', '{"eTag": "\"49636f0fc42d954a64db98daa295a3fa\"", "size": 45061, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:07:57.619Z", "contentLength": 45061, "httpStatusCode": 200}', '5eac3f7e-ad09-4952-84d6-ae8edce34087', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('d3e971c9-11b1-4c68-a430-a16ada62214d', 'logos', 'partners/b4c5d6e7-8901-2345-6789-012345678901/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.156451+00', '2026-04-27 12:08:30.357902+00', '2026-04-27 08:19:01.156451+00', '{"eTag": "\"c5096a4ef6bf72781942bc1750effb0b\"", "size": 47196, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:30.356Z", "contentLength": 47196, "httpStatusCode": 200}', '2a5f6a48-856a-402f-9615-0bcac7a15fcf', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('22b06030-d319-4975-a4c8-24f5d1d81240', 'logos', 'partners/c9d0e1f2-3456-7890-1234-567890123456/logo.svg', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.249709+00', '2026-04-27 12:09:39.000228+00', '2026-04-27 08:19:01.249709+00', '{"eTag": "\"988c4fa91e405b89d2487102e87c4516\"", "size": 683, "mimetype": "image/svg+xml", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:09:38.997Z", "contentLength": 683, "httpStatusCode": 200}', 'bed2b625-4207-48fa-a8f4-acbd55ac325f', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('6a082011-7941-4926-bcc4-6200985d0735', 'logos', 'partners/b8c9d0e1-2345-6789-0123-456789012345/logo.svg', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.18497+00', '2026-04-27 12:08:59.358154+00', '2026-04-27 08:19:01.18497+00', '{"eTag": "\"a5c0e25cc33a61abbf086aa484724c17\"", "size": 910, "mimetype": "image/svg+xml", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:59.353Z", "contentLength": 910, "httpStatusCode": 200}', 'b6101f45-fe19-4073-8a2e-8ba1a2f23898', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('4cb38bcb-8a66-4412-9833-273bd90fb9b4', 'logos', 'partners/c5d6e7f8-9012-3456-7890-123456789012/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.218263+00', '2026-04-27 12:09:48.86381+00', '2026-04-27 08:19:01.218263+00', '{"eTag": "\"0f201bd37aae1b5b630cda1218d2e5f2\"", "size": 100517, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:09:48.858Z", "contentLength": 100517, "httpStatusCode": 200}', '679bbdf6-54e9-4c05-b589-335593589d34', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('1bb7a9d4-833a-45e6-b6f8-0b23c5cfc23f', 'logos', 'partners/d0e1f2a3-4567-8901-2345-678901234567/logo.svg', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.281121+00', '2026-04-27 12:09:12.581249+00', '2026-04-27 08:19:01.281121+00', '{"eTag": "\"34b23144e6fcea98709970639b77f2a6\"", "size": 4981, "mimetype": "image/svg+xml", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:09:12.579Z", "contentLength": 4981, "httpStatusCode": 200}', 'c663fc7c-4364-48b1-8b65-e3bd603a3e6e', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('ee1b7706-f02b-4067-859b-aeb3f240e78c', 'logos', 'partners/e5f6a7b8-9012-3456-7890-123456789012/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.359168+00', '2026-04-27 12:08:16.567252+00', '2026-04-27 08:19:01.359168+00', '{"eTag": "\"8f9327db2597fa57d2f42b4a6c5a9855\"", "size": 5969, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:16.563Z", "contentLength": 5969, "httpStatusCode": 200}', 'd3b57d2a-bad2-4275-ae66-17b964223384', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('a53d4c75-4149-4dc8-a60d-2afa1910296d', 'logos', 'partners/f2a3b4c5-6789-0123-4567-890123456789/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.40893+00', '2026-04-27 12:08:23.034457+00', '2026-04-27 08:19:01.40893+00', '{"eTag": "\"39553d3e1d8c70fbb34e04334ce72972\"", "size": 32542, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:23.031Z", "contentLength": 32542, "httpStatusCode": 200}', 'd4710b1a-80f2-44da-aaf2-a8aa59023efc', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('edb8b3b9-9837-4f03-941f-deda91e6b18b', 'logos', 'partners/e1f2a3b4-5678-9012-3456-789012345678/logo.png', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.316489+00', '2026-04-27 12:09:21.195977+00', '2026-04-27 08:19:01.316489+00', '{"eTag": "\"e6f00f402cc87f676d8bf59cf073c368\"", "size": 7836, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:09:21.188Z", "contentLength": 7836, "httpStatusCode": 200}', 'fa3d8517-f977-4c3e-9d97-f4d3e098051b', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}'),
+	('b1115555-a9fd-4b23-9da3-307a54e9b55d', 'logos', 'partners/f6a7b8c9-0123-4567-8901-234567890123/logo.jpg', 'd29411a5-6ce9-475b-977c-dbda749b943b', '2026-04-27 08:19:01.457448+00', '2026-04-27 12:08:43.660212+00', '2026-04-27 08:19:01.457448+00', '{"eTag": "\"c0705b61e9fc721deb481c5abdbf7a11\"", "size": 25678, "mimetype": "image/jpeg", "cacheControl": "max-age=3600", "lastModified": "2026-04-27T12:08:43.656Z", "contentLength": 25678, "httpStatusCode": 200}', 'b0beec45-cd48-47a9-bc1e-126465c061d8', 'd29411a5-6ce9-475b-977c-dbda749b943b', '{}');
+
+
+--
+-- Data for Name: s3_multipart_uploads; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: s3_multipart_uploads_parts; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: vector_indexes; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
+--
+
+
+
+--
+-- Data for Name: hooks; Type: TABLE DATA; Schema: supabase_functions; Owner: supabase_functions_admin
+--
+
+
+
+--
+-- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
+--
+
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 5, true);
+
+
+--
+-- Name: hooks_id_seq; Type: SEQUENCE SET; Schema: supabase_functions; Owner: supabase_functions_admin
+--
+
+SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+-- \unrestrict 6BDMzXsUORseb6wfnEnBJFskfm2KfUYGfinu93Dcnfid0h7kAS0j3Im6Yfc8Jw5
+
+RESET ALL;

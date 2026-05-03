@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client"
+import { translateToFourLang } from "./translate.service"
 import type {
     PlatformSetting,
     SubmissionPeriod,
@@ -71,6 +72,19 @@ export async function updateSetting(id: string, value: Json) {
         .from("platform_settings")
         .update({ value })
         .eq("id", id)
+        .select()
+        .single()
+    if (error) throw error
+    return data
+}
+
+export async function upsertSetting(key: string, value: Json, label: string, category: string) {
+    const { data, error } = await supabase
+        .from("platform_settings")
+        .upsert(
+            { key, value, label, category },
+            { onConflict: 'key' }
+        )
         .select()
         .single()
     if (error) throw error
@@ -174,6 +188,49 @@ export async function getAuditLogs(limit = 100): Promise<AuditLogEntry[]> {
     return (data ?? []) as AuditLogEntry[]
 }
 
+// Automatic Translation Helper
+async function autoTranslateContent(
+    content: Record<string, any>,
+    sourceLang: string = "fr",
+    fields: string[] = ["title", "content", "excerpt", "location", "description"]
+) {
+    const targetLangs = ["fr", "en", "pt", "ar"].filter(l => l !== sourceLang)
+    const result = { ...content }
+
+    for (const field of fields) {
+        const value = content[field]
+        if (!value) continue
+
+        // Handle both string and object (jsonb) formats
+        let textToTranslate = ""
+        if (typeof value === "string") {
+            textToTranslate = value
+        } else if (typeof value === "object" && value[sourceLang]) {
+            textToTranslate = value[sourceLang]
+        }
+
+        if (textToTranslate) {
+            try {
+                const translations = await translateToFourLang(sourceLang, textToTranslate)
+                
+                // If it's an object, merge translations
+                if (typeof value === "object") {
+                    result[field] = {
+                        ...value,
+                        ...translations
+                    }
+                } else {
+                    // Convert string to object with translations
+                    result[field] = translations
+                }
+            } catch (error) {
+                console.error(`Error auto-translating field ${field}:`, error)
+            }
+        }
+    }
+    return result
+}
+
 // News / Actualités
 export async function getNews() {
     const { data, error } = await supabase
@@ -214,14 +271,14 @@ export async function getNewsById(id: string) {
 }
 
 export async function createNews(input: {
-    title: string
-    content?: string
-    excerpt?: string
-    category?: string
+    title: any
+    content?: any
+    excerpt?: any
+    category?: any
     source?: string
     image_url?: string
     featured_image?: string
-    status?: string
+    status?: "draft" | "in_review" | "published" | "archived"
     meta_description?: string
     meta_keywords?: string
     slug?: string
@@ -230,9 +287,12 @@ export async function createNews(input: {
     allow_comments?: boolean
     language?: string
 }) {
+    const sourceLang = input.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "content", "excerpt"])
+
     const { data, error } = await supabase
         .from("news")
-        .insert(input)
+        .insert(translatedInput as any)
         .select()
         .single()
     if (error) throw error
@@ -242,10 +302,10 @@ export async function createNews(input: {
 export async function updateNews(
     id: string,
     input: Partial<{
-        title: string
-        content: string
-        excerpt: string
-        category: string
+        title: any
+        content: any
+        excerpt: any
+        category: any
         source: string
         image_url: string
         featured_image: string
@@ -254,7 +314,7 @@ export async function updateNews(
         author: string
         read_time: string
         language: string
-        status: string
+        status: "draft" | "in_review" | "published" | "archived"
         meta_description: string
         meta_keywords: string
         slug: string
@@ -263,9 +323,13 @@ export async function updateNews(
         allow_comments: boolean
     }>
 ) {
+    const { data: currentNews } = await supabase.from("news").select("language").eq("id", id).single()
+    const sourceLang = input.language || currentNews?.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "content", "excerpt"])
+
     const { data, error } = await supabase
         .from("news")
-        .update(input)
+        .update(translatedInput as any)
         .eq("id", id)
         .select()
         .single()
@@ -276,7 +340,7 @@ export async function updateNews(
 export async function updateNewsStatus(id: string, status: string) {
     const { data, error } = await supabase
         .from("news")
-        .update({ status })
+        .update({ status: status as any })
         .eq("id", id)
         .select()
         .single()
@@ -407,9 +471,11 @@ export async function deleteNewsGalleryImage(id: string) {
 }
 
 export async function reorderNewsGalleryImages(images: { id: string; sort_order: number }[]) {
+    // We cast to any because we only want to update these two fields 
+    // and generated types might require all mandatory insert fields even for updates
     const { data, error } = await supabase
         .from("news_gallery_images")
-        .upsert(images)
+        .upsert(images as any)
         .select()
     if (error) throw error
     return data
@@ -578,7 +644,7 @@ export async function createProject(input: {
     title: string
     description?: string
     country_id: string
-    status?: string
+    status?: "planned" | "in_progress" | "completed" | "suspended"
     region?: string
     budget?: number
     start_date?: string
@@ -590,7 +656,7 @@ export async function createProject(input: {
 }) {
     const { data, error } = await supabase
         .from("projects")
-        .insert(input)
+        .insert(input as any)
         .select()
         .single()
     if (error) throw error
@@ -603,13 +669,13 @@ export async function updateProject(
         title: string
         description: string
         country_id: string
-        status: string
+        status: "planned" | "in_progress" | "completed" | "suspended"
         region: string
     }>
 ) {
     const { data, error } = await supabase
         .from("projects")
-        .update(input)
+        .update(input as any)
         .eq("id", id)
         .select()
         .single()
@@ -624,12 +690,17 @@ export async function deleteProject(id: string) {
 
 export async function getProjectHistory(projectId: string) {
     const { data, error } = await supabase
-        .from("project_history")
-        .select("*, user:user_id(full_name)")
-        .eq("project_id", projectId)
+        .from("audit_logs")
+        .select("*, profiles(full_name)")
+        .eq("target_table", "projects")
+        .eq("target_id", projectId)
         .order("created_at", { ascending: false })
     if (error) throw error
-    return data ?? []
+    
+    return (data ?? []).map(log => ({
+        ...log,
+        user: log.profiles
+    }))
 }
 
 export async function uploadDocumentFile(file: File): Promise<{
@@ -1089,17 +1160,21 @@ export async function getEventById(id: string) {
 }
 
 export async function createEvent(input: {
-    title: string
-    description?: string
+    title: any
+    description?: any
     start_date: string
-    end_date?: string
-    location?: string
-    event_type?: string
-    status?: string
+    end_date: string
+    location?: any
+    event_type?: "conference" | "webinar" | "workshop" | "training" | "meeting" | "other"
+    status?: "upcoming" | "ongoing" | "completed" | "cancelled"
+    language?: string
 }) {
+    const sourceLang = input.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "description", "location"])
+
     const { data, error } = await supabase
         .from("events")
-        .insert(input)
+        .insert(translatedInput as any)
         .select()
         .single()
     if (error) throw error
@@ -1109,18 +1184,23 @@ export async function createEvent(input: {
 export async function updateEvent(
     id: string,
     input: Partial<{
-        title: string
-        description: string
+        title: any
+        description: any
         start_date: string
         end_date: string
-        location: string
-        event_type: string
-        status: string
+        location: any
+        event_type: "conference" | "webinar" | "workshop" | "training" | "meeting" | "other"
+        status: "upcoming" | "ongoing" | "completed" | "cancelled"
+        language?: string
     }>
 ) {
+    const { data: currentEvent } = await supabase.from("events").select("language").eq("id", id).single()
+    const sourceLang = input.language || currentEvent?.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "description", "location"])
+
     const { data, error } = await supabase
         .from("events")
-        .update(input)
+        .update(translatedInput as any)
         .eq("id", id)
         .select()
         .single()
@@ -1145,12 +1225,13 @@ export async function getForumCategories() {
 
 export async function createForumCategory(input: {
     name: string
+    slug: string
     description?: string
     color?: string
 }) {
     const { data, error } = await supabase
         .from("forum_categories")
-        .insert(input)
+        .insert(input as any)
         .select()
         .single()
     if (error) throw error
@@ -1189,21 +1270,21 @@ export async function getForumTopics() {
     if (error) throw error
 
     // Fetch authors separately
-    const authorIds =
+    const createdBy_ids =
         data
-            ?.map(topic => topic.author_id)
+            ?.map(topic => topic.created_by)
             .filter((id): id is string => !!id) ?? []
     const { data: authors } = await supabase
         .from("profiles")
         .select("*")
-        .in("id", authorIds)
+        .in("id", createdBy_ids)
 
     return (
         data?.map(topic => ({
             ...topic,
             category: topic.forum_categories,
-            author: authors?.find(a => a.id === topic.author_id) || {
-                id: topic.author_id,
+            author: authors?.find(a => a.id === topic.created_by) || {
+                id: topic.created_by,
                 name: "Utilisateur supprimé",
                 avatar_url: null,
             },
@@ -1246,14 +1327,14 @@ export async function createAssociatedMember(
         "id" | "date_creation" | "date_mise_a_jour"
     > & { logo_file?: File }
 ) {
-    // Separate the logo_file from the database input
-    const { logo_file, ...dbInput } = input
+    // Separate the logo_file and joined properties from the database input
+    const { logo_file, countries, ...dbInput } = input as any
 
     if (logo_file) {
         // First create the member to get the ID
         const { data: newMember, error: createError } = await supabase
             .from("membres_associes")
-            .insert({ ...dbInput, logo_url: null })
+            .insert({ ...dbInput, logo_url: null } as any)
             .select()
             .single()
 
@@ -1265,7 +1346,7 @@ export async function createAssociatedMember(
         // Update the member with the logo URL
         const { data, error: updateError } = await supabase
             .from("membres_associes")
-            .update({ logo_url: logoUrl })
+            .update({ logo_url: logoUrl } as any)
             .eq("id", newMember.id)
             .select()
             .single()
@@ -1276,7 +1357,7 @@ export async function createAssociatedMember(
         // Regular creation without file upload
         const { data, error } = await supabase
             .from("membres_associes")
-            .insert(dbInput)
+            .insert(dbInput as any)
             .select()
             .single()
         if (error) throw error
@@ -1288,8 +1369,8 @@ export async function updateAssociatedMember(
     id: string,
     input: Partial<AssociatedMember> & { logo_file?: File }
 ) {
-    // Separate the logo_file from the database input
-    const { logo_file, ...dbInput } = input
+    // Separate the logo_file and joined properties from the database input
+    const { logo_file, countries, ...dbInput } = input as any
 
     let logoUrl = dbInput.logo_url
 
@@ -1301,7 +1382,7 @@ export async function updateAssociatedMember(
     // Update the member
     const { data, error } = await supabase
         .from("membres_associes")
-        .update({ ...dbInput, logo_url: logoUrl })
+        .update({ ...dbInput, logo_url: logoUrl } as any)
         .eq("id", id)
         .select()
         .single()
@@ -1332,14 +1413,14 @@ export async function createPartner(
         logo_file?: File
     }
 ) {
-    // Separate the logo_file from the database input
-    const { logo_file, ...dbInput } = input
+    // Separate the logo_file and joined properties from the database input
+    const { logo_file, countries, ...dbInput } = input as any
 
     if (logo_file) {
         // First create the partner to get the ID
         const { data: newPartner, error: createError } = await supabase
             .from("partenaires")
-            .insert({ ...dbInput, logo_url: null })
+            .insert({ ...dbInput, logo_url: null } as any)
             .select()
             .single()
 
@@ -1355,7 +1436,7 @@ export async function createPartner(
         // Update the partner with the logo URL
         const { data, error: updateError } = await supabase
             .from("partenaires")
-            .update({ logo_url: logoUrl })
+            .update({ logo_url: logoUrl } as any)
             .eq("id", newPartner.id)
             .select()
             .single()
@@ -1366,7 +1447,7 @@ export async function createPartner(
         // Regular creation without file upload
         const { data, error } = await supabase
             .from("partenaires")
-            .insert(dbInput)
+            .insert(dbInput as any)
             .select()
             .single()
         if (error) throw error
@@ -1378,8 +1459,8 @@ export async function updatePartner(
     id: string,
     input: Partial<Partner> & { logo_file?: File }
 ) {
-    // Separate the logo_file from the database input
-    const { logo_file, ...dbInput } = input
+    // Separate the logo_file and joined properties from the database input
+    const { logo_file, countries, ...dbInput } = input as any
 
     let logoUrl = dbInput.logo_url
 
@@ -1391,7 +1472,7 @@ export async function updatePartner(
     // Update the partner
     const { data, error } = await supabase
         .from("partenaires")
-        .update({ ...dbInput, logo_url: logoUrl })
+        .update({ ...dbInput, logo_url: logoUrl } as any)
         .eq("id", id)
         .select()
         .single()

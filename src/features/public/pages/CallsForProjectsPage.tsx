@@ -115,15 +115,13 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
                     )}
                 </div>
 
-                <div className="flex gap-2">
-                    <Button asChild size="sm" className="flex-1">
-                        <Link to="/carte-public">Voir sur la carte</Link>
+                <div className="grid grid-cols-2 gap-2">
+                    <Button asChild size="sm" variant="outline" className="text-xs px-2">
+                        <Link to="/carte-public">Sur la carte</Link>
                     </Button>
-                    {project.country && (
-                        <Button asChild size="sm" variant="outline">
-                            <Link to={`/projets-pays/${project.country.code_iso}`}>Pays</Link>
-                        </Button>
-                    )}
+                    <Button asChild size="sm" className="text-xs px-2">
+                        <Link to={`/projets/${project.id}`}>Détails</Link>
+                    </Button>
                 </div>
             </CardContent>
         </Card>

@@ -40,12 +40,6 @@ alter table "public"."documents" validate constraint "documents_locked_by_fkey";
 
 set check_function_bodies = off;
 
-create type "public"."http_header" as ("field" character varying, "value" character varying);
-
-create type "public"."http_request" as ("method" public.http_method, "uri" character varying, "headers" public.http_header[], "content_type" character varying, "content" character varying);
-
-create type "public"."http_response" as ("status" integer, "content_type" character varying, "headers" public.http_header[], "content" character varying);
-
 CREATE OR REPLACE FUNCTION public.fn_auto_translate_jsonb(p_field_value jsonb, p_source_lang text)
  RETURNS jsonb
  LANGUAGE plpgsql

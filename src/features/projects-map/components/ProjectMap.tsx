@@ -7,6 +7,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import type { Project } from '../types';
 import { PROJECT_STATUS_COLORS } from '../types';
 import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
 
 // Project themes with icons and colors
 const PROJECT_THEMES = {
@@ -19,8 +20,10 @@ const PROJECT_THEMES = {
 };
 
 // Detect project theme from title/description
-function detectProjectTheme(project: Project): keyof typeof PROJECT_THEMES {
-    const text = `${project.title} ${project.description || ''}`.toLowerCase();
+function detectProjectTheme(project: Project, lang: string): keyof typeof PROJECT_THEMES {
+    const title = getLangValue(project.title, lang) || "";
+    const description = getLangValue(project.description, lang) || "";
+    const text = `${title} ${description}`.toLowerCase();
 
     if (text.match(/santé|health|médical|hôpital|clinique|soins/)) return 'health';
     if (text.match(/éducation|education|école|écol|school|université|formation|teacher/)) return 'education';
@@ -29,7 +32,9 @@ function detectProjectTheme(project: Project): keyof typeof PROJECT_THEMES {
     return 'connectivity';
 }
 
-function createPopupContent(project: Project, t: (key: string) => string): string {
+function createPopupContent(project: Project, t: (key: string) => string, lang: string): string {
+    const title = getLangValue(project.title, lang) || "";
+    const description = getLangValue(project.description, lang) || "";
     const statusLabels: Record<string, string> = {
         planned: t('public.map.status.planned'),
         in_progress: t('public.map.status.in_progress'),
@@ -40,7 +45,7 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
         ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(project.budget)
         : '—';
 
-    const theme = detectProjectTheme(project);
+    const theme = detectProjectTheme(project, lang);
     const themeInfo = PROJECT_THEMES[theme];
 
     return `
@@ -48,7 +53,7 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span style="font-size:24px;">${themeInfo.icon}</span>
         <div style="flex:1;">
-          <h3 style="margin:0;font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.3;">${project.title}</h3>
+          <h3 style="margin:0;font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.3;">${title}</h3>
           <p style="margin:2px 0 0;font-size:12px;color:#666;">${project.countries?.name_fr || ''} ${project.region ? '· ' + project.region : ''}</p>
         </div>
       </div>
@@ -72,7 +77,7 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
           <div style="font-size:13px;font-weight:600;color:#1e293b;">${statusLabels[project.status]}</div>
         </div>
       </div>
-      ${project.description ? `<p style="margin:0 0 10px;font-size:12px;color:#64748b;line-height:1.5;">${project.description.slice(0, 100)}${project.description.length > 100 ? '…' : ''}</p>` : ''}
+      ${description ? `<p style="margin:0 0 10px;font-size:12px;color:#64748b;line-height:1.5;">${description.slice(0, 100)}${description.length > 100 ? '…' : ''}</p>` : ''}
       <a
         href="/projets-pays/${project.country_id}#${project.id}"
         style="display:block;text-align:center;background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:white;padding:10px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(16,185,129,0.3);transition:all 0.2s;"
@@ -85,8 +90,8 @@ function createPopupContent(project: Project, t: (key: string) => string): strin
   `;
 }
 
-function createThemedIcon(project: Project, mapMode: 'carte' | 'satellite' = 'carte') {
-    const theme = detectProjectTheme(project);
+function createThemedIcon(project: Project, lang: string, mapMode: 'carte' | 'satellite' = 'carte') {
+    const theme = detectProjectTheme(project, lang);
     const themeInfo = PROJECT_THEMES[theme];
     const statusColor = PROJECT_STATUS_COLORS[project.status];
 
@@ -155,7 +160,7 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
     const tileLayerRef = useRef<L.TileLayer | null>(null);
     const maskLayerRef = useRef<L.Polygon | null>(null);
     const markersMapRef = useRef<Map<string, L.Marker>>(new Map());
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         if (!containerRef.current || mapRef.current) return;
@@ -254,8 +259,8 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
 
         geoProjects.forEach((project) => {
             const marker = L.marker([project.latitude!, project.longitude!], {
-                icon: createThemedIcon(project, mapMode),
-            }).bindPopup(createPopupContent(project, t), {
+                icon: createThemedIcon(project, i18n.language, mapMode),
+            }).bindPopup(createPopupContent(project, t, i18n.language), {
                 maxWidth: 350,
                 className: 'custom-popup'
             });
@@ -268,7 +273,7 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
             markersMapRef.current.set(project.id, marker);
         });
 
-if (geoProjects.length > 0) {
+        if (geoProjects.length > 0) {
             const bounds = L.latLngBounds(geoProjects.map((p) => [p.latitude!, p.longitude!] as L.LatLngTuple));
             map.fitBounds(bounds, {
                 paddingTopLeft: [40, 40],
@@ -303,5 +308,5 @@ if (geoProjects.length > 0) {
         }
     }, [selectedProjectId]);
 
-    return <div ref={containerRef} className="h-full w-full rounded-lg" style={{ minHeight: '400px' }} />;
+    return <div ref={containerRef} className="h-full w-full rounded-lg" style={{ minHeight: '900px' }} />;
 }

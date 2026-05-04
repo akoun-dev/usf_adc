@@ -46,8 +46,8 @@ function getStatusLabels(t: TTranslate): Record<string, { label: string; color: 
 function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: TTranslate; locale: string }) {
   const statusLabels = getStatusLabels(t);
   const statusInfo = statusLabels[project.status] || statusLabels['planned'];
-  const startDate = new Date(project.created_at);
-  const endDate = new Date(project.updated_at);
+  const startDate = project.start_date ? new Date(project.start_date) : null;
+  const endDate = project.end_date ? new Date(project.end_date) : null;
 
   return (
     <Card className="hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -87,7 +87,7 @@ function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: T
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
             <span>
-              {startDate.toLocaleDateString(locale)} - {endDate.toLocaleDateString(locale)}
+              {startDate ? startDate.toLocaleDateString(locale) : '—'} - {endDate ? endDate.toLocaleDateString(locale) : '—'}
             </span>
           </div>
           {project.latitude && project.longitude && (
@@ -103,9 +103,20 @@ function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: T
           )}
         </div>
 
-        <Button asChild variant="outline" className="w-full">
-          <Link to="/carte-public">{t('public.memberCountries.viewOnMap')}</Link>
-        </Button>
+        <div className="grid grid-cols-2 gap-2 mt-auto">
+          <Button asChild variant="outline" size="sm" className="w-full">
+            <Link to="/carte-public" className="text-xs">
+              <MapPin className="h-3 w-3 mr-1" />
+              {t('public.memberCountries.viewOnMap')}
+            </Link>
+          </Button>
+          <Button asChild size="sm" className="w-full">
+            <Link to={`/projets/${project.id}`} className="text-xs">
+              <FileText className="h-3 w-3 mr-1" />
+              {t('common.details', { defaultValue: 'Détails' })}
+            </Link>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

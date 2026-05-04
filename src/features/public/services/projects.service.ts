@@ -1,7 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 
 // Types based on Supabase migrations
-export type ProjectStatus = 'planned' | 'in_progress' | 'completed' | 'suspended';
+export type ProjectStatus = 'planned' | 'in_progress' | 'completed' | 'suspended' | 'draft';
 
 export interface Country {
   id: string;
@@ -26,6 +26,10 @@ export interface PublicProject {
   beneficiaries: string | null;
   operator: string | null;
   thematic: string | null;
+  objectives: string | null;
+  indicators: string | null;
+  start_date: string | null;
+  end_date: string | null;
   created_at: string;
   updated_at: string;
   country?: Country;

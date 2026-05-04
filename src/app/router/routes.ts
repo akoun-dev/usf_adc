@@ -224,6 +224,9 @@ const CountriesDirectoryPage = lazy(
 const CountryProjectsPage = lazy(
     () => import("@/features/public/pages/CountryProjectsPage")
 )
+const PublicProjectDetailPage = lazy(
+    () => import("@/features/public/pages/ProjectDetailPage.tsx")
+)
 const RegistrationPage = lazy(
     () => import("@/features/public/pages/RegistrationPage")
 )
@@ -923,6 +926,7 @@ export const PUBLIC_ROUTES: AppRouteConfig[] = [
     { path: "/calendrier/:id", component: EventDetailPage },
     { path: "/annuaire-pays-membres", component: CountriesDirectoryPage },
     { path: "/projets-pays/:countryCode", component: CountryProjectsPage },
+    { path: "/projets/:id", component: PublicProjectDetailPage },
     { path: "/inscription", component: RegistrationPage },
     { path: "/sutel", component: SUTELPage },
     { path: "/membres-associes", component: AssociatedMembersPage },

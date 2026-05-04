@@ -1,6 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import type { Project } from '../types';
 import { PROJECT_STATUS_LABELS, PROJECT_STATUS_COLORS } from '../types';
+import { useTranslation } from 'react-i18next';
+import { getLangValue } from '@/types/i18n';
 
 interface Props {
   project: Project;
@@ -14,9 +16,10 @@ function formatBudget(budget: number | null): string {
 }
 
 export function ProjectCard({ project }: Props) {
+  const { i18n } = useTranslation();
   return (
     <div className="min-w-[220px] max-w-[280px]">
-      <h3 className="font-semibold text-sm mb-1">{project.title}</h3>
+      <h3 className="font-semibold text-sm mb-1">{getLangValue(project.title, i18n.language)}</h3>
       <div className="flex items-center gap-2 mb-2">
         {project.countries?.flag_url && (
           <img
@@ -30,7 +33,7 @@ export function ProjectCard({ project }: Props) {
         </p>
       </div>
       {project.description && (
-        <p className="text-xs mb-2 line-clamp-2">{project.description}</p>
+        <p className="text-xs mb-2 line-clamp-2">{getLangValue(project.description, i18n.language)}</p>
       )}
       <div className="flex items-center justify-between">
         <Badge

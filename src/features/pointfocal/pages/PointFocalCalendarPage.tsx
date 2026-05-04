@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -6,8 +7,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useQuery } from "@tanstack/react-query"
 import { supabase } from "@/integrations/supabase/client"
 import { Calendar, CalendarClock, Bell, Clock, MapPin, Users, ExternalLink } from "lucide-react"
+import { getLangValue } from "@/types/i18n"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
-function useEvents(status?: string) {
+function useEvents(status?: "upcoming" | "ongoing" | "completed" | "cancelled") {
     return useQuery({
         queryKey: ["events", status],
         queryFn: async () => {
@@ -53,10 +64,25 @@ function useUserEventRegistrations() {
 }
 
 export default function PointFocalCalendarPage() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { data: upcomingEvents = [], isLoading: upcomingLoading } = useEvents("upcoming")
     const { data: pastEvents = [], isLoading: pastLoading } = useEvents("completed")
     const { data: registrations = [], isLoading: regLoading } = useUserEventRegistrations()
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 12
+
+    const totalPages = Math.ceil(upcomingEvents.length / itemsPerPage)
+    const paginatedUpcomingEvents = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage
+        return upcomingEvents.slice(start, start + itemsPerPage)
+    }, [upcomingEvents, currentPage])
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page)
+        }
+    }
 
     return (
         <div className="space-y-6 w-full">
@@ -84,13 +110,13 @@ export default function PointFocalCalendarPage() {
                 </TabsList>
 
                 <TabsContent value="upcoming">
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {(upcomingLoading ? [] : upcomingEvents || []).map(event => (
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {(upcomingLoading ? [] : paginatedUpcomingEvents || []).map(event => (
                             <Card key={event.id} className="hover:shadow-md transition-shadow">
                                 <CardHeader>
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1">
-                                            <CardTitle className="text-base">{event.title}</CardTitle>
+                                            <CardTitle className="text-base">{getLangValue(event.title, i18n.language)}</CardTitle>
                                             <CardDescription>
                                                 {event.country?.name_fr || event.organizer || ""}
                                             </CardDescription>
@@ -117,7 +143,7 @@ export default function PointFocalCalendarPage() {
                                     {event.location && (
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             <MapPin className="h-4 w-4" />
-                                            <span>{event.location}</span>
+                                            <span>{getLangValue(event.location, i18n.language)}</span>
                                         </div>
                                     )}
                                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -147,6 +173,59 @@ export default function PointFocalCalendarPage() {
                             </Card>
                         )}
                     </div>
+
+                    {totalPages > 1 && (
+                        <div className="mt-6">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious 
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
+                                    </PaginationItem>
+                                    
+                                    {Array.from({ length: totalPages }).map((_, i) => {
+                                        const page = i + 1
+                                        if (
+                                            page === 1 ||
+                                            page === totalPages ||
+                                            (page >= currentPage - 1 && page <= currentPage + 1)
+                                        ) {
+                                            return (
+                                                <PaginationItem key={page}>
+                                                    <PaginationLink
+                                                        isActive={currentPage === page}
+                                                        onClick={() => handlePageChange(page)}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        {page}
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                            )
+                                        } else if (
+                                            page === currentPage - 2 ||
+                                            page === currentPage + 2
+                                        ) {
+                                            return (
+                                                <PaginationItem key={page}>
+                                                    <PaginationEllipsis />
+                                                </PaginationItem>
+                                            )
+                                        }
+                                        return null
+                                    })}
+
+                                    <PaginationItem>
+                                        <PaginationNext 
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
+                    )}
                 </TabsContent>
 
                 <TabsContent value="my-events">
@@ -156,7 +235,7 @@ export default function PointFocalCalendarPage() {
                                 <CardHeader>
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1">
-                                            <CardTitle className="text-base">{reg.event?.title}</CardTitle>
+                                            <CardTitle className="text-base">{getLangValue(reg.event?.title, i18n.language)}</CardTitle>
                                             <CardDescription>
                                                 {new Date(reg.event?.start_date).toLocaleDateString()}
                                             </CardDescription>
@@ -170,7 +249,7 @@ export default function PointFocalCalendarPage() {
                                     {reg.event?.location && (
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             <MapPin className="h-4 w-4" />
-                                            <span>{reg.event.location}</span>
+                                            <span>{getLangValue(reg.event?.location, i18n.language)}</span>
                                         </div>
                                     )}
                                 </CardContent>

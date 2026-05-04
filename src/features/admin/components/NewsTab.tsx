@@ -45,6 +45,18 @@ import { EnhancedNewsArticle, NewsStatus } from "@/features/admin/types"
 import { StatusBadge } from "@/features/admin/components/news/StatusBadge"
 import { CategoryBadge } from "@/features/admin/components/news/CategoryBadge"
 import { getLangValue } from "@/types/i18n"
+import { Input } from "@/components/ui/input"
+import { useState, useMemo } from "react"
+import { Search } from "lucide-react"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 export function NewsTab() {
     const { t, i18n } = useTranslation()
@@ -52,6 +64,10 @@ export function NewsTab() {
     const deleteNews = useDeleteNews()
     const updateNewsStatus = useUpdateNewsStatus()
     const navigate = useNavigate()
+
+    const [searchTerm, setSearchTerm] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 15
 
     const handleDelete = async (id: string) => {
         if (
@@ -154,6 +170,30 @@ export function NewsTab() {
         return actions
     }
 
+    const filteredNews = useMemo(() => {
+        if (!news) return []
+        if (!searchTerm) return news
+
+        const term = searchTerm.toLowerCase()
+        return news.filter(item => {
+            const title = getLangValue(item.title, i18n.language)?.toLowerCase() || ""
+            const category = getLangValue(item.news_categories?.name_fr || "", i18n.language)?.toLowerCase() || ""
+            return title.includes(term) || category.includes(term)
+        })
+    }, [news, searchTerm, i18n.language])
+
+    const totalPages = Math.ceil(filteredNews.length / itemsPerPage)
+    const paginatedNews = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage
+        return filteredNews.slice(startIndex, startIndex + itemsPerPage)
+    }, [filteredNews, currentPage])
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page)
+        }
+    }
+
     return (
         <Card>
             <CardHeader>
@@ -177,11 +217,31 @@ export function NewsTab() {
                         {t("admin.createArticle", "Créer un article")}
                     </Button>
                 </div>
+                <div className="mt-4 flex items-center gap-2">
+                    <div className="relative w-full max-w-sm">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder={t("admin.searchNews", "Rechercher une actualité...")}
+                            className="pl-8"
+                            value={searchTerm}
+                            onChange={(e) => {
+                                setSearchTerm(e.target.value)
+                                setCurrentPage(1)
+                            }}
+                        />
+                    </div>
+                    {searchTerm && (
+                        <div className="text-sm text-muted-foreground">
+                            {filteredNews.length} {t("admin.resultsFound", "résultats trouvés")}
+                        </div>
+                    )}
+                </div>
             </CardHeader>
             <CardContent>
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead className="w-[50px]">N°</TableHead>
                             <TableHead>{t("news.title")}</TableHead>
                             <TableHead>{t("news.category")}</TableHead>
                             <TableHead>{t("news.status")}</TableHead>
@@ -194,19 +254,22 @@ export function NewsTab() {
                     <TableBody>
                         {isLoading ? (
                             <TableRow>
-                                <TableCell colSpan={5}>
+                                <TableCell colSpan={6}>
                                     {t("common.loading", "Chargement...")}
                                 </TableCell>
                             </TableRow>
-                        ) : news?.length === 0 ? (
+                        ) : filteredNews.length === 0 ? (
                             <TableRow>
-                                <TableCell colSpan={5}>
+                                <TableCell colSpan={6}>
                                     {t("admin.noNews", "Aucune actualité")}
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            news?.map(item => (
+                            paginatedNews.map((item, index) => (
                                 <TableRow key={item.id}>
+                                    <TableCell className="text-muted-foreground">
+                                        {(currentPage - 1) * itemsPerPage + index + 1}
+                                    </TableCell>
                                     <TableCell className="font-medium max-w-[300px] truncate">
                                         <Button
                                             variant="link"
@@ -243,7 +306,6 @@ export function NewsTab() {
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end gap-1">
-                                            {/* Status actions dropdown */}
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button
@@ -350,6 +412,59 @@ export function NewsTab() {
                         )}
                     </TableBody>
                 </Table>
+
+                {totalPages > 1 && (
+                    <div className="mt-4">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious 
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                                
+                                {Array.from({ length: totalPages }).map((_, i) => {
+                                    const page = i + 1
+                                    if (
+                                        page === 1 ||
+                                        page === totalPages ||
+                                        (page >= currentPage - 1 && page <= currentPage + 1)
+                                    ) {
+                                        return (
+                                            <PaginationItem key={page}>
+                                                <PaginationLink
+                                                    isActive={currentPage === page}
+                                                    onClick={() => handlePageChange(page)}
+                                                    className="cursor-pointer"
+                                                >
+                                                    {page}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        )
+                                    } else if (
+                                        page === currentPage - 2 ||
+                                        page === currentPage + 2
+                                    ) {
+                                        return (
+                                            <PaginationItem key={page}>
+                                                <PaginationEllipsis />
+                                            </PaginationItem>
+                                        )
+                                    }
+                                    return null
+                                })}
+
+                                <PaginationItem>
+                                    <PaginationNext 
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
             </CardContent>
         </Card>
     )

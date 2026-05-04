@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react"
-import { MapPin, FileDown, Share2, Image, Copy } from "lucide-react"
+import { MapPin, FileDown, Share2, Image, Copy, Plus } from "lucide-react"
 import { useProjects } from "../hooks/useProjects"
 import { ProjectMap } from "../components/ProjectMap"
 import { ProjectFilters } from "../components/ProjectFilters"
@@ -14,6 +14,7 @@ import {
 } from "../types"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -23,6 +24,17 @@ import {
 import { toast } from "sonner"
 import PageHero from "@/components/PageHero"
 import { useAuth } from "@/features/auth/hooks/useAuth"
+import { useMemo } from "react"
+import { ProjectCard } from "../components/ProjectCard"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 export default function ProjectsMapPage() {
     const [filters, setFilters] = useState<Filters>({})
@@ -34,6 +46,8 @@ export default function ProjectsMapPage() {
     )
     const [dialogOpen, setDialogOpen] = useState(false)
     const [editingProject, setEditingProject] = useState<Project | null>(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 12
 
     const isAdmin =
         roles?.includes("super_admin") || roles?.includes("country_admin")
@@ -74,6 +88,18 @@ export default function ProjectsMapPage() {
         )
     }
 
+    const totalPages = Math.ceil(projects.length / itemsPerPage)
+    const paginatedProjects = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage
+        return projects.slice(start, start + itemsPerPage)
+    }, [projects, currentPage])
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page)
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4 h-full">
             <PageHero
@@ -82,6 +108,12 @@ export default function ProjectsMapPage() {
                 icon={<MapPin className="h-6 w-6 text-secondary" />}
             >
                 <div className="flex gap-2">
+                    {isAdmin && (
+                        <Button size="sm" onClick={handleAdd} className="gap-1">
+                            <Plus className="h-4 w-4" />
+                            {t("common.add", "Ajouter")}
+                        </Button>
+                    )}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -122,33 +154,18 @@ export default function ProjectsMapPage() {
 
             <ProjectFilters filters={filters} onChange={setFilters} />
 
-            <div className="flex-1 flex gap-4 min-h-[500px]">
-                <div className="w-[320px] shrink-0 hidden lg:block">
-                    <ProjectSidebar
+            <div className="rounded-lg border overflow-hidden min-h-[500px]">
+                {isLoading ? (
+                    <div className="flex items-center justify-center h-full">
+                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                    </div>
+                ) : (
+                    <ProjectMap
                         projects={projects}
-                        selectedId={selectedProjectId}
-                        onSelect={p => {
-                            handleProjectSelect(p)
-                            if (isAdmin) handleEdit(p)
-                        }}
-                        onAdd={handleAdd}
-                        showAddButton={isAdmin}
+                        selectedProjectId={selectedProjectId}
+                        onProjectClick={handleProjectClick}
                     />
-                </div>
-
-                <div className="flex-1 rounded-lg border overflow-hidden">
-                    {isLoading ? (
-                        <div className="flex items-center justify-center h-full">
-                            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-                        </div>
-                    ) : (
-                        <ProjectMap
-                            projects={projects}
-                            selectedProjectId={selectedProjectId}
-                            onProjectClick={handleProjectClick}
-                        />
-                    )}
-                </div>
+                )}
             </div>
 
             <div className="flex items-center gap-6 px-2 py-2">
@@ -188,6 +205,55 @@ export default function ProjectsMapPage() {
                     }
                 )}
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                {paginatedProjects.map(project => (
+                    <Card 
+                        key={project.id} 
+                        className={`cursor-pointer transition-all hover:shadow-md ${selectedProjectId === project.id ? 'ring-2 ring-primary' : ''}`}
+                        onClick={() => {
+                            handleProjectClick(project)
+                            if (isAdmin) handleEdit(project)
+                        }}
+                    >
+                        <CardContent className="p-4">
+                            <ProjectCard project={project} />
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+
+            {totalPages > 1 && (
+                <div className="mt-6">
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious 
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                />
+                            </PaginationItem>
+                            {Array.from({ length: totalPages }).map((_, i) => (
+                                <PaginationItem key={i}>
+                                    <PaginationLink
+                                        isActive={currentPage === i + 1}
+                                        onClick={() => handlePageChange(i + 1)}
+                                        className="cursor-pointer"
+                                    >
+                                        {i + 1}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                                <PaginationNext 
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </div>
+            )}
 
             <ProjectFormDialog
                 open={dialogOpen}

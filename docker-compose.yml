@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        # Note: Ces variables sont injectées au moment du BUILD
+        # Remplacez localhost par host.docker.internal si Supabase tourne sur votre machine hôte
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL:-http://host.docker.internal:54321}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+    ports:
+      - "8080:80"
+    depends_on:
+      - libretranslate
+    networks:
+      - platform-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    ports:
+      - "5000:5000"
+    environment:
+      - LT_LOAD_ONLY=en,fr,pt,ar
+      - LT_UPDATE_MODELS=true
+    volumes:
+      - lt-data:/home/libretranslate/.local
+    networks:
+      - platform-network
+    restart: always
+
+networks:
+  platform-network:
+    driver: bridge
+
+volumes:
+  lt-data:

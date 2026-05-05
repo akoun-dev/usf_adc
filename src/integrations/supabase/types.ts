@@ -1141,6 +1141,79 @@ export type Database = {
           },
         ]
       }
+      internal_messages: {
+        Row: {
+          content: Json | null
+          created_at: string | null
+          deleted_at_recipient: string | null
+          deleted_at_sender: string | null
+          id: string
+          language: string | null
+          parent_message_id: string | null
+          read_at: string | null
+          recipient_id: string | null
+          sender_id: string
+          status: string
+          subject: Json | null
+          thread_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string | null
+          deleted_at_recipient?: string | null
+          deleted_at_sender?: string | null
+          id?: string
+          language?: string | null
+          parent_message_id?: string | null
+          read_at?: string | null
+          recipient_id?: string | null
+          sender_id: string
+          status?: string
+          subject?: Json | null
+          thread_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string | null
+          deleted_at_recipient?: string | null
+          deleted_at_sender?: string | null
+          id?: string
+          language?: string | null
+          parent_message_id?: string | null
+          read_at?: string | null
+          recipient_id?: string | null
+          sender_id?: string
+          status?: string
+          subject?: Json | null
+          thread_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "internal_messages_parent_message_id_fkey"
+            columns: ["parent_message_id"]
+            isOneToOne: false
+            referencedRelation: "internal_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "internal_messages_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "internal_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invitations: {
         Row: {
           accepted_at: string | null

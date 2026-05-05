@@ -25,6 +25,7 @@ import {
     Contact,
     MapPin,
     PenLine,
+    Mail,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -55,6 +56,7 @@ const navItems: Record<string, NavItem[]> = {
         { labelKey: "nav.training", path: "/point-focal/training", icon: GraduationCap },
         { labelKey: "nav.strategicWatch", path: "/point-focal/feeds", icon: Globe },
         { labelKey: "nav.docLibrary", path: "/point-focal/documents", icon: BookOpen },
+        { labelKey: "nav.messaging", path: "/admin/messaging", icon: Mail },
         { labelKey: "nav.coRedaction", path: "/admin/co-redaction", icon: PenLine },
         { labelKey: "nav.myAccount", path: "/point-focal/account", icon: User },
     ],
@@ -68,6 +70,7 @@ const navItems: Record<string, NavItem[]> = {
         { labelKey: "nav.users", path: "/country-admin/users", icon: Users },
         { labelKey: "nav.reports", path: "/country-admin/reports", icon: BarChart3 },
         { labelKey: "nav.calendar", path: "/country-admin/calendar", icon: Calendar },
+        { labelKey: "nav.messaging", path: "/admin/messaging", icon: Mail },
         { labelKey: "nav.forum", path: "/country-admin/forum/moderation", icon: MessageSquare },
         { labelKey: "nav.support", path: "/country-admin/support", icon: LifeBuoy },
         { labelKey: "nav.settings", path: "/country-admin/settings", icon: Settings },

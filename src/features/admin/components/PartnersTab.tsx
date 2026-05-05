@@ -202,8 +202,8 @@ export function PartnersTab() {
     };
 
     return (
-        <Card>
-            <CardHeader>
+        <Card className="border-none shadow-none bg-transparent">
+            <CardHeader className="px-0 pt-0 pb-6">
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-row items-center justify-between">
                         <div>
@@ -441,9 +441,8 @@ export function PartnersTab() {
                     </div>
                 </div>
             </CardHeader>
-
-            <CardContent>
-                <div className="rounded-md border overflow-x-auto">
+            <CardContent className="px-0">
+                <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
                     <Table className="min-w-full">
                         <TableHeader>
                             <TableRow>

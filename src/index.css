@@ -205,6 +205,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .no-scroll-root {
+    overflow: hidden !important;
+    height: 100% !important;
+  }
 }
 
 /* ------------------------------------------------------------------ */

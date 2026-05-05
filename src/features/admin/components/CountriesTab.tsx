@@ -358,8 +358,8 @@ export function CountriesTab() {
     }
 
     return (
-        <Card>
-            <CardHeader>
+        <Card className="border-none shadow-none bg-transparent">
+            <CardHeader className="px-0 pt-0">
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-row items-center justify-between">
                         <div>
@@ -443,8 +443,8 @@ export function CountriesTab() {
                     )}
                 </div>
             </CardHeader>
-            <CardContent>
-                <div className="rounded-md border">
+            <CardContent className="px-0">
+                <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -489,7 +489,7 @@ export function CountriesTab() {
                                         className="text-center py-12 text-muted-foreground"
                                     >
                                         {searchQuery ||
-                                        selectedRegion !== "Toutes"
+                                            selectedRegion !== "Toutes"
                                             ? "Aucun pays ne correspond aux critères de recherche"
                                             : "Aucun pays disponible"}
                                     </TableCell>
@@ -610,26 +610,29 @@ export function CountriesTab() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>Lignes par page:</span>
-                            <Select
-                                value={itemsPerPage.toString()}
-                                onValueChange={v =>
-                                    setItemsPerPage(parseInt(v))
-                                }
-                            >
-                                <SelectTrigger className="w-[70px]">
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="5">5</SelectItem>
-                                    <SelectItem value="10">10</SelectItem>
-                                    <SelectItem value="20">20</SelectItem>
-                                    <SelectItem value="50">50</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <span>
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 border-t pt-4">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                                <span className="w-[120px]">{t("admin.rowsPerPage", "Lignes par page")}:</span>
+                                <Select
+                                    value={itemsPerPage.toString()}
+                                    onValueChange={v => {
+                                        setItemsPerPage(parseInt(v))
+                                        setCurrentPage(1)
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[70px]">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="5">5</SelectItem>
+                                        <SelectItem value="10">10</SelectItem>
+                                        <SelectItem value="20">20</SelectItem>
+                                        <SelectItem value="50">50</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <span className="whitespace-nowrap">
                                 {Math.min(
                                     (currentPage - 1) * itemsPerPage + 1,
                                     stats.filtered
@@ -639,7 +642,7 @@ export function CountriesTab() {
                                     currentPage * itemsPerPage,
                                     stats.filtered
                                 )}{" "}
-                                sur {stats.filtered}
+                                {t("admin.of", "sur")} {stats.filtered}
                             </span>
                         </div>
 

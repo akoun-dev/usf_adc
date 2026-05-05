@@ -113,18 +113,18 @@ export function ProjectsTab() {
     };
 
     const getStatusBadge = (status: string) => {
-        const variants: Record<string, 'secondary' | 'default' | 'success' | 'destructive'> = {
+        const variants: Record<string, 'secondary' | 'default' | 'destructive'> = {
             planned: 'secondary',
             in_progress: 'default',
-            completed: 'success',
+            completed: 'default',
             suspended: 'destructive',
         };
         return <Badge variant={variants[status] || 'outline'}>{t(STATUS_LABELS[status] || status)}</Badge>;
     };
 
     return (
-        <Card>
-            <CardHeader>
+        <Card className="border-none shadow-none bg-transparent">
+            <CardHeader className="px-0 pt-0 pb-6">
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-row items-center justify-between">
                         <div>
@@ -190,8 +190,24 @@ export function ProjectsTab() {
                     </div>
                 </div>
             </CardHeader>
-            <CardContent>
-                <div className="rounded-md border">
+            <CardContent className="px-0">
+                <div className="mb-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
+                        <Select value={itemsPerPage.toString()} onValueChange={(v) => setItemsPerPage(parseInt(v))}>
+                            <SelectTrigger className="w-[70px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="5">5</SelectItem>
+                                <SelectItem value="10">10</SelectItem>
+                                <SelectItem value="20">20</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+                <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -238,37 +254,79 @@ export function ProjectsTab() {
                 </div>
 
                 {finalTotalPages > 1 && (
-                    <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>{t('admin.project.rowsPerPage')}:</span>
-                            <Select value={itemsPerPage.toString()} onValueChange={(v) => setItemsPerPage(parseInt(v))}>
-                                <SelectTrigger className="w-[70px]">
-                                    <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="5">5</SelectItem>
-                                    <SelectItem value="10">10</SelectItem>
-                                    <SelectItem value="20">20</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <span>
-                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredProjects.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredProjects.length)} {t('admin.project.of')} {finalFilteredProjects.length}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 border-t pt-4">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                                <span>{t("admin.rowsPerPage", "Lignes par page")}:</span>
+                                <Select
+                                    value={itemsPerPage.toString()}
+                                    onValueChange={v => {
+                                        setItemsPerPage(parseInt(v))
+                                        setCurrentPage(1)
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[70px]">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="5">5</SelectItem>
+                                        <SelectItem value="10">10</SelectItem>
+                                        <SelectItem value="20">20</SelectItem>
+                                        <SelectItem value="50">50</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <span className="whitespace-nowrap">
+                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredProjects.length)}-
+                                {Math.min(currentPage * itemsPerPage, finalFilteredProjects.length)} {t("admin.of", "sur")} {finalFilteredProjects.length}
                             </span>
                         </div>
-                        <Pagination>
+                        <Pagination className="w-auto m-0">
                             <PaginationContent>
-                                <PaginationPrevious onClick={() => setCurrentPage(p => Math.max(1, p - 1))} />
-                                {Array.from({ length: Math.min(5, finalTotalPages) }, (_, i) => {
-                                    let pageNum = currentPage <= 3 ? i + 1 : currentPage >= finalTotalPages - 2 ? finalTotalPages - 4 + i : currentPage - 2 + i;
-                                    return (
-                                        <PaginationItem key={pageNum}>
-                                            <PaginationLink onClick={() => setCurrentPage(pageNum)} isActive={currentPage === pageNum} className="cursor-pointer">
-                                                {pageNum}
-                                            </PaginationLink>
-                                        </PaginationItem>
-                                    );
+                                <PaginationItem>
+                                    <PaginationPrevious 
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                                
+                                {Array.from({ length: finalTotalPages }).map((_, i) => {
+                                    const pageNum = i + 1;
+                                    if (
+                                        pageNum === 1 ||
+                                        pageNum === finalTotalPages ||
+                                        (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                                    ) {
+                                        return (
+                                            <PaginationItem key={pageNum}>
+                                                <PaginationLink
+                                                    isActive={currentPage === pageNum}
+                                                    onClick={() => setCurrentPage(pageNum)}
+                                                    className="cursor-pointer"
+                                                >
+                                                    {pageNum}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        );
+                                    } else if (
+                                        pageNum === currentPage - 2 ||
+                                        pageNum === currentPage + 2
+                                    ) {
+                                        return (
+                                            <PaginationItem key={pageNum}>
+                                                <PaginationEllipsis />
+                                            </PaginationItem>
+                                        );
+                                    }
+                                    return null;
                                 })}
-                                <PaginationNext onClick={() => setCurrentPage(p => Math.min(finalTotalPages, p + 1))} />
+
+                                <PaginationItem>
+                                    <PaginationNext 
+                                        onClick={() => setCurrentPage(p => Math.min(finalTotalPages, p + 1))}
+                                        className={currentPage === finalTotalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
                             </PaginationContent>
                         </Pagination>
                     </div>

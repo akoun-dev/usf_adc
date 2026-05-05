@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { Menu, X, ArrowRight, ChevronDown, LogOut, User } from "lucide-react"
+import { Menu, X, ArrowRight, ChevronDown, LogOut, User, LayoutDashboard, Mail } from "lucide-react"
 import { useState, useMemo } from "react"
 import React from "react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,7 @@ import atuLogo from "@/assets/atu-uat-logo.png"
 import atuLogoWhite from "@/assets/atuuat-logo-blc.png"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/features/auth/hooks/useAuth"
+import { MailIcon } from "@/features/messaging/components/MailIcon"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -156,10 +157,12 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                         })}
                     </div>
 
-                    {/* Actions - hide on mobile */}
                     <div className="hidden xl:flex items-center gap-2">
                         <ThemeToggle variant="ghost-white" />
                         <LanguageSwitcher />
+                        {isAuthenticated && user && (
+                            <MailIcon variant="ghost-white" className="mr-1" />
+                        )}
                         {isAuthenticated && user ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -174,16 +177,27 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                     <DropdownMenuItem asChild>
                                         <Link
                                             to="/dashboard"
-                                            className="cursor-pointer"
+                                            className="cursor-pointer flex items-center"
                                         >
+                                            <LayoutDashboard className="h-4 w-4 mr-2" />
                                             {t("public.header.dashboard")}
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link
-                                            to="/profil"
-                                            className="cursor-pointer"
+                                            to="/admin/messaging"
+                                            className="cursor-pointer flex items-center"
                                         >
+                                            <Mail className="h-4 w-4 mr-2" />
+                                            {t("messaging.title")}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link
+                                            to="/profil"
+                                            className="cursor-pointer flex items-center"
+                                        >
+                                            <User className="h-4 w-4 mr-2" />
                                             {t("public.header.profile")}
                                         </Link>
                                     </DropdownMenuItem>
@@ -315,6 +329,16 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                                                 className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2 mb-2"
                                             >
                                                 <User className="h-4 w-4" />
+                                            </Link>
+                                            <Link
+                                                to="/admin/messaging"
+                                                onClick={() =>
+                                                    setMobileMenuOpen(false)
+                                                }
+                                                className="px-4 py-3 text-sm font-medium text-white dark:text-foreground hover:bg-white/15 hover:bg-accent/5 rounded-lg transition-colors flex items-center gap-2 mb-2"
+                                            >
+                                                <MailIcon variant="ghost-white" className="h-4 w-4 p-0 hover:bg-transparent" />
+                                                <span>{t("messaging.title")}</span>
                                             </Link>
                                             <button
                                                 onClick={async () => {

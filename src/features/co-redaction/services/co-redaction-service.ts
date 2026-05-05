@@ -31,14 +31,20 @@ export const coRedactionService = {
     status?: DocumentWorkflowStatus;
     category?: string;
     search?: string;
-  }): Promise<CoDocument[]> {
+    page?: number;
+    pageSize?: number;
+  }): Promise<{ data: CoDocument[]; total: number }> {
+    const page = filters?.page || 1;
+    const pageSize = filters?.pageSize || 12;
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query = (supabase as any)
       .from(TABLES.documents)
       .select(`*, locked_by_profile:profiles!documents_locked_by_fkey(id, full_name, avatar_url),
         last_edited_by_profile:profiles!documents_last_edited_by_fkey(id, full_name, avatar_url),
-        created_by_profile:profiles!documents_created_by_fkey(id, full_name, avatar_url)`)
-      .order('updated_at', { ascending: false });
+        created_by_profile:profiles!documents_created_by_fkey(id, full_name, avatar_url)`, { count: 'exact' });
 
     if (filters?.status) {
       query = query.eq('status_workflow', filters.status);
@@ -50,9 +56,15 @@ export const coRedactionService = {
       query = query.ilike('title', `%${filters.search}%`);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query
+      .order('updated_at', { ascending: false })
+      .range(from, to);
+
     if (error) throw error;
-    return (data ?? []) as CoDocument[];
+    return {
+      data: (data ?? []) as CoDocument[],
+      total: count ?? 0,
+    };
   },
 
   async getPublicDocuments(filters?: {

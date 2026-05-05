@@ -129,7 +129,7 @@ export interface EnhancedNewsArticle {
   created_by: string;
   created_at: string;
   updated_at: string;
-  categories?: NewsCategory[];
+  news_categories?: NewsCategory | null;
   gallery_images?: NewsGalleryImage[];
   translations?: ArticleTranslation[];
 }

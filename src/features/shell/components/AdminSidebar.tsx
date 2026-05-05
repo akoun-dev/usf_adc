@@ -12,6 +12,7 @@ import {
     Calendar,
     FileText as DocIcon,
     PenLine,
+    Mail,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -29,6 +30,7 @@ const adminItems = [
     { labelKey: "nav.adminDocuments", path: "/admin/documents", icon: DocIcon },
     { labelKey: "nav.coRedaction", path: "/admin/co-redaction", icon: PenLine },
     { labelKey: "nav.events", path: "/admin/events", icon: Calendar },
+    { labelKey: "nav.messaging", path: "/admin/messaging", icon: Mail },
     { labelKey: "nav.forumCategories", path: "/admin/forum", icon: MessageSquare },
     { labelKey: "nav.members", path: "/admin/membres-associes", icon: Users },
     { labelKey: "nav.newslettersAdmin", path: "/admin/newsletters", icon: Newspaper },

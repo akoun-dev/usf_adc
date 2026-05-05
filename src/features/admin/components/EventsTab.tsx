@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Pencil, Trash2, Plus, Calendar, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getLangValue } from '@/types/i18n';
@@ -31,7 +32,7 @@ export function EventsTab() {
   const [locationFilter, setLocationFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const [itemsPerPage, setItemsPerPage] = useState(15);
 
   const handleEdit = (item: any) => {
     navigate(`/admin/events/${item.id}/edit`);
@@ -97,7 +98,7 @@ export function EventsTab() {
   const paginatedEvents = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredEvents.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredEvents, currentPage]);
+  }, [filteredEvents, currentPage, itemsPerPage]);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -106,8 +107,8 @@ export function EventsTab() {
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="border-none shadow-none bg-transparent">
+      <CardHeader className="px-0 pt-0 pb-6">
         <div className="flex items-center justify-between">
           <div>
             <CardTitle>{t('admin.eventsManagement')}</CardTitle>
@@ -153,7 +154,8 @@ export function EventsTab() {
           />
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
+        <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -202,10 +204,34 @@ export function EventsTab() {
             )}
           </TableBody>
         </Table>
+        </div>
 
         {totalPages > 1 && (
-          <div className="mt-4">
-            <Pagination>
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-4">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                    <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
+                    <Select value={itemsPerPage.toString()} onValueChange={(v) => {
+                        setItemsPerPage(parseInt(v));
+                        setCurrentPage(1);
+                    }}>
+                        <SelectTrigger className="w-[70px]">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                            <SelectItem value="50">50</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <span className="whitespace-nowrap">
+                    {Math.min((currentPage - 1) * itemsPerPage + 1, filteredEvents.length)}-
+                    {Math.min(currentPage * itemsPerPage, filteredEvents.length)} {t('admin.of', 'sur')} {filteredEvents.length}
+                </span>
+            </div>
+            <Pagination className="w-auto m-0">
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious 

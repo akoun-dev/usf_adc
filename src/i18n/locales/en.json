@@ -43,6 +43,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
+    "today": "Today",
     "search": "Search",
     "filter": "Filter",
     "export": "Export",
@@ -79,6 +80,7 @@
     "map": "Projects Map",
     "forum": "Forum",
     "notifications": "Notifications",
+    "messaging": "Messaging",
     "support": "Support",
     "admin": "Administration",
     "profile": "My Profile",
@@ -535,6 +537,8 @@
     }
   },
   "admin": {
+    "rowsPerPage": "Rows per page",
+    "of": "of",
     "title": "Title",
     "descAdmin": "Manage platform content and settings",
     "descView": "View platform settings",
@@ -2154,93 +2158,130 @@
       }
     },
     "ourHistory": {
-      "title": "Our History",
-      "description": "Discover the history and evolution of ATU-UAT through the years",
       "hero": {
-        "badge": "About",
-        "title": "African Telecommunications Union",
-        "subtitle": "The evolution of ATU-UAT",
-        "description": "Brief history and mission of ATU-UAT"
+        "slides": [
+          {
+            "title": "Our History",
+            "subtitle": "A legacy of technological excellence",
+            "description": "More than 40 years serving the development of telecommunications in Africa."
+          },
+          {
+            "title": "Digital Innovation",
+            "subtitle": "Shaping the continent's future",
+            "description": "Accelerating digital transformation for a connected and prosperous Africa."
+          },
+          {
+            "title": "Regional Cooperation",
+            "subtitle": "Together for progress",
+            "description": "Uniting forces for universal access to information technologies for all."
+          }
+        ],
+        "ctaProjects": "Discover our projects",
+        "ctaLearnMore": "Learn more"
       },
-      "header": {
-        "title": "African Telecommunications Union",
-        "founded": "Founded on December 7, 1999",
-        "description": "Continental organization promoting the development of ICT infrastructure and services in Africa"
+      "presentation": {
+        "badge": "Who are we?",
+        "title": "A common vision for a digital Africa",
+        "description1": "The African Telecommunications Union (ATU) is a specialized agency of the African Union dedicated to the development of the information and communication technology (ICT) sector in Africa.",
+        "description2": "Since its founding, we have worked tirelessly to harmonize regulatory frameworks, promote investments and foster digital inclusion across the continent, ensuring that no African citizen is left behind.",
+        "features": {
+          "policies": "Harmonized policies",
+          "infra": "Sustainable infrastructure",
+          "inclusion": "Digital inclusion"
+        },
+        "floatingBadge": {
+          "expertise": "Recognized Expertise",
+          "leader": "Lead Institution"
+        }
       },
-      "keyFigures": {
-        "memberStates": {
-          "value": "52",
-          "label": "Member States",
-          "description": "African member countries"
-        },
-        "associateMembers": {
-          "value": "53",
-          "label": "Associate Members",
-          "description": "Telecom operators"
-        },
-        "foundingYear": {
-          "value": "1977",
-          "label": "Founding Year",
-          "description": "Founded 47 years ago"
-        },
-        "transformation": {
-          "value": "1999",
-          "label": "ATU-UAT",
-          "description": "Official transformation"
+      "impact": {
+        "title": "Our Impact in Figures",
+        "subtitle": "More than four decades of commitment and concrete results for the continent.",
+        "keyFigures": {
+          "memberStates": {
+            "value": "49",
+            "label": "Member States",
+            "description": "A strong and committed pan-African presence."
+          },
+          "associateMembers": {
+            "value": "54",
+            "label": "Associate Members",
+            "description": "Operators and strategic partners."
+          },
+          "founded": {
+            "value": "1977",
+            "label": "Year of creation",
+            "description": "More than 40 years of technical expertise."
+          },
+          "engagement": {
+            "value": "100%",
+            "label": "Commitment",
+            "description": "For total digital inclusion."
+          }
         }
       },
       "video": {
-        "title": "Presentation Video",
-        "description": "Discover ATU-UAT in video"
+        "title": "Discover our mission in video",
+        "subtitle": "A visual immersion at the heart of our initiatives and our vision for tomorrow's Africa.",
+        "cta": "See more on YouTube"
       },
-      "mission": {
-        "title": "Our Mission",
-        "description": "To promote the rapid development of information and communication technologies in Africa in order to guarantee universal access and full inter-state connectivity."
-      },
-      "vision": {
-        "title": "Our Vision",
-        "description": "A fully integrated Africa active in the global information and knowledge society."
-      },
-      "briefHistory": {
-        "1977": "Founded in 1977 as a specialized agency of the Organization of African Unity (now African Union) in the field of telecommunications.",
-        "1999": "In 1999, the African Telecommunications Union (ATU-UAT) takes its current name and transforms into a partnership between public and private actors in the ICT sector.",
-        "title": "Brief History",
-        "today": "Today, ATU-UAT provides ICT actors with a space for exchange to develop effective policies and strategies, represents the interests of its members at international conferences, and promotes initiatives to integrate regional markets, attract investment, and strengthen institutional and human capacities."
-      },
-      "whatWeDo": {
-        "title": "What We Do",
-        "ticExchange": {
-          "title": "ICT Exchange Space",
-          "description": "Development of effective policies and strategies to improve access to infrastructure"
+      "strategic": {
+        "objectives": {
+          "title": "Organisational Objectives",
+          "list": [
+            "Providing visionary leadership and supportive teamwork structures,",
+            "Developing human and intellectual capital,",
+            "Fostering collaborative partnerships in ICT research and development,",
+            "Ensuring a high level of integrity, transparency and accountability,",
+            "Guaranteeing quality and excellence in service to all stakeholders,",
+            "Encouraging a strong bias for action and effectiveness,",
+            "Advocating for the development of information and knowledge society in Africa."
+          ],
+          "footer": "These values help us set priorities and guide the decisions needed to achieve our vision."
         },
-        "internationalRepresentation": {
-          "title": "International Representation",
-          "description": "Representation of members' interests at international conferences"
+        "vision": {
+          "title": "Our Vision",
+          "text": "An inclusive information society and strong digital economies for sustainable social, economic and environmental development in Africa."
         },
-        "sustainableDevelopment": {
-          "title": "Sustainable Development",
-          "description": "Integration of regional markets and investment in ICT infrastructure"
+        "mission": {
+          "title": "Our Mission",
+          "intro": "To realize the above vision, the ATU mission is:",
+          "text": "To accelerate the development of the telecommunications/ICTs in Africa in order to achieve digital economies."
         }
       },
-      "timelineSection": {
-        "title": "Key Moments",
-        "description": "The evolution of ATU-UAT through the years"
+      "ad": {
+        "title": "Join the network of African innovators",
+        "subtitle": "Become an associate member and actively contribute to defining the continent's technological standards.",
+        "button": "Contact us for partnership"
+      },
+      "links": {
+        "projects": {
+          "title": "Our current Projects",
+          "description": "Explore the detailed list of initiatives we are leading to improve connectivity and digital services.",
+          "button": "View projects"
+        },
+        "map": {
+          "title": "Interactive Mapping",
+          "description": "Visualize in real time the deployment of infrastructure and the impact of our actions across the African continent.",
+          "button": "Access the map"
+        }
       },
       "timeline": {
-        "1977": {
-          "year": "1977",
-          "title": "ATU Foundation",
-          "description": "Created as a specialized agency of the Organization of African Unity (now African Union) in the field of telecommunications."
-        },
-        "1999": {
-          "year": "1999",
-          "title": "Transformation to ATU-UAT",
-          "description": "The agency takes its current name and transforms into a partnership between public and private actors in the ICT sector."
-        },
-        "today": {
-          "year": "Today",
-          "title": "52 Member States",
-          "description": "ATU currently has 52 member states and 53 associate members (fixed and mobile telecommunications operators)."
+        "title": "Our Timeline",
+        "subtitle": "The historical milestones that have marked the evolution of ATU since 1977.",
+        "events": {
+          "foundation": {
+            "title": "Foundation",
+            "description": "Creation of the organization to coordinate telecommunications policies in Africa."
+          },
+          "transformation": {
+            "title": "Transformation",
+            "description": "Institutional reform to adapt to the digital and liberalization era."
+          },
+          "leadership": {
+            "title": "Leadership",
+            "description": "A specialized agency of the African Union guiding the continent towards digital excellence."
+          }
         }
       }
     },
@@ -2885,11 +2926,41 @@
         "title": "Project Management",
         "desc": "Track the progress of FSU initiatives."
       }
-    },
-    "partners": {
-      "badge": "Partners",
-      "title": "Our Partners",
-      "subtitle": "They trust us"
     }
+  },
+  "partners": {
+    "badge": "Partners",
+    "title": "Our Partners"
+  },
+  "messaging": {
+    "title": "Internal Messaging",
+    "compose": "Compose",
+    "inbox": "Inbox",
+    "sent": "Sent",
+    "drafts": "Drafts",
+    "trash": "Trash",
+    "search": "Search messages...",
+    "noMessages": "No messages found",
+    "subject": "Subject",
+    "recipient": "Recipient",
+    "message": "Message",
+    "send": "Send",
+    "saveDraft": "Save as draft",
+    "discard": "Discard",
+    "reply": "Reply",
+    "delete": "Delete",
+    "unread": "unread",
+    "unread_plural": "unread",
+    "from": "From",
+    "to": "To",
+    "date": "Date",
+    "successSent": "Message sent successfully",
+    "successDraft": "Draft saved",
+    "confirmDelete": "Are you sure you want to delete this message?",
+    "searchRecipient": "Search user...",
+    "emptyInbox": "Your inbox is empty",
+    "emptySent": "You haven't sent any messages",
+    "emptyDrafts": "No drafts in progress",
+    "emptyTrash": "Trash is empty"
   }
 }

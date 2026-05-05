@@ -1,4 +1,4 @@
-﻿import React from "react"
+import React from "react"
 import { useTranslation } from "react-i18next"
 import { usePublicPartners } from "@/features/public/hooks/usePublicPartners"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
@@ -51,10 +51,10 @@ export const PartnersLogoScroller = () => {
                 <div className="text-center mb-10">
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
                         <Handshake className="h-4 w-4" />
-                        {t("index.partners.badge")}
+                        {t("partners.badge")}
                     </div>
                     <h2 className="text-2xl font-bold text-foreground lg:text-3xl mb-4 text-primary">
-                        {t("index.partners.title")}
+                        {t("partners.title")}
                     </h2>
                 </div>
 

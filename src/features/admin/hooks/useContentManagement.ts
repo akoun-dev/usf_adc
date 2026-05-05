@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as adminService from '../services/admin-service';
+import { EnhancedNewsArticle } from '../types';
 
 export function useNews() {
   return useQuery({
@@ -9,9 +10,9 @@ export function useNews() {
 }
 
 export function useEnhancedNews() {
-  return useQuery({
+  return useQuery<EnhancedNewsArticle[]>({
     queryKey: ['admin-enhanced-news'],
-    queryFn: adminService.getEnhancedNews,
+    queryFn: adminService.getEnhancedNews as any,
   });
 }
 
@@ -38,7 +39,7 @@ export function useUpdateNews() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; excerpt?: string; category?: string; source?: string; image_url?: string; featured_image?: string; status?: string; meta_description?: string; meta_keywords?: string; slug?: string; sort_order?: number; is_featured?: boolean; allow_comments?: boolean; language?: string; is_public?: boolean }) =>
-      adminService.updateNews(id, input),
+      adminService.updateNews(id, input as any),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['admin-news'] });
       qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
@@ -50,7 +51,7 @@ export function useUpdateNewsStatus() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>
-      adminService.updateNewsStatus(id, status),
+      adminService.updateNewsStatus(id, status as any),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['admin-news'] });
       qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
@@ -133,7 +134,7 @@ export function useAddNewsGalleryImage() {
 export function useUpdateNewsGalleryImage() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; caption?: string; alt_text?: string; sort_order?: number }) =>
+    mutationFn: ({ id, news_id, ...input }: { id: string; news_id: string; caption?: string; alt_text?: string; sort_order?: number }) =>
       adminService.updateNewsGalleryImage(id, input),
     onSuccess: (_, variables) => {
       qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', variables.news_id] });
@@ -145,7 +146,7 @@ export function useUpdateNewsGalleryImage() {
 export function useDeleteNewsGalleryImage() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: adminService.deleteNewsGalleryImage,
+    mutationFn: ({ id, news_id }: { id: string; news_id: string }) => adminService.deleteNewsGalleryImage(id),
     onSuccess: (_, variables) => {
       qc.invalidateQueries({ queryKey: ['admin-news-gallery-images', variables.news_id] });
       qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
@@ -198,7 +199,7 @@ export function useCreateArticleTranslation() {
 export function useUpdateArticleTranslation() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; title?: string; content?: string; excerpt?: string }) =>
+    mutationFn: ({ id, news_id, ...input }: { id: string; news_id: string; title?: string; content?: string; excerpt?: string }) =>
       adminService.updateArticleTranslation(id, input),
     onSuccess: (_, variables) => {
       qc.invalidateQueries({ queryKey: ['admin-article-translations', variables.news_id] });
@@ -210,7 +211,7 @@ export function useUpdateArticleTranslation() {
 export function useDeleteArticleTranslation() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: adminService.deleteArticleTranslation,
+    mutationFn: ({ id, news_id }: { id: string; news_id: string }) => adminService.deleteArticleTranslation(id),
     onSuccess: (_, variables) => {
       qc.invalidateQueries({ queryKey: ['admin-article-translations', variables.news_id] });
       qc.invalidateQueries({ queryKey: ['admin-enhanced-news'] });
@@ -227,7 +228,7 @@ export function useUploadNewsImage() {
 
 export function useDeleteNewsImage() {
   return useMutation({
-    mutationFn: adminService.deleteNewsImage,
+    mutationFn: ({ bucketName, filePath }: { bucketName: string; filePath: string }) => adminService.deleteNewsImage(bucketName, filePath),
   });
 }
 
@@ -250,7 +251,7 @@ export function useUpdateProject() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; country_id?: string; status?: string; region?: string }) =>
-      adminService.updateProject(id, input),
+      adminService.updateProject(id, input as any),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
   });
 }

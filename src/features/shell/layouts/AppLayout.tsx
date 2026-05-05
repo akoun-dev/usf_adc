@@ -2,9 +2,9 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { useUnreadCount } from "@/features/notifications"
 import { Separator } from "@/components/ui/separator"
-import { Menu, X, Settings, Newspaper, FileText, Calendar, MessageSquare, Globe, LayoutDashboard, FolderOpen, CheckSquare, GraduationCap, User, Shield, Users, AlertTriangle, Clock, BarChart3, Download, Key, LifeBuoy, BookOpen, FileBarChart, Bell, Flag } from "lucide-react"
+import { Menu, X, Settings, Newspaper, FileText, Calendar, MessageSquare, Globe, LayoutDashboard, FolderOpen, CheckSquare, GraduationCap, User, Shield, Users, AlertTriangle, Clock, BarChart3, Download, Key, LifeBuoy, BookOpen, FileBarChart, Bell, Flag, PenLine, Users2, Mail } from "lucide-react"
 import atuLogo from "@/assets/atu-uat-logo.png"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ThemeToggle } from "@/components/ThemeToggle"
 import { LanguageToggle } from "@/components/LanguageToggle"
 import { LanguageSwitcher } from "@/features/shell/components/LanguageSwitcher"
@@ -12,6 +12,7 @@ import { UserMenu } from "@/features/shell/components/UserMenu"
 import { AdminSidebar } from "@/features/shell/components/AdminSidebar"
 import { UserSidebar } from "@/features/shell/components/UserSidebar"
 import { useTranslation } from "react-i18next"
+import { MailIcon } from "@/features/messaging/components/MailIcon"
 
 export default function AppLayout() {
     const { user, profile, signOut, highestRole, isLoading } = useAuth()
@@ -23,6 +24,17 @@ export default function AppLayout() {
 
     const role = highestRole()
     const roleLabel = role ? t(`roles.${role}`) : ""
+
+    // Management of the scroll on the html/body tag
+    useEffect(() => {
+        document.documentElement.classList.add('no-scroll-root')
+        document.body.classList.add('no-scroll-root')
+
+        return () => {
+            document.documentElement.classList.remove('no-scroll-root')
+            document.body.classList.remove('no-scroll-root')
+        }
+    }, [])
 
     // Extract current page information from route
     const getPageInfo = () => {
@@ -77,6 +89,41 @@ export default function AppLayout() {
                     title: t('admin.countries', 'Pays'), 
                     description: t('admin.descAdmin', 'Gestion des pays et régions'),
                     icon: <Globe className="h-4 w-4" /> 
+                },
+                'co-redaction': { 
+                    title: t('nav.coRedaction', 'Co-Rédaction'), 
+                    description: t('admin.coRedactionDesc', 'Édition collaborative de documents'),
+                    icon: <PenLine className="h-4 w-4" /> 
+                },
+                'membres-associes': { 
+                    title: t('nav.members', 'Membres Associés'), 
+                    description: t('admin.membersDesc', 'Gestion des membres associés'),
+                    icon: <Users className="h-4 w-4" /> 
+                },
+                'news': { 
+                    title: t('nav.news', 'Actualités'), 
+                    description: t('admin.newsDesc', 'Gestion des actualités et articles'),
+                    icon: <Newspaper className="h-4 w-4" /> 
+                },
+                'users': { 
+                    title: t('nav.users', 'Utilisateurs'), 
+                    description: t('admin.usersDesc', 'Gestion des utilisateurs de la plateforme'),
+                    icon: <Users className="h-4 w-4" /> 
+                },
+                'invitations': { 
+                    title: t('nav.invitations', 'Invitations'), 
+                    description: t('admin.invitationsDesc', 'Gérer les invitations en attente'),
+                    icon: <Users2 className="h-4 w-4" /> 
+                },
+                'messaging': { 
+                    title: t('nav.messaging', 'Messagerie'), 
+                    description: t('admin.messagingDesc', 'Communication interne'),
+                    icon: <Mail className="h-4 w-4" /> 
+                },
+                'newsletters': { 
+                    title: t('nav.newslettersAdmin', 'Newsletters'), 
+                    description: t('admin.newslettersDesc', 'Gestion des campagnes newsletters'),
+                    icon: <Newspaper className="h-4 w-4" /> 
                 }
             }
             
@@ -429,6 +476,7 @@ export default function AppLayout() {
                         </div>
                     )}
                     <div className="flex flex-1 items-center justify-end gap-2">
+                        <MailIcon />
                         <LanguageToggle />
                         <ThemeToggle />
                         <span className="hidden text-xs text-muted-foreground sm:block">

@@ -43,6 +43,7 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "create": "Créer",
+    "today": "Aujourd'hui",
     "search": "Rechercher",
     "filter": "Filtrer",
     "export": "Exporter",
@@ -79,21 +80,19 @@
     "myAccount": "Mon Compte",
     "myTasks": "Mes Tâches",
     "users": "Utilisateurs",
-    "reports": "Rapports",
     "map": "Carte des projets",
     "forum": "Forum",
     "notifications": "Notifications",
+    "messaging": "Messagerie",
     "support": "Support",
     "admin": "Administration",
     "profile": "Mon profil",
     "signOut": "Se déconnecter",
-    "myAccount": "Mon compte",
     "invitations": "Invitations",
     "faq": "FAQ",
     "newsletters": "Bulletins",
     "newslettersAdmin": "Gérer les bulletins",
     "documents": "Documents",
-    "training": "Formation",
     "chat": "Chat en direct",
     "feeds": "Veille stratégique",
     "groups": "Groupes",
@@ -107,22 +106,8 @@
     "forumCategories": "Gestion de forums",
     "members": "Membres & Partenaires",
     "settings": "Paramètres",
-    "sectionData": "Données",
-    "sectionCommunication": "Communication",
-    "sectionSupport": "Aide & Formation",
-    "sectionAdmin": "Administration",
-    "sectionDashboard": "Tableau de Bord",
-    "sectionProjects": "Gestion des Projets",
-    "sectionFSU": "Saisie des Données FSU",
-    "sectionValidation": "Validation et Soumission",
-    "sectionReports": "Rapports et Collaboration",
-    "sectionForum": "Forum de Discussion",
-    "sectionTraining": "Formation et Ressources",
-    "sectionAccount": "Mon Compte",
     "home": "Accueil",
     "myProjects": "Mes Projets",
-    "map": "Cartographie",
-    "myTasks": "Mes Tâches",
     "overview": "Vue d'Ensemble",
     "calendar": "Calendrier Collaboratif",
     "calendarUpcoming": "Événements à Venir",
@@ -138,8 +123,7 @@
     "docsByTheme": "Par Thème",
     "myDownloads": "Mes Téléchargements",
     "docVersions": "Historique des Versions",
-    "forum": "Forum de Discussion",
-    "recentTopics": "Sujets Récentes",
+    "recentTopics": "Sujets Récents",
     "myTopics": "Mes Sujets",
     "thematicGroups": "Groupes Thématiques",
     "alerts": "Alertes",
@@ -162,9 +146,6 @@
     "supportTickets": "Tickets de Support",
     "adminProfile": "Profil Administrateur",
     "auditLog": "Journal d'Audit",
-    "settings": "Paramètres",
-    "users": "Utilisateurs",
-    "support": "Support",
     "newProject": "Nouveau Projet",
     "projectsInProgress": "En cours",
     "projectDrafts": "Brouillons",
@@ -175,9 +156,6 @@
     "fsudrafts": "Brouillons",
     "preview": "Prévisualisation",
     "pendingSubmissions": "Soumissions en Attente",
-    "recentTopics": "Sujets Récents",
-    "myTopics": "Mes Sujets",
-    "thematicGroups": "Groupes Thématiques",
     "codraft": "Co-rédaction",
     "cmdt25": "Contributions CMDT-25",
     "cmdt25Desc": "Gestion des contributions pour CMDT-25",
@@ -202,7 +180,6 @@
     "statusRejected": "Rejete",
     "inReview": "En revue",
     "pendingValidation": "En attente validation",
-    "documents": "Documents",
     "editor": "Editeur",
     "comments": "Commentaires",
     "editorPlaceholder": "Editeur collaboratif en temps reel - Selectionnez un document",
@@ -223,10 +200,6 @@
     "cerGroups": "Groupes CER",
     "pointFocal": "Point Focal",
     "contact": "Contacter",
-    "countries": "pays membres",
-    "webinars": "Webinaires",
-    "elearning": "E-Learning",
-    "strategicWatch": "Veille Stratégique",
     "preferences": "Préférences",
     "security": "Sécurité",
     "inProgress": "En cours",
@@ -237,7 +210,6 @@
     "profileDesc": "Gérer votre profil",
     "manageProjects": "Gérez vos projets",
     "recentProjects": "Projets récents",
-    "pendingSubmissions": "Soumissions en attente",
     "myDashboard": "Mon Tableau de bord",
     "manageAccount": "Gérer mon compte",
     "coRedaction": "Co-Rédaction"
@@ -552,6 +524,8 @@
     }
   },
   "admin": {
+    "rowsPerPage": "Lignes par page",
+    "of": "sur",
     "title": "Titre",
     "descAdmin": "Gérez le contenu et les paramètres de la plateforme",
     "descView": "Consultez les paramètres de la plateforme",
@@ -1549,12 +1523,6 @@
       "createTopic": "Creer un nouveau sujet",
       "topicTitle": "Titre",
       "category": "Categorie",
-      "description": "Description",
-      "tags": "Tags",
-      "publish": "Publier",
-      "allTopics": "Tous les sujets",
-      "recent": "Recentes",
-      "categories": "Categories",
       "trending": "Sujets tendance",
       "filter": "Filtrer",
       "recentTopicsDesc": "Derniers sujets du forum",
@@ -2114,93 +2082,130 @@
       }
     },
     "ourHistory": {
-      "title": "Notre Histoire",
-      "description": "Découvrez l'histoire et l'évolution de l'ATU-UAT à travers les années",
       "hero": {
-        "badge": "À propos",
-        "title": "Union Africaine des Télécommunications",
-        "subtitle": "L'évolution de l'ATU-UAT",
-        "description": "Bref historique et mission de l'ATU-UAT"
+        "slides": [
+          {
+            "title": "Notre Histoire",
+            "subtitle": "Un héritage d'excellence technologique",
+            "description": "Plus de 40 ans au service du développement des télécommunications en Afrique."
+          },
+          {
+            "title": "Innovation Digitale",
+            "subtitle": "Façonner l'avenir du continent",
+            "description": "Accélérer la transformation numérique pour une Afrique connectée et prospère."
+          },
+          {
+            "title": "Coopération Régionale",
+            "subtitle": "Ensemble pour le progrès",
+            "description": "Unir les forces pour un accès universel aux technologies de l'information pour tous."
+          }
+        ],
+        "ctaProjects": "Découvrir nos projets",
+        "ctaLearnMore": "En savoir plus"
       },
-      "header": {
-        "title": "Union Africaine des Télécommunications",
-        "founded": "Fondée le 7 décembre 1999",
-        "description": "Organisation continentale favorisant le développement des infrastructures et services TIC en Afrique"
+      "presentation": {
+        "badge": "Qui sommes-nous ?",
+        "title": "Une vision commune pour une Afrique numérique",
+        "description1": "L'Union Africaine des Télécommunications (UAT) est une institution spécialisée de l'Union Africaine qui se consacre au développement du secteur des technologies de l'information et de la communication (TIC) en Afrique.",
+        "description2": "Depuis sa fondation, nous travaillons sans relâche pour harmoniser les cadres réglementaires, promouvoir les investissements et favoriser l'inclusion numérique à travers tout le continent, en veillant à ce qu'aucun citoyen africain ne soit laissé pour compte.",
+        "features": {
+          "policies": "Politiques harmonisées",
+          "infra": "Infrastructures durables",
+          "inclusion": "Inclusion numérique"
+        },
+        "floatingBadge": {
+          "expertise": "Expertise Reconnue",
+          "leader": "Institution Leader"
+        }
       },
-      "keyFigures": {
-        "memberStates": {
-          "value": "52",
-          "label": "États membres",
-          "description": "Pays africains membres"
-        },
-        "associateMembers": {
-          "value": "53",
-          "label": "Membres associés",
-          "description": "Opérateurs télécoms"
-        },
-        "foundingYear": {
-          "value": "1977",
-          "label": "Année de création",
-          "description": "Fondée il y a 47 ans"
-        },
-        "transformation": {
-          "value": "1999",
-          "label": "ATU-UAT",
-          "description": "Transformation officielle"
+      "impact": {
+        "title": "Notre Impact en Chiffres",
+        "subtitle": "Plus de quatre décennies d'engagement et de résultats concrets pour le continent.",
+        "keyFigures": {
+          "memberStates": {
+            "value": "49",
+            "label": "États Membres",
+            "description": "Une présence panafricaine forte et engagée."
+          },
+          "associateMembers": {
+            "value": "54",
+            "label": "Membres Associés",
+            "description": "Opérateurs et partenaires stratégiques."
+          },
+          "founded": {
+            "value": "1977",
+            "label": "Année de création",
+            "description": "Plus de 40 ans d'expertise technique."
+          },
+          "engagement": {
+            "value": "100%",
+            "label": "Engagement",
+            "description": "Pour l'inclusion numérique totale."
+          }
         }
       },
       "video": {
-        "title": "Vidéo présentation",
-        "description": "Découvrez l'ATU-UAT en vidéo"
+        "title": "Découvrez notre mission en vidéo",
+        "subtitle": "Une immersion visuelle au cœur de nos initiatives et de notre vision pour l'Afrique de demain.",
+        "cta": "Voir plus sur YouTube"
       },
-      "mission": {
-        "title": "Notre Mission",
-        "description": "Promouvoir le développement rapide des technologies de l'information et de la communication en Afrique afin de garantir un accès universel et une connectivité interétatique complète."
-      },
-      "vision": {
-        "title": "Notre Vision",
-        "description": "Une Afrique pleinement intégrée et active au sein de la société mondiale de l'information et du savoir."
-      },
-      "briefHistory": {
-        "title": "Bref historique",
-        "1977": "Fondée en 1977 en tant qu'agence spécialisée de l'Organisation de l'unité africaine, devenue Union africaine, dans le domaine des télécommunications.",
-        "1999": "En 1999, l'Union africaine des télécommunications (ATU-UAT) prend son nom actuel et se transforme en un partenariat entre acteurs publics et privés du secteur des TIC.",
-        "today": "Aujourd'hui, l'ATU-UAT offre aux acteurs du secteur des TIC un espace d'échange pour élaborer des politiques et stratégies efficaces, représente les intérêts de ses membres lors de conférences internationales, et promeut des initiatives pour intégrer les marchés régionaux, attirer les investissements et renforcer les capacités institutionnelles et humaines."
-      },
-      "whatWeDo": {
-        "title": "Ce que nous faisons",
-        "ticExchange": {
-          "title": "Espace d'échange TIC",
-          "description": "Élaboration de politiques et stratégies efficaces pour améliorer l'accès aux infrastructures"
+      "strategic": {
+        "objectives": {
+          "title": "Objectifs Organisationnels",
+          "list": [
+            "Fournir un leadership visionnaire et des structures de travail d'équipe de soutien,",
+            "Développer le capital humain et intellectuel,",
+            "Favoriser les partenariats collaboratifs dans la recherche et le développement des TIC,",
+            "Assurer un niveau élevé d'intégrité, de transparence et de responsabilité,",
+            "Garantir la qualité et l'excellence du service à toutes les parties prenantes,",
+            "Encourager un fort penchant pour l'action et l'efficacité,",
+            "Plaider pour le développement de la société de l'information et de la connaissance en Afrique."
+          ],
+          "footer": "Ces valeurs nous aident à fixer des priorités et à guider les décisions nécessaires pour réaliser notre vision."
         },
-        "internationalRepresentation": {
-          "title": "Représentation internationale",
-          "description": "Représentation des intérêts des membres lors des conférences internationales"
+        "vision": {
+          "title": "Notre Vision",
+          "text": "Une société de l'information inclusive et des économies numériques fortes pour un développement social, économique et environnemental durable en Afrique."
         },
-        "sustainableDevelopment": {
-          "title": "Développement durable",
-          "description": "Intégration des marchés régionaux et investissements dans les infrastructures TIC"
+        "mission": {
+          "title": "Notre Mission",
+          "intro": "Pour réaliser la vision ci-dessus, la mission de l'UAT est :",
+          "text": "Accélérer le développement des télécommunications/TIC en Afrique afin de réaliser des économies numériques."
         }
       },
-      "timelineSection": {
-        "title": "Moments clés",
-        "description": "L'évolution de l'ATU-UAT à travers les années"
+      "ad": {
+        "title": "Rejoignez le réseau des innovateurs africains",
+        "subtitle": "Devenez membre associé et contribuez activement à la définition des standards technologiques du continent.",
+        "button": "Nous contacter pour un partenariat"
+      },
+      "links": {
+        "projects": {
+          "title": "Nos Projets en cours",
+          "description": "Explorez la liste détaillée des initiatives que nous menons pour améliorer la connectivité et les services numériques.",
+          "button": "Voir les projets"
+        },
+        "map": {
+          "title": "Cartographie Interactive",
+          "description": "Visualisez en temps réel le déploiement des infrastructures et l'impact de nos actions sur tout le continent africain.",
+          "button": "Accéder à la carte"
+        }
       },
       "timeline": {
-        "1977": {
-          "year": "1977",
-          "title": "Fondation de l'ATU",
-          "description": "Créée en tant qu'agence spécialisée de l'Organisation de l'unité africaine (devenue Union africaine) dans le domaine des télécommunications."
-        },
-        "1999": {
-          "year": "1999",
-          "title": "Transformation en ATU-UAT",
-          "description": "L'agence prend son nom actuel et se transforme en un partenariat entre acteurs publics et privés du secteur des TIC."
-        },
-        "today": {
-          "year": "Aujourd'hui",
-          "title": "52 États membres",
-          "description": "L'ATU compte aujourd'hui 52 États membres et 53 membres associés (opérateurs de télécommunications fixes et mobiles)."
+        "title": "Notre Chronologie",
+        "subtitle": "Les jalons historiques qui ont marqué l'évolution de l'UAT depuis 1977.",
+        "events": {
+          "foundation": {
+            "title": "Fondation",
+            "description": "Création de l'organisation pour coordonner les politiques de télécommunications en Afrique."
+          },
+          "transformation": {
+            "title": "Transformation",
+            "description": "Réforme institutionnelle pour s'adapter à l'ère du numérique et de la libéralisation."
+          },
+          "leadership": {
+            "title": "Leadership",
+            "description": "Une agence spécialisée de l'Union Africaine guidant le continent vers l'excellence numérique."
+          }
         }
       }
     },
@@ -2714,7 +2719,6 @@
     "createFirst": "Créez votre premier document",
     "noPublicDocs": "Aucun document public",
     "noPublicDocsDesc": "Les documents clôturés apparaîtront ici",
-    "noContent": "Aucun contenu",
     "noContent": "Aucun contenu disponible",
     "startEditing": "Commencer l'édition",
     "statusDraft": "Brouillon",
@@ -2866,11 +2870,42 @@
         "title": "Gestion de Projets",
         "desc": "Suivez l'avancement des initiatives FSU."
       }
-    },
-    "partners": {
-      "badge": "Partenaires",
-      "title": "Nos Partenaires",
-      "subtitle": "Ils nous font confiance"
     }
+  },
+  "partners": {
+    "badge": "Partenaires",
+    "title": "Nos Partenaires",
+    "subtitle": "Ils nous font confiance"
+  },
+  "messaging": {
+    "title": "Messagerie Interne",
+    "compose": "Nouveau message",
+    "inbox": "Boîte de réception",
+    "sent": "Messages envoyés",
+    "drafts": "Brouillons",
+    "trash": "Corbeille",
+    "search": "Rechercher un message...",
+    "noMessages": "Aucun message trouvé",
+    "subject": "Objet",
+    "recipient": "Destinataire",
+    "message": "Message",
+    "send": "Envoyer",
+    "saveDraft": "Enregistrer le brouillon",
+    "discard": "Ignorer",
+    "reply": "Répondre",
+    "delete": "Supprimer",
+    "unread": "non lu",
+    "unread_plural": "non lus",
+    "from": "De",
+    "to": "À",
+    "date": "Date",
+    "successSent": "Message envoyé avec succès",
+    "successDraft": "Brouillon enregistré",
+    "confirmDelete": "Voulez-vous vraiment supprimer ce message ?",
+    "searchRecipient": "Rechercher un utilisateur...",
+    "emptyInbox": "Votre boîte de réception est vide",
+    "emptySent": "Vous n'avez envoyé aucun message",
+    "emptyDrafts": "Aucun brouillon en cours",
+    "emptyTrash": "La corbeille est vide"
   }
 }

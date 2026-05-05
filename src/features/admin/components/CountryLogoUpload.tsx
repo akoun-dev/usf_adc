@@ -12,6 +12,7 @@ interface CountryLogoUploadProps {
     value?: string
     onChange: (path: string) => void
     countryCode?: string
+    label?: string
     disabled?: boolean
 }
 
@@ -19,6 +20,7 @@ export function CountryLogoUpload({
     value,
     onChange,
     countryCode,
+    label = "Logo du pays",
     disabled = false
 }: CountryLogoUploadProps) {
     const [uploading, setUploading] = useState(false)
@@ -129,7 +131,7 @@ export function CountryLogoUpload({
 
     return (
         <div className="space-y-2">
-            <Label>Logo du pays</Label>
+            <Label>{label}</Label>
 
             <div className="flex items-start gap-4">
                 {/* Preview */}

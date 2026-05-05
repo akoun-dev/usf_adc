@@ -43,6 +43,7 @@
     "delete": "Excluir",
     "edit": "Editar",
     "create": "Criar",
+    "today": "Hoje",
     "search": "Pesquisar",
     "filter": "Filtrar",
     "export": "Exportar",
@@ -2153,93 +2154,130 @@
       "noMembers": "Nenhum membro encontrado"
     },
     "ourHistory": {
-      "title": "Nossa História",
-      "description": "Descubra a história e evolução da ATU-UAT através dos anos",
       "hero": {
-        "badge": "Sobre",
-        "title": "União Africana das Telecomunicações",
-        "subtitle": "A evolução da ATU-UAT",
-        "description": "Breve histórico e missão da ATU-UAT"
+        "slides": [
+          {
+            "title": "Nossa História",
+            "subtitle": "Um legado de excelência tecnológica",
+            "description": "Mais de 40 anos ao serviço do desenvolvimento das telecomunicações em África."
+          },
+          {
+            "title": "Inovação Digital",
+            "subtitle": "Moldando o futuro do continente",
+            "description": "Acelerando a transformação digital para uma África conectada e próspera."
+          },
+          {
+            "title": "Cooperação Regional",
+            "subtitle": "Juntos pelo progresso",
+            "description": "Unindo forças para o acesso universal às tecnologias de informação para todos."
+          }
+        ],
+        "ctaProjects": "Descubra os nossos projetos",
+        "ctaLearnMore": "Saiba mais"
       },
-      "header": {
-        "title": "União Africana das Telecomunicações",
-        "founded": "Fundada em 7 de dezembro de 1999",
-        "description": "Organização continental que promove o desenvolvimento de infraestruturas e serviços TIC em África"
+      "presentation": {
+        "badge": "Quem somos?",
+        "title": "Uma visão comum para uma África digital",
+        "description1": "A União Africana das Telecomunicações (UAT) é uma agência especializada da União Africana dedicada ao desenvolvimento do sector das tecnologias de informação e comunicação (TIC) em África.",
+        "description2": "Desde a sua fundação, trabalhámos incansavelmente para harmonizar os quadros regulamentares, promover investimentos e fomentar a inclusão digital em todo o continente, garantindo que nenhum cidadão africano seja deixado para trás.",
+        "features": {
+          "policies": "Políticas harmonizadas",
+          "infra": "Infraestruturas sustentáveis",
+          "inclusion": "Inclusão digital"
+        },
+        "floatingBadge": {
+          "expertise": "Expertise Reconhecida",
+          "leader": "Instituição Líder"
+        }
       },
-      "keyFigures": {
-        "memberStates": {
-          "value": "52",
-          "label": "Estados membros",
-          "description": "Países africanos membros"
-        },
-        "associateMembers": {
-          "value": "53",
-          "label": "Membros associados",
-          "description": "Operadoras de telecom"
-        },
-        "foundingYear": {
-          "value": "1977",
-          "label": "Ano de fundação",
-          "description": "Fundada há 47 anos"
-        },
-        "transformation": {
-          "value": "1999",
-          "label": "ATU-UAT",
-          "description": "Transformação oficial"
+      "impact": {
+        "title": "O Nosso Impacto em Números",
+        "subtitle": "Mais de quatro décadas de empenho e resultados concretos para o continente.",
+        "keyFigures": {
+          "memberStates": {
+            "value": "49",
+            "label": "Estados Membros",
+            "description": "Uma presença pan-africana forte e empenhada."
+          },
+          "associateMembers": {
+            "value": "54",
+            "label": "Membros Associados",
+            "description": "Operadores e parceiros estratégicos."
+          },
+          "founded": {
+            "value": "1977",
+            "label": "Ano de criação",
+            "description": "Mais de 40 anos de especialização técnica."
+          },
+          "engagement": {
+            "value": "100%",
+            "label": "Compromisso",
+            "description": "Para a inclusão digital total."
+          }
         }
       },
       "video": {
-        "title": "Vídeo de apresentação",
-        "description": "Descubra a ATU-UAT em vídeo"
+        "title": "Descubra a nossa missão em vídeo",
+        "subtitle": "Uma imersão visual no coração das nossas iniciativas e da nossa visão para a África de amanhã.",
+        "cta": "Ver mais no YouTube"
       },
-      "mission": {
-        "title": "Nossa Missão",
-        "description": "Promover o desenvolvimento rápido das tecnologias de informação e comunicação em África para garantir o acesso universal e conectividade completa entre estados."
-      },
-      "vision": {
-        "title": "Nossa Visão",
-        "description": "Uma África totalmente integrada e ativa na sociedade global da informação e do conhecimento."
-      },
-      "briefHistory": {
-        "1977": "Fundada em 1977 como agência especializada da Organização da Unidade Africana (agora União Africana) no domínio das telecomunicações.",
-        "1999": "Em 1999, a União Africana das Telecomunicações (ATU-UAT) assume o seu nome atual e transforma-se numa parceria entre atores públicos e privados do setor das TIC.",
-        "title": "Breve histórico",
-        "today": "Hoje, a ATU-UAT oferece aos atores do setor das TIC um espaço de troca para elaborar políticas e estratégias eficazes, representa os interesses dos seus membros em conferências internacionais e promove iniciativas para integrar os mercados regionais, atrair investimentos e fortalecer as capacidades institucionais e humanas."
-      },
-      "whatWeDo": {
-        "title": "O que fazemos",
-        "ticExchange": {
-          "title": "Espaço de troca TIC",
-          "description": "Elaboração de políticas e estratégias eficazes para melhorar o acesso às infraestruturas"
+      "strategic": {
+        "objectives": {
+          "title": "Objetivos Organizacionais",
+          "list": [
+            "Proporcionar uma liderança visionária e estruturas de trabalho em equipa de apoio,",
+            "Desenvolver o capital humano e intelectual,",
+            "Fomentar parcerias colaborativas na investigação e desenvolvimento das TIC,",
+            "Garantir um elevado nível de integridade, transparência e responsabilidade,",
+            "Garantir a qualidade e a excelência no serviço a todas as partes interessadas,",
+            "Incentivar uma forte tendência para a ação e a eficácia,",
+            "Advogar o desenvolvimento da sociedade da informação e do conhecimento em África."
+          ],
+          "footer": "Estes valores ajudam-nos a estabelecer prioridades e a orientar as decisões necessárias para concretizar a nossa visão."
         },
-        "internationalRepresentation": {
-          "title": "Representação internacional",
-          "description": "Representação dos interesses dos membros em conferências internacionais"
+        "vision": {
+          "title": "Nossa Visão",
+          "text": "Uma sociedade da informação inclusiva e economias digitais fortes para um desenvolvimento social, económico e ambiental sustentável em África."
         },
-        "sustainableDevelopment": {
-          "title": "Desenvolvimento sustentável",
-          "description": "Integração dos mercados regionais e investimento em infraestruturas TIC"
+        "mission": {
+          "title": "Nossa Missão",
+          "intro": "Para concretizar a visão acima referida, a missão da UAT é:",
+          "text": "Acelerar o desenvolvimento das telecomunicações/TIC em África, a fim de realizar economias digitais."
         }
       },
-      "timelineSection": {
-        "title": "Momentos-chave",
-        "description": "A evolução da ATU-UAT através dos anos"
+      "ad": {
+        "title": "Junte-se à rede de inovadores africanos",
+        "subtitle": "Torne-se um membro associado e contribua ativamente para a definição das normas tecnológicas do continente.",
+        "button": "Contacte-nos para parceria"
+      },
+      "links": {
+        "projects": {
+          "title": "Os Nossos Projetos atuais",
+          "description": "Explore a lista detalhada das iniciativas que lideramos para melhorar a conetividade e os serviços digitais.",
+          "button": "Ver projetos"
+        },
+        "map": {
+          "title": "Mapeamento Interativo",
+          "description": "Visualize em tempo real a implementação de infraestruturas e o impacto das nossas ações em todo o continente africano.",
+          "button": "Aceder ao mapa"
+        }
       },
       "timeline": {
-        "1977": {
-          "year": "1977",
-          "title": "Fundação da ATU",
-          "description": "Criada como agência especializada da Organização da Unidade Africana (agora União Africana) no domínio das telecomunicações."
-        },
-        "1999": {
-          "year": "1999",
-          "title": "Transformação em ATU-UAT",
-          "description": "A agência assume o seu nome atual e transforma-se numa parceria entre atores públicos e privados do setor das TIC."
-        },
-        "today": {
-          "year": "Hoje",
-          "title": "52 Estados membros",
-          "description": "A ATU conta atualmente com 52 estados membros e 53 membros associados (operadoras de telecomunicações fixas e móveis)."
+        "title": "Nossa Cronologia",
+        "subtitle": "Os marcos históricos que marcaram a evolução da UAT desde 1977.",
+        "events": {
+          "foundation": {
+            "title": "Fondação",
+            "description": "Criação da organização para coordonner as políticas de telecomunicações em África."
+          },
+          "transformation": {
+            "title": "Transformação",
+            "description": "Réforme institutionnelle para s'adapter à l'ère du numérique e da libéralisation."
+          },
+          "leadership": {
+            "title": "Leadership",
+            "description": "Uma agência especializada da União Africana guidant o continent para l'excellence numérique."
+          }
         }
       }
     },

@@ -19,6 +19,8 @@ export function useDocuments(filters?: {
   status?: DocumentWorkflowStatus;
   category?: string;
   search?: string;
+  page?: number;
+  pageSize?: number;
 }) {
   return useQuery({
     queryKey: ['co-redaction-documents', filters],

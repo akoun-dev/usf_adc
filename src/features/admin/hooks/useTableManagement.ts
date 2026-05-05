@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 export type SortOrder = 'asc' | 'desc';
 
@@ -106,7 +106,7 @@ export function useTableManagement<T>({
     };
 
     // Reset pagination when filters change
-    useMemo(() => {
+    useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery, itemsPerPage]);
 

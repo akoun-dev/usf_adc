@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict X4z6JhuLBddMHqqMiniGIWqcZiH0u39yKzBN4j9ASuY0BBIfCnCqSh4HZLYqHQw
+-- \restrict WLb7K6DuADOihUIIBTpdW2JJyG896Le1e9bfkhPuCCbyAyAUYoKmcX7Ce7Fkmcb
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -64,7 +64,25 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', '97dd78b4-b1a6-463f-9b60-0421a6acaaf2', '{"action":"token_revoked","actor_id":"86cd46ca-8383-4a62-b6fa-3658b0b2f36a","actor_name":"Admin Cote d''Ivoire","actor_username":"civ-admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-04 15:11:50.512491+00', ''),
 	('00000000-0000-0000-0000-000000000000', '7d35ccd7-2ab3-452d-9845-ea0613d59baa', '{"action":"logout","actor_id":"86cd46ca-8383-4a62-b6fa-3658b0b2f36a","actor_name":"Admin Cote d''Ivoire","actor_username":"civ-admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-04 15:23:35.89425+00', ''),
 	('00000000-0000-0000-0000-000000000000', '71010f80-89ed-4c43-8a46-6616b753b1ed', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-04 15:48:11.55925+00', ''),
-	('00000000-0000-0000-0000-000000000000', 'd0f2621b-c33d-44a9-8b21-4c850b6e3b8a', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-04 16:30:47.396967+00', '');
+	('00000000-0000-0000-0000-000000000000', 'd0f2621b-c33d-44a9-8b21-4c850b6e3b8a', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-04 16:30:47.396967+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'efe37991-3e37-4a45-98e0-a2b391f48b60', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-05 08:54:04.302053+00', ''),
+	('00000000-0000-0000-0000-000000000000', '86b4720c-fbce-4d6f-b654-8aefcfbe1183', '{"action":"token_refreshed","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 09:52:40.39201+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'e9a1d65b-7635-4697-9ea6-972d2ec6e0ca', '{"action":"token_revoked","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 09:52:40.393304+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7e7209b6-8ccd-4348-8c0d-23863472e901', '{"action":"token_refreshed","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 10:52:09.393644+00', ''),
+	('00000000-0000-0000-0000-000000000000', '25db403b-febd-4b2c-8a80-732c2fd43ced', '{"action":"token_revoked","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 10:52:09.394936+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'b6b29f7e-ed28-4b6a-9660-47516cde7653', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-05 10:52:09.444472+00', ''),
+	('00000000-0000-0000-0000-000000000000', '0527ce56-a45d-4442-87cb-f7f4179b4483', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-05 11:23:45.576126+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'e62ad485-b156-4139-a712-b4df9a460d24', '{"action":"user_signedup","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"team","traits":{"provider":"email"}}', '2026-05-05 11:53:52.138465+00', ''),
+	('00000000-0000-0000-0000-000000000000', '4c71f4b0-46e3-44db-b05a-7cd8b321d134', '{"action":"login","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-05 11:53:52.148044+00', ''),
+	('00000000-0000-0000-0000-000000000000', '6272cba8-6239-4b9f-9254-25955f1d7415', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-05 12:12:57.387526+00', ''),
+	('00000000-0000-0000-0000-000000000000', '4dacbeaa-01f8-4464-bf00-a336e9825361', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-05 13:08:54.661803+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'efc18d6c-1a2e-4ced-b64b-89a342683dfb', '{"action":"token_refreshed","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 14:07:33.95958+00', ''),
+	('00000000-0000-0000-0000-000000000000', '515a1fd6-ab26-4439-9a21-f61fac0cab9d', '{"action":"token_revoked","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-05 14:07:33.96232+00', ''),
+	('00000000-0000-0000-0000-000000000000', '7fc3d63d-186b-43ea-84c2-d6ecad544bd5', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-05 14:52:37.354211+00', ''),
+	('00000000-0000-0000-0000-000000000000', '3bbd86d7-2b1d-4da6-a15d-3818267e464b', '{"action":"token_refreshed","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"token"}', '2026-05-05 15:25:38.779294+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'd3c46d5f-0fc5-49e4-968f-e4be52e1c50a', '{"action":"token_revoked","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"token"}', '2026-05-05 15:25:38.781386+00', ''),
+	('00000000-0000-0000-0000-000000000000', '8a7ea8e4-234b-4fc8-aab9-f59b6eef6fcb', '{"action":"token_refreshed","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"token"}', '2026-05-05 16:34:18.956565+00', ''),
+	('00000000-0000-0000-0000-000000000000', '9fcbaff3-ae1f-4094-90ae-90945c62bb45', '{"action":"token_revoked","actor_id":"7525d5b5-0819-499e-8d18-28ac5acbde34","actor_name":"Test Admin","actor_username":"admin@admin.com","actor_via_sso":false,"log_type":"token"}', '2026-05-05 16:34:18.960529+00', '');
 
 
 --
@@ -87,8 +105,9 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 	('00000000-0000-0000-0000-000000000000', '7cb78cfc-0205-45c4-adcb-2b040350b857', 'authenticated', 'authenticated', 'togo-admin@test.local', '$2a$10$DL3BEeuayiqj/BRL/1ZyS.Z/2Z0kcI2RtDp8rO9cYiAB9AHYqIyRC', '2026-05-01 21:06:23.759397+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Admin Togo", "email_verified": true}', NULL, '2026-05-01 21:06:23.752867+00', '2026-05-01 21:06:23.760113+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '8b5cf8c6-058f-4f9a-b6c1-4a9b797f89d1', 'authenticated', 'authenticated', 'togo-pointfocal@test.local', '$2a$10$R6pp8VZ8yFpP.qo1UKZn4OQAF.oYYVSninUSc3joWADiD.OaSIT0y', '2026-05-01 21:06:23.891048+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Point Focal Togo", "email_verified": true}', NULL, '2026-05-01 21:06:23.884538+00', '2026-05-01 21:06:23.891727+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '6006ceea-0e49-4184-8f64-06080a39f4a8', 'authenticated', 'authenticated', 'civ-pointfocal@test.local', '$2a$10$1/48NPOx5TpuhdEXTyaQMu4lZQvdyYbH/C94Y.Yfx7nhDczaRcxdS', '2026-05-01 21:06:24.138647+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Point Focal Cote d''Ivoire", "email_verified": true}', NULL, '2026-05-01 21:06:24.131999+00', '2026-05-01 21:06:24.140644+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', 'authenticated', 'authenticated', 'admin@test.local', '$2a$10$XJVQ4cktvk4g9R6JpGLlOuOnYxK2ysw/MXklWkKJRVBX.D.yFFLKC', '2026-05-01 21:06:23.611291+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-05 13:08:54.663115+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Administrator", "email_verified": true}', NULL, '2026-05-01 21:06:23.602618+00', '2026-05-05 14:07:33.967274+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '86cd46ca-8383-4a62-b6fa-3658b0b2f36a', 'authenticated', 'authenticated', 'civ-admin@test.local', '$2a$10$tmpix/NYKsIdWMra4aey1.wB68subZsHydsNZDh1bUYIiBoFdV4Aa', '2026-05-01 21:06:24.017915+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-04 14:04:42.603204+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Admin Cote d''Ivoire", "email_verified": true}', NULL, '2026-05-01 21:06:24.011371+00', '2026-05-04 15:11:50.515247+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', 'authenticated', 'authenticated', 'admin@test.local', '$2a$10$XJVQ4cktvk4g9R6JpGLlOuOnYxK2ysw/MXklWkKJRVBX.D.yFFLKC', '2026-05-01 21:06:23.611291+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-04 15:48:11.560732+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Administrator", "email_verified": true}', NULL, '2026-05-01 21:06:23.602618+00', '2026-05-04 15:48:11.564549+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', '7525d5b5-0819-499e-8d18-28ac5acbde34', 'authenticated', 'authenticated', 'admin@admin.com', '$2a$10$s41.CcrPelQMS4u/p4R1D.VdIh9AhCzaIagEvpGbwBiJBabWYhNz2', '2026-05-05 11:53:52.139296+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-05 11:53:52.149558+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "7525d5b5-0819-499e-8d18-28ac5acbde34", "email": "admin@admin.com", "full_name": "Test Admin", "email_verified": true, "phone_verified": false}', NULL, '2026-05-05 11:53:52.123187+00', '2026-05-05 16:34:18.968531+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -100,7 +119,8 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 	('7cb78cfc-0205-45c4-adcb-2b040350b857', '7cb78cfc-0205-45c4-adcb-2b040350b857', '{"sub": "7cb78cfc-0205-45c4-adcb-2b040350b857", "email": "togo-admin@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-05-01 21:06:23.75705+00', '2026-05-01 21:06:23.757086+00', '2026-05-01 21:06:23.757086+00', 'c21935b7-e0e6-43a3-8142-56db8b434dae'),
 	('8b5cf8c6-058f-4f9a-b6c1-4a9b797f89d1', '8b5cf8c6-058f-4f9a-b6c1-4a9b797f89d1', '{"sub": "8b5cf8c6-058f-4f9a-b6c1-4a9b797f89d1", "email": "togo-pointfocal@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-05-01 21:06:23.888327+00', '2026-05-01 21:06:23.888358+00', '2026-05-01 21:06:23.888358+00', '0b00aaf6-20f5-4774-acaa-468cbd92892c'),
 	('86cd46ca-8383-4a62-b6fa-3658b0b2f36a', '86cd46ca-8383-4a62-b6fa-3658b0b2f36a', '{"sub": "86cd46ca-8383-4a62-b6fa-3658b0b2f36a", "email": "civ-admin@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-05-01 21:06:24.015285+00', '2026-05-01 21:06:24.015365+00', '2026-05-01 21:06:24.015365+00', '848df3b2-9d7b-4193-9998-99c8442f1521'),
-	('6006ceea-0e49-4184-8f64-06080a39f4a8', '6006ceea-0e49-4184-8f64-06080a39f4a8', '{"sub": "6006ceea-0e49-4184-8f64-06080a39f4a8", "email": "civ-pointfocal@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-05-01 21:06:24.135876+00', '2026-05-01 21:06:24.13592+00', '2026-05-01 21:06:24.13592+00', 'e655e8ec-128d-4ceb-94b2-84ee0990a956');
+	('6006ceea-0e49-4184-8f64-06080a39f4a8', '6006ceea-0e49-4184-8f64-06080a39f4a8', '{"sub": "6006ceea-0e49-4184-8f64-06080a39f4a8", "email": "civ-pointfocal@test.local", "email_verified": false, "phone_verified": false}', 'email', '2026-05-01 21:06:24.135876+00', '2026-05-01 21:06:24.13592+00', '2026-05-01 21:06:24.13592+00', 'e655e8ec-128d-4ceb-94b2-84ee0990a956'),
+	('7525d5b5-0819-499e-8d18-28ac5acbde34', '7525d5b5-0819-499e-8d18-28ac5acbde34', '{"sub": "7525d5b5-0819-499e-8d18-28ac5acbde34", "email": "admin@admin.com", "full_name": "Test Admin", "email_verified": false, "phone_verified": false}', 'email', '2026-05-05 11:53:52.135205+00', '2026-05-05 11:53:52.135247+00', '2026-05-05 11:53:52.135247+00', 'c4bf1198-a53b-44d0-b025-495466805b65');
 
 
 --
@@ -119,12 +139,16 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: sessions; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag", "oauth_client_id", "refresh_token_hmac_key", "refresh_token_counter", "scopes") VALUES
+	('6c8f2e5e-8c4c-472c-882a-6301924a48aa', '7525d5b5-0819-499e-8d18-28ac5acbde34', '2026-05-05 11:53:52.149621+00', '2026-05-05 16:34:18.977639+00', NULL, 'aal1', NULL, '2026-05-05 16:34:18.977567', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '172.18.0.1', NULL, NULL, NULL, NULL, NULL);
 
 
 --
 -- Data for Name: mfa_amr_claims; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
+	('6c8f2e5e-8c4c-472c-882a-6301924a48aa', '2026-05-05 11:53:52.153452+00', '2026-05-05 11:53:52.153452+00', 'password', '5df84433-e476-4eea-a77a-e9a5df9fd2ca');
 
 
 --
@@ -167,6 +191,10 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 -- Data for Name: refresh_tokens; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
+INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "revoked", "created_at", "updated_at", "parent", "session_id") VALUES
+	('00000000-0000-0000-0000-000000000000', 54, 'kpf3gjehllcp', '7525d5b5-0819-499e-8d18-28ac5acbde34', true, '2026-05-05 11:53:52.15165+00', '2026-05-05 15:25:38.781975+00', NULL, '6c8f2e5e-8c4c-472c-882a-6301924a48aa'),
+	('00000000-0000-0000-0000-000000000000', 57, 'aw5nkpiayt2f', '7525d5b5-0819-499e-8d18-28ac5acbde34', true, '2026-05-05 15:25:38.785294+00', '2026-05-05 16:34:18.961175+00', 'kpf3gjehllcp', '6c8f2e5e-8c4c-472c-882a-6301924a48aa'),
+	('00000000-0000-0000-0000-000000000000', 58, 'sbgql7bw7tmh', '7525d5b5-0819-499e-8d18-28ac5acbde34', false, '2026-05-05 16:34:18.965642+00', '2026-05-05 16:34:18.965642+00', 'aw5nkpiayt2f', '6c8f2e5e-8c4c-472c-882a-6301924a48aa');
 
 
 --
@@ -575,7 +603,8 @@ INSERT INTO "public"."profiles" ("id", "full_name", "avatar_url", "country_id", 
 	('7cb78cfc-0205-45c4-adcb-2b040350b857', 'Admin Togo', NULL, 'b050ce65-58b3-4f68-8c5d-644a20cdd01f', 'fr', NULL, true, NULL, 'email', '2026-05-01 21:06:23.768+00', '2026-05-01 21:06:23.779301+00'),
 	('8b5cf8c6-058f-4f9a-b6c1-4a9b797f89d1', 'Point Focal Togo', NULL, 'b050ce65-58b3-4f68-8c5d-644a20cdd01f', 'fr', NULL, true, NULL, 'email', '2026-05-01 21:06:23.9+00', '2026-05-01 21:06:23.902217+00'),
 	('86cd46ca-8383-4a62-b6fa-3658b0b2f36a', 'Admin Cote d''Ivoire', NULL, 'd3077782-c322-400c-8a2c-51b8fbd2a628', 'fr', NULL, true, NULL, 'email', '2026-05-01 21:06:24.026+00', '2026-05-01 21:06:24.028074+00'),
-	('6006ceea-0e49-4184-8f64-06080a39f4a8', 'Point Focal Cote d''Ivoire', NULL, 'd3077782-c322-400c-8a2c-51b8fbd2a628', 'fr', NULL, true, NULL, 'email', '2026-05-01 21:06:24.148+00', '2026-05-02 21:39:04.744335+00');
+	('6006ceea-0e49-4184-8f64-06080a39f4a8', 'Point Focal Cote d''Ivoire', NULL, 'd3077782-c322-400c-8a2c-51b8fbd2a628', 'fr', NULL, true, NULL, 'email', '2026-05-01 21:06:24.148+00', '2026-05-02 21:39:04.744335+00'),
+	('7525d5b5-0819-499e-8d18-28ac5acbde34', 'Test Admin', NULL, NULL, 'fr', NULL, true, NULL, 'email', '2026-05-05 11:53:52.121668+00', '2026-05-05 11:53:52.121668+00');
 
 
 --
@@ -2368,6 +2397,12 @@ INSERT INTO "public"."fsu_agencies" ("id", "country_id", "dg_name", "dg_message"
 
 
 --
+-- Data for Name: internal_messages; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
 -- Data for Name: invitations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2384,10 +2419,10 @@ INSERT INTO "public"."fsu_agencies" ("id", "country_id", "dg_name", "dg_message"
 --
 
 INSERT INTO "public"."membres_associes" ("id", "nom", "nom_complet", "pays_id", "logo_url", "type", "secteur", "depuis", "site_web", "description", "projets", "email_contact", "telephone_contact", "adresse", "est_actif", "date_creation", "date_mise_a_jour") VALUES
-	('a1b2c3d4-5678-90ef-1234-567890abcdef', 'ANSUT', 'Agence Nationale du Service Universel des Telecommunications', NULL, 'https://ansut.ci/logo.png', 'agence', 'Service Universel', '2019', 'https://ansut.ci', 'Agence nationale ivoirienne responsable de la mise en oeuvre du Service Universel des Telecommunications', '{"projets": ["Deploiement 4G rural", "Ecoles connectees"]}', 'contact@ansut.ci', '+225 00 00 00 00', 'Abidjan, Cote d''Ivoire', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
-	('b2c3d4e5-6789-0123-4567-890123456789', 'MTN Group', 'MTN Group Limited', NULL, 'https://www.mtn.com/wp-content/uploads/2021/06/MTN-Logo.png', 'operateur', 'Operateur Mobile', '2019', 'https://www.mtn.com', 'Groupe panafricain de telecommunications mobiles, present dans 21 pays africains', '{"projets": ["Connectivite transfrontaliere", "Infrastructure 5G"]}', 'info@mtn.com', '+27 10 000 0000', 'Johannesburg, South Africa', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
-	('c3d4e5f6-7890-1234-5678-901234567890', 'Orange Group', 'Orange Middle East & Africa', NULL, 'https://www.orange.com/assets/images/logo-orange.svg', 'operateur', 'Operateur Telecoms', '2020', 'https://www.orange.com', 'Operateur present en 20+ pays d''Afrique de l''Ouest et du Centre', '{"projets": ["Partage d''infrastructure", "Services numeriques"]}', 'contact@orange.com', '+33 1 00 00 00 00', 'Paris, France', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
-	('d4e5f6a7-8901-2345-6789-012345678901', 'Huawei', 'Huawei Technologies Co. Ltd.', NULL, 'https://www.huawei.com/ucmf/groups/public/documents/image/huawei_logo.png', 'operateur', 'Equipements Reseaux', '2019', 'https://www.huawei.com', 'Leader mondial des solutions ICT et equipements de telecommunications', '{"projets": ["Infrastructure 5G", "Smart Cities"]}', 'contact@huawei.com', '+86 10 000 0000', 'Shenzhen, China', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00');
+	('a1b2c3d4-5678-90ef-1234-567890abcdef', 'ANSUT', 'Agence Nationale du Service Universel des Telecommunications', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/a1b2c3d4-5678-90ef-1234-567890abcdef/logo.png', 'agence', 'Service Universel', '2019', 'https://ansut.ci', 'Agence nationale ivoirienne responsable de la mise en oeuvre du Service Universel des Telecommunications', '{"projets": ["Deploiement 4G rural", "Ecoles connectees"]}', 'contact@ansut.ci', '+225 00 00 00 00', 'Abidjan, Cote d''Ivoire', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
+	('d4e5f6a7-8901-2345-6789-012345678901', 'Huawei', 'Huawei Technologies Co. Ltd.', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/d4e5f6a7-8901-2345-6789-012345678901/logo.png', 'operateur', 'Equipements Reseaux', '2019', 'https://www.huawei.com', 'Leader mondial des solutions ICT et equipements de telecommunications', '{"projets": ["Infrastructure 5G", "Smart Cities"]}', 'contact@huawei.com', '+86 10 000 0000', 'Shenzhen, China', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
+	('b2c3d4e5-6789-0123-4567-890123456789', 'MTN Group', 'MTN Group Limited', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/b2c3d4e5-6789-0123-4567-890123456789/logo.svg', 'operateur', 'Operateur Mobile', '2019', 'https://www.mtn.com', 'Groupe panafricain de telecommunications mobiles, present dans 21 pays africains', '{"projets": ["Connectivite transfrontaliere", "Infrastructure 5G"]}', 'info@mtn.com', '+27 10 000 0000', 'Johannesburg, South Africa', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00'),
+	('c3d4e5f6-7890-1234-5678-901234567890', 'Orange Group', 'Orange Middle East & Africa', NULL, 'http://127.0.0.1:54321/storage/v1/object/public/logos/members/c3d4e5f6-7890-1234-5678-901234567890/logo.png', 'operateur', 'Operateur Telecoms', '2020', 'https://www.orange.com', 'Operateur present en 20+ pays d''Afrique de l''Ouest et du Centre', '{"projets": ["Partage d''infrastructure", "Services numeriques"]}', 'contact@orange.com', '+33 1 00 00 00 00', 'Paris, France', true, '2026-05-01 20:40:15.145593+00', '2026-05-01 20:40:15.145593+00');
 
 
 --
@@ -3002,9 +3037,8 @@ INSERT INTO "storage"."buckets" ("id", "name", "owner", "created_at", "updated_a
 --
 
 INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at", "updated_at", "last_accessed_at", "metadata", "version", "owner_id", "user_metadata") VALUES
-	('c0edbbbe-e534-4b28-9500-a1f9cc2dae1c', 'logos', 'members/b2c3d4e5-6789-0123-4567-890123456789/logo.svg', NULL, '2026-05-01 22:56:06.912591+00', '2026-05-04 09:11:09.746977+00', '2026-05-01 22:56:06.912591+00', '{"eTag": "\"499f5c481a4a2f26c099d9f4b83dcf21\"", "size": 881, "mimetype": "image/svg+xml", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.740Z", "contentLength": 881, "httpStatusCode": 200}', '66786bbb-a550-4c74-90b5-fd12f3a73ee6', NULL, '{}'),
-	('ff497ea0-d789-4f11-8668-f161f9cab5f9', 'logos', 'members/c3d4e5f6-7890-1234-5678-901234567890/logo.png', NULL, '2026-05-01 22:56:06.934104+00', '2026-05-04 09:11:09.765234+00', '2026-05-01 22:56:06.934104+00', '{"eTag": "\"2259da546a425f9f31842f3456040d2a\"", "size": 15517, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.760Z", "contentLength": 15517, "httpStatusCode": 200}', '74606b29-b908-4464-a227-c3bc043f3281', NULL, '{}'),
-	('8813263b-8a42-4298-8542-f473dc108a5f', 'logos', 'members/d4e5f6a7-8901-2345-6789-012345678901/logo.png', NULL, '2026-05-01 22:56:06.955845+00', '2026-05-04 09:11:09.782938+00', '2026-05-01 22:56:06.955845+00', '{"eTag": "\"4beff927353ad1ef0477812d37a6f970\"", "size": 69339, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.776Z", "contentLength": 69339, "httpStatusCode": 200}', '89c127c2-1d9e-4038-9566-db7f8faecf1e', NULL, '{}'),
+	('ff497ea0-d789-4f11-8668-f161f9cab5f9', 'logos', 'members/c3d4e5f6-7890-1234-5678-901234567890/logo.png', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '2026-05-01 22:56:06.934104+00', '2026-05-05 14:19:27.510601+00', '2026-05-01 22:56:06.934104+00', '{"eTag": "\"2259da546a425f9f31842f3456040d2a\"", "size": 15517, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-05-05T14:19:27.504Z", "contentLength": 15517, "httpStatusCode": 200}', 'daf7841b-b9c5-4ac8-b2e2-2a0994278353', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '{}'),
+	('c0edbbbe-e534-4b28-9500-a1f9cc2dae1c', 'logos', 'members/b2c3d4e5-6789-0123-4567-890123456789/logo.svg', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '2026-05-01 22:56:06.912591+00', '2026-05-05 14:19:14.989071+00', '2026-05-01 22:56:06.912591+00', '{"eTag": "\"499f5c481a4a2f26c099d9f4b83dcf21\"", "size": 881, "mimetype": "image/svg+xml", "cacheControl": "max-age=3600", "lastModified": "2026-05-05T14:19:14.984Z", "contentLength": 881, "httpStatusCode": 200}', '24b1da4d-483f-4c9c-8917-d6b78b5eeede', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '{}'),
 	('63f2f7b9-adf3-46c3-aae7-572e26c03864', 'logos', 'partners/a3b4c5d6-7890-1234-5678-901234567890/logo.png', NULL, '2026-05-01 22:56:06.978271+00', '2026-05-04 09:11:09.800312+00', '2026-05-01 22:56:06.978271+00', '{"eTag": "\"a8ddde5e7bce8e86889ddee2b8048ee1\"", "size": 61473, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.796Z", "contentLength": 61473, "httpStatusCode": 200}', '6d17036e-3391-4dc5-a260-034998a445f5', NULL, '{}'),
 	('a4e44a06-f3be-4585-9ffb-1d26541bb551', 'logos', 'partners/a7b8c9d0-1234-5678-9012-345678901234/logo.png', NULL, '2026-05-01 22:56:06.999158+00', '2026-05-04 09:11:09.817234+00', '2026-05-01 22:56:06.999158+00', '{"eTag": "\"49636f0fc42d954a64db98daa295a3fa\"", "size": 45061, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.812Z", "contentLength": 45061, "httpStatusCode": 200}', 'dffc5f01-99df-4d7d-97ad-ae0bbe12aad1', NULL, '{}'),
 	('8ea3df22-ada5-4d29-844c-bd8e0631c89f', 'logos', 'partners/b4c5d6e7-8901-2345-6789-012345678901/logo.png', NULL, '2026-05-01 22:56:07.020375+00', '2026-05-04 09:11:09.834394+00', '2026-05-01 22:56:07.020375+00', '{"eTag": "\"c5096a4ef6bf72781942bc1750effb0b\"", "size": 47196, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.828Z", "contentLength": 47196, "httpStatusCode": 200}', '69b4559d-6f59-455f-9650-e5ada427f399', NULL, '{}'),
@@ -3016,7 +3050,8 @@ INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at
 	('de209917-fe7e-43d1-8cd5-6442437575bb', 'logos', 'partners/e5f6a7b8-9012-3456-7890-123456789012/logo.png', NULL, '2026-05-01 22:56:07.140226+00', '2026-05-04 09:11:09.933818+00', '2026-05-01 22:56:07.140226+00', '{"eTag": "\"8f9327db2597fa57d2f42b4a6c5a9855\"", "size": 5969, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.928Z", "contentLength": 5969, "httpStatusCode": 200}', '6f1626d4-1ba2-4803-9feb-68c89efbc381', NULL, '{}'),
 	('a5219969-1548-4d74-bc7e-ce72602b44a1', 'logos', 'partners/f2a3b4c5-6789-0123-4567-890123456789/logo.png', NULL, '2026-05-01 22:56:07.156867+00', '2026-05-04 09:11:09.949211+00', '2026-05-01 22:56:07.156867+00', '{"eTag": "\"39553d3e1d8c70fbb34e04334ce72972\"", "size": 32542, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.944Z", "contentLength": 32542, "httpStatusCode": 200}', '05d06e19-dc4e-4c2c-8137-1646bab10604', NULL, '{}'),
 	('922ab934-3860-4c73-a313-d298fe3052c5', 'logos', 'partners/f6a7b8c9-0123-4567-8901-234567890123/logo.jpg', NULL, '2026-05-01 22:56:07.176213+00', '2026-05-04 09:11:09.965726+00', '2026-05-01 22:56:07.176213+00', '{"eTag": "\"c0705b61e9fc721deb481c5abdbf7a11\"", "size": 25678, "mimetype": "image/jpeg", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.960Z", "contentLength": 25678, "httpStatusCode": 200}', 'd55b0821-24bb-4298-b207-5e8b9e9ca4a4', NULL, '{}'),
-	('24e08b46-744d-4590-ad3a-3990866018cf', 'logos', 'members/a1b2c3d4-5678-90ef-1234-567890abcdef/logo.png', NULL, '2026-05-01 22:56:06.887239+00', '2026-05-04 09:11:09.71327+00', '2026-05-01 22:56:06.887239+00', '{"eTag": "\"ec7541d9c5571117017f878bca6932a5\"", "size": 70417, "mimetype": "image/png", "cacheControl": "max-age=max-age=3600", "lastModified": "2026-05-04T09:11:09.704Z", "contentLength": 70417, "httpStatusCode": 200}', '456fc681-b4c4-4455-9e07-41d3fdb75c21', NULL, '{}');
+	('8813263b-8a42-4298-8542-f473dc108a5f', 'logos', 'members/d4e5f6a7-8901-2345-6789-012345678901/logo.png', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '2026-05-01 22:56:06.955845+00', '2026-05-05 14:19:02.762591+00', '2026-05-01 22:56:06.955845+00', '{"eTag": "\"4beff927353ad1ef0477812d37a6f970\"", "size": 69339, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-05-05T14:19:02.760Z", "contentLength": 69339, "httpStatusCode": 200}', '00047033-eed8-43d3-9bf5-c5305b17a01e', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '{}'),
+	('24e08b46-744d-4590-ad3a-3990866018cf', 'logos', 'members/a1b2c3d4-5678-90ef-1234-567890abcdef/logo.png', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '2026-05-01 22:56:06.887239+00', '2026-05-05 14:18:50.991798+00', '2026-05-01 22:56:06.887239+00', '{"eTag": "\"ec7541d9c5571117017f878bca6932a5\"", "size": 70417, "mimetype": "image/png", "cacheControl": "max-age=3600", "lastModified": "2026-05-05T14:18:50.983Z", "contentLength": 70417, "httpStatusCode": 200}', 'c8a105ca-a6d4-4edd-8c80-6b75451f8349', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '{}');
 
 
 --
@@ -3047,7 +3082,7 @@ INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 49, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 58, true);
 
 
 --
@@ -3061,6 +3096,6 @@ SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict X4z6JhuLBddMHqqMiniGIWqcZiH0u39yKzBN4j9ASuY0BBIfCnCqSh4HZLYqHQw
+-- \unrestrict WLb7K6DuADOihUIIBTpdW2JJyG896Le1e9bfkhPuCCbyAyAUYoKmcX7Ce7Fkmcb
 
 RESET ALL;

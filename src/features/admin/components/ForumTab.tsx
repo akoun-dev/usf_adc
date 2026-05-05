@@ -11,9 +11,26 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Pencil, Trash2, Plus, MessageSquare } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/ui/pagination';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 interface ForumCategoryFormData {
   name: string;
+  slug?: string;
   description: string;
   color: string;
 }
@@ -27,12 +44,17 @@ export function ForumTab() {
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const { register, handleSubmit, reset, setValue } = useForm<ForumCategoryFormData>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const onSubmit = async (data: ForumCategoryFormData) => {
+    const slug = data.slug || data.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+    const submissionData = { ...data, slug };
+    
     if (editingId) {
-      await updateCategory.mutateAsync({ id: editingId, ...data });
+      await updateCategory.mutateAsync({ id: editingId, ...submissionData });
     } else {
-      await createCategory.mutateAsync(data);
+      await createCategory.mutateAsync(submissionData as any);
     }
     reset();
     setEditingId(null);
@@ -52,6 +74,9 @@ export function ForumTab() {
       await deleteCategory.mutateAsync(id);
     }
   };
+
+  const totalPages = Math.ceil((categories?.length || 0) / itemsPerPage);
+  const paginatedCategories = (categories || []).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <Card>
@@ -113,10 +138,10 @@ export function ForumTab() {
           <TableBody>
             {isLoading ? (
               <TableRow><TableCell colSpan={4}>{t('common.loading', 'Chargement...')}</TableCell></TableRow>
-            ) : categories?.length === 0 ? (
+            ) : paginatedCategories.length === 0 ? (
               <TableRow><TableCell colSpan={4}>{t('admin.noCategories', 'Aucune catégorie')}</TableCell></TableRow>
             ) : (
-              categories?.map((item) => (
+              paginatedCategories.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
@@ -146,6 +171,82 @@ export function ForumTab() {
             )}
           </TableBody>
         </Table>
+
+        {totalPages > 1 && (
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-4">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                        <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
+                        <Select value={itemsPerPage.toString()} onValueChange={(v) => {
+                            setItemsPerPage(parseInt(v));
+                            setCurrentPage(1);
+                        }}>
+                            <SelectTrigger className="w-[70px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="5">5</SelectItem>
+                                <SelectItem value="10">10</SelectItem>
+                                <SelectItem value="20">20</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <span className="whitespace-nowrap">
+                        {Math.min((currentPage - 1) * itemsPerPage + 1, categories?.length || 0)}-
+                        {Math.min(currentPage * itemsPerPage, categories?.length || 0)} {t('admin.of', 'sur')} {categories?.length || 0}
+                    </span>
+                </div>
+                <Pagination className="w-auto m-0">
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious 
+                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
+                        </PaginationItem>
+                        
+                        {Array.from({ length: totalPages }).map((_, i) => {
+                            const pageNum = i + 1;
+                            if (
+                                pageNum === 1 ||
+                                pageNum === totalPages ||
+                                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                            ) {
+                                return (
+                                    <PaginationItem key={pageNum}>
+                                        <PaginationLink
+                                            isActive={currentPage === pageNum}
+                                            onClick={() => setCurrentPage(pageNum)}
+                                            className="cursor-pointer"
+                                        >
+                                            {pageNum}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                );
+                            } else if (
+                                pageNum === currentPage - 2 ||
+                                pageNum === currentPage + 2
+                            ) {
+                                return (
+                                    <PaginationItem key={pageNum}>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                );
+                            }
+                            return null;
+                        })}
+
+                        <PaginationItem>
+                            <PaginationNext 
+                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -177,6 +177,7 @@ const AccountPage = lazy(() => import("@/features/pointfocal/pages/AccountPage")
 const PointFocalCalendarPage = lazy(() => import("@/features/pointfocal/pages/PointFocalCalendarPage"))
 const CmdtContributionsPage = lazy(() => import("@/features/pointfocal/pages/CmdtContributionsPage"))
 const AgencyDirectoryPage = lazy(() => import("@/features/pointfocal/pages/AgencyDirectoryPage"))
+const MessagingPage = lazy(() => import("@/features/messaging/pages/MessagingPage"))
 
 // Co-Rédaction pages
 const AdminCoRedactionPage = lazy(() => import("@/features/co-redaction/pages/AdminCoRedactionPage"))
@@ -598,6 +599,7 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/profile", component: ProfilePage },
     { path: "/profile/preferences", component: ProfilePreferencesPage },
     { path: "/profile/security", component: ProfileSecurityPage },
+    { path: "/admin/messaging", component: MessagingPage },
     {
         path: "/point-focal/account",
         component: AccountPage,

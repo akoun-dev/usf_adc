@@ -39,6 +39,7 @@ import {
     Archive,
     FileText,
     Clock,
+    RefreshCw,
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { EnhancedNewsArticle, NewsStatus } from "@/features/admin/types"
@@ -58,16 +59,18 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 export function NewsTab() {
     const { t, i18n } = useTranslation()
-    const { data: news, isLoading } = useEnhancedNews()
+    const { data: news, isLoading, refetch } = useEnhancedNews()
     const deleteNews = useDeleteNews()
     const updateNewsStatus = useUpdateNewsStatus()
     const navigate = useNavigate()
 
     const [searchTerm, setSearchTerm] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 15
+    const [itemsPerPage, setItemsPerPage] = useState(15)
 
     const handleDelete = async (id: string) => {
         if (
@@ -186,7 +189,7 @@ export function NewsTab() {
     const paginatedNews = useMemo(() => {
         const startIndex = (currentPage - 1) * itemsPerPage
         return filteredNews.slice(startIndex, startIndex + itemsPerPage)
-    }, [filteredNews, currentPage])
+    }, [filteredNews, currentPage, itemsPerPage])
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
@@ -195,49 +198,66 @@ export function NewsTab() {
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-between">
+        <Card className="border-none shadow-none bg-transparent animate-fade-in">
+            <CardHeader className="px-0 pt-0 pb-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <CardTitle>
-                            {t(
-                                "admin.newsManagement",
-                                "Gestion des actualités"
-                            )}
+                        <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                            <FileText className="h-6 w-6 text-primary" />
+                            {t("admin.newsManagement", "Gestion des actualités")}
                         </CardTitle>
                         <CardDescription>
-                            {t(
-                                "admin.newsManagementDesc",
-                                "Créer et gérer les actualités de la plateforme"
-                            )}
+                            {t("admin.newsManagementDesc", "Gérer les articles et actualités de la plateforme")}
                         </CardDescription>
                     </div>
-                    <Button onClick={() => navigate("/admin/news/create")}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        {t("admin.createArticle", "Créer un article")}
-                    </Button>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => refetch()}
+                        >
+                            <RefreshCw className="h-4 w-4 mr-2" />
+                            {t("common.refresh", "Actualiser")}
+                        </Button>
+                        <Button size="sm" onClick={() => navigate("/admin/news/create")}>
+                            <Plus className="h-4 w-4 mr-2" />
+                            {t("admin.createArticle", "Créer un article")}
+                        </Button>
+                    </div>
                 </div>
-                <div className="mt-4 flex items-center gap-2">
-                    <div className="relative w-full max-w-sm">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+
+                <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                             placeholder={t("admin.searchNews", "Rechercher une actualité...")}
-                            className="pl-8"
                             value={searchTerm}
                             onChange={(e) => {
                                 setSearchTerm(e.target.value)
                                 setCurrentPage(1)
                             }}
+                            className="pl-10 bg-white"
                         />
                     </div>
                     {searchTerm && (
-                        <div className="text-sm text-muted-foreground">
-                            {filteredNews.length} {t("admin.resultsFound", "résultats trouvés")}
-                        </div>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setSearchTerm("")}
+                        >
+                            {t("common.reset", "Réinitialiser")}
+                        </Button>
                     )}
                 </div>
+
+                {(searchTerm || (news && filteredNews.length !== news.length)) && (
+                    <div className="mt-2 text-sm text-muted-foreground">
+                        {t("common.showing", "Affichage de")} {filteredNews.length} {t("nav.news").toLowerCase()} {t("common.of", "sur")} {news?.length || 0}
+                    </div>
+                )}
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-0">
+                <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -412,10 +432,39 @@ export function NewsTab() {
                         )}
                     </TableBody>
                 </Table>
+                </div>
 
+                {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="mt-4">
-                        <Pagination>
+                    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-6">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                                <span className="whitespace-nowrap">{t("admin.rowsPerPage", "Lignes par page")}:</span>
+                                <Select
+                                    value={itemsPerPage.toString()}
+                                    onValueChange={v => {
+                                        setItemsPerPage(parseInt(v))
+                                        setCurrentPage(1)
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[70px]">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="5">5</SelectItem>
+                                        <SelectItem value="10">10</SelectItem>
+                                        <SelectItem value="15">15</SelectItem>
+                                        <SelectItem value="20">20</SelectItem>
+                                        <SelectItem value="50">50</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <span className="whitespace-nowrap">
+                                {Math.min((currentPage - 1) * itemsPerPage + 1, filteredNews.length)}-
+                                {Math.min(currentPage * itemsPerPage, filteredNews.length)} {t("admin.of", "sur")} {filteredNews.length}
+                            </span>
+                        </div>
+                        <Pagination className="w-auto m-0">
                             <PaginationContent>
                                 <PaginationItem>
                                     <PaginationPrevious 

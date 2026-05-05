@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDocuments, useCreateDocument, useUpdateDocument, useDeleteDocument, useSearchDocuments, useDocumentTags, useDocumentVersions, useRestoreDocumentVersion } from '../hooks/useContentManagement';
@@ -14,9 +14,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Pencil, Trash2, Plus, FileText, Upload, Search, Tag, X, Filter, Download, Eye, History, RotateCcw, File } from 'lucide-react';
+import { Pencil, Trash2, Plus, FileText, Upload, Search, X, Filter, Download, Eye, History, RotateCcw, File, RefreshCw, ChevronUp, ChevronDown } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as adminService from '../services/admin-service';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/ui/pagination';
 
 interface DocumentFormData {
   title: string;
@@ -30,22 +40,6 @@ interface DocumentFormData {
   mime_type?: string;
   is_public: boolean;
   tags: string[];
-}
-
-interface DocumentWithTags {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  file_name: string;
-  file_path: string;
-  file_size: number;
-  mime_type: string;
-  is_public: boolean;
-  created_at: string;
-  tags: string[];
-  upload_progress?: number;
-  is_uploading?: boolean;
 }
 
 const DOCUMENT_CATEGORIES = [
@@ -65,11 +59,10 @@ const DOCUMENT_CATEGORIES = [
 export function DocumentsTab() {
   const { t } = useTranslation();
   const { data: documents, isLoading } = useDocuments();
-  const { data: searchResults, isLoading: isSearching, mutate: executeSearch } = useSearchDocuments();
+  const { data: searchResults, isPending: isSearching, mutate: executeSearch } = useSearchDocuments();
   const createDocument = useCreateDocument();
   const updateDocument = useUpdateDocument();
   const deleteDocument = useDeleteDocument();
-  const { data: allTags } = useDocumentTags();
   const restoreVersion = useRestoreDocumentVersion();
   
   const [isOpen, setIsOpen] = useState(false);
@@ -84,8 +77,10 @@ export function DocumentsTab() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
   
-  const { register, handleSubmit, reset, setValue, watch, control } = useForm<DocumentFormData>();
+  const { register, handleSubmit, reset, setValue, watch } = useForm<DocumentFormData>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
@@ -94,7 +89,7 @@ export function DocumentsTab() {
       if (editingId) {
         await updateDocument.mutateAsync({ id: editingId, ...data });
       } else {
-        await createDocument.mutateAsync(data);
+        await createDocument.mutateAsync(data as any);
       }
       reset();
       setEditingId(null);
@@ -103,14 +98,12 @@ export function DocumentsTab() {
       setUploadProgress(0);
     } catch (error) {
       console.error('Error saving document:', error);
-      // Add user feedback here
     }
   };
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      // Validate file type
       const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
                           'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                           'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
@@ -120,7 +113,6 @@ export function DocumentsTab() {
         return;
       }
       
-      // Validate file size (10MB max)
       if (selectedFile.size > 10 * 1024 * 1024) {
         alert(t('admin.fileTooLarge', 'Le fichier est trop volumineux. Maximum 10 Mo.'));
         return;
@@ -141,10 +133,6 @@ export function DocumentsTab() {
     setUploadProgress(0);
     
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      // Simulate upload progress
       const interval = setInterval(() => {
         setUploadProgress(prev => {
           if (prev >= 90) {
@@ -155,13 +143,12 @@ export function DocumentsTab() {
         });
       }, 300);
       
-      // Call actual upload function
       const result = await adminService.uploadDocumentFile(file);
       
       setUploadProgress(100);
       clearInterval(interval);
       
-      setValue('file_path', result.path);
+      setValue('file_path', result.filePath);
       setValue('file_url', result.url);
       
       return result;
@@ -188,28 +175,29 @@ export function DocumentsTab() {
     });
   }, [searchTerm, selectedCategories, selectedTags, executeSearch]);
   
-  // Auto-search when search term changes
   useEffect(() => {
-    if (searchTerm.length > 2) { // Only search if at least 3 characters
+    if (searchTerm.length > 2) {
       const timer = setTimeout(() => {
         handleSearch();
       }, 500);
       return () => clearTimeout(timer);
     } else if (searchTerm.length === 0) {
-      // Clear search results when search term is empty
       queryClient.setQueryData(['search-results'], []);
     }
+    setCurrentPage(1);
   }, [searchTerm, handleSearch, queryClient]);
+
+  const activeDocuments = (searchResults?.documents?.length > 0 ? searchResults.documents : documents) || [];
+  const totalPages = Math.ceil(activeDocuments.length / itemsPerPage);
+  const paginatedDocuments = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return activeDocuments.slice(startIndex, startIndex + itemsPerPage);
+  }, [activeDocuments, currentPage, itemsPerPage]);
   
   const handleCategoryFilter = (category: string) => {
     setSelectedCategories(prev => 
       prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]
     );
-  };
-  
-  const handleTagFilter = (tagsString: string) => {
-    const tagsArray = tagsString.split(',').map(t => t.trim()).filter(t => t.length > 0);
-    setSelectedTags(tagsArray);
   };
 
   const handleEdit = (item: any) => {
@@ -243,16 +231,41 @@ export function DocumentsTab() {
     }
   };
 
+  // Remove html scroll when on this page
+  useEffect(() => {
+    document.documentElement.classList.add('no-scroll-root')
+    document.body.classList.add('no-scroll-root')
+    
+    return () => {
+      document.documentElement.classList.remove('no-scroll-root')
+      document.body.classList.remove('no-scroll-root')
+    };
+  }, []);
+
   return (
     <>
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
+    <Card className="border-none shadow-none bg-transparent animate-fade-in">
+      <CardHeader className="px-0 pt-0 pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <CardTitle>{t('admin.documentsManagement', 'Gestion des documents')}</CardTitle>
-            <CardDescription>{t('admin.documentsManagementDesc', 'Gérer la bibliothèque de documents')}</CardDescription>
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              <FileText className="h-6 w-6 text-primary" />
+              {t('admin.documentsManagement', 'Gestion des documents')}
+            </CardTitle>
+            <CardDescription>
+              {t('admin.documentsManagementDesc', 'Gérer la bibliothèque de documents de la plateforme')}
+            </CardDescription>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => queryClient.invalidateQueries({ queryKey: ['admin-documents'] })}
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {t('common.refresh', 'Actualiser')}
+            </Button>
+            
             <Dialog open={isAdvancedSearchOpen} onOpenChange={setIsAdvancedSearchOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
@@ -313,7 +326,7 @@ export function DocumentsTab() {
             
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
-                <Button onClick={() => { reset(); setEditingId(null); setFile(null); setUploadProgress(0); }}>
+                <Button size="sm" onClick={() => { reset(); setEditingId(null); setFile(null); setUploadProgress(0); }}>
                   <Plus className="mr-2 h-4 w-4" />
                   {t('common.add', 'Ajouter')}
                 </Button>
@@ -434,97 +447,203 @@ export function DocumentsTab() {
             </Dialog>
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-4">
-          <div className="relative">
+
+        <div className="mt-6 flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <div className="flex gap-2">
-              <Input
-                placeholder={t('admin.searchDocuments', 'Rechercher des documents...')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-                className="pl-9"
-              />
-              <Button onClick={handleSearch} size="sm">
-                <Search className="h-4 w-4" />
-              </Button>
-            </div>
+            <Input
+              placeholder={t('admin.searchDocuments', 'Rechercher un document...')}
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="pl-10 bg-white"
+            />
           </div>
+          {searchTerm && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("");
+                setCurrentPage(1);
+              }}
+            >
+              {t('common.reset', 'Réinitialiser')}
+            </Button>
+          )}
         </div>
-        
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('document.title', 'Titre')}</TableHead>
-              <TableHead>{t('document.category', 'Catégorie')}</TableHead>
-              <TableHead>{t('document.tags', 'Tags')}</TableHead>
-              <TableHead>{t('document.createdAt', 'Créé le')}</TableHead>
-              <TableHead className="text-right">{t('common.actions', 'Actions')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isLoading || isSearching ? (
-              <TableRow><TableCell colSpan={5}>{t('common.loading', 'Chargement...')}</TableCell></TableRow>
-            ) : (searchResults?.length > 0 ? searchResults : documents)?.length === 0 ? (
-              <TableRow><TableCell colSpan={5}>{t('admin.noDocuments', 'Aucun document')}</TableCell></TableRow>
-            ) : (
-              (searchResults?.length > 0 ? searchResults : documents)?.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <FileText className="h-4 w-4 text-muted-foreground" />
-                      {item.title}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {DOCUMENT_CATEGORIES.find(c => c.value === item.category)?.label || item.category || '-'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {item.tags?.map((tag: string) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell>{item.created_at ? new Date(item.created_at).toLocaleDateString('fr-FR') : '-'}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-1">
-                      <Button size="icon" variant="ghost" onClick={() => handleViewVersions(item.id)} title={t('document.versions', 'Versions')}>
-                        <History className="h-4 w-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost" onClick={() => handleEdit(item)}>
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost" onClick={() => handleDelete(item.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost">
-                        <Download className="h-4 w-4" />
-                      </Button>
-                      <Button size="icon" variant="ghost">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </div>
+
+        {(searchTerm || selectedCategories.length > 0 || selectedTags.length > 0) && (
+          <div className="mt-2 text-sm text-muted-foreground">
+            {t('common.showing', 'Affichage de')} {activeDocuments.length} {t('nav.adminDocuments', 'documents')} {t('common.of', 'sur')} {documents?.length || 0}
+          </div>
+        )}
+      </CardHeader>
+
+      <CardContent className="px-0">
+        <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-slate-50/50">
+                <TableHead>{t('document.title', 'Titre')}</TableHead>
+                <TableHead>{t('document.category', 'Catégorie')}</TableHead>
+                <TableHead>{t('document.tags', 'Tags')}</TableHead>
+                <TableHead>{t('document.createdAt', 'Créé le')}</TableHead>
+                <TableHead className="text-right">{t('common.actions', 'Actions')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading || isSearching ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell><Skeleton className="h-10 w-full" /></TableCell>
+                    <TableCell><Skeleton className="h-10 w-full" /></TableCell>
+                    <TableCell><Skeleton className="h-10 w-full" /></TableCell>
+                    <TableCell><Skeleton className="h-10 w-full" /></TableCell>
+                    <TableCell><Skeleton className="h-10 w-full" /></TableCell>
+                  </TableRow>
+                ))
+              ) : activeDocuments.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                    {t('admin.noDocuments', 'Aucun document')}
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ) : (
+                paginatedDocuments.map((item) => (
+                  <TableRow key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                    <TableCell className="font-bold text-sm">
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-primary" />
+                        {item.title}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary" className="font-bold text-[10px]">
+                        {DOCUMENT_CATEGORIES.find(c => c.value === item.category)?.label || item.category || '-'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {item.tags?.map((tag: string) => (
+                          <Badge key={tag} variant="outline" className="text-[10px] font-bold">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-xs text-muted-foreground font-medium">
+                      {item.created_at ? new Date(item.created_at).toLocaleDateString('fr-FR') : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-1">
+                        <Button size="icon" variant="ghost" onClick={() => handleViewVersions(item.id)} title={t('document.versions', 'Versions')} className="h-8 w-8">
+                          <History className="h-4 w-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" onClick={() => handleEdit(item)} className="h-8 w-8">
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" onClick={() => handleDelete(item.id)} className="h-8 w-8">
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="h-8 w-8">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        <Button size="icon" variant="ghost" className="h-8 w-8">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {totalPages > 1 && (
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-6">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <span className="whitespace-nowrap">{t("admin.rowsPerPage", "Lignes par page")}:</span>
+                <Select
+                  value={itemsPerPage.toString()}
+                  onValueChange={v => {
+                    setItemsPerPage(parseInt(v))
+                    setCurrentPage(1)
+                  }}
+                >
+                  <SelectTrigger className="w-[70px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <span className="whitespace-nowrap">
+                {Math.min((currentPage - 1) * itemsPerPage + 1, activeDocuments.length)}-
+                {Math.min(currentPage * itemsPerPage, activeDocuments.length)} {t('admin.of', 'sur')} {activeDocuments.length}
+              </span>
+            </div>
+            <Pagination className="w-auto m-0">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+                
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const pageNum = i + 1;
+                  if (
+                    pageNum === 1 ||
+                    pageNum === totalPages ||
+                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                  ) {
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          isActive={currentPage === pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className="cursor-pointer"
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  } else if (
+                    pageNum === currentPage - 2 ||
+                    pageNum === currentPage + 2
+                  ) {
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    );
+                  }
+                  return null;
+                })}
+
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </CardContent>
     </Card>
 
-    {/* Versions History Dialog */}
     <Dialog open={isVersionsOpen} onOpenChange={setIsVersionsOpen}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>

@@ -1785,6 +1785,7 @@
       "badge": "About",
       "title": "USF-ADCA Platform",
       "description": "The reference platform for monitoring, collecting, and managing the Universal Service Fund across the African continent.",
+      "mission": "The African Telecommunications Union (ATU) mission is to accelerate the development of telecommunications/ICTs in Africa in order to achieve digital inclusion and socio-economic development.",
       "viewMap": "View map",
       "join": "Join",
       "whatIs": {
@@ -1815,34 +1816,40 @@
       "leadership": {
         "title": "Leadership Structure",
         "description": "The leadership team of the African Telecommunications Union",
+        "viewProfile": "View Profile",
         "secretaryGeneral": {
           "title": "Secretary General",
           "name": "Mr. John Omo",
           "since": "In office since January 2019",
-          "description": "Legal professional with 33 years of experience, he leads the continental body responsible for developing ICT policies and services in Africa and coordinating African participation in international forums."
+          "description": "Mr. John OMO is the Secretary-General of the African Telecommunications Union (ATU), the African Union’s specialized agency for telecommunications and ICTs’ development in Africa. He has held the position since January 2019. He leads the continental body entrusted with building consensus within African countries in the development of ICT policies, systems and services, and also in coordinating African participation in international ICT fora.\n\nMr. Omo has 33 years of experience as a lawyer and has contributed immensely to the development of local and international policies, legislation, agreements and treaties in all areas of public service life but mainly in the ICT area. Mr. Omo is a recipient of the Telecom Review Global Merit Leader Award in 2022 and the Merit Leader of the Year Award in 2025, both presented at the 2022 and 2025 editions of the Telecom Review Leaders’ Summit in Dubai, UAE."
         },
         "directors": {
           "title": "Directors",
           "mwale": {
             "name": "Eng. Kezias Kazuba Mwale",
             "role": "Director - Radiocommunications (Spectrum)",
-            "description": "In office since 2012. Spectrum management expert, he contributed to the allocation of 2477 MHz for broadband and the recovery of satellite orbital resources for 31 African countries."
+            "description": "He is the Director for Spectrum at the African Telecommunications Union (ATU) since 2012. He is recognized for his significant contribution to the remarkable transformation of the institution in all its critical aspects: membership by 13 member countries, over 30 major companies as associate members, tripling of the annual budget and more importantly, delivery of high value-added services to members.\n\nHis achievements include: (1) Securing 2477 MHz of spectrum for broadband; (2) Recovery of satellite orbital resources for 31 African countries; (3) Protection of common heritage resources worth billions of dollars; (4) Addition of 18,326 new FM broadcasting channels; and (5) Positioning our region as an equal player in global diplomacy on key digital resources.\n\nHe holds three relevant degrees: Bachelor in Telecoms, Master in Broadband and an MBA."
           },
           "slimani": {
             "name": "Ms. Meriem Slimani",
             "role": "Director - Development",
-            "description": "Joined ATU in 2015. Engineer from the National Polytechnic School of Algiers, she led e-government projects in Algeria before focusing on ATU's development mandate."
+            "description": "Ms. Meriem Slimani is the Director for Development at the African Telecommunications Union (ATU). She joined the Union in 2015 as Director for Standardization and Development, and since the separation of the two portfolios in 2024, she has focused on leading the development mandate of the ATU. She brings over fifteen years of experience in the development and management of IP broadband networks and Internet services.\n\nPrior to joining the ATU, she worked at Algérie Télécom and later at the Algerian Ministry of Post and ICT, where she led major e-government projects including the modernization of retail payment instruments, the establishment of the digital commercial register and the development of institutional portals. Ms. Slimani holds engineering and post-graduate degrees from the École Nationale Polytechnique of Algiers."
           },
           "boateng": {
             "name": "Mr. Isaac Boateng",
             "role": "Director - Standardization",
-            "description": "Over 23 years of experience in ICT. Former Ghana Communications Authority official, ITU expert since 2008, he oversees standardization initiatives and represents Africa in international technical forums."
+            "description": "Mr. Isaac Boateng is the Director and Head of Standardization at the African Telecommunications Union (ATU), with over twenty-three (23) years of professional experience. He oversees the development and implementation of sector-specific initiatives, projects and programs, and provides technical support to ATU members in their preparations for world and regional conferences.\n\nBefore joining the ATU, Mr. Boateng was a Deputy Director responsible for Technical Regulations at the National Communications Authority of Ghana. An ITU standardization expert since 2008, he served as Chairman of the ITU-T Regional Group for Africa. Mr. Boateng holds an M.Sc. in Electronic and Computer Engineering from Brunel University (UK) and was a lecturer at the Ghana Institute of Management and Public Administration (GIMPA)."
           },
           "ballo": {
             "name": "Mr. Djibrilla Ballo",
             "role": "Director - Finance and Administration",
-            "description": "In office since August 2012. Chartered accountant with multiple masters in finance and economics, he oversees the Union's financial management, strategic planning, and internal control."
+            "description": "He is the Director for Finance and Administration at the African Telecommunications Union (ATU) since August 2012. He oversees the Union’s financial management including strategic planning, annual budgeting, auditing of accounts and coordination of the ATU Administrative Council.\n\nMr. Ballo has significantly contributed to the financial stability, transparency and accountability in the management of the Union’s resources. Prior to joining the ATU, he worked at the Ministry of Posts and Telecommunications of Cameroon as Deputy Head of Finance and Administration for the Central African Backbone program.\n\nMr. Ballo holds Masters degrees in Finance and Economics specializing in Monetary and Banking Policies, and a Certified Public Accountant diploma. He represents the ATU in regional and international processes including with the ITU and African Union."
           }
+        },
+        "historyCTA": {
+          "title": "Discover our journey",
+          "description": "Explore the key moments that have shaped the African Telecommunications Union since its creation.",
+          "button": "View our history"
         }
       },
       "partners": {
@@ -2903,6 +2910,13 @@
       "joinCommunityDesc": "Sign up for our newsletter to stay updated on our activities.",
       "viewNews": "View news",
       "calendar": "Calendar"
+    },
+    "ad": {
+      "badge": "Pan-African Innovation",
+      "title": "Accelerate Digital Transformation in Your Region",
+      "description": "Join the USF-ADCA initiative and benefit from cutting-edge steering tools to maximize the impact of your universal service funds.",
+      "ctaPrimary": "Become a Partner",
+      "ctaSecondary": "Learn More"
     },
     "featuresSection": {
       "badge": "Features",

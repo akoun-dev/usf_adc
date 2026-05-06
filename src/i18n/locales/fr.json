@@ -1709,6 +1709,7 @@
       "badge": "À propos",
       "title": "Plateforme USF-ADCA",
       "description": "La plateforme de référence pour le suivi, la collecte et le pilotage du Fonds de Service Universel à travers le continent africain.",
+      "mission": "L'Union Africaine des Télécommunications (UAT) a pour mission d'accélérer le développement des télécommunications/TIC en Afrique afin de parvenir à l'inclusion numérique et au développement socio-économique du continent.",
       "viewMap": "Voir la carte",
       "join": "Rejoindre",
       "whatIs": {
@@ -1739,34 +1740,40 @@
       "leadership": {
         "title": "Structure de Direction",
         "description": "L'équipe dirigeante de l'Union Africaine des Télécommunications",
+        "viewProfile": "Voir le profil",
         "secretaryGeneral": {
           "title": "Secrétaire Général",
           "name": "M. John Omo",
           "since": "En poste depuis janvier 2019",
-          "description": "Juriste avec 33 ans d'expérience, il dirige l'organe continental chargé de développer les politiques et services TIC en Afrique et de coordonner la participation africaine aux instances internationales."
+          "description": "M. John OMO est le secrétaire général de l'Union africaine des télécommunications (UAT), l'institution spécialisée de l'Union africaine pour le développement des télécommunications et des TIC en Afrique. Il occupe ce poste depuis janvier 2019. Il dirige l'organe continental chargé de créer un consensus au sein des pays africains dans le développement des politiques, systèmes et services de TIC, et de coordonner la participation africaine aux instances internationales des TIC.\n\nM. Omo a 33 ans d'expérience en tant qu'avocat et a contribué énormément au développement des politiques, législations, accords et traités locaux et internationaux dans tous les domaines du service public, mais principalement dans le domaine des TIC. M. Omo a reçu le Telecom Review Global Merit Leader Award en 2022 et le Merit Leader of the Year Award en 2025, tous deux décernés lors des éditions 2022 et 2025 du Telecom Review Leaders' Summit à Dubaï, aux Émirats Arabes Unis."
         },
         "directors": {
           "title": "Directeurs",
           "mwale": {
             "name": "Eng. Kezias Kazuba Mwale",
-            "role": "Directeur - Radiocommunications (Spectre)",
-            "description": "En poste depuis 2012. Expert en gestion du spectre, he a contribué à l'attribution de 2477 MHz pour le haut débit et à la récupération de ressources orbitales satellitaires pour 31 pays africains."
+            "role": "Directeur des Radiocommunications (Spectre)",
+            "description": "Directeur des Radiocommunications (Spectre) à l'UAT depuis 2012. Il est reconnu pour sa contribution significative à la transformation remarquable de l'institution dans tous ses aspects cruciaux : adhésion de 13 pays membres, plus de 30 entreprises majeures en tant que membres associés, triplement du budget annuel et, plus important encore, prestation de services à haute valeur ajoutée aux membres.\n\nSes réalisations incluent : (1) La sécurisation de 2477 MHz de spectre pour le haut débit ; (2) La récupération de ressources orbitales satellitaires pour 31 pays africains ; (3) La protection des ressources du patrimoine commun valant des milliards de dollars ; (4) L'ajout de 18 326 nouvelles chaînes de radiodiffusion FM ; et (5) Le positionnement de notre région comme un acteur égal dans la diplomatie mondiale sur les ressources numériques clés.\n\nIl détient trois diplômes universitaires pertinents : Bachelor en Télécoms, Master en Broadband et un MBA."
           },
           "slimani": {
             "name": "Mme. Meriem Slimani",
-            "role": "Directrice - Développement",
-            "description": "Rejoint l'UAT en 2015. Ingénieure de l'École Nationale Polytechnique d'Alger, elle a piloté des projets d'e-gouvernement en Algérie avant de se concentrer sur le mandat de développement de l'UAT."
+            "role": "Directrice du Développement",
+            "description": "Mme. Meriem Slimani est la directrice du développement à l'Union africaine des télécommunications (UAT). Elle a rejoint l'Union en 2015 en tant que directrice de la normalisation et du développement, et depuis la séparation des deux portefeuilles en 2024, elle se concentre sur la direction du mandat de développement de l'UAT. Elle apporte plus de quinze ans d'expérience dans le développement et la gestion de réseaux IP à large bande et de services Internet.\n\nAvant de rejoindre l'UAT, she a travaillé chez Algérie Télécom et plus tard au ministère algérien de la Poste et des TIC, où elle a dirigé des projets majeurs d'e-gouvernement, notamment la modernisation des instruments de paiement de détail, l'établissement du registre du commerce numérique et le développement de portails institutionnels. Mme. Slimani détient des diplômes d'ingénieur et de troisième cycle de l'École Nationale Polytechnique d'Alger."
           },
           "boateng": {
             "name": "M. Isaac Boateng",
-            "role": "Directeur - Normalisation",
-            "description": "Plus de 23 ans d'expérience en TIC. Ancien de l'Autorité ghanéenne des communications, expert à l'UIT depuis 2008, il supervise les initiatives de normalisation et représente l'Afrique dans les instances techniques internationales."
+            "role": "Directeur de la Normalisation",
+            "description": "M. Isaac Boateng est le directeur et chef de la normalisation à l'Union africaine des télécommunications (UAT), avec plus de vingt-trois (23) ans d'expérience professionnelle. Il supervise le développement et la mise en œuvre d'initiatives, de projets et de programmes sectoriels, et fournit un soutien technique aux membres de l'UAT dans leurs préparatifs pour les conférences mondiales et régionales.\n\nAvant de rejoindre l'UAT, M. Boateng a été directeur adjoint chargé de la réglementation technique à la National Communications Authority du Ghana. Expert en normalisation de l'UIT depuis 2008, il a présidé le groupe régional de l'UIT-T pour l'Afrique. M. Boateng détient un M.Sc. en génie électronique et informatique de l'Université Brunel (Royaume-Uni) et a été maître de conférences à l'Institut ghanéen de gestion et d'administration publique (GIMPA)."
           },
           "ballo": {
             "name": "M. Djibrilla Ballo",
-            "role": "Directeur - Finances et Administration",
-            "description": "En poste depuis août 2012. Comptable agréé avec plusieurs masters en finance et économie, il supervise la gestion financière, la planification stratégique et le contrôle interne de l'Union."
+            "role": "Directeur des Finances et de l'Administration",
+            "description": "Directeur des Finances et de l'Administration à l'UAT depuis août 2012. Il supervise la gestion financière de l'Union, y compris la planification stratégique, la budgétisation annuelle, l'audit des comptes et la coordination du Conseil d'administration de l'UAT.\n\nM. Ballo a contribué de manière significative à la stabilité financière, à la transparence et à la responsabilité dans la gestion des ressources de l'Union. Avant de rejoindre l'UAT, il a travaillé au ministère des Postes et Télécommunications du Cameroun en tant que chef adjoint des finances et de l'administration pour le programme Central African Backbone.\n\nM. Ballo détient des Masters en Finance et en Économie, spécialisés dans les politiques monétaires et bancaires, ainsi qu'un diplôme de comptable agréé. Il représente l'UAT dans les processus régionaux et internationaux, notamment auprès de l'UIT et de l'Union africaine."
           }
+        },
+        "historyCTA": {
+          "title": "Découvrez notre parcours",
+          "description": "Explorez les moments clés qui ont façonné l'Union Africaine des Télécommunications depuis sa création.",
+          "button": "Voir notre histoire"
         }
       },
       "partners": {
@@ -2847,6 +2854,13 @@
       "joinCommunityDesc": "Inscrivez-vous à notre newsletter pour ne rien manquer de nos activités.",
       "viewNews": "Voir les actus",
       "calendar": "Calendrier"
+    },
+    "ad": {
+      "badge": "Innovation Panafricaine",
+      "title": "Accélérez la Transformation Numérique de Votre Région",
+      "description": "Rejoignez l'initiative USF-ADCA et bénéficiez d'outils de pilotage de pointe pour maximiser l'impact de vos fonds de service universel.",
+      "ctaPrimary": "Devenir Partenaire",
+      "ctaSecondary": "En savoir plus"
     },
     "featuresSection": {
       "badge": "Fonctionnalités",

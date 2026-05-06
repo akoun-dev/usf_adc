@@ -86,7 +86,7 @@ export function PublicFooter({ variant = "default" }: PublicFooterProps) {
             <div className="w-full py-10 sm:py-12 px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 xs:px-4 py-10">
                 <div className="grid gap-8 sm:grid-cols-2 xs:grid-cols-1 lg:grid-cols-5">
                     {/* Brand */}
-                    <div className="sm:col-span-2 lg:col-span-2">
+                    <div className="sm:col-span-2 lg:col-span-">
                         <Link to="/" className="flex items-center gap-3 mb-4">
                             <img
                                 src={atuLogoWhite}

@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
     Users,
@@ -21,6 +21,8 @@ import { AboutSection } from "@/features/public/components/AboutSection"
 import { NewsEventsSection } from "@/features/public/components/NewsEventsSection"
 import { FeaturesSection } from "@/features/public/components/FeaturesSection"
 import { HomeSlideshowSection } from "@/features/public/components/HomeSlideshowSection"
+import { AdSection } from "@/features/public/components/AdSection"
+import { CommunityCta } from "@/features/public/components/CommunityCta"
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -247,6 +249,8 @@ const Index = () => (
             </div>
         </div>
         <NewsEventsSection />
+        <AdSection />
+        <CommunityCta />
         <FeaturesSection />
         <PartnersLogoScroller />
         <PublicFooter />

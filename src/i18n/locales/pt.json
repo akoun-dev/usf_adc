@@ -1781,6 +1781,7 @@
       "badge": "Sobre",
       "title": "Plataforma USF-ADCA",
       "description": "A plataforma de referência para o monitoramento, recolha e pilotagem do Fundo de Serviço Universal em todo o continente africano.",
+      "mission": "A missão da União Africana de Telecomunicações (UAT) é acelerar o desenvolvimento das telecomunicações/TIC em África, de modo a alcançar a inclusão digital e o desenvolvimento socioeconómico.",
       "viewMap": "Ver mapa",
       "join": "Juntar-se",
       "whatIs": {
@@ -1811,34 +1812,40 @@
       "leadership": {
         "title": "Estrutura de Direção",
         "description": "A equipa de liderança da União Africana das Telecomunicações",
+        "viewProfile": "Ver perfil",
         "secretaryGeneral": {
           "title": "Secretário Geral",
           "name": "Sr. John Omo",
           "since": "No cargo desde janeiro de 2019",
-          "description": "Jurista com 33 anos de experiência, ele dirige o órgão continental responsável pelo desenvolvimento de políticas e serviços TIC em África e pela coordenação da participação africana nos fóruns internacionais."
+          "description": "O Sr. John OMO é o Secretário-Geral da União Africana de Telecomunicações (UAT), a agência especializada da União Africana para o desenvolvimento das telecomunicações e TIC em África. Ocupa o cargo desde Janeiro de 2019. Lidera o organismo continental encarregado de criar consenso entre os países africanos no desenvolvimento de políticas, sistemas e serviços de TIC, e também na coordenação da participação africana em fóruns internacionais de TIC.\n\nO Sr. Omo tem 33 anos de experiência como advogado e contribuiu imensamente para o desenvolvimento de políticas, legislação, acordos e tratados locais e internacionais em todas as áreas da vida do serviço público, mas principalmente na área das TIC. Recebeu o Prémio Telecom Review Global Merit Leader em 2022 e o Prémio Merit Leader of the Year em 2025."
         },
         "directors": {
           "title": "Diretores",
           "mwale": {
             "name": "Eng. Kezias Kazuba Mwale",
             "role": "Diretor - Radiocomunicações (Espetro)",
-            "description": "No cargo desde 2012. Especialista em gestão do espetro, contribuiu para a atribuição de 2477 MHz para banda larga e recuperação de recursos orbitais satelitais para 31 países africanos."
+            "description": "É o Diretor de Espectro da União Africana de Telecomunicações (UAT) desde 2012. É reconhecido pela sua contribuição significativa para a transformação da instituição em todos os seus aspectos cruciais: adesão de 13 países membros, mais de 30 empresas membros associados, triplicação do orçamento anual. As suas realizações incluem a garantia de 2477 MHz de espetro para banda larga e a recuperação de recursos orbitais de satélite para 31 países africanos. Possui três licenciaturas relevantes (Telecomunicações, Banda Larga e MBA) e vasta experiência em diplomacia."
           },
           "slimani": {
             "name": "Sra. Meriem Slimani",
             "role": "Diretora - Desenvolvimento",
-            "description": "Juntou-se à UAT en 2015. Engenheira da Escola Nacional Politécnica de Argel, liderou projetos de e-governo na Argélia antes de se concentrar no mandato de desenvolvimento da UAT."
+            "description": "A Sra. Meriem Slimani é a Diretora de Desenvolvimento da União Africana de Telecomunicações (UAT). Juntou-se à União em 2015 como Diretora de Normalização e Desenvolvimento. Desde 2024, concentra-se no mandato de desenvolvimento. Antes da UAT, trabalhou na Algérie Télécom e no Ministério argelino dos Correios e TIC, onde liderou grandes projetos de e-governo e digitalização. É engenheira da École Nationale Polytechnique de Argel."
           },
           "boateng": {
             "name": "Sr. Isaac Boateng",
             "role": "Diretor - Normalização",
-            "description": "Mais de 23 anos de experiência em TIC. Ex-autoridade de comunicação do Gana, especialista da UIT desde 2008, supervisiona as iniciativas de normalização e representa África nos fóruns técnicos internacionais."
+            "description": "O Sr. Isaac Boateng é o Diretor e Chefe de Normalização da União Africana de Telecomunicações (UAT), com mais de 23 anos de experiência profesional. Supervisiona iniciativas de normalização e fornece apoio técnico aos membros para conferências internacionais. Antigo Diretor Adjunto na Autoridade de Comunicações do Gana, é perito da UIT desde 2008. Possui um mestrado em Engenharia Eletrónica e Informática pela Universidade Brunel (Reino Unido)."
           },
           "ballo": {
             "name": "Sr. Djibrilla Ballo",
             "role": "Diretor - Finanças e Administração",
-            "description": "No cargo desde agosto de 2012. Contabilista certificado com vários mestrados em finanças e economia, supervisiona a gestão financeira, planeamento estratégico e controlo interno da União."
+            "description": "É o Diretor de Finanças e Administração da União Africana de Telecomunicações (UAT) desde Agosto de 2012. Supervisiona a gestão financeira, o orçamento anual e o planeamento estratégico. Contribuiu significativamente para a estabilidade financeira e transparência da União. Antes da UAT, trabalhou no Ministério dos Correios e Telecomunicações dos Camarões. Possui mestrados em Finanças e Economia e é revisor oficial de contas."
           }
+        },
+        "historyCTA": {
+          "title": "Descubra a nossa jornada",
+          "description": "Explore os momentos-chave que moldaram a União Africana das Telecomunicações desde a sua criação.",
+          "button": "Ver a nossa história"
         }
       },
       "partners": {
@@ -2765,6 +2772,13 @@
       "joinCommunityDesc": "Consulte as últimas notícias do Serviço Universal e não perca nenhum evento importante",
       "viewNews": "Ver Notícias",
       "calendar": "Calendário"
+    },
+    "ad": {
+      "badge": "Inovação Pan-Africana",
+      "title": "Acelere a Transformação Digital na Sua Região",
+      "description": "Junte-se à iniciativa USF-ADCA e beneficie de ferramentas de gestão de ponta para maximizar o impacto dos seus fundos de serviço universal.",
+      "ctaPrimary": "Torne-se um Parceiro",
+      "ctaSecondary": "Saiba Mais"
     },
     "about": {
       "badge": "Sobre a Plataforma",

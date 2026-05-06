@@ -411,40 +411,8 @@ export function NewsEventsSection() {
                     </div>
                 </div>
 
-                {/* CTA Enhanced */}
-                <div>
-                    <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 border-primary/20 overflow-hidden">
-                        <div className="absolute bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjAzIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-50" />
-                        <CardContent className="relative p-4 sm:p-6 lg:p-8 text-center">
-                            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/20">
-                                <Bell className="h-6 w-6 text-primary" />
-                            </div>
-                            <h3 className="text-3xl sm:text-lg lg:text-4xl font-bold mb-2">
-                                {t("index.newsEvents.joinCommunity")}
-                            </h3>
-                            <p className="text-md text-muted-foreground mb-6 max-w-md mx-auto">
-                                {t("index.newsEvents.joinCommunityDesc")}
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                <Button asChild>
-                                    <Link to="/actualites">
-                                        <Newspaper className="mr-2 h-4 w-4" />
-                                        {t("index.newsEvents.viewNews")}
-                                    </Link>
-                                </Button>
-                                <Button variant="outline" asChild>
-                                    <Link to="/calendrier">
-                                        <Calendar className="mr-2 h-4 w-4" />
-                                        {t("index.newsEvents.calendar")}
-                                    </Link>
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
                 </div>
             </div>
-</div>
-
         </section>
     )
 }

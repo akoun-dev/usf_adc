@@ -60,62 +60,64 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
     const statusInfo = STATUS_LABELS[project.status] || STATUS_LABELS['planned']
 
     return (
-        <Card className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-3 mb-4">
-                    <div className="flex flex-wrap gap-2 items-center">
-                        {project.country?.flag_url && (
-                            <img
-                                src={project.country.flag_url}
-                                alt={project.country.name_fr}
-                                className="h-5 w-auto mr-2"
-                            />
+        <Card className="hover:shadow-lg transition-shadow flex flex-col h-full">
+            <CardContent className="p-6 flex flex-col h-full">
+                <div className="flex-1">
+                    <div className="flex items-start justify-between gap-3 mb-4">
+                        <div className="flex flex-wrap gap-2 items-center">
+                            {project.country?.flag_url && (
+                                <img
+                                    src={project.country.flag_url}
+                                    alt={project.country.name_fr}
+                                    className="h-5 w-auto mr-2"
+                                />
+                            )}
+                            {project.country && (
+                                <Badge variant="outline">{project.country.name_fr}</Badge>
+                            )}
+                            {project.thematic && (
+                                <Badge variant="outline">{project.thematic}</Badge>
+                            )}
+                        </div>
+                        <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
+                    </div>
+
+                    <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                        {project.description}
+                    </p>
+
+                    <div className="grid gap-2 text-sm text-muted-foreground mb-5">
+                        <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            <span>Cloture le {formatDate(project.updated_at)}</span>
+                        </div>
+                        {project.budget && (
+                            <div className="flex items-center gap-2">
+                                <TrendingUp className="h-4 w-4" />
+                                <span>Budget : {project.budget.toLocaleString('fr-FR')} FCFA</span>
+                            </div>
                         )}
-                        {project.country && (
-                            <Badge variant="outline">{project.country.name_fr}</Badge>
+                        {project.beneficiaries && (
+                            <div className="flex items-center gap-2">
+                                <Users className="h-4 w-4" />
+                                <span>{project.beneficiaries} bénéficiaires</span>
+                            </div>
                         )}
-                        {project.thematic && (
-                            <Badge variant="outline">{project.thematic}</Badge>
+                        <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4" />
+                            <span>{project.region || project.country?.region || "N/A"}</span>
+                        </div>
+                        {project.operator && (
+                            <div className="flex items-center gap-2">
+                                <Globe className="h-4 w-4" />
+                                <span>Operateur : {project.operator}</span>
+                            </div>
                         )}
                     </div>
-                    <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
                 </div>
 
-                <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                    {project.description}
-                </p>
-
-                <div className="grid gap-2 text-sm text-muted-foreground mb-5">
-                    <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>Cloture le {formatDate(project.updated_at)}</span>
-                    </div>
-                    {project.budget && (
-                        <div className="flex items-center gap-2">
-                            <TrendingUp className="h-4 w-4" />
-                            <span>Budget : {project.budget.toLocaleString('fr-FR')} FCFA</span>
-                        </div>
-                    )}
-                    {project.beneficiaries && (
-                        <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4" />
-                            <span>{project.beneficiaries} bénéficiaires</span>
-                        </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        <span>{project.region || project.country?.region || "N/A"}</span>
-                    </div>
-                    {project.operator && (
-                        <div className="flex items-center gap-2">
-                            <Globe className="h-4 w-4" />
-                            <span>Operateur : {project.operator}</span>
-                        </div>
-                    )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 mt-auto pt-4">
                     <Button asChild size="sm" variant="outline" className="text-xs px-2">
                         <Link to="/carte-public">Sur la carte</Link>
                     </Button>

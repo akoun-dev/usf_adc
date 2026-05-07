@@ -20,6 +20,7 @@ interface RichTextEditorProps {
   placeholder?: string;
   uploadImage?: (file: File) => Promise<string>;
   minHeight?: string;
+  dir?: 'ltr' | 'rtl';
 }
 
 export function RichTextEditor({ 
@@ -27,7 +28,8 @@ export function RichTextEditor({
   onChange, 
   placeholder = 'Write something amazing...', 
   uploadImage,
-  minHeight = '400px'
+  minHeight = '400px',
+  dir = 'ltr'
 }: RichTextEditorProps) {
   const [imageUploading, setImageUploading] = useState(false);
   
@@ -40,6 +42,7 @@ export function RichTextEditor({
       Image.configure({
         allowBase64: true,
       }),
+      Link,
       Table.configure({
         resizable: true,
       }),
@@ -243,6 +246,7 @@ export function RichTextEditor({
       <EditorContent 
         editor={editor} 
         style={{ minHeight }}
+        dir={dir}
         className="editor-content p-4 focus:outline-none cursor-text prose prose-sm max-w-none [&_.ProseMirror]:min-h-[inherit]" 
       />
     </div>

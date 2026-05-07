@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
 import {
   MapPin, FileText, Newspaper, Users, ArrowRight, Calendar,
-  BookOpen, MessageSquare, Briefcase, TrendingUp, Shield, Globe, Clock,
+  BookOpen, MessageSquare, Briefcase, TrendingUp, Shield, Globe, Clock, GraduationCap, Bell,
 } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicNews } from '../hooks/usePublicNews';
 import { usePublicEvents } from '../hooks/usePublicEvents';
+import { useAnnouncements } from '@/features/elearning/hooks/useAnnouncements';
 import { useTranslation } from 'react-i18next';
 import { getLangValue } from '@/types/i18n';
 import { Button } from '@/components/ui/button';
@@ -72,6 +72,7 @@ export default function PublicHomePage() {
   const { t, i18n } = useTranslation();
   const { data: news, isLoading: newsLoading } = usePublicNews();
   const { data: events, isLoading: eventsLoading } = usePublicEvents();
+  const { data: announcements, isLoading: announcementsLoading } = useAnnouncements();
 
   return (
     <PublicLayout>
@@ -353,6 +354,65 @@ export default function PublicHomePage() {
               {t('public.events.noEvents')}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Announcements Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="w-full px-6 lg:px-12">
+          <div className="flex items-center gap-3 mb-12">
+            <div className="p-3 bg-primary/10 rounded-2xl">
+              <Bell className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold">{t('elearning.announcements')}</h2>
+              <p className="text-muted-foreground">{t('elearning.announcementsDesc', 'Dernières nouvelles et opportunités de formation')}</p>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {announcementsLoading ? (
+              [1, 2, 3].map(i => (
+                <Card key={i} className="animate-pulse">
+                  <CardContent className="p-6 space-y-4">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-20 w-full" />
+                  </CardContent>
+                </Card>
+              ))
+            ) : announcements?.slice(0, 3).map(announcement => (
+              <Card key={announcement.id} className="border-l-4 border-l-primary hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <Badge variant="outline" className="text-[10px] uppercase tracking-wider">
+                      {announcement.type}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(announcement.published_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{announcement.title}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                    {announcement.content}
+                  </p>
+                  {announcement.training_id && (
+                    <Button variant="link" asChild className="p-0 h-auto text-primary">
+                      <Link to={`/elearning/training/${announcement.training_id}`} className="flex items-center gap-1">
+                        {t('elearning.viewTraining', 'Voir la formation')}
+                        <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+            {(!announcements || announcements.length === 0) && !announcementsLoading && (
+              <div className="col-span-full py-12 text-center text-muted-foreground bg-background rounded-xl border border-dashed">
+                <GraduationCap className="h-10 w-10 mx-auto mb-3 opacity-20" />
+                <p>{t('elearning.noAnnouncements', 'Aucune annonce pour le moment')}</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 

@@ -20,5 +20,8 @@ export function getRoleLabels(t: (key: string) => string): Record<AppRole, strin
         point_focal: t("roles.point_focal"),
         country_admin: t("roles.country_admin"),
         super_admin: t("roles.super_admin"),
+        contributor: t("roles.contributor"),
+        editor: t("roles.editor"),
+        participant: t("roles.participant"),
     }
 }

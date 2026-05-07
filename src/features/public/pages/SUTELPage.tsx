@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
     Shield,
@@ -30,6 +30,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import PageHero from "@/components/PageHero"
 import bgHeader from '@/assets/bg-header.jpg'
+import { AdSection } from '../components/AdSection'
+import { usePublicPartners } from '../hooks/usePublicPartners'
+import imgLogoUAT from '@/assets/atu-uat-logo.png'
+import imgLogoITU from '@/assets/itu_logo.jpg'
+import imgLogoGSMA from '@/assets/gsma-logo.png'
+import imgLogoANSUT from '@/assets/logo_ansut.png'
 
 
 
@@ -39,6 +45,16 @@ import bgHeader from '@/assets/bg-header.jpg'
 
 export default function SUTELPage() {
     const { t } = useTranslation('public')
+    const { data: partners } = usePublicPartners()
+
+    // Helper to find partner logo by name
+    const getActorLogo = (name: string, fallbackLogo?: string) => {
+        const partner = partners?.find(p =>
+            p.nom.toLowerCase() === name.toLowerCase() ||
+            p.nom_complet?.toLowerCase().includes(name.toLowerCase())
+        )
+        return partner?.logo_url || fallbackLogo
+    }
 
     // Mission data with translations
     const missions = [
@@ -50,10 +66,10 @@ export default function SUTELPage() {
 
     // Actors data with translations
     const actors = [
-        { nameKey: "sutel.actors.ansut.name", fullNameKey: "sutel.actors.ansut.fullName", roleKey: "sutel.actors.ansut.role", countryKey: "sutel.actors.ansut.country", descKey: "sutel.actors.ansut.desc", websiteKey: "sutel.actors.ansut.website" },
-        { nameKey: "sutel.actors.uat.name", fullNameKey: "sutel.actors.uat.fullName", roleKey: "sutel.actors.uat.role", countryKey: "sutel.actors.uat.country", descKey: "sutel.actors.uat.desc", websiteKey: "sutel.actors.uat.website" },
-        { nameKey: "sutel.actors.gsma.name", fullNameKey: "sutel.actors.gsma.fullName", roleKey: "sutel.actors.gsma.role", countryKey: "sutel.actors.gsma.country", descKey: "sutel.actors.gsma.desc", websiteKey: "sutel.actors.gsma.website" },
-        { nameKey: "sutel.actors.uit.name", fullNameKey: "sutel.actors.uit.fullName", roleKey: "sutel.actors.uit.role", countryKey: "sutel.actors.uit.country", descKey: "sutel.actors.uit.desc", websiteKey: "sutel.actors.uit.website" }
+        { nameKey: "sutel.actors.ansut.name", fullNameKey: "sutel.actors.ansut.fullName", roleKey: "sutel.actors.ansut.role", countryKey: "sutel.actors.ansut.country", descKey: "sutel.actors.ansut.desc", websiteKey: "sutel.actors.ansut.website", logo: getActorLogo('ANSUT', imgLogoANSUT) },
+        { nameKey: "sutel.actors.uat.name", fullNameKey: "sutel.actors.uat.fullName", roleKey: "sutel.actors.uat.role", countryKey: "sutel.actors.uat.country", descKey: "sutel.actors.uat.desc", websiteKey: "sutel.actors.uat.website", logo: getActorLogo('UAT', imgLogoUAT) },
+        { nameKey: "sutel.actors.gsma.name", fullNameKey: "sutel.actors.gsma.fullName", roleKey: "sutel.actors.gsma.role", countryKey: "sutel.actors.gsma.country", descKey: "sutel.actors.gsma.desc", websiteKey: "sutel.actors.gsma.website", logo: getActorLogo('GSMA', imgLogoGSMA) },
+        { nameKey: "sutel.actors.uit.name", fullNameKey: "sutel.actors.uit.fullName", roleKey: "sutel.actors.uit.role", countryKey: "sutel.actors.uit.country", descKey: "sutel.actors.uit.desc", websiteKey: "sutel.actors.uit.website", logo: getActorLogo('UIT', imgLogoITU) }
     ]
 
     // Projects data with translations
@@ -101,7 +117,7 @@ export default function SUTELPage() {
 
 
             <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
-                
+
                 {/* Definition Section */}
                 <Card className="mb-12 border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
                     <CardContent className="p-8">
@@ -111,12 +127,14 @@ export default function SUTELPage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold mb-4">{t('sutel.definition.title')}</h2>
-                                <p className="text-muted-foreground mb-4 leading-relaxed">
-                                    {t('sutel.definition.p1')}
-                                </p>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    {t('sutel.definition.p2')}
-                                </p>
+                                <div
+                                    className="text-muted-foreground mb-4 leading-relaxed"
+                                    dangerouslySetInnerHTML={{ __html: t('sutel.definition.p1') }}
+                                />
+                                <div
+                                    className="text-muted-foreground leading-relaxed"
+                                    dangerouslySetInnerHTML={{ __html: t('sutel.definition.p2') }}
+                                />
                             </div>
                         </div>
                     </CardContent>
@@ -238,8 +256,18 @@ export default function SUTELPage() {
                             <Card key={index} className="hover:shadow-lg transition-all duration-300 border-2">
                                 <CardContent className="p-6">
                                     <div className="flex items-start gap-4">
-                                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shrink-0">
-                                            <Building2 className="h-7 w-7 text-white" />
+                                        <div className="w-28 h-28 rounded-xl bg-white border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden p-1.5 shadow-sm group-hover:shadow-md transition-all">
+                                            {actor.logo ? (
+                                                <img
+                                                    src={actor.logo}
+                                                    alt={t(actor.nameKey)}
+                                                    className="max-w-full max-h-full object-contain"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                                                    <Building2 className="h-7 w-7 text-white" />
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex items-start justify-between mb-2">
@@ -365,7 +393,7 @@ export default function SUTELPage() {
                                 <p className="text-sm text-muted-foreground">{t('sutel.perspectivesSection.subtitle')}</p>
                             </div>
                         </div>
-                        <Card className="border-2 border-green-500/20 bg-green-500/5 h-full">
+                        <Card className="border-2 border-green-500/20 bg-green-500/5">
                             <CardContent className="p-6">
                                 <ul className="space-y-4">
                                     {[
@@ -435,7 +463,14 @@ export default function SUTELPage() {
                         </div>
                     </CardContent>
                 </Card>
+            </div>
 
+            {/* Premium Ad Section - Same as Homepage */}
+            <div className="mb-20">
+                <AdSection />
+            </div>
+
+            <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 pb-20">
                 {/* Contact CTA */}
                 <Card className="bg-gradient-to-br from-primary to-secondary text-white border-0">
                     <CardContent className="p-8">

@@ -4,36 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
 import PageHero from '@/components/PageHero';
 import { PublicLayout } from '../components/PublicLayout';
 import { Button } from '@/components/ui/button';
 import bgHeader from '@/assets/bg-header.jpg';
-
-
-
-
-
-
-
-function usePublicFaq() {
-  return useQuery({
-    queryKey: ['public-faq'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .from('faq_articles' as any)
-        .select('*')
-        .eq('is_published', true)
-        .order('sort_order', { ascending: true });
-      if (error) throw error;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return data as any[];
-    },
-  });
-}
+import { usePublicFaq } from '../hooks/usePublicFaq';
 
 export default function PublicFaqPage() {
   const { data: articles, isLoading } = usePublicFaq();

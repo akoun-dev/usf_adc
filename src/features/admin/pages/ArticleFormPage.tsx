@@ -68,11 +68,31 @@ export default function ArticleFormPage() {
   useEffect(() => {
     if (article) {
 
+      // Helper function to extract value for a language
+      const getVal = (field: any, lang: string) => {
+        if (!field) return '';
+        // If it's already an object (jsonb)
+        if (typeof field === 'object') return field[lang] || '';
+        // If it's a string, it might be legacy JSON or just a string
+        if (typeof field === 'string') {
+          if (field.startsWith('{')) {
+            try {
+              const parsed = JSON.parse(field);
+              return parsed[lang] || '';
+            } catch (e) {
+              return lang === 'fr' ? field : ''; // Fallback to whole string for FR
+            }
+          }
+          return lang === 'fr' ? field : ''; // Regular string is assumed French
+        }
+        return '';
+      };
+
       setFormData({
-        title: getLangValue(article.title, currentLang),
-        excerpt: getLangValue(article.excerpt, currentLang),
-        content: getLangValue(article.content, currentLang),
-        category: getLangValue(article.category, currentLang),
+        title: getVal(article.title, currentLang),
+        excerpt: getVal(article.excerpt, currentLang),
+        content: getVal(article.content, currentLang),
+        category: getVal(article.category, currentLang),
         source: article.source || '',
         image_url: article.image_url || '',
         featured_image: article.featured_image || '',
@@ -90,11 +110,14 @@ export default function ArticleFormPage() {
       // Initialize extra translations
       const langs = ['en', 'pt', 'ar'];
       const extra: any = {};
+      const dbTranslations = (article as any).article_translations || [];
+
       langs.forEach(l => {
+        const dbTrans = dbTranslations.find((t: any) => t.language === l);
         extra[l] = {
-          title: (article.title as any)?.[l] || '',
-          excerpt: (article.excerpt as any)?.[l] || '',
-          content: (article.content as any)?.[l] || '',
+          title: dbTrans?.title || getVal(article.title, l),
+          excerpt: dbTrans?.excerpt || getVal(article.excerpt, l),
+          content: dbTrans?.content || getVal(article.content, l),
         };
       });
       setExtraTranslations(extra);
@@ -350,6 +373,7 @@ export default function ArticleFormPage() {
                   onChange={handleRichTextChange}
                   minHeight="500px"
                   uploadImage={async (file) => (await handleUploadImage(file)).url}
+                  dir={formData.language === 'ar' ? 'rtl' : 'ltr'}
                   placeholder={t('news.writeContent', 'Écrivez le contenu de votre article ici...')}
                 />
               </div>
@@ -545,9 +569,9 @@ export default function ArticleFormPage() {
 
                 <Tabs defaultValue="en" className="w-full">
                   <TabsList className="mb-4">
-                    <TabsTrigger value="en">{t('common.english', 'Anglais')}</TabsTrigger>
+                    <TabsTrigger value="en">{t('common.english', 'English')}</TabsTrigger>
                     <TabsTrigger value="pt">{t('common.portuguese', 'Português')}</TabsTrigger>
-                    <TabsTrigger value="ar">{t('common.arabic', 'Arabe')}</TabsTrigger>
+                    <TabsTrigger value="ar">{t('common.arabic', 'Arabic')}</TabsTrigger>
                   </TabsList>
 
                   {['fr', 'en', 'pt', 'ar'].map((lang) => (
@@ -637,6 +661,7 @@ export default function ArticleFormPage() {
                             }))}
                             uploadImage={async (file) => (await handleUploadImage(file)).url}
                             placeholder={t('news.writeContent', 'Écrivez le contenu ici...')}
+                            dir={lang === 'ar' ? 'rtl' : 'ltr'}
                           />
                         </div>
                       </div>

@@ -11,7 +11,10 @@
     "backToDraft": "Retour au brouillon",
     "archive": "Archiver",
     "restoreToDraft": "Restaurer en brouillon",
-    "unpublish": "Dépublier"
+    "unpublish": "Dépublier",
+    "excerpt": "Extrait",
+    "content": "Contenu",
+    "slug": "Slug"
   },
   "mfa": {
     "title": "Vérification en deux étapes",
@@ -44,10 +47,16 @@
     "edit": "Modifier",
     "create": "Créer",
     "today": "Aujourd'hui",
+    "english": "Anglais",
+    "portuguese": "Portugais",
+    "arabic": "Arabe",
+    "french": "Français",
     "search": "Rechercher",
     "filter": "Filtrer",
     "export": "Exporter",
     "back": "Retour",
+    "all": "Tous",
+    "resetFilters": "Réinitialiser les filtres",
     "retry": "Réessayer",
     "next": "Suivant",
     "previous": "Précédent",
@@ -1111,7 +1120,62 @@
   "roles": {
     "point_focal": "Point Focal National",
     "country_admin": "Administrateur National",
-    "super_admin": "Super Administrateur"
+    "super_admin": "Super Administrateur",
+    "contributor": "Contributeur",
+    "editor": "Éditeur",
+    "participant": "Participant"
+  },
+  "elearning": {
+    "title": "E-Learning",
+    "catalog": "Catalogue de formations",
+    "catalogDesc": "Découvrez nos parcours de formation et webinaires pour renforcer vos compétences.",
+    "trainings": "formations",
+    "places": "places",
+    "myTrainings": "Mes formations",
+    "calendar": "Calendrier des formations",
+    "announcements": "Annonces de formation",
+    "registrations": "Inscriptions",
+    "register": "S'inscrire",
+    "details": "Détails de la formation",
+    "trainer": "Formateur",
+    "duration": "Durée",
+    "type": "Type",
+    "online": "En ligne",
+    "onsite": "Présentiel",
+    "capacity": "Capacité",
+    "location": "Lieu",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "status": "Statut",
+    "confirmed": "Confirmé",
+    "pending": "En attente",
+    "cancelled": "Annulé",
+    "attended": "Présent",
+    "noTrainings": "Aucune formation disponible",
+    "availableTrainings": "Formations disponibles",
+    "loadError": "Erreur lors du chargement des formations",
+    "filterByType": "Filtrer par type",
+    "registrationSuccess": "Inscription réussie",
+    "registrationError": "Erreur lors de l'inscription",
+    "capacityFull": "Complet",
+    "trainingNotFound": "Formation introuvable",
+    "infoPratiques": "Informations Pratiques",
+    "outcomes": "Objectifs",
+    "guaranteedSecure": "Certification Incluse",
+    "benefits": {
+      "resources": {
+        "title": "Ressources riches",
+        "desc": "Accédez à une bibliothèque complète de supports pédagogiques."
+      },
+      "interactive": {
+        "title": "Sessions interactives",
+        "desc": "Participez à des webinaires et ateliers en direct."
+      },
+      "experts": {
+        "title": "Experts certifiés",
+        "desc": "Apprenez auprès des meilleurs experts du domaine."
+      }
+    }
   },
   "documents": {
     "title": "Bibliothèque documentaire",
@@ -2785,6 +2849,7 @@
         "projects": "Projets",
         "resources": "Ressources",
         "coRedaction": "Co-Rédaction",
+        "elearning": "E-Learning",
         "news": "Actualités",
         "about": "À propos",
         "sutel": "SUTEL"

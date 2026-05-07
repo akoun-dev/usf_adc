@@ -124,6 +124,11 @@ export default function AppLayout() {
                     title: t('nav.newslettersAdmin', 'Newsletters'), 
                     description: t('admin.newslettersDesc', 'Gestion des campagnes newsletters'),
                     icon: <Newspaper className="h-4 w-4" /> 
+                },
+                'elearning': { 
+                    title: t('nav.elearning', 'E-Learning'), 
+                    description: t('admin.eventsManagementDesc', 'Gestion des formations'),
+                    icon: <GraduationCap className="h-4 w-4" /> 
                 }
             }
             
@@ -390,6 +395,15 @@ export default function AppLayout() {
                 return (
                     <UserSidebar
                         role="point_focal"
+                        onNavigate={() => setSidebarOpen(false)}
+                    />
+                )
+            case "participant":
+            case "contributor":
+            case "editor":
+                return (
+                    <UserSidebar
+                        role="participant"
                         onNavigate={() => setSidebarOpen(false)}
                     />
                 )

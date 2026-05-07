@@ -77,6 +77,10 @@ export function PublicHeader({ variant = "default" }: PublicHeaderProps) {
                 href: "/co-redaction",
             },
             {
+                labelKey: "elearning",
+                href: "/elearning",
+            },
+            {
                 labelKey: "news",
                 href: "/actualites",
             },

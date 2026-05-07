@@ -30,7 +30,7 @@ import {
 import { Link } from "react-router-dom"
 
 interface UserSidebarProps {
-    role: "point_focal" | "country_admin"
+    role: "point_focal" | "country_admin" | "participant"
     onNavigate?: () => void
 }
 
@@ -75,6 +75,12 @@ const navItems: Record<string, NavItem[]> = {
         { labelKey: "nav.support", path: "/country-admin/support", icon: LifeBuoy },
         { labelKey: "nav.settings", path: "/country-admin/settings", icon: Settings },
         { labelKey: "nav.adminProfile", path: "/country-admin/profile", icon: User },
+    ],
+    participant: [
+        { labelKey: "nav.elearning", path: "/dashboard/participant", icon: LayoutDashboard },
+        { labelKey: "nav.training", path: "/elearning", icon: GraduationCap },
+        { labelKey: "nav.docLibrary", path: "/elearning", icon: BookOpen },
+        { labelKey: "nav.profile", path: "/point-focal/profile", icon: User },
     ],
 }
 

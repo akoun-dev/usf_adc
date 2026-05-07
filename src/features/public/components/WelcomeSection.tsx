@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import { Quote, ChevronLeft, ChevronRight, User } from 'lucide-react'
 import omoPhoto from '@/assets/Mr-John-Omo-SG-ATU.jpg'
-import { supabase } from '@/integrations/supabase/client'
+import { useFsuSpeakers, Speaker } from '../hooks/useFsuSpeakers'
 import {
     Dialog,
     DialogContent,
@@ -12,15 +12,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-interface Speaker {
-    id: string
-    name: string
-    role: string
-    message: string
-    photo: string
-    fsu_name?: string
-}
-
 export function WelcomeSection() {
     const { ref, isVisible } = useScrollAnimation()
     const { t, i18n } = useTranslation()
@@ -28,81 +19,55 @@ export function WelcomeSection() {
 
     const [speakers, setSpeakers] = useState<Speaker[]>([])
     const [activeId, setActiveId] = useState<string>('secretaryGeneral')
-    const [loading, setLoading] = useState(true)
+    const currentLang = (i18n.language || 'fr').split('-')[0]
 
-    const fetchSpeakers = useCallback(async () => {
-        try {
-            setLoading(true)
-
-            // 1. Initial SG from translations/assets
-            const sg: Speaker = {
-                id: 'secretaryGeneral',
-                name: t('index.welcome.secretaryGeneral.name'),
-                role: t('index.welcome.secretaryGeneral.role'),
-                message: t('index.welcome.secretaryGeneral.message'),
-                photo: omoPhoto
-            }
-
-            setSpeakers([sg])
-
-            // 2. Fetch DGs from fsu_agencies table joined with countries
-            const { data: agenciesData, error } = await supabase
-                .from('fsu_agencies')
-                .select(`
-                    id, 
-                    dg_name, 
-                    dg_message, 
-                    dg_photo_url, 
-                    fsu_name, 
-                    countries(name_fr)
-                `)
-                .not('dg_name', 'is', null)
-                .not('dg_message', 'is', null)
-
-            if (error) {
-                console.error('Supabase error:', error)
-            } else if (agenciesData) {
-                const currentLang = (i18n.language || 'fr').split('-')[0]
-                const dgs: Speaker[] = agenciesData.map(a => {
-                    const messageObj = typeof a.dg_message === 'object' && a.dg_message !== null
-                        ? a.dg_message as Record<string, string>
-                        : { fr: a.dg_message || "" }
-                    
-                    return {
-                        id: a.id,
-                        name: a.dg_name || '',
-                        role: `${t('common.directorGeneral', 'Directeur Général')} - ${a.fsu_name || (a.countries as any)?.name_fr}`,
-                        message: messageObj[currentLang] || messageObj['en'] || messageObj['fr'] || '',
-                        photo: a.dg_photo_url || '',
-                        fsu_name: a.fsu_name || ''
-                    }
-                })
-
-                const hasUAT = dgs.some(d => d.fsu_name?.includes('UAT') || d.fsu_name?.includes('ATU'))
-                const finalSpeakers = hasUAT ? dgs : [sg, ...dgs]
-
-                const sortedSpeakers = [...finalSpeakers].sort((a, b) => {
-                    if (a.fsu_name?.includes('UAT') || a.fsu_name?.includes('ATU')) return -1
-                    if (b.fsu_name?.includes('UAT') || b.fsu_name?.includes('ATU')) return 1
-                    return 0
-                })
-
-                setSpeakers(sortedSpeakers)
-
-                // Set default active speaker (ensure UAT is active)
-                const uatEntry = sortedSpeakers.find(d => d.fsu_name?.includes('UAT') || d.fsu_name?.includes('ATU'))
-                if (uatEntry) setActiveId(uatEntry.id)
-            }
-        } catch (error) {
-            console.error('Error fetching speakers:', error)
-        } finally {
-            setLoading(false)
-        }
-    }, [t])
+    const { data: fsuData, isLoading: loading } = useFsuSpeakers()
 
     useEffect(() => {
-        fetchSpeakers()
-    }, [fetchSpeakers])
+        // 1. Initial SG from translations/assets
+        const sg: Speaker = {
+            id: 'secretaryGeneral',
+            name: t('index.welcome.secretaryGeneral.name'),
+            role: t('index.welcome.secretaryGeneral.role'),
+            message: t('index.welcome.secretaryGeneral.message'),
+            photo: omoPhoto
+        }
+
+        if (!fsuData || fsuData.length === 0) {
+            setSpeakers([sg])
+            return
+        }
+
+        // 2. Format DGs from hook data
+        const dgs: Speaker[] = fsuData.map(a => {
+            const messageObj = typeof a.message === 'object' && a.message !== null
+                ? a.message as Record<string, string>
+                : { fr: a.message || "" }
+
+            return {
+                id: a.id,
+                name: a.name,
+                role: `${t('common.directorGeneral', 'Directeur Général')} - ${a.role}`,
+                message: messageObj[currentLang] || messageObj['en'] || messageObj['fr'] || '',
+                photo: a.photo,
+                fsu_name: a.fsu_name
+            }
+        })
+
+        const hasUAT = dgs.some(d => d.fsu_name?.includes('UAT') || d.fsu_name?.includes('ATU'))
+        const finalSpeakers = hasUAT ? dgs : [sg, ...dgs]
+
+        const sortedSpeakers = [...finalSpeakers].sort((a, b) => {
+            if (a.fsu_name?.includes('UAT') || a.fsu_name?.includes('ATU')) return -1
+            if (b.fsu_name?.includes('UAT') || b.fsu_name?.includes('ATU')) return 1
+            return 0
+        })
+
+        setSpeakers(sortedSpeakers)
+
+        const uatEntry = sortedSpeakers.find(d => d.fsu_name?.includes('UAT') || d.fsu_name?.includes('ATU'))
+        if (uatEntry) setActiveId(uatEntry.id)
+    }, [fsuData, t, currentLang])
 
     const activeSpeaker = speakers.find(s => s.id === activeId) || speakers[0]
 

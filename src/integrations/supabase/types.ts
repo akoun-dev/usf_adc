@@ -34,6 +34,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          content: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          published_at: string | null
+          target_roles: Database["public"]["Enums"]["app_role"][] | null
+          title: string
+          training_id: string | null
+          type: string
+        }
+        Insert: {
+          content: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          published_at?: string | null
+          target_roles?: Database["public"]["Enums"]["app_role"][] | null
+          title: string
+          training_id?: string | null
+          type?: string
+        }
+        Update: {
+          content?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          published_at?: string | null
+          target_roles?: Database["public"]["Enums"]["app_role"][] | null
+          title?: string
+          training_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcements_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -2224,6 +2268,166 @@ export type Database = {
         }
         Relationships: []
       }
+      training_documents: {
+        Row: {
+          access_roles: Database["public"]["Enums"]["app_role"][] | null
+          document_id: string
+          id: string
+          training_id: string
+        }
+        Insert: {
+          access_roles?: Database["public"]["Enums"]["app_role"][] | null
+          document_id: string
+          id?: string
+          training_id: string
+        }
+        Update: {
+          access_roles?: Database["public"]["Enums"]["app_role"][] | null
+          document_id?: string
+          id?: string
+          training_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_documents_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_documents_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_events: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_date: string
+          id: string
+          start_date: string
+          title: string
+          training_id: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_date: string
+          id?: string
+          start_date: string
+          title: string
+          training_id?: string | null
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string
+          id?: string
+          start_date?: string
+          title?: string
+          training_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_events_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_registrations: {
+        Row: {
+          id: string
+          registered_at: string | null
+          status: string
+          training_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          registered_at?: string | null
+          status?: string
+          training_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          registered_at?: string | null
+          status?: string
+          training_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_registrations_training_id_fkey"
+            columns: ["training_id"]
+            isOneToOne: false
+            referencedRelation: "trainings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trainings: {
+        Row: {
+          capacity: number | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          image_url: string | null
+          location: string | null
+          start_date: string | null
+          status: string
+          title: string
+          trainer: string | null
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          start_date?: string | null
+          status?: string
+          title: string
+          trainer?: string | null
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          start_date?: string | null
+          status?: string
+          title?: string
+          trainer?: string | null
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2460,7 +2664,13 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "point_focal" | "country_admin" | "super_admin"
+      app_role:
+        | "point_focal"
+        | "country_admin"
+        | "super_admin"
+        | "contributor"
+        | "editor"
+        | "participant"
       event_status: "upcoming" | "ongoing" | "completed" | "cancelled"
       event_type:
         | "conference"
@@ -2471,7 +2681,12 @@ export type Database = {
         | "other"
       invitation_status: "pending" | "accepted" | "expired" | "cancelled"
       news_status: "draft" | "in_review" | "published" | "archived"
-      notification_type: "info" | "warning" | "action_required" | "system"
+      notification_type:
+        | "info"
+        | "warning"
+        | "action_required"
+        | "system"
+        | "training_announcement"
       project_status:
         | "draft"
         | "planned"
@@ -2637,7 +2852,14 @@ export const Constants = {
   },
   public: {
     Enums: {
-      app_role: ["point_focal", "country_admin", "super_admin"],
+      app_role: [
+        "point_focal",
+        "country_admin",
+        "super_admin",
+        "contributor",
+        "editor",
+        "participant",
+      ],
       event_status: ["upcoming", "ongoing", "completed", "cancelled"],
       event_type: [
         "conference",
@@ -2649,7 +2871,13 @@ export const Constants = {
       ],
       invitation_status: ["pending", "accepted", "expired", "cancelled"],
       news_status: ["draft", "in_review", "published", "archived"],
-      notification_type: ["info", "warning", "action_required", "system"],
+      notification_type: [
+        "info",
+        "warning",
+        "action_required",
+        "system",
+        "training_announcement",
+      ],
       project_status: [
         "draft",
         "planned",

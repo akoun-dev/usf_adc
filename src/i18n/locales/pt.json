@@ -11,7 +11,10 @@
     "backToDraft": "Voltar ao rascunho",
     "archive": "Arquivar",
     "restoreToDraft": "Restaurar para rascunho",
-    "unpublish": "Cancelar publicação"
+    "unpublish": "Cancelar publicação",
+    "excerpt": "Excerto",
+    "content": "Conteúdo",
+    "slug": "Slug"
   },
   "mfa": {
     "title": "Verificação em duas etapas",
@@ -44,6 +47,10 @@
     "edit": "Editar",
     "create": "Criar",
     "today": "Hoje",
+    "english": "Inglês",
+    "portuguese": "Português",
+    "arabic": "Árabe",
+    "french": "Francês",
     "search": "Pesquisar",
     "filter": "Filtrar",
     "export": "Exportar",

@@ -11,7 +11,10 @@
     "backToDraft": "Back to Draft",
     "archive": "Archive",
     "restoreToDraft": "Restore to Draft",
-    "unpublish": "Unpublish"
+    "unpublish": "Unpublish",
+    "excerpt": "Excerpt",
+    "content": "Content",
+    "slug": "Slug"
   },
   "mfa": {
     "title": "Two-step verification",
@@ -44,11 +47,18 @@
     "edit": "Edit",
     "create": "Create",
     "today": "Today",
+    "english": "English",
+    "portuguese": "Portuguese",
+    "arabic": "Arabic",
+    "french": "French",
     "search": "Search",
     "filter": "Filter",
     "export": "Export",
     "back": "Back",
     "retry": "Retry",
+    "all": "All",
+    "resetFilters": "Reset filters",
+    "grid": "Grid",
     "next": "Next",
     "previous": "Previous",
     "yes": "Yes",
@@ -1181,8 +1191,63 @@
   },
   "roles": {
     "point_focal": "National Focal Point",
-    "country_admin": "Country Administrator",
-    "super_admin": "Global Administrator ANSUT/UAT"
+    "country_admin": "National Administrator",
+    "super_admin": "Super Administrator",
+    "contributor": "Contributor",
+    "editor": "Editor",
+    "participant": "Participant"
+  },
+  "elearning": {
+    "title": "E-Learning",
+    "catalog": "Training Catalog",
+    "catalogDesc": "Discover our training programs and webinars to strengthen your skills.",
+    "trainings": "trainings",
+    "places": "places",
+    "myTrainings": "My Trainings",
+    "calendar": "Training Calendar",
+    "announcements": "Training Announcements",
+    "registrations": "Registrations",
+    "register": "Register",
+    "details": "Training Details",
+    "trainer": "Trainer",
+    "duration": "Duration",
+    "type": "Type",
+    "online": "Online",
+    "onsite": "On-site",
+    "capacity": "Capacity",
+    "location": "Location",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "status": "Status",
+    "confirmed": "Confirmed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "attended": "Attended",
+    "noTrainings": "No trainings available",
+    "availableTrainings": "Available Trainings",
+    "loadError": "Error loading trainings",
+    "filterByType": "Filter by type",
+    "registrationSuccess": "Registration successful",
+    "registrationError": "Registration error",
+    "capacityFull": "Full",
+    "trainingNotFound": "Training not found",
+    "infoPratiques": "Practical Information",
+    "outcomes": "Learning Outcomes",
+    "guaranteedSecure": "Certification Included",
+    "benefits": {
+      "resources": {
+        "title": "Rich Resources",
+        "desc": "Access a complete library of learning materials."
+      },
+      "interactive": {
+        "title": "Interactive Sessions",
+        "desc": "Join live webinars and workshops."
+      },
+      "experts": {
+        "title": "Certified Experts",
+        "desc": "Learn from the best experts in the field."
+      }
+    }
   },
   "documents": {
     "title": "Document Library",
@@ -2841,6 +2906,7 @@
         "projects": "Projects",
         "resources": "Resources",
         "coRedaction": "Co-Authoring",
+        "elearning": "E-Learning",
         "news": "News",
         "about": "About",
         "sutel": "SUTEL"

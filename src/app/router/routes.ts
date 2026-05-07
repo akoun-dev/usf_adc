@@ -251,6 +251,12 @@ const LegalNoticePage = lazy(
     () => import("@/features/public/pages/LegalNoticePage")
 )
 
+// E-learning pages
+const PublicCatalogPage = lazy(() => import("@/features/elearning/pages/PublicCatalogPage"))
+const TrainingDetailsPage = lazy(() => import("@/features/elearning/pages/TrainingDetailsPage"))
+const AdminTrainingManager = lazy(() => import("@/features/elearning/pages/AdminTrainingManager"))
+
+
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/dashboard", component: DashboardRouter },
@@ -908,6 +914,12 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: AdminCoRedactionEditorPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
+    // E-learning admin routes
+    {
+        path: "/admin/elearning",
+        component: AdminTrainingManager,
+        roles: ["country_admin", "super_admin"],
+    },
 ]
 
 /** Public routes accessible without authentication. */
@@ -940,4 +952,7 @@ export const PUBLIC_ROUTES: AppRouteConfig[] = [
     // Co-Rédaction public routes
     { path: "/co-redaction", component: PublicCoRedactionPage },
     { path: "/co-redaction/:id", component: PublicCoRedactionDetailPage },
+    // E-learning public routes
+    { path: "/elearning", component: PublicCatalogPage },
+    { path: "/elearning/training/:id", component: TrainingDetailsPage },
 ]

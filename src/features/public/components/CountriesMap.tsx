@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { AFRICAN_COUNTRIES_GEOJSON, getCountryGeoJSON } from '../data/africanCountriesGeoJSON';
+import { AFRICAN_COUNTRIES_GEOJSON, getCountryGeoJSON, getPredefinedCentroid } from '../data/africanCountriesGeoJSON';
 import type { Project } from '@/features/projects-map/types';
 
 interface Props {
@@ -192,7 +192,13 @@ export function CountriesMap({ countries, projectsByCountry, onCountryClick, sel
 
             console.log(`[CountriesMap] 📍 ${country.code_iso}: ${projectCount} projects`);
 
-            const centroid = getCountryCentroid(geoData.geojson);
+            // Use predefined centroid if available, otherwise calculate from GeoJSON
+            let centroid = getPredefinedCentroid(country.code_iso);
+            
+            if (!centroid) {
+                centroid = getCountryCentroid(geoData.geojson);
+            }
+
             if (!centroid) {
                 console.warn(`[CountriesMap] ⚠️ No centroid for ${country.code_iso}`);
                 return;

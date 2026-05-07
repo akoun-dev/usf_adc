@@ -13,6 +13,7 @@ import {
     FileText as DocIcon,
     PenLine,
     Mail,
+    GraduationCap,
 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -34,6 +35,7 @@ const adminItems = [
     { labelKey: "nav.forumCategories", path: "/admin/forum", icon: MessageSquare },
     { labelKey: "nav.members", path: "/admin/membres-associes", icon: Users },
     { labelKey: "nav.newslettersAdmin", path: "/admin/newsletters", icon: Newspaper },
+    { labelKey: "nav.elearning", path: "/admin/elearning", icon: GraduationCap },
     { labelKey: "nav.settings", path: "/admin/settings", icon: Settings },
 ]
 

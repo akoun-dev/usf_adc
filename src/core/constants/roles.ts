@@ -12,6 +12,9 @@ export const APP_ROLES = {
     POINT_FOCAL: "point_focal" as const,
     COUNTRY_ADMIN: "country_admin" as const,
     super_admin: "super_admin" as const,
+    CONTRIBUTOR: "contributor" as const,
+    EDITOR: "editor" as const,
+    PARTICIPANT: "participant" as const,
 }
 
 export const SUBMISSION_STATUS = {
@@ -38,6 +41,9 @@ export const ROLE_LABELS: Record<AppRole, string> = {
     point_focal: "Point Focal National",
     country_admin: "Administrateur Pays",
     super_admin: "Super Admin",
+    contributor: "Contributeur",
+    editor: "Éditeur",
+    participant: "Participant",
 }
 
 export const STATUS_LABELS: Record<SubmissionStatus, string> = {
@@ -51,6 +57,9 @@ export const STATUS_LABELS: Record<SubmissionStatus, string> = {
 
 // Role hierarchy (higher index = more privileges)
 export const ROLE_HIERARCHY: AppRole[] = [
+    "participant",
+    "contributor",
+    "editor",
     "point_focal",
     "country_admin",
     "super_admin",
@@ -61,4 +70,7 @@ export const ROLE_DASHBOARD_PATHS: Record<AppRole, string> = {
     point_focal: "/dashboard/point-focal",
     country_admin: "/dashboard/admin-pays",
     super_admin: "/admin",
+    contributor: "/dashboard/contributeur",
+    editor: "/dashboard/editeur",
+    participant: "/dashboard/participant",
 }

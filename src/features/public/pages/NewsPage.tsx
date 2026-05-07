@@ -81,6 +81,11 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
     }
   };
 
+  const stripHtml = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+
   if (featured) {
     return (
       <Link to={`/actualites/${article.id}`} className="block">
@@ -125,7 +130,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
               {getLangValue(article.title, i18n.language)}
             </h2>
             <p className="text-muted-foreground mb-4 line-clamp-3">
-              {getLangValue(article.excerpt, i18n.language) || getLangValue(article.content, i18n.language).substring(0, 200) + '...'}
+              {getLangValue(article.excerpt, i18n.language) || stripHtml(getLangValue(article.content, i18n.language)).substring(0, 200) + '...'}
             </p>
             {article.author && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -190,7 +195,7 @@ function NewsCard({ article, featured = false }: { article: NewsArticle; feature
             {getLangValue(article.title, i18n.language)}
           </h3>
           <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">
-            {getLangValue(article.excerpt, i18n.language) || getLangValue(article.content, i18n.language).substring(0, 120) + '...'}
+            {getLangValue(article.excerpt, i18n.language) || stripHtml(getLangValue(article.content, i18n.language)).substring(0, 120) + '...'}
           </p>
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-xs text-muted-foreground">

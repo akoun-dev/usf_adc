@@ -213,11 +213,11 @@ async function autoTranslateContent(
             try {
                 const translations = await translateToFourLang(sourceLang, textToTranslate)
                 
-                // If it's an object, merge translations
+                // If it's an object, merge translations (manual input overrides auto-translate)
                 if (typeof value === "object") {
                     result[field] = {
-                        ...value,
-                        ...translations
+                        ...translations,
+                        ...value
                     }
                 } else {
                     // Convert string to object with translations
@@ -290,12 +290,23 @@ export async function createNews(input: {
     const sourceLang = input.language || "fr"
     const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "content", "excerpt"])
 
-    const { data, error } = await supabase
-        .from("news")
-        .insert(translatedInput as any)
-        .select()
-        .single()
+    const { data, error } = await supabase.from("news").insert(translatedInput as any).select().single()
     if (error) throw error
+
+    // Sync to article_translations table
+    const langs = ["en", "pt", "ar"]
+    for (const lang of langs) {
+        if (translatedInput.title?.[lang] || translatedInput.content?.[lang] || translatedInput.excerpt?.[lang]) {
+            await supabase.from("article_translations").upsert({
+                news_id: data.id,
+                language: lang,
+                title: translatedInput.title?.[lang] || "",
+                content: translatedInput.content?.[lang] || "",
+                excerpt: translatedInput.excerpt?.[lang] || ""
+            }, { onConflict: "news_id, language" })
+        }
+    }
+
     return data
 }
 
@@ -334,6 +345,21 @@ export async function updateNews(
         .select()
         .single()
     if (error) throw error
+
+    // Sync to article_translations table
+    const langs = ["en", "pt", "ar"]
+    for (const lang of langs) {
+        if (translatedInput.title?.[lang] || translatedInput.content?.[lang] || translatedInput.excerpt?.[lang]) {
+            await supabase.from("article_translations").upsert({
+                news_id: id,
+                language: lang,
+                title: translatedInput.title?.[lang] || "",
+                content: translatedInput.content?.[lang] || "",
+                excerpt: translatedInput.excerpt?.[lang] || ""
+            }, { onConflict: "news_id, language" })
+        }
+    }
+
     return data
 }
 

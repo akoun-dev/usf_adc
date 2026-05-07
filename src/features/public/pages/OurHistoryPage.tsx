@@ -19,9 +19,9 @@ import React, { useMemo } from "react"
 import hero1 from "@/assets/history/hero1.png"
 import hero2 from "@/assets/history/hero2.png"
 import hero3 from "@/assets/history/hero3.png"
-import aboutPhoto from "@/assets/history/about.png"
+import aboutPhoto from "@/assets/history/about_n.jpg"
 import adBanner from "@/assets/history/ad_banner.png"
-import sgPhoto from "@/assets/history/sg_atu.png"
+import sgPhoto from "@/assets/history/sg_atu_john.jpg"
 
 export default function OurHistoryPage() {
     const { t } = useTranslation('public')
@@ -118,7 +118,7 @@ export default function OurHistoryPage() {
                         <CarouselContent className="h-[600px] md:h-[700px]">
                             {slides.map((slide, index) => (
                                 <CarouselItem key={index} className="relative h-full">
-                                    <div 
+                                    <div
                                         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 scale-105"
                                         style={{ backgroundImage: `url(${slide.image})` }}
                                     >
@@ -240,7 +240,7 @@ export default function OurHistoryPage() {
                 <section className="py-24 bg-white overflow-hidden">
                     <div className="container mx-auto px-4">
                         <div className="grid lg:grid-cols-3 gap-12 items-start">
-                            
+
                             {/* Left: Organisational Objectives */}
                             <div className="space-y-8 animate-slide-in-left">
                                 <div className="text-center md:text-left space-y-2">
@@ -254,7 +254,7 @@ export default function OurHistoryPage() {
                                 <div className="space-y-6 relative">
                                     {/* Dotted line */}
                                     <div className="absolute left-[15px] top-4 bottom-4 w-px border-l-2 border-dashed border-slate-200 -z-10" />
-                                    
+
                                     {Array.isArray(objectives) && objectives.map((obj, i) => (
                                         <div key={i} className="flex gap-4 items-start group">
                                             <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform">
@@ -279,10 +279,10 @@ export default function OurHistoryPage() {
                             <div className="relative group animate-fade-in order-first lg:order-none">
                                 <div className="absolute -inset-4 bg-primary/5 rounded-[2.5rem] blur-2xl group-hover:bg-primary/10 transition-colors" />
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-[3/4]">
-                                    <img 
-                                        src={sgPhoto} 
-                                        alt="Secretary General of ATU" 
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                    <img
+                                        src={sgPhoto}
+                                        alt="Secretary General of ATU"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                                     <div className="absolute bottom-6 left-6 right-6 text-white text-center">
@@ -353,7 +353,7 @@ export default function OurHistoryPage() {
 
                 {/* Advertising Full-Width Space */}
                 <section className="relative w-full py-32 overflow-hidden">
-                    <div 
+                    <div
                         className="absolute inset-0 bg-cover bg-fixed bg-center scale-105"
                         style={{ backgroundImage: `url(${adBanner})` }}
                     >

@@ -255,7 +255,7 @@ export function ProjectMap({ projects, selectedProjectId, onProjectClick, mapMod
         cluster.clearLayers();
         markersMapRef.current.clear();
 
-        const geoProjects = projects.filter((p) => p.latitude && p.longitude);
+        const geoProjects = projects.filter((p) => p.latitude != null && p.longitude != null);
 
         geoProjects.forEach((project) => {
             const marker = L.marker([project.latitude!, project.longitude!], {

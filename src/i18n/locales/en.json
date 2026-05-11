@@ -1195,7 +1195,7 @@
     "super_admin": "Super Administrator",
     "contributor": "Contributor",
     "editor": "Editor",
-    "participant": "Participant"
+    "visiteur": "Visitor"
   },
   "elearning": {
     "title": "E-Learning",

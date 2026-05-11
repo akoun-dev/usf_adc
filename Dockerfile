@@ -13,10 +13,12 @@ COPY . .
 # Définition des arguments de build pour les variables d'environnement Vite
 ARG VITE_SUPABASE_URL
 ARG VITE_SUPABASE_ANON_KEY
+ARG VITE_TRANSLATE_URL
 
 # Injection des variables dans le processus de build
 ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
 ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+ENV VITE_TRANSLATE_URL=$VITE_TRANSLATE_URL
 
 # Construction de l'application
 RUN npm run build

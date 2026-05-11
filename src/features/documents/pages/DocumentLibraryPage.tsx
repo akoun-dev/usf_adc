@@ -63,6 +63,7 @@ export default function DocumentLibraryPage() {
     const { data: documents, isLoading } = useDocuments()
     const [search, setSearch] = useState("")
     const [category, setCategory] = useState("all")
+    const [status, setStatus] = useState("active")
     const [dialogOpen, setDialogOpen] = useState(false)
     const [uploading, setUploading] = useState(false)
 
@@ -91,6 +92,7 @@ export default function DocumentLibraryPage() {
         const title = formData.get("title") as string
         const desc = formData.get("description") as string
         const cat = formData.get("category") as string
+        const validity_end_date = formData.get("validity_end_date") as string
         if (!file || !title) return
 
         setUploading(true)
@@ -111,6 +113,7 @@ export default function DocumentLibraryPage() {
                 file_size: file.size,
                 mime_type: file.type,
                 uploaded_by: user?.id,
+                validity_end_date: validity_end_date || null,
             })
             if (error) throw error
 
@@ -135,10 +138,13 @@ export default function DocumentLibraryPage() {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filtered = (documents || []).filter((d: any) => {
-        const matchSearch =
-            !search || d.title.toLowerCase().includes(search.toLowerCase())
+        const matchSearch = !search || d.title.toLowerCase().includes(search.toLowerCase())
         const matchCat = category === "all" || d.category === category
-        return matchSearch && matchCat
+        
+        const isArchived = d.validity_end_date && new Date(d.validity_end_date) < new Date()
+        const matchStatus = status === "all" || (status === "active" && !isArchived) || (status === "archived" && isArchived)
+        
+        return matchSearch && matchCat && matchStatus
     })
 
     const formatSize = (bytes: number) => {
@@ -204,6 +210,12 @@ export default function DocumentLibraryPage() {
                                 </div>
                                 <div>
                                     <Label>
+                                        {t("documents.validityEndDate", "Date de fin de validité")}
+                                    </Label>
+                                    <Input name="validity_end_date" type="date" />
+                                </div>
+                                <div>
+                                    <Label>
                                         {t("documents.file", "Fichier")}
                                     </Label>
                                     <Input name="file" type="file" required />
@@ -265,6 +277,16 @@ export default function DocumentLibraryPage() {
                         ))}
                     </SelectContent>
                 </Select>
+                <Select value={status} onValueChange={setStatus}>
+                    <SelectTrigger className="w-[150px]">
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="all">{t("common.all", "Tous")}</SelectItem>
+                        <SelectItem value="active">{t("document.active", "Actifs")}</SelectItem>
+                        <SelectItem value="archived">{t("document.archived", "Archivés")}</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
 
             {isLoading ? (
@@ -300,7 +322,12 @@ export default function DocumentLibraryPage() {
                                         {doc.description || doc.file_name}
                                     </p>
                                 </div>
-                                <Badge variant="outline">{doc.category}</Badge>
+                                <div className="flex flex-col items-end gap-1">
+                                    <Badge variant="outline">{doc.category}</Badge>
+                                    {doc.validity_end_date && new Date(doc.validity_end_date) < new Date() && (
+                                        <Badge variant="destructive" className="text-[10px]">Archivé</Badge>
+                                    )}
+                                </div>
                                 <span className="text-xs text-muted-foreground">
                                     {formatSize(doc.file_size)}
                                 </span>

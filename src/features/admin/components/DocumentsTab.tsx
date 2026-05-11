@@ -40,6 +40,7 @@ interface DocumentFormData {
   mime_type?: string;
   is_public: boolean;
   tags: string[];
+  validity_end_date?: string | null;
 }
 
 const DOCUMENT_CATEGORIES = [
@@ -77,6 +78,7 @@ export function DocumentsTab() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'archived'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
   
@@ -187,7 +189,16 @@ export function DocumentsTab() {
     setCurrentPage(1);
   }, [searchTerm, handleSearch, queryClient]);
 
-  const activeDocuments = (searchResults?.documents?.length > 0 ? searchResults.documents : documents) || [];
+  const activeDocuments = useMemo(() => {
+    const baseDocs = (searchResults?.documents?.length > 0 ? searchResults.documents : documents) || [];
+    return baseDocs.filter((doc: any) => {
+      if (statusFilter === 'all') return true;
+      const isArchived = doc.validity_end_date && new Date(doc.validity_end_date) < new Date();
+      if (statusFilter === 'archived') return isArchived;
+      return !isArchived;
+    });
+  }, [searchResults, documents, statusFilter]);
+
   const totalPages = Math.ceil(activeDocuments.length / itemsPerPage);
   const paginatedDocuments = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -212,6 +223,7 @@ export function DocumentsTab() {
     setValue('mime_type', item.mime_type || '');
     setValue('is_public', item.is_public || false);
     setValue('tags', item.tags || []);
+    setValue('validity_end_date', item.validity_end_date ? new Date(item.validity_end_date).toISOString().split('T')[0] : '');
     setIsOpen(true);
   };
 
@@ -304,6 +316,19 @@ export function DocumentsTab() {
                     </div>
                   </div>
                   <div>
+                    <Label>{t('document.status', 'Statut')}</Label>
+                    <Select value={statusFilter} onValueChange={(v: any) => setStatusFilter(v)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder={t('common.all', 'Tous')} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">{t('common.all', 'Tous')}</SelectItem>
+                        <SelectItem value="active">{t('document.active', 'Actifs')}</SelectItem>
+                        <SelectItem value="archived">{t('document.archived', 'Archivés')}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
                     <Label htmlFor="searchTags">{t('document.tags', 'Tags')}</Label>
                     <Input
                       id="searchTags"
@@ -362,6 +387,11 @@ export function DocumentsTab() {
                   <div>
                     <Label htmlFor="description">{t('document.description', 'Description')}</Label>
                     <Textarea id="description" {...register('description')} rows={3} />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="validity_end_date">{t('document.validityEndDate', 'Date de fin de validité')}</Label>
+                    <Input id="validity_end_date" type="date" {...register('validity_end_date')} />
                   </div>
                   
                   <div>
@@ -518,6 +548,9 @@ export function DocumentsTab() {
                       <div className="flex items-center gap-2">
                         <FileText className="h-4 w-4 text-primary" />
                         {item.title}
+                        {item.validity_end_date && new Date(item.validity_end_date) < new Date() && (
+                          <Badge variant="destructive" className="ml-2 text-[10px]">Archivé</Badge>
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>

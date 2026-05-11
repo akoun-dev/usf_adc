@@ -69,7 +69,7 @@ Text to translate: ${text}`
 
             const data = await response.json()
             const content = data.choices[0].message.content
-            
+
             const jsonMatch = content.match(/\{[\s\S]*\}/)
             if (jsonMatch) {
                 return JSON.parse(jsonMatch[0])
@@ -78,7 +78,8 @@ Text to translate: ${text}`
         }
 
         if (aiSettings.provider === "libretranslate") {
-            const baseUrl = aiSettings.localUrl || "http://localhost:5001"
+            // const baseUrl = aiSettings.localUrl || "http://localhost:5000"
+            const baseUrl = import.meta.env.VITE_TRANSLATE_URL || "http://localhost:5000";
             const results: Record<string, string> = {}
 
             // Helper for LibreTranslate API

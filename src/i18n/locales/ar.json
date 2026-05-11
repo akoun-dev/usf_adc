@@ -1218,7 +1218,10 @@
   "roles": {
     "point_focal": "نقطة اتصال وطنية",
     "country_admin": "مسؤول الدولة",
-    "super_admin": "مسؤول عام ANSUT/UAT"
+    "super_admin": "مسؤول عام ANSUT/UAT",
+    "contributor": "مساهم",
+    "editor": "محرر",
+    "visiteur": "زائر"
   },
   "documents": {
     "title": "مكتبة الوثائق",

@@ -14,7 +14,7 @@ export const APP_ROLES = {
     super_admin: "super_admin" as const,
     CONTRIBUTOR: "contributor" as const,
     EDITOR: "editor" as const,
-    PARTICIPANT: "participant" as const,
+    VISITEUR: "visiteur" as const,
 }
 
 export const SUBMISSION_STATUS = {
@@ -43,7 +43,7 @@ export const ROLE_LABELS: Record<AppRole, string> = {
     super_admin: "Super Admin",
     contributor: "Contributeur",
     editor: "Éditeur",
-    participant: "Participant",
+    visiteur: "Visiteur",
 }
 
 export const STATUS_LABELS: Record<SubmissionStatus, string> = {
@@ -57,7 +57,7 @@ export const STATUS_LABELS: Record<SubmissionStatus, string> = {
 
 // Role hierarchy (higher index = more privileges)
 export const ROLE_HIERARCHY: AppRole[] = [
-    "participant",
+    "visiteur",
     "contributor",
     "editor",
     "point_focal",
@@ -72,5 +72,5 @@ export const ROLE_DASHBOARD_PATHS: Record<AppRole, string> = {
     super_admin: "/admin",
     contributor: "/dashboard/contributeur",
     editor: "/dashboard/editeur",
-    participant: "/dashboard/participant",
+    visiteur: "/dashboard/visiteur",
 }

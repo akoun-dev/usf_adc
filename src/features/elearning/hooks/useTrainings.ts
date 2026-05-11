@@ -38,3 +38,12 @@ export function useUpdateTraining() {
         }
     });
 }
+export function useDeleteTraining() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id: string) => elearningService.deleteTraining(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['trainings'] });
+        }
+    });
+}

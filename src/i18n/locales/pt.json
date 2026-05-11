@@ -1185,7 +1185,10 @@
   "roles": {
     "point_focal": "Ponto Focal Nacional",
     "country_admin": "Administrador de País",
-    "super_admin": "Administrador Global ANSUT/UAT"
+    "super_admin": "Administrador Global ANSUT/UAT",
+    "contributor": "Colaborador",
+    "editor": "Editor",
+    "visiteur": "Visitante"
   },
   "documents": {
     "title": "Biblioteca de documentos",

@@ -1,0 +1,48 @@
+SECTION;ID;MODULE / TITRE;DESCRIPTION / DETAILS;PRÉCONDITIONS;ÉTAPES;DONNÉES DE TEST;RÉSULTAT ATTENDU;RÉSULTAT OBTENU;STATUT;PRIORITÉ
+0. INTRODUCTION;;;;;;;;;;
+INTRODUCTION;;PROJET;Plateforme NEXUS (USF ADC);;;;;;;
+INTRODUCTION;;OBJECTIF;Valider la conformité fonctionnelle de la plateforme par rapport au cahier des charges.;;;;;;;
+INTRODUCTION;;PÉRIMÈTRE;Authentification, Projets, FSU, Forum, Administration, Cartographie.;;;;;;;
+;;;;;;;;;;
+1. ORGANISATION;;;;;;;;;;
+ORGANISATION;;ENVIRONNEMENT;Recette / Staging;;;;;;;
+ORGANISATION;;NAVIGATEURS;Chrome (dernière version), Firefox, Safari.;;;;;;;
+ORGANISATION;;PRÉ-REQUIS;Base de données Supabase initialisée avec les données de test (seed).;;;;;;;
+;;;;;;;;;;
+2. FICHES DE TEST;;;;;;;;;;
+TEST;AUT-01;CONNEXION;Connexion réussie;Page de connexion accessible;"1. Accéder à la page /login
+2. Saisir email et mot de passe
+3. Valider";Email: admin@nexus.org / PW: password123;Redirection vers le Dashboard;[ ];En attente;HAUTE
+TEST;AUT-02;CONNEXION;Échec de connexion;Page de connexion accessible;"1. Saisir un email inexistant
+2. Valider";Email: ghost@test.com;Affichage du message d'erreur ""Identifiants invalides"";[ ];En attente;HAUTE
+TEST;AUT-03;INSCRIPTION;Création de compte;Page d'inscription accessible;"1. Remplir le formulaire d'inscription
+2. Valider l'email via Mailpit
+3. Se connecter";Nom: Jean Dupont / Email: j.dupont@test.com;Compte créé et accès autorisé;[ ];En attente;HAUTE
+TEST;PRJ-01;PROJETS;Nouveau projet;Utilisateur Point Focal connecté;"1. Cliquer sur ""Nouveau Projet""
+2. Remplir les champs obligatoires
+3. Sauvegarder";Titre: Projet Alpha / Secteur: Énergie;Le projet est créé avec le statut ""Brouillon"";[ ];En attente;HAUTE
+TEST;PRJ-02;PROJETS;Édition projet;Projet existant en mode Brouillon;"1. Ouvrir le projet
+2. Modifier la description
+3. Enregistrer";Description: Mise à jour du budget;Les modifications sont persistées en base;[ ];En attente;MOYENNE
+TEST;FSU-01;FSU;Soumission FSU;Indicateurs de projet définis;"1. Accéder au formulaire FSU
+2. Saisir les valeurs des indicateurs
+3. Cliquer sur Envoyer";Valeur: 85% / Date: 2026-05-11;Validation réussie, statut passe à ""En attente d'approbation"";[ ];En attente;HAUTE
+TEST;MAP-01;CARTE;Filtres géographiques;Au moins 5 projets répartis sur 3 pays;"1. Sélectionner un pays dans le filtre
+2. Vérifier les marqueurs";Filtre: Sénégal;Seuls les marqueurs du Sénégal sont visibles;[ ];En attente;MOYENNE
+TEST;VAL-01;VALIDATION;Approbation Admin;Projet soumis par un Point Focal;"1. Se connecter en Admin Pays
+2. Consulter les validations en attente
+3. Cliquer sur Approuver";ID Projet: PRJ-001;Le projet devient public et le Point Focal reçoit une notification;[ ];En attente;HAUTE
+TEST;FRM-01;FORUM;Nouveau sujet;Utilisateur connecté;"1. Créer un sujet dans une catégorie
+2. Ajouter un tag";Titre: Question sur le FSU / Tag: Aide;Sujet visible par tous les membres du groupe;[ ];En attente;BASSE
+TEST;ADM-01;ADMIN;Gestion Utilisateurs;Utilisateur Super Admin connecté;"1. Rechercher un utilisateur
+2. Modifier son rôle
+3. Enregistrer";Utilisateur: test@user.com / Nouveau rôle: Admin Pays;Le rôle est mis à jour immédiatement;[ ];En attente;HAUTE
+;;;;;;;;;;
+3. GESTION DES ANOMALIES;;;;;;;;;;
+ANOMALIE;BUG-01;PROJETS;Bouton ""Supprimer"" inactif;S'assurer que l'utilisateur a les droits de suppression;Cliquer sur Supprimer;N/A;Une popup de confirmation doit apparaître;Rien ne se passe;BLOQUANT;HAUTE
+ANOMALIE;BUG-02;DESIGN;Couleur du texte illisible en mode sombre;Activer le mode sombre;Naviguer sur le dashboard;N/A;Texte blanc sur fond noir;Texte gris foncé sur fond noir;ESTHÉTIQUE;BASSE
+;;;;;;;;;;
+4. RAPPORT DE RECETTE;;;;;;;;;;
+RAPPORT;;RÉSULTAT GLOBAL;[ ] ACCEPTÉ / [ ] RÉSERVES / [ ] REFUSÉ;;;;;;;
+RAPPORT;;SIGNATURE CLIENT;..........................................;;;;;;;
+RAPPORT;;DATE;.... / .... / 2026;;;;;;;

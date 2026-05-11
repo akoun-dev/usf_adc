@@ -1,4 +1,4 @@
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -504,6 +504,7 @@ export type Database = {
           type: string | null
           updated_at: string | null
           uploaded_by: string | null
+          validity_end_date: string | null
           version: string | null
         }
         Insert: {
@@ -537,6 +538,7 @@ export type Database = {
           type?: string | null
           updated_at?: string | null
           uploaded_by?: string | null
+          validity_end_date?: string | null
           version?: string | null
         }
         Update: {
@@ -570,6 +572,7 @@ export type Database = {
           type?: string | null
           updated_at?: string | null
           uploaded_by?: string | null
+          validity_end_date?: string | null
           version?: string | null
         }
         Relationships: [
@@ -2670,7 +2673,7 @@ export type Database = {
         | "super_admin"
         | "contributor"
         | "editor"
-        | "participant"
+        | "visiteur"
       event_status: "upcoming" | "ongoing" | "completed" | "cancelled"
       event_type:
         | "conference"
@@ -2858,7 +2861,7 @@ export const Constants = {
         "super_admin",
         "contributor",
         "editor",
-        "participant",
+        "visiteur",
       ],
       event_status: ["upcoming", "ongoing", "completed", "cancelled"],
       event_type: [

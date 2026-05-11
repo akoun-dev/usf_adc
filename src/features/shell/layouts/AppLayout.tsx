@@ -100,11 +100,7 @@ export default function AppLayout() {
                     description: t('admin.membersDesc', 'Gestion des membres associés'),
                     icon: <Users className="h-4 w-4" /> 
                 },
-                'news': { 
-                    title: t('nav.news', 'Actualités'), 
-                    description: t('admin.newsDesc', 'Gestion des actualités et articles'),
-                    icon: <Newspaper className="h-4 w-4" /> 
-                },
+
                 'users': { 
                     title: t('nav.users', 'Utilisateurs'), 
                     description: t('admin.usersDesc', 'Gestion des utilisateurs de la plateforme'),
@@ -398,12 +394,12 @@ export default function AppLayout() {
                         onNavigate={() => setSidebarOpen(false)}
                     />
                 )
-            case "participant":
             case "contributor":
             case "editor":
+            case "visiteur":
                 return (
                     <UserSidebar
-                        role="participant"
+                        role="visiteur"
                         onNavigate={() => setSidebarOpen(false)}
                     />
                 )

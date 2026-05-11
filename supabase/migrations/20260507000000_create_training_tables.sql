@@ -9,7 +9,7 @@
 
 ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'contributor';
 ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'editor';
-ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'participant';
+ALTER TYPE public.app_role ADD VALUE IF NOT EXISTS 'visiteur';
 
 ALTER TYPE public.notification_type ADD VALUE IF NOT EXISTS 'training_announcement';
 

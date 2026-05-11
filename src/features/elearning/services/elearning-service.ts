@@ -36,7 +36,7 @@ export const elearningService = {
     async createTraining(training: Partial<Training>) {
         const { data, error } = await supabase
             .from('trainings')
-            .insert(training)
+            .insert(training as any)
             .select()
             .single();
         if (error) throw error;
@@ -52,6 +52,15 @@ export const elearningService = {
             .single();
         if (error) throw error;
         return data as Training;
+    },
+
+    async deleteTraining(id: string) {
+        const { error } = await supabase
+            .from('trainings')
+            .delete()
+            .eq('id', id);
+        if (error) throw error;
+        return true;
     },
 
     // Registrations
@@ -113,7 +122,7 @@ export const elearningService = {
     async createAnnouncement(announcement: Partial<Announcement>) {
         const { data, error } = await supabase
             .from('announcements')
-            .insert(announcement)
+            .insert(announcement as any)
             .select()
             .single();
         if (error) throw error;

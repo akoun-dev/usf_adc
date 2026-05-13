@@ -4,9 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import type { ForumTopic } from '../types';
+import { getLangValue } from '@/types/i18n';
 
 export function TopicCard({ topic }: { topic: ForumTopic }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const timeAgo = (dateStr: string) => {
     const diff = Date.now() - new Date(dateStr).getTime();
@@ -26,12 +27,12 @@ export function TopicCard({ topic }: { topic: ForumTopic }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 {topic.is_pinned && <Pin className="h-3.5 w-3.5 text-primary shrink-0" />}
-                <h3 className="font-semibold text-foreground truncate">{topic.title}</h3>
+                <h3 className="font-semibold text-foreground truncate">{getLangValue(topic.title, i18n.language)}</h3>
               </div>
-              <p className="text-sm text-muted-foreground line-clamp-2">{topic.content}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2">{getLangValue(topic.content, i18n.language)}</p>
               <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
                 {topic.category && (
-                  <Badge variant="secondary" className="text-xs">{topic.category.name}</Badge>
+                  <Badge variant="secondary" className="text-xs">{getLangValue(topic.category.name, i18n.language)}</Badge>
                 )}
                 <span>{topic.author?.full_name ?? t('forum.anonymous')}</span>
                 <span>{timeAgo(topic.created_at)}</span>

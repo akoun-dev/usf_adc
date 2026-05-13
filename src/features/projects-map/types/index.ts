@@ -1,14 +1,15 @@
 export interface Project {
   id: string;
   country_id: string;
-  title: string;
-  description: string | null;
+  title: Record<string, string> | string;
+  description: Record<string, string> | string | null;
   status: ProjectStatus;
   budget: number | null;
-  beneficiaire: number | null;
+  beneficiaries: Record<string, string> | string | null;
+  thematic?: Record<string, string> | string | null;
   latitude: number | null;
   longitude: number | null;
-  region: string | null;
+  region: Record<string, string> | string | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;

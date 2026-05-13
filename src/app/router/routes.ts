@@ -105,6 +105,9 @@ const AdminMembersPage = lazy(
 const AdminCountriesPage = lazy(
     () => import("@/features/admin/pages/AdminCountriesPage")
 )
+const CountryFormPage = lazy(
+    () => import("@/features/admin/pages/CountryFormPage")
+)
 const AdminSettingsPage = lazy(
     () => import("@/features/admin/pages/AdminSettingsPage")
 )
@@ -260,7 +263,7 @@ const AdminTrainingManager = lazy(() => import("@/features/elearning/pages/Admin
 /** Routes rendered inside the authenticated AppLayout shell. */
 export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/dashboard", component: DashboardRouter },
-{
+    {
         path: "/point-focal/account",
         component: AccountPage,
         roles: ["point_focal", "country_admin", "super_admin"],
@@ -275,7 +278,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: PointFocalDashboard,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
-    // Point Focal routes
     {
         path: "/point-focal",
         component: PointFocalDashboardPage,
@@ -314,11 +316,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/point-focal/projects/submit",
         component: MyProjectsPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/point-focal/tasks",
-        component: MyTasksPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
@@ -401,12 +398,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: ForumNewTopicPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
-{
+    {
         path: "/point-focal/training/elearning",
         component: PointFocalTrainingPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
-    // Country Admin routes
     {
         path: "/country-admin",
         component: CountryAdminDashboardPage,
@@ -548,11 +544,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
-        path: "/point-focal/training/elearning",
-        component: PointFocalTrainingPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
         path: "/point-focal/feeds",
         component: RssFeedsPage,
         roles: ["point_focal", "country_admin", "super_admin"],
@@ -570,11 +561,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/point-focal/directory",
         component: AgencyDirectoryPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/point-focal/account",
-        component: AccountPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
@@ -606,26 +592,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     { path: "/profile/preferences", component: ProfilePreferencesPage },
     { path: "/profile/security", component: ProfileSecurityPage },
     { path: "/admin/messaging", component: MessagingPage },
-    {
-        path: "/point-focal/account",
-        component: AccountPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/point-focal/profile",
-        component: ProfilePage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/point-focal/profile/preferences",
-        component: ProfilePreferencesPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/point-focal/profile/security",
-        component: ProfileSecurityPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
     {
         path: "/fsu/new",
         component: FsuNewSubmissionPage,
@@ -730,6 +696,16 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
     {
         path: "/admin/countries",
         component: AdminCountriesPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/countries/new",
+        component: CountryFormPage,
+        roles: ["super_admin"],
+    },
+    {
+        path: "/admin/countries/edit/:id",
+        component: CountryFormPage,
         roles: ["super_admin"],
     },
     {
@@ -857,7 +833,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: DgMessageSettingsPage,
         roles: ["country_admin", "super_admin"],
     },
-    // Admin access to general features
     {
         path: "/admin/reports",
         component: ReportsPage,
@@ -879,16 +854,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         roles: ["point_focal", "country_admin", "super_admin"],
     },
     {
-        path: "/admin/documents",
-        component: DocumentLibraryPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
-        path: "/admin/forum",
-        component: ForumPage,
-        roles: ["point_focal", "country_admin", "super_admin"],
-    },
-    {
         path: "/admin/notifications",
         component: NotificationsPage,
         roles: ["point_focal", "country_admin", "super_admin"],
@@ -898,7 +863,6 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: SupportPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
-    // Co-Rédaction admin routes
     {
         path: "/admin/co-redaction",
         component: AdminCoRedactionPage,
@@ -914,12 +878,11 @@ export const AUTHENTICATED_ROUTES: AppRouteConfig[] = [
         component: AdminCoRedactionEditorPage,
         roles: ["point_focal", "country_admin", "super_admin"],
     },
-    // E-learning admin routes
     {
         path: "/admin/elearning",
         component: AdminTrainingManager,
         roles: ["country_admin", "super_admin"],
-    },
+    }
 ]
 
 /** Public routes accessible without authentication. */

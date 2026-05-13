@@ -26,19 +26,19 @@ import { useCountries } from '../hooks/useCountries';
 import type { Partner } from '../services/admin-service';
 
 const PARTNER_TYPES = [
-    { value: 'institutionnel', label: 'Institutionnel' },
-    { value: 'prive', label: 'Privé' },
-    { value: 'ong', label: 'ONG' },
-    { value: 'international', label: 'International' },
+    { value: 'institutionnel', label: 'admin.partner.typeInstitutionnel' },
+    { value: 'prive', label: 'admin.partner.typePrive' },
+    { value: 'ong', label: 'admin.partner.typeOng' },
+    { value: 'international', label: 'admin.partner.typeInternational' },
 ];
 
 const COLUMNS: ColumnConfig<Partner>[] = [
-    { key: 'logo_url', label: 'Logo', sortable: false, className: 'w-[60px] p-2' },
-    { key: 'nom', label: 'Nom', sortable: true, className: 'min-w-[200px]' },
-    { key: 'type', label: 'Type', sortable: true, className: 'w-[120px]' },
-    { key: 'countries', label: 'Pays', sortable: true, className: 'w-[150px]' },
-    { key: 'domaine', label: 'Domaine', sortable: true, className: 'w-[150px]' },
-    { key: 'est_actif', label: 'Statut', sortable: true, className: 'w-[100px] text-center' },
+    { key: 'logo_url', label: 'admin.partner.logo', sortable: false, className: 'w-[60px] p-2' },
+    { key: 'nom', label: 'admin.partner.name', sortable: true, className: 'min-w-[200px]' },
+    { key: 'type', label: 'admin.partner.type', sortable: true, className: 'w-[120px]' },
+    { key: 'countries', label: 'admin.partner.country', sortable: true, className: 'w-[150px]' },
+    { key: 'domaine', label: 'admin.partner.domain', sortable: true, className: 'w-[150px]' },
+    { key: 'est_actif', label: 'admin.partner.status', sortable: true, className: 'w-[100px] text-center' },
 ];
 
 export function PartnersTab() {
@@ -76,7 +76,7 @@ export function PartnersTab() {
         resetFilters: resetTableFilters,
     } = useTableManagement<Partner>({
         data: partners,
-        columns: COLUMNS,
+        columns: COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })),
         initialSortField: 'nom',
         initialSortOrder: 'asc',
         initialItemsPerPage: 10,
@@ -111,7 +111,7 @@ export function PartnersTab() {
         return finalFilteredPartners.slice(startIndex, startIndex + itemsPerPage);
     }, [finalFilteredPartners, currentPage, itemsPerPage]);
 
-    const { handleExport } = useExportToCSV<Partner>(finalFilteredPartners, COLUMNS, 'partenaires');
+    const { handleExport } = useExportToCSV<Partner>(finalFilteredPartners, COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })), 'partenaires');
 
     const onSubmit = async (data: Partner & { logo_file?: File; logo_preview?: string }) => {
         try {
@@ -166,7 +166,7 @@ export function PartnersTab() {
     };
 
     const handleDelete = async (id: string, nom: string) => {
-        if (confirm(`Supprimer le partenaire "${nom}" ? Cette action est irréversible.`)) {
+        if (confirm(t('admin.partner.confirmDelete', { name: nom }, `Supprimer le partenaire "${nom}" ? Cette action est irréversible.`))) {
             try {
                 await deletePartner.mutateAsync(id);
                 refetch();
@@ -179,17 +179,17 @@ export function PartnersTab() {
     const getStatusBadge = (isActive: boolean) => {
         return (
             <Badge variant={isActive ? 'default' : 'secondary'}>
-                {isActive ? 'Actif' : 'Inactif'}
+                {isActive ? t('common.active', 'Actif') : t('common.inactive', 'Inactif')}
             </Badge>
         );
     };
 
     const getTypeBadge = (type: string) => {
         const typeLabels: Record<string, string> = {
-            institutionnel: 'Institutionnel',
-            prive: 'Privé',
-            ong: 'ONG',
-            international: 'International',
+            institutionnel: t('admin.partner.typeInstitutionnel', 'Institutionnel'),
+            prive: t('admin.partner.typePrive', 'Privé'),
+            ong: t('admin.partner.typeOng', 'ONG'),
+            international: t('admin.partner.typeInternational', 'International'),
         };
         return typeLabels[type] || type;
     };
@@ -210,7 +210,11 @@ export function PartnersTab() {
                             <CardTitle>{t('admin.partners', 'Partenaires')}</CardTitle>
                             <CardDescription>{t('admin.partnersDesc', 'Gestion des organisations partenaires')}</CardDescription>
                             <p className="text-sm text-muted-foreground mt-1">
-                                {finalFilteredPartners.length} partenaires {partners.length > finalFilteredPartners.length && `sur ${partners.length}`}
+                                {t('admin.partner.count', { 
+                                    count: finalFilteredPartners.length, 
+                                    total: partners.length,
+                                    showTotal: partners.length > finalFilteredPartners.length
+                                }, `${finalFilteredPartners.length} partenaires ${partners.length > finalFilteredPartners.length ? `sur ${partners.length}` : ''}`)}
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -220,7 +224,7 @@ export function PartnersTab() {
                                 onClick={() => refetch()}
                             >
                                 <RefreshCw className="h-4 w-4 mr-2" />
-                                Actualiser
+                                {t('common.refresh', 'Actualiser')}
                             </Button>
                             <Button
                                 variant="outline"
@@ -228,7 +232,7 @@ export function PartnersTab() {
                                 onClick={handleExport}
                             >
                                 <Download className="h-4 w-4 mr-2" />
-                                Exporter
+                                {t('common.export', 'Exporter')}
                             </Button>
                             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                                 <DialogTrigger asChild>
@@ -260,7 +264,7 @@ export function PartnersTab() {
                                                 <Label htmlFor="type">{t('partner.type', 'Type')}</Label>
                                                 <Select onValueChange={(v) => setValue('type', v as any)} value={watch('type')}>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Sélectionner un type" />
+                                                        <SelectValue placeholder={t('admin.partner.selectType', 'Sélectionner un type')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {PARTNER_TYPES.map(type => (
@@ -273,7 +277,7 @@ export function PartnersTab() {
                                                 <Label htmlFor="pays_id">{t('partner.country', 'Pays')}</Label>
                                                 <Select onValueChange={(v) => setValue('pays_id', v)} value={watch('pays_id')}>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Sélectionner un pays" />
+                                                        <SelectValue placeholder={t('admin.partner.selectCountry', 'Sélectionner un pays')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {countries.map(country => (
@@ -384,7 +388,7 @@ export function PartnersTab() {
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Rechercher par nom, domaine ou description..."
+                                placeholder={t('admin.partner.searchPlaceholder', 'Rechercher par nom, domaine ou description...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-10"
@@ -392,21 +396,21 @@ export function PartnersTab() {
                         </div>
                         <Select value={selectedType} onValueChange={setSelectedType}>
                             <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filtrer par type" />
+                                <SelectValue placeholder={t('admin.partner.filterByType', 'Filtrer par type')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="tous">Tous les types</SelectItem>
+                                <SelectItem value="tous">{t('admin.partner.typeAll', 'Tous les types')}</SelectItem>
                                 {PARTNER_TYPES.map(type => (
-                                    <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+                                    <SelectItem key={type.value} value={type.value}>{t(type.label)}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
                         <Select value={selectedCountry} onValueChange={setSelectedCountry}>
                             <SelectTrigger className="w-full sm:w-[200px]">
-                                <SelectValue placeholder="Filtrer par pays" />
+                                <SelectValue placeholder={t('admin.partner.filterByCountry', 'Filtrer par pays')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="tous">Tous les pays</SelectItem>
+                                <SelectItem value="tous">{t('admin.partner.countryAll', 'Tous les pays')}</SelectItem>
                                 {countries.map(country => (
                                     <SelectItem key={country.id} value={country.id}>
                                         <div className="flex items-center gap-2">
@@ -426,7 +430,7 @@ export function PartnersTab() {
                                 className="h-4 w-4"
                             />
                             <Label htmlFor="activeOnly" className="text-sm cursor-pointer">
-                                Actifs uniquement
+                                {t('admin.partner.activeOnly', 'Actifs uniquement')}
                             </Label>
                         </div>
                         {(searchQuery || selectedType !== 'tous' || selectedCountry !== 'tous' || !activeOnly) && (
@@ -435,7 +439,7 @@ export function PartnersTab() {
                                 size="sm"
                                 onClick={resetAllFilters}
                             >
-                                Réinitialiser
+                                {t('common.reset', 'Réinitialiser')}
                             </Button>
                         )}
                     </div>
@@ -482,8 +486,8 @@ export function PartnersTab() {
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
                                         {searchQuery || selectedType !== 'tous' || selectedCountry !== 'tous' || !activeOnly
-                                            ? "Aucun partenaire ne correspond aux critères de recherche"
-                                            : "Aucun partenaire disponible"}
+                                            ? t('admin.partner.noResults', 'Aucun partenaire ne correspond aux critères de recherche')
+                                            : t('admin.partner.noPartners', 'Aucun partenaire disponible')}
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -537,7 +541,7 @@ export function PartnersTab() {
                                                     size="icon"
                                                     variant="ghost"
                                                     onClick={() => handleEdit(partner)}
-                                                    title="Modifier"
+                                                    title={t('common.edit', 'Modifier')}
                                                 >
                                                     <Pencil className="h-4 w-4" />
                                                 </Button>
@@ -545,7 +549,7 @@ export function PartnersTab() {
                                                     size="icon"
                                                     variant="ghost"
                                                     onClick={() => handleDelete(partner.id, partner.nom)}
-                                                    title="Supprimer"
+                                                    title={t('common.delete', 'Supprimer')}
                                                 >
                                                     <Trash2 className="h-4 w-4 text-destructive" />
                                                 </Button>
@@ -562,7 +566,7 @@ export function PartnersTab() {
                 {finalTotalPages > 1 && (
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>Lignes par page:</span>
+                            <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
                             <Select
                                 value={itemsPerPage.toString()}
                                 onValueChange={(v) => setItemsPerPage(parseInt(v))}
@@ -578,7 +582,7 @@ export function PartnersTab() {
                                 </SelectContent>
                             </Select>
                             <span>
-                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredPartners.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredPartners.length)} sur {finalFilteredPartners.length}
+                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredPartners.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredPartners.length)} {t('admin.of', 'sur')} {finalFilteredPartners.length}
                             </span>
                         </div>
 

@@ -22,6 +22,6 @@ export function getRoleLabels(t: (key: string) => string): Record<AppRole, strin
         super_admin: t("roles.super_admin"),
         contributor: t("roles.contributor"),
         editor: t("roles.editor"),
-        participant: t("roles.participant"),
+        visiteur: t("roles.visiteur"),
     }
 }

@@ -28,7 +28,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import PageHero from "@/components/PageHero"
 import {
     Select,
     SelectContent,
@@ -37,8 +36,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import bgHeader from '@/assets/bg-header.jpg'
-
-
 
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
@@ -56,8 +53,37 @@ function formatDate(date: string) {
     })
 }
 
-function ProjectCard({ project }: { project: ProjectWithDetails }) {
+/**
+ * Extrait la valeur localisée d'un champ JSONB ou string.
+ * Supporte les formats : string brute, JSON stringifié, objet Record<string, string>.
+ */
+function getLocalized(field: unknown, lang: string): string {
+    if (!field) return ''
+    if (typeof field === 'string') {
+        try {
+            const parsed = JSON.parse(field)
+            if (typeof parsed === 'object' && parsed !== null) {
+                return parsed[lang] || parsed['fr'] || ''
+            }
+        } catch {
+            return field
+        }
+        return field
+    }
+    if (typeof field === 'object' && !Array.isArray(field)) {
+        const obj = field as Record<string, string>
+        return obj[lang] || obj['fr'] || ''
+    }
+    return String(field)
+}
+
+function ProjectCard({ project, lang }: { project: ProjectWithDetails; lang: string }) {
     const statusInfo = STATUS_LABELS[project.status] || STATUS_LABELS['planned']
+    const title = getLocalized(project.title, lang)
+    const description = getLocalized(project.description, lang)
+    const thematic = getLocalized(project.thematic, lang)
+    const region = getLocalized(project.region, lang)
+    const beneficiaries = getLocalized(project.beneficiaries, lang)
 
     return (
         <Card className="hover:shadow-lg transition-shadow flex flex-col h-full">
@@ -75,16 +101,16 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
                             {project.country && (
                                 <Badge variant="outline">{project.country.name_fr}</Badge>
                             )}
-                            {project.thematic && (
-                                <Badge variant="outline">{project.thematic}</Badge>
+                            {thematic && (
+                                <Badge variant="outline">{thematic}</Badge>
                             )}
                         </div>
                         <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
                     </div>
 
-                    <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
+                    <h3 className="font-semibold text-lg mb-2">{title}</h3>
                     <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                        {project.description}
+                        {description}
                     </p>
 
                     <div className="grid gap-2 text-sm text-muted-foreground mb-5">
@@ -98,15 +124,15 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
                                 <span>Budget : {project.budget.toLocaleString('fr-FR')} FCFA</span>
                             </div>
                         )}
-                        {project.beneficiaries && (
+                        {beneficiaries && (
                             <div className="flex items-center gap-2">
                                 <Users className="h-4 w-4" />
-                                <span>{project.beneficiaries} bénéficiaires</span>
+                                <span>{beneficiaries} bénéficiaires</span>
                             </div>
                         )}
                         <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4" />
-                            <span>{project.region || project.country?.region || "N/A"}</span>
+                            <span>{region || project.country?.region || "N/A"}</span>
                         </div>
                         {project.operator && (
                             <div className="flex items-center gap-2">
@@ -131,7 +157,8 @@ function ProjectCard({ project }: { project: ProjectWithDetails }) {
 }
 
 export default function CallsForProjectsPage() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
+    const lang = i18n.language || 'fr'
     const { data: projects, isLoading } = usePublicProjects()
     const [thematic, setThematic] = useState("all")
     const [search, setSearch] = useState("")
@@ -143,29 +170,35 @@ export default function CallsForProjectsPage() {
         [projects]
     )
 
+    // Build thematic options from localized JSONB values
     const thematicOptions = useMemo(() => {
         const values = Array.from(
-            new Set(completedProjects.map(project => project.thematic))
-        ).filter((thematic): thematic is string => thematic !== null)
-        return values.sort((a, b) =>
-            (a || '').localeCompare((b || ''))
+            new Set(
+                completedProjects
+                    .map(project => getLocalized(project.thematic, lang))
+                    .filter(Boolean)
+            )
         )
-    }, [completedProjects])
+        return values.sort((a, b) => a.localeCompare(b))
+    }, [completedProjects, lang])
 
     const filteredProjects = useMemo(() => {
         return completedProjects.filter(project => {
-            const matchThematic = thematic === "all" || project.thematic === thematic
+            const localizedThematic = getLocalized(project.thematic, lang)
+            const matchThematic = thematic === "all" || localizedThematic === thematic
+
             const searchLower = search.toLowerCase()
             const matchSearch = !search ||
-                project.title.toLowerCase().includes(searchLower) ||
-                (project.description || '').toLowerCase().includes(searchLower) ||
+                getLocalized(project.title, lang).toLowerCase().includes(searchLower) ||
+                getLocalized(project.description, lang).toLowerCase().includes(searchLower) ||
                 project.country?.name_fr?.toLowerCase().includes(searchLower) ||
                 (project.operator || '').toLowerCase().includes(searchLower) ||
-                (project.region || project.country?.region || '').toLowerCase().includes(searchLower)
+                getLocalized(project.region, lang).toLowerCase().includes(searchLower) ||
+                (project.country?.region || '').toLowerCase().includes(searchLower)
 
             return matchThematic && matchSearch
         })
-    }, [completedProjects, thematic, search])
+    }, [completedProjects, thematic, search, lang])
 
     // Reset to page 1 when filters change
     useMemo(() => {
@@ -271,18 +304,11 @@ export default function CallsForProjectsPage() {
                             {t("public.calls.noCalls")}
                         </CardContent>
                     </Card>
-                ) : filteredProjects.length === 0 ? (
-                    <Card>
-                        <CardContent className="py-12 text-center text-muted-foreground">
-                            <Briefcase className="mx-auto h-12 w-12 mb-3 opacity-50" />
-                            {t("public.calls.noCalls")}
-                        </CardContent>
-                    </Card>
                 ) : (
                     <>
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {paginatedProjects.map(project => (
-                                <ProjectCard key={project.id} project={project} />
+                                <ProjectCard key={project.id} project={project} lang={lang} />
                             ))}
                         </div>
 

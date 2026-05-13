@@ -3,6 +3,32 @@ import { supabase } from '@/integrations/supabase/client';
 // Types based on Supabase migrations
 export type ProjectStatus = 'planned' | 'in_progress' | 'completed' | 'suspended' | 'draft';
 
+/** JSONB multilingual field shape */
+export type JsonbField = Record<string, string> | string | null;
+
+/**
+ * Extrait la valeur localisée depuis un champ JSONB multilingue.
+ * Compatible avec : string brute, JSON stringifié, objet Record<string,string>.
+ */
+export function getLocalizedField(field: JsonbField, lang = 'fr'): string {
+  if (!field) return ''
+  if (typeof field === 'string') {
+    try {
+      const parsed = JSON.parse(field)
+      if (typeof parsed === 'object' && parsed !== null) {
+        return parsed[lang] || parsed['fr'] || ''
+      }
+    } catch {
+      return field
+    }
+    return field
+  }
+  if (typeof field === 'object' && !Array.isArray(field)) {
+    return field[lang] || field['fr'] || ''
+  }
+  return String(field)
+}
+
 export interface Country {
   id: string;
   code_iso: string;
@@ -15,17 +41,17 @@ export interface Country {
 export interface PublicProject {
   id: string;
   country_id: string;
-  title: string;
-  description: string | null;
+  title: JsonbField;
+  description: JsonbField;
   status: ProjectStatus;
   budget: number | null;
   latitude: number | null;
   longitude: number | null;
-  region: string | null;
+  region: JsonbField;
   progress: number | null;
-  beneficiaries: string | null;
+  beneficiaries: JsonbField;
   operator: string | null;
-  thematic: string | null;
+  thematic: JsonbField;
   objectives: string | null;
   indicators: string | null;
   start_date: string | null;
@@ -241,11 +267,14 @@ export async function fetchProjectStats(): Promise<ProjectStats> {
   (projects || []).forEach(project => {
     byStatus[project.status] = (byStatus[project.status] || 0) + 1;
     if (project.thematic) {
-      byThematic[project.thematic] = (byThematic[project.thematic] || 0) + 1;
+      // Extract french value from JSONB for stats grouping
+      const thematicKey = getLocalizedField(project.thematic as JsonbField, 'fr') || String(project.thematic)
+      if (thematicKey) byThematic[thematicKey] = (byThematic[thematicKey] || 0) + 1;
     }
-    // Extract beneficiaries count if it's stored as a number string
+    // Extract beneficiaries count from JSONB (fr value) or plain string
     if (project.beneficiaries) {
-      const count = parseInt(project.beneficiaries.replace(/[^0-9]/g, ''), 10);
+      const benefStr = getLocalizedField(project.beneficiaries as JsonbField, 'fr') || String(project.beneficiaries)
+      const count = parseInt(benefStr.replace(/[^0-9]/g, ''), 10);
       if (!isNaN(count)) {
         totalBeneficiaries += count;
       }

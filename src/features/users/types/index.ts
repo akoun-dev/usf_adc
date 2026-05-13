@@ -3,6 +3,7 @@ import type { AppRole } from '@/core/constants/roles';
 export interface UserProfile {
   id: string;
   full_name: string | null;
+  email: string | null;
   avatar_url: string | null;
   country_id: string | null;
   language: string;

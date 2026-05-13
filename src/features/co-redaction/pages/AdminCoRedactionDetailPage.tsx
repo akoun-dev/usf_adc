@@ -42,10 +42,11 @@ import {
   useForceUnlockDocument,
   useDocumentRealtime,
 } from '../hooks/useCoRedaction';
+import { getLangValue } from '@/types/i18n';
 
 export default function AdminCoRedactionDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('content');
@@ -64,7 +65,7 @@ export default function AdminCoRedactionDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="w-full px-6 py-8">
         <Skeleton className="h-8 w-64 mb-6" />
         <Skeleton className="h-96 w-full" />
       </div>
@@ -73,7 +74,7 @@ export default function AdminCoRedactionDetailPage() {
 
   if (!doc) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="w-full px-6 py-8">
         <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
           <FileText className="h-12 w-12 mb-4" />
           <p>{t('coRedaction.docNotFound', 'Document non trouvé')}</p>
@@ -89,11 +90,11 @@ export default function AdminCoRedactionDetailPage() {
   return (
     <div>
       <PageHero
-        title={doc.title}
-        subtitle={doc.description || ''}
+        title={getLangValue(doc.title, i18n.language)}
+        subtitle={getLangValue(doc.description, i18n.language) || ''}
       />
 
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="w-full px-6 py-8">
         {/* Barre d'actions */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
           <Button variant="outline" onClick={() => navigate('/admin/co-redaction')}>
@@ -212,10 +213,10 @@ export default function AdminCoRedactionDetailPage() {
           <TabsContent value="content" className="mt-4">
             <Card>
               <CardContent className="p-6">
-                {doc.content ? (
+                {getLangValue(doc.content, i18n.language) ? (
                   <div
                     className="prose prose-sm dark:prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: doc.content }}
+                    dangerouslySetInnerHTML={{ __html: getLangValue(doc.content, i18n.language) }}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">

@@ -31,10 +31,11 @@ import {
 import { useUsers } from "@/features/users/hooks/useUsers"
 import { useInvitations } from "@/features/invitations/hooks/useInvitations"
 import { useProjects } from "@/features/projects-map/hooks/useProjects"
+import { getLangValue } from "@/types/i18n"
 
 export default function AdminDashboard() {
     const navigate = useNavigate()
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { hasRole } = useAuth()
     const isGlobalAdmin = hasRole("super_admin")
 
@@ -477,10 +478,10 @@ export default function AdminDashboard() {
                                         >
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-medium truncate">
-                                                    {project.title || "N/A"}
+                                                    {getLangValue(project.title, i18n.language) || "N/A"}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    {project.region || "N/A"}
+                                                    {getLangValue(project.region, i18n.language) || "N/A"}
                                                 </p>
                                             </div>
                                         </div>

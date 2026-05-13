@@ -4,6 +4,7 @@
  * Et crée une version automatique toutes les 5 minutes si modifications
  */
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { coRedactionService } from '../services/co-redaction-service';
 
 interface UseAutosaveOptions {
@@ -31,6 +32,7 @@ export function useAutosave({
   onSave,
   onError,
 }: UseAutosaveOptions) {
+  const { i18n } = useTranslation();
   const [state, setState] = useState<AutosaveState>({
     isSaving: false,
     lastSavedAt: null,
@@ -60,7 +62,7 @@ export function useAutosave({
       // Sauvegarde du contenu principal
       await coRedactionService.updateDocument(documentId, {
         content: currentContent,
-      });
+      }, i18n.language);
 
       // Sauvegarde d'une version automatique si intervalle écoulé
       const now = Date.now();
@@ -111,7 +113,7 @@ export function useAutosave({
       if (contentRef.current !== lastSavedContentRef.current) {
         coRedactionService.updateDocument(documentId, {
           content: contentRef.current,
-        }).catch(() => {
+        }, i18n.language).catch(() => {
           // Silently fail on unmount
         });
       }

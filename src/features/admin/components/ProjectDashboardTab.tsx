@@ -27,13 +27,13 @@ export function ProjectDashboardTab({ project }: ProjectDashboardTabProps) {
 
   // Sample data for charts (in a real app, this would come from actual data)
   const budgetData = [
-    { name: 'Utilisé', value: project.budget ? project.budget * 0.6 : 0 },
-    { name: 'Restant', value: project.budget ? project.budget * 0.4 : 0 }
+    { name: t('project.used', 'Utilisé'), value: project.budget ? project.budget * 0.6 : 0 },
+    { name: t('project.remaining', 'Restant'), value: project.budget ? project.budget * 0.4 : 0 }
   ]
 
   const beneficiaryData = [
-    { name: 'Femmes', value: 60 },
-    { name: 'Hommes', value: 40 }
+    { name: t('project.women', 'Femmes'), value: 60 },
+    { name: t('project.men', 'Hommes'), value: 40 }
   ]
 
   const timelineData = [
@@ -142,7 +142,7 @@ export function ProjectDashboardTab({ project }: ProjectDashboardTabProps) {
                   {budgetData.map((item) => (
                     <div key={item.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.name === 'Utilisé' ? '#3b82f6' : '#e5e7eb' }}></div>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.name === t('project.used', 'Utilisé') ? '#3b82f6' : '#e5e7eb' }}></div>
                         <span>{item.name}</span>
                       </div>
                       <span className="font-medium">{item.value.toLocaleString()} €</span>
@@ -161,7 +161,7 @@ export function ProjectDashboardTab({ project }: ProjectDashboardTabProps) {
                   {beneficiaryData.map((item) => (
                     <div key={item.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.name === 'Femmes' ? '#ef4444' : '#3b82f6' }}></div>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.name === t('project.women', 'Femmes') ? '#ef4444' : '#3b82f6' }}></div>
                         <span>{item.name}</span>
                       </div>
                       <span className="font-medium">{item.value}%</span>

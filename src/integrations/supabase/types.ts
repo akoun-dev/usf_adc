@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -319,7 +319,7 @@ export type Database = {
       document_comments: {
         Row: {
           author_name: string
-          content: string
+          content: Json | null
           created_at: string | null
           document_id: string
           id: string
@@ -328,7 +328,7 @@ export type Database = {
         }
         Insert: {
           author_name?: string
-          content: string
+          content?: Json | null
           created_at?: string | null
           document_id: string
           id?: string
@@ -337,7 +337,7 @@ export type Database = {
         }
         Update: {
           author_name?: string
-          content?: string
+          content?: Json | null
           created_at?: string | null
           document_id?: string
           id?: string
@@ -474,14 +474,14 @@ export type Database = {
       }
       documents: {
         Row: {
-          category: string
+          category: Json
           closed_at: string | null
           closed_by: string | null
-          content: string | null
+          content: Json | null
           country_id: string | null
           created_at: string | null
           created_by: string | null
-          description: string | null
+          description: Json | null
           download_count: number | null
           featured: boolean | null
           file_name: string
@@ -500,7 +500,7 @@ export type Database = {
           status: string | null
           status_workflow: string | null
           thumbnail: string | null
-          title: string
+          title: Json
           type: string | null
           updated_at: string | null
           uploaded_by: string | null
@@ -508,14 +508,14 @@ export type Database = {
           version: string | null
         }
         Insert: {
-          category: string
+          category?: Json
           closed_at?: string | null
           closed_by?: string | null
-          content?: string | null
+          content?: Json | null
           country_id?: string | null
           created_at?: string | null
           created_by?: string | null
-          description?: string | null
+          description?: Json | null
           download_count?: number | null
           featured?: boolean | null
           file_name: string
@@ -534,7 +534,7 @@ export type Database = {
           status?: string | null
           status_workflow?: string | null
           thumbnail?: string | null
-          title: string
+          title?: Json
           type?: string | null
           updated_at?: string | null
           uploaded_by?: string | null
@@ -542,14 +542,14 @@ export type Database = {
           version?: string | null
         }
         Update: {
-          category?: string
+          category?: Json
           closed_at?: string | null
           closed_by?: string | null
-          content?: string | null
+          content?: Json | null
           country_id?: string | null
           created_at?: string | null
           created_by?: string | null
-          description?: string | null
+          description?: Json | null
           download_count?: number | null
           featured?: boolean | null
           file_name?: string
@@ -568,7 +568,7 @@ export type Database = {
           status?: string | null
           status_workflow?: string | null
           thumbnail?: string | null
-          title?: string
+          title?: Json
           type?: string | null
           updated_at?: string | null
           uploaded_by?: string | null
@@ -791,38 +791,38 @@ export type Database = {
         Row: {
           color: string | null
           created_at: string | null
-          description: string | null
+          description: Json | null
           icon: string | null
           id: string
-          name: string
-          slug: string
+          name: Json
+          slug: Json
           sort_order: number | null
         }
         Insert: {
           color?: string | null
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           icon?: string | null
           id?: string
-          name: string
-          slug: string
+          name: Json
+          slug: Json
           sort_order?: number | null
         }
         Update: {
           color?: string | null
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           icon?: string | null
           id?: string
-          name?: string
-          slug?: string
+          name?: Json
+          slug?: Json
           sort_order?: number | null
         }
         Relationships: []
       }
       forum_posts: {
         Row: {
-          content: string
+          content: Json
           created_at: string | null
           created_by: string | null
           id: string
@@ -831,7 +831,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
-          content: string
+          content: Json
           created_at?: string | null
           created_by?: string | null
           id?: string
@@ -840,7 +840,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
-          content?: string
+          content?: Json
           created_at?: string | null
           created_by?: string | null
           id?: string
@@ -915,7 +915,7 @@ export type Database = {
       forum_topics: {
         Row: {
           category_id: string
-          content: string
+          content: Json
           created_at: string | null
           created_by: string | null
           id: string
@@ -923,13 +923,13 @@ export type Database = {
           is_pinned: boolean | null
           is_public: boolean | null
           status: string | null
-          title: string
+          title: Json
           updated_at: string | null
           views: number | null
         }
         Insert: {
           category_id: string
-          content: string
+          content: Json
           created_at?: string | null
           created_by?: string | null
           id?: string
@@ -937,13 +937,13 @@ export type Database = {
           is_pinned?: boolean | null
           is_public?: boolean | null
           status?: string | null
-          title: string
+          title: Json
           updated_at?: string | null
           views?: number | null
         }
         Update: {
           category_id?: string
-          content?: string
+          content?: Json
           created_at?: string | null
           created_by?: string | null
           id?: string
@@ -951,7 +951,7 @@ export type Database = {
           is_pinned?: boolean | null
           is_public?: boolean | null
           status?: string | null
-          title?: string
+          title?: Json
           updated_at?: string | null
           views?: number | null
         }
@@ -2031,12 +2031,12 @@ export type Database = {
       }
       projects: {
         Row: {
-          beneficiaries: string | null
+          beneficiaries: Json | null
           budget: number | null
           country_id: string
           created_at: string
           created_by: string | null
-          description: string | null
+          description: Json | null
           end_date: string | null
           id: string
           indicators: string | null
@@ -2045,20 +2045,20 @@ export type Database = {
           objectives: string | null
           operator: string | null
           progress: number | null
-          region: string | null
+          region: Json | null
           start_date: string | null
           status: Database["public"]["Enums"]["project_status"]
-          thematic: string | null
-          title: string
+          thematic: Json | null
+          title: Json
           updated_at: string
         }
         Insert: {
-          beneficiaries?: string | null
+          beneficiaries?: Json | null
           budget?: number | null
           country_id: string
           created_at?: string
           created_by?: string | null
-          description?: string | null
+          description?: Json | null
           end_date?: string | null
           id?: string
           indicators?: string | null
@@ -2067,20 +2067,20 @@ export type Database = {
           objectives?: string | null
           operator?: string | null
           progress?: number | null
-          region?: string | null
+          region?: Json | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
-          thematic?: string | null
-          title: string
+          thematic?: Json | null
+          title: Json
           updated_at?: string
         }
         Update: {
-          beneficiaries?: string | null
+          beneficiaries?: Json | null
           budget?: number | null
           country_id?: string
           created_at?: string
           created_by?: string | null
-          description?: string | null
+          description?: Json | null
           end_date?: string | null
           id?: string
           indicators?: string | null
@@ -2089,11 +2089,11 @@ export type Database = {
           objectives?: string | null
           operator?: string | null
           progress?: number | null
-          region?: string | null
+          region?: Json | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
-          thematic?: string | null
-          title?: string
+          thematic?: Json | null
+          title?: Json
           updated_at?: string
         }
         Relationships: [

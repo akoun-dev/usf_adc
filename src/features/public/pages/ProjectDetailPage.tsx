@@ -19,6 +19,7 @@ import {
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicProject } from '../hooks/usePublicProjects';
 import { getLangValue } from '@/types/i18n';
+import { getLocalizedField } from '../services/projects.service';
 import { ProjectComments } from '../components/ProjectComments';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -80,8 +81,11 @@ export default function ProjectDetailPage() {
     suspended: 'bg-amber-500/10 text-amber-700 border-amber-200',
   };
 
-  const projectTitle = getLangValue(project.title, currentLang) || t('common.untitled', { defaultValue: 'Projet sans titre' });
-  const projectDesc = getLangValue(project.description, currentLang);
+  const projectTitle = getLocalizedField(project.title, currentLang) || t('common.untitled', { defaultValue: 'Projet sans titre' });
+  const projectDesc = getLocalizedField(project.description, currentLang);
+  const projectRegion = getLocalizedField(project.region, currentLang);
+  const projectThematic = getLocalizedField(project.thematic, currentLang);
+  const projectBeneficiaries = getLocalizedField(project.beneficiaries, currentLang);
   const countryName = project.country ? (currentLang.startsWith('en') ? project.country.name_en : project.country.name_fr) : '';
 
   return (
@@ -114,9 +118,9 @@ export default function ProjectDetailPage() {
             <Badge variant="outline" className={cn("px-3 py-1", statusColors[project.status] || statusColors.planned)}>
               {t(`public.memberCountries.status.${project.status}`, project.status)}
             </Badge>
-            {project.thematic && (
+            {projectThematic && (
               <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 border-none px-3 py-1">
-                {project.thematic}
+                {projectThematic}
               </Badge>
             )}
           </div>
@@ -128,7 +132,7 @@ export default function ProjectDetailPage() {
               <div className="p-2 bg-white rounded-lg shadow-sm">
                 <MapPin className="h-5 w-5 text-primary" />
               </div>
-              <span className="font-medium text-foreground/80">{countryName} {project.region ? `• ${project.region}` : ''}</span>
+              <span className="font-medium text-foreground/80">{countryName} {projectRegion ? `• ${projectRegion}` : ''}</span>
             </div>
             <div className="flex items-center gap-2.5">
               <div className="p-2 bg-white rounded-lg shadow-sm">
@@ -247,7 +251,7 @@ export default function ProjectDetailPage() {
                     {t('public.memberCountries.project.beneficiariesTitle', 'Bénéficiaires')}
                   </div>
                   <div className="font-bold text-foreground/90">
-                    {project.beneficiaries || 'Non spécifiés'}
+                    {projectBeneficiaries || 'Non spécifiés'}
                   </div>
                 </div>
 

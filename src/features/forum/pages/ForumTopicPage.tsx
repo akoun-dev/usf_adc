@@ -40,9 +40,10 @@ import { useDeletePost } from "../hooks/useDeletePost"
 import { PostItem } from "../components/PostItem"
 import { PostForm } from "../components/PostForm"
 import { useTranslation } from "react-i18next"
+import { getLangValue } from "@/types/i18n"
 
 export default function ForumTopicPage() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { id } = useParams<{ id: string }>()
     const { user, hasRole } = useAuth()
     const { topic: topicQuery, posts: postsQuery } = useTopic(id!)
@@ -94,18 +95,33 @@ export default function ForumTopicPage() {
     }
 
     const handleStartEditTopic = () => {
-        setEditTitle(topic.title)
-        setEditContent(topic.content)
+        setEditTitle(getLangValue(topic.title, i18n.language))
+        setEditContent(getLangValue(topic.content, i18n.language))
         setIsEditingTopic(true)
     }
 
     const handleSaveTopic = () => {
         if (editTitle.trim() && editContent.trim()) {
+            let finalTitle = topic.title;
+            let finalContent = topic.content;
+
+            if (typeof topic.title === 'object') {
+                finalTitle = { ...topic.title, [i18n.language.split('-')[0]]: editTitle.trim() };
+            } else {
+                finalTitle = editTitle.trim();
+            }
+
+            if (typeof topic.content === 'object') {
+                finalContent = { ...topic.content, [i18n.language.split('-')[0]]: editContent.trim() };
+            } else {
+                finalContent = editContent.trim();
+            }
+
             updateTopic.mutate(
                 {
                     id: topic.id,
-                    title: editTitle.trim(),
-                    content: editContent.trim(),
+                    title: finalTitle,
+                    content: finalContent,
                 },
                 {
                     onSuccess: () => setIsEditingTopic(false),
@@ -170,7 +186,7 @@ export default function ForumTopicPage() {
                                     <Lock className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
                                 )}
                                 <h1 className="text-xl font-bold text-foreground flex-1">
-                                    {topic.title}
+                                    {getLangValue(topic.title, i18n.language)}
                                 </h1>
                                 {canManageTopic && (
                                     <DropdownMenu>
@@ -208,7 +224,7 @@ export default function ForumTopicPage() {
                             <div className="flex items-center gap-3 mt-2 text-sm text-muted-foreground">
                                 {topic.category && (
                                     <Badge variant="secondary">
-                                        {topic.category.name}
+                                        {getLangValue(topic.category.name, i18n.language)}
                                     </Badge>
                                 )}
                                 <div className="flex items-center gap-2">
@@ -225,7 +241,7 @@ export default function ForumTopicPage() {
                                 <span>{timeAgo(topic.created_at)}</span>
                             </div>
                             <p className="mt-4 text-foreground whitespace-pre-wrap">
-                                {topic.content}
+                                {getLangValue(topic.content, i18n.language)}
                             </p>
                         </>
                     )}

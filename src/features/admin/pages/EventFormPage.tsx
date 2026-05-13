@@ -309,36 +309,36 @@ export default function EventFormPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 w-full">
-            <TabsList className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-7 w-full">
-              <TabsTrigger value="content" className="gap-2">
+            <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 w-full h-auto">
+              <TabsTrigger value="content" className="gap-2 py-2">
                 <FileText className="h-4 w-4" />
                 {t('admin.content')}
               </TabsTrigger>
-              <TabsTrigger value="details" className="gap-2">
+              <TabsTrigger value="details" className="gap-2 py-2">
                 <Calendar className="h-4 w-4" />
                 {t('admin.details')}
               </TabsTrigger>
-              <TabsTrigger value="media" className="gap-2">
+              <TabsTrigger value="media" className="gap-2 py-2">
                 <ImageIcon className="h-4 w-4" />
                 {t('admin.media')}
               </TabsTrigger>
-              <TabsTrigger value="gallery" className="gap-2">
+              <TabsTrigger value="gallery" className="gap-2 py-2">
                 <LayoutGrid className="h-4 w-4" />
                 {t('admin.gallery')}
               </TabsTrigger>
-              <TabsTrigger value="settings" className="gap-2">
+              <TabsTrigger value="settings" className="gap-2 py-2">
                 <Tag className="h-4 w-4" />
                 {t('admin.settings')}
               </TabsTrigger>
-              <TabsTrigger value="registration" className="gap-2">
+              <TabsTrigger value="registration" className="gap-2 py-2">
                 <Users className="h-4 w-4" />
                 {t('admin.registration')}
               </TabsTrigger>
-              <TabsTrigger value="translations" className="gap-2">
+              <TabsTrigger value="translations" className="gap-2 py-2">
                 <Languages className="h-4 w-4" />
                 {t('admin.translations', 'Traductions')}
               </TabsTrigger>
-              <TabsTrigger value="preview" className="gap-2">
+              <TabsTrigger value="preview" className="gap-2 py-2">
                 <Eye className="h-4 w-4" />
                 {t('admin.preview')}
               </TabsTrigger>
@@ -721,7 +721,7 @@ export default function EventFormPage() {
                   </div>
                   <div>
                     <h4 className="font-medium">{t('event.description', 'Description')}</h4>
-                    <div>{formData.description || t('common.notAvailable', '-')}</div>
+                    <div dangerouslySetInnerHTML={{ __html: formData.description || t('common.notAvailable', '-') }} />
                   </div>
                   <div>
                     <h4 className="font-medium">{t('event.details')}</h4>

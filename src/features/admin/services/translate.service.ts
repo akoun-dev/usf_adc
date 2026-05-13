@@ -27,7 +27,6 @@ export const translateText = async (text: string, currentLang: string, targetLan
             "http://localhost:5000/translate"
         ];
 
-        console.log(`[Translate] Tentative: ${currentLang} -> ${targetLang} | Texte: "${text.substring(0, 30)}..."`);
 
         for (const url of Array.from(new Set(urls))) {
             try {
@@ -51,7 +50,6 @@ export const translateText = async (text: string, currentLang: string, targetLan
                 if (res.ok) {
                     const data = await res.json();
                     if (data.translatedText) {
-                        console.log(`[Translate] Succès via ${url}`);
                         return data.translatedText;
                     }
                 } else {

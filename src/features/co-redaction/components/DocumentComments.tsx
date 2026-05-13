@@ -1,6 +1,3 @@
-/**
- * Section commentaires d'un document
- */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -18,13 +15,14 @@ import {
   useAddComment,
   useDeleteComment,
 } from '../hooks/useCoRedaction';
+import { getLangValue } from '@/types/i18n';
 
 interface DocumentCommentsProps {
   documentId: string;
 }
 
 export function DocumentComments({ documentId }: DocumentCommentsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [newComment, setNewComment] = useState('');
 
@@ -118,7 +116,7 @@ export function DocumentComments({ documentId }: DocumentCommentsProps) {
                     )}
                   </div>
                   <p className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">
-                    {comment.content}
+                    {getLangValue(comment.content, i18n.language)}
                   </p>
                 </div>
               </div>

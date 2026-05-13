@@ -4,6 +4,8 @@ import { Plus, MapPin } from 'lucide-react';
 import type { Project } from '../types';
 import { PROJECT_STATUS_COLORS, PROJECT_STATUS_LABELS } from '../types';
 import { Badge } from '@/components/ui/badge';
+import { getLangValue } from '@/types/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   projects: Project[];
@@ -21,6 +23,7 @@ function formatBudget(budget: number | null): string {
 }
 
 export function ProjectSidebar({ projects, selectedId, onSelect, onAdd, showAddButton }: Props) {
+  const { i18n } = useTranslation();
   return (
     <div className="flex flex-col h-full border rounded-lg bg-card">
       <div className="flex items-center justify-between p-3 border-b">
@@ -48,7 +51,7 @@ export function ProjectSidebar({ projects, selectedId, onSelect, onAdd, showAddB
               }`}
             >
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-sm font-medium line-clamp-1">{project.title}</h4>
+                <h4 className="text-sm font-medium line-clamp-1">{getLangValue(project.title, i18n.language)}</h4>
                 <Badge
                   className="text-[10px] shrink-0"
                   style={{ backgroundColor: PROJECT_STATUS_COLORS[project.status], color: '#fff', borderColor: 'transparent' }}
@@ -57,7 +60,7 @@ export function ProjectSidebar({ projects, selectedId, onSelect, onAdd, showAddB
                 </Badge>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                {project.countries?.name_fr ?? '—'} {project.region ? `· ${project.region}` : ''}
+                {project.countries?.name_fr ?? '—'} {getLangValue(project.region, i18n.language) ? `· ${getLangValue(project.region, i18n.language)}` : ''}
               </p>
               <div className="flex items-center gap-2 mt-1">
                 {project.latitude && project.longitude && (

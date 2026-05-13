@@ -145,13 +145,7 @@ export async function getCountries(): Promise<Country[]> {
     return (data ?? []) as Country[]
 }
 
-export async function createCountry(input: {
-    name_fr: string
-    name_en: string
-    code_iso: string
-    region: string
-    flag_url?: string
-}) {
+export async function createCountry(input: Omit<Country, "id" | "created_at" | "updated_at">) {
     const { data, error } = await supabase
         .from("countries")
         .insert(input)
@@ -213,19 +207,26 @@ async function autoTranslateContent(
             try {
                 const translations = await translateToFourLang(sourceLang, textToTranslate)
                 
-                // If it's an object, merge translations (manual input overrides auto-translate)
-                if (typeof value === "object") {
+                // Si c'est déjà un objet, on fusionne (les saisies manuelles priment sur l'IA)
+                if (typeof value === "object" && value !== null) {
                     result[field] = {
                         ...translations,
                         ...value
                     }
                 } else {
-                    // Convert string to object with translations
+                    // Conversion d'une chaîne simple en objet de traduction
                     result[field] = translations
                 }
             } catch (error) {
                 console.error(`Error auto-translating field ${field}:`, error)
+                // En cas d'erreur, on s'assure quand même d'avoir un format JSON minimal
+                if (typeof value !== "object") {
+                    result[field] = { fr: value, en: value, pt: value, ar: value }
+                }
             }
+        } else if (typeof value !== "object" || value === null) {
+            // Si le champ est vide et n'est pas un objet, on initialise un objet JSON vide
+            result[field] = { fr: "", en: "", pt: "", ar: "" }
         }
     }
     return result
@@ -496,7 +497,7 @@ export async function deleteNewsGalleryImage(id: string) {
     if (error) throw error
 }
 
-export async function reorderNewsGalleryImages(images: { id: string; sort_order: number }[]) {
+export async function reorderNewsGalleryImages(images: { id: string; sort_order: number; news_id: string }[]) {
     // We cast to any because we only want to update these two fields 
     // and generated types might require all mandatory insert fields even for updates
     const { data, error } = await supabase
@@ -667,11 +668,13 @@ export async function getProjectById(id: string) {
 }
 
 export async function createProject(input: {
-    title: string
-    description?: string
+    title: Record<string, string>
+    description?: Record<string, string>
     country_id: string
     status?: "planned" | "in_progress" | "completed" | "suspended"
-    region?: string
+    region?: Record<string, string>
+    beneficiaries?: Record<string, string>
+    thematic?: Record<string, string>
     budget?: number
     start_date?: string
     end_date?: string
@@ -692,11 +695,22 @@ export async function createProject(input: {
 export async function updateProject(
     id: string,
     input: Partial<{
-        title: string
-        description: string
+        title: Record<string, string>
+        description: Record<string, string>
         country_id: string
         status: "planned" | "in_progress" | "completed" | "suspended"
-        region: string
+        region: Record<string, string>
+        beneficiaries: Record<string, string>
+        thematic: Record<string, string>
+        budget: number
+        start_date: string
+        end_date: string
+        objectives: string
+        indicators: string
+        latitude: number
+        longitude: number
+        progress: number
+        operator: string
     }>
 ) {
     const { data, error } = await supabase
@@ -807,9 +821,10 @@ export async function getDocuments() {
 }
 
 export async function createDocument(input: {
-    title: string
-    description?: string
-    category: string
+    title: any
+    description?: any
+    category: any
+    content?: any
     file_name: string
     file_path: string
     file_size: number
@@ -819,12 +834,16 @@ export async function createDocument(input: {
     is_public?: boolean
     tags?: string[]
 }) {
+    const sourceLang = input.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "description", "category", "content"])
+
     const { data: document, error: docError } = await supabase
         .from("documents")
         .insert({
-            title: input.title,
-            description: input.description,
-            category: input.category,
+            title: translatedInput.title,
+            description: translatedInput.description,
+            category: translatedInput.category,
+            content: translatedInput.content,
             file_name: input.file_name,
             file_path: input.file_path,
             file_size: input.file_size,
@@ -862,19 +881,26 @@ export async function createDocument(input: {
 export async function updateDocument(
     id: string,
     input: Partial<{
-        title: string
-        description: string
-        category: string
+        title: any
+        description: any
+        category: any
+        content: any
         is_public: boolean
         tags?: string[]
+        language?: string
     }>
 ) {
+    const { data: currentDoc } = await supabase.from("documents").select("language").eq("id", id).single()
+    const sourceLang = input.language || currentDoc?.language || "fr"
+    const translatedInput = await autoTranslateContent(input, sourceLang, ["title", "description", "category", "content"])
+
     const { data: document, error: docError } = await supabase
         .from("documents")
         .update({
-            title: input.title,
-            description: input.description,
-            category: input.category,
+            title: translatedInput.title,
+            description: translatedInput.description,
+            category: translatedInput.category,
+            content: translatedInput.content,
             is_public: input.is_public,
         })
         .eq("id", id)
@@ -965,16 +991,17 @@ export async function searchDocuments({
 
     let query = supabase.from("documents").select("*, document_tags(tag)", { count: 'exact' })
 
-    // Apply search term filter
+    // Appliquer le filtre de terme de recherche sur les champs JSONB
     if (searchTerm) {
         query = query.or(
-            `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`
+            `title->>'fr'.ilike.%${searchTerm}%,description->>'fr'.ilike.%${searchTerm}%,title->>'en'.ilike.%${searchTerm}%,description->>'en'.ilike.%${searchTerm}%`
         )
     }
 
-    // Apply category filter
+    // Appliquer le filtre de catégorie (qui est aussi JSONB maintenant)
     if (categories.length > 0) {
-        query = query.in("category", categories)
+        // Pour les catégories, on vérifie si la version FR est dans la liste
+        query = query.filter('category->>fr', 'in', `(${categories.join(',')})`)
     }
 
     // Apply status filter
@@ -1250,9 +1277,9 @@ export async function getForumCategories() {
 }
 
 export async function createForumCategory(input: {
-    name: string
-    slug: string
-    description?: string
+    name: any
+    slug: any
+    description?: any
     color?: string
 }) {
     const { data, error } = await supabase
@@ -1266,7 +1293,7 @@ export async function createForumCategory(input: {
 
 export async function updateForumCategory(
     id: string,
-    input: Partial<{ name: string; description: string; color: string }>
+    input: Partial<{ name: any; description: any; slug: any; color: string }>
 ) {
     const { data, error } = await supabase
         .from("forum_categories")
@@ -1311,16 +1338,31 @@ export async function getForumTopics() {
             category: topic.forum_categories,
             author: authors?.find(a => a.id === topic.created_by) || {
                 id: topic.created_by,
-                name: "Utilisateur supprimé",
+                name: "Utilisateur système",
                 avatar_url: null,
             },
         })) ?? []
     )
 }
 
+export async function createForumTopic(input: {
+    title: any
+    content: any
+    category_id: string
+    status?: string
+}) {
+    const { data, error } = await supabase
+        .from("forum_topics")
+        .insert(input as any)
+        .select()
+        .single()
+    if (error) throw error
+    return data
+}
+
 export async function updateForumTopic(
     id: string,
-    input: Partial<{ status: string; title: string }>
+    input: Partial<{ status: string; title: any; content: any; category_id: string }>
 ) {
     const { data, error } = await supabase
         .from("forum_topics")

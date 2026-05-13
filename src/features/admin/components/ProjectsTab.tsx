@@ -19,16 +19,17 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
+import { getLangValue } from '@/types/i18n';
 
 const REGIONS = ['Toutes', 'CEDEAO', 'SADC', 'EAC', 'CEEAC', 'UMA', 'COMESA', 'CEMAC', 'IGAD'];
 
 interface Project {
     id: string;
-    title: string;
-    description: string;
+    title: Record<string, string> | string;
+    description: Record<string, string> | string;
     country_id: string;
     countries: { name_fr: string };
-    region: string;
+    region: Record<string, string> | string;
     status: string;
 }
 
@@ -49,7 +50,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export function ProjectsTab() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { data: projects = [], isLoading, refetch } = useProjects();
     const deleteProject = useDeleteProject();
@@ -80,7 +81,7 @@ export function ProjectsTab() {
     const finalFilteredProjects = useMemo(() => {
         let filtered = [...filteredAndSortedData];
         if (selectedRegion !== 'Toutes') {
-            filtered = filtered.filter(p => p.region === selectedRegion);
+            filtered = filtered.filter(p => getLangValue(p.region, i18n.language) === selectedRegion);
         }
         if (selectedStatus !== 'tous') {
             filtered = filtered.filter(p => p.status === selectedStatus);
@@ -232,9 +233,9 @@ export function ProjectsTab() {
                             ) : (
                                 finalPaginatedProjects.map((item) => (
                                     <TableRow key={item.id} className="group hover:bg-muted/50">
-                                        <TableCell className="font-medium">{item.title}</TableCell>
+                                        <TableCell className="font-medium">{getLangValue(item.title, i18n.language)}</TableCell>
                                         <TableCell>{item.countries?.name_fr || '-'}</TableCell>
-                                        <TableCell>{item.region || '-'}</TableCell>
+                                        <TableCell>{getLangValue(item.region, i18n.language) || '-'}</TableCell>
                                         <TableCell>{getStatusBadge(item.status)}</TableCell>
                                         <TableCell className="text-right">
                                             <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -26,19 +26,19 @@ import { useCountries } from '../hooks/useCountries';
 import type { AssociatedMember } from '../services/admin-service';
 
 const MEMBER_TYPES = [
-    { value: 'agence', label: 'Agence' },
-    { value: 'operateur', label: 'Opérateur' },
-    { value: 'institution', label: 'Institution' },
-    { value: 'association', label: 'Association' },
+    { value: 'agence', label: 'admin.member.typeAgence' },
+    { value: 'operateur', label: 'admin.member.typeOperateur' },
+    { value: 'institution', label: 'admin.member.typeInstitution' },
+    { value: 'association', label: 'admin.member.typeAssociation' },
 ];
 
 const COLUMNS: ColumnConfig<AssociatedMember>[] = [
-    { key: 'logo_url', label: 'Logo', sortable: false, className: 'w-[60px] p-2' },
-    { key: 'nom', label: 'Nom', sortable: true, className: 'min-w-[200px]' },
-    { key: 'type', label: 'Type', sortable: true, className: 'w-[120px]' },
-    { key: 'countries', label: 'Pays', sortable: true, className: 'w-[150px]' },
-    { key: 'secteur', label: 'Secteur', sortable: true, className: 'w-[150px]' },
-    { key: 'est_actif', label: 'Statut', sortable: true, className: 'w-[100px] text-center' },
+    { key: 'logo_url', label: 'admin.member.logo', sortable: false, className: 'w-[60px] p-2' },
+    { key: 'nom', label: 'admin.member.name', sortable: true, className: 'min-w-[200px]' },
+    { key: 'type', label: 'admin.member.type', sortable: true, className: 'w-[120px]' },
+    { key: 'countries', label: 'admin.member.country', sortable: true, className: 'w-[150px]' },
+    { key: 'secteur', label: 'admin.member.sector', sortable: true, className: 'w-[150px]' },
+    { key: 'est_actif', label: 'admin.member.status', sortable: true, className: 'w-[100px] text-center' },
 ];
 
 export function MembersTab() {
@@ -76,7 +76,7 @@ export function MembersTab() {
         resetFilters: resetTableFilters,
     } = useTableManagement<AssociatedMember>({
         data: members,
-        columns: COLUMNS,
+        columns: COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })),
         initialSortField: 'nom',
         initialSortOrder: 'asc',
         initialItemsPerPage: 10,
@@ -111,7 +111,7 @@ export function MembersTab() {
         return finalFilteredMembers.slice(startIndex, startIndex + itemsPerPage);
     }, [finalFilteredMembers, currentPage, itemsPerPage]);
 
-    const { handleExport } = useExportToCSV<AssociatedMember>(finalFilteredMembers, COLUMNS, 'membres-associes');
+    const { handleExport } = useExportToCSV<AssociatedMember>(finalFilteredMembers, COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })), 'membres-associes');
 
     const onSubmit = async (data: AssociatedMember & { logo_file?: File; logo_preview?: string }) => {
         try {
@@ -166,7 +166,7 @@ export function MembersTab() {
     };
 
     const handleDelete = async (id: string, nom: string) => {
-        if (confirm(`Supprimer le membre "${nom}" ? Cette action est irréversible.`)) {
+        if (confirm(t('admin.member.confirmDelete', { name: nom }, `Supprimer le membre "${nom}" ? Cette action est irréversible.`))) {
             try {
                 await deleteMember.mutateAsync(id);
                 refetch();
@@ -179,17 +179,17 @@ export function MembersTab() {
     const getStatusBadge = (isActive: boolean) => {
         return (
             <Badge variant={isActive ? 'default' : 'secondary'}>
-                {isActive ? 'Actif' : 'Inactif'}
+                {isActive ? t('common.active', 'Actif') : t('common.inactive', 'Inactif')}
             </Badge>
         );
     };
 
     const getTypeBadge = (type: string) => {
         const typeLabels: Record<string, string> = {
-            agence: 'Agence',
-            operateur: 'Opérateur',
-            institution: 'Institution',
-            association: 'Association',
+            agence: t('admin.member.typeAgence', 'Agence'),
+            operateur: t('admin.member.typeOperateur', 'Opérateur'),
+            institution: t('admin.member.typeInstitution', 'Institution'),
+            association: t('admin.member.typeAssociation', 'Association'),
         };
         return typeLabels[type] || type;
     };
@@ -210,7 +210,11 @@ export function MembersTab() {
                             <CardTitle>{t('admin.associatedMembers', 'Membres Associés')}</CardTitle>
                             <CardDescription>{t('admin.associatedMembersDesc', 'Gestion des membres associés et organisations partenaires')}</CardDescription>
                             <p className="text-sm text-muted-foreground mt-1">
-                                {finalFilteredMembers.length} membres {members.length > finalFilteredMembers.length && `sur ${members.length}`}
+                                {t('admin.member.count', { 
+                                    count: finalFilteredMembers.length, 
+                                    total: members.length,
+                                    showTotal: members.length > finalFilteredMembers.length
+                                }, `${finalFilteredMembers.length} membres ${members.length > finalFilteredMembers.length ? `sur ${members.length}` : ''}`)}
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -220,7 +224,7 @@ export function MembersTab() {
                                 onClick={() => refetch()}
                             >
                                 <RefreshCw className="h-4 w-4 mr-2" />
-                                Actualiser
+                                {t('common.refresh', 'Actualiser')}
                             </Button>
                             <Button
                                 variant="outline"
@@ -228,7 +232,7 @@ export function MembersTab() {
                                 onClick={handleExport}
                             >
                                 <Download className="h-4 w-4 mr-2" />
-                                Exporter
+                                {t('common.export', 'Exporter')}
                             </Button>
                             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                                 <DialogTrigger asChild>
@@ -260,7 +264,7 @@ export function MembersTab() {
                                                 <Label htmlFor="type">{t('member.type', 'Type')}</Label>
                                                 <Select onValueChange={(v) => setValue('type', v as any)} value={watch('type')}>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Sélectionner un type" />
+                                                        <SelectValue placeholder={t('admin.member.selectType', 'Sélectionner un type')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {MEMBER_TYPES.map(type => (
@@ -273,7 +277,7 @@ export function MembersTab() {
                                                 <Label htmlFor="pays_id">{t('member.country', 'Pays')}</Label>
                                                 <Select onValueChange={(v) => setValue('pays_id', v)} value={watch('pays_id')}>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Sélectionner un pays" />
+                                                        <SelectValue placeholder={t('admin.member.selectCountry', 'Sélectionner un pays')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {countries.map(country => (
@@ -384,7 +388,7 @@ export function MembersTab() {
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Rechercher par nom, secteur ou description..."
+                                placeholder={t('admin.member.searchPlaceholder', 'Rechercher par nom, secteur ou description...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-10"
@@ -392,21 +396,21 @@ export function MembersTab() {
                         </div>
                         <Select value={selectedType} onValueChange={setSelectedType}>
                             <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filtrer par type" />
+                                <SelectValue placeholder={t('admin.member.filterByType', 'Filtrer par type')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="tous">Tous les types</SelectItem>
+                                <SelectItem value="tous">{t('admin.member.typeAll', 'Tous les types')}</SelectItem>
                                 {MEMBER_TYPES.map(type => (
-                                    <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+                                    <SelectItem key={type.value} value={type.value}>{t(type.label)}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
                         <Select value={selectedCountry} onValueChange={setSelectedCountry}>
                             <SelectTrigger className="w-full sm:w-[200px]">
-                                <SelectValue placeholder="Filtrer par pays" />
+                                <SelectValue placeholder={t('admin.member.filterByCountry', 'Filtrer par pays')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="tous">Tous les pays</SelectItem>
+                                <SelectItem value="tous">{t('admin.member.countryAll', 'Tous les pays')}</SelectItem>
                                 {countries.map(country => (
                                     <SelectItem key={country.id} value={country.id}>
                                         <div className="flex items-center gap-2">
@@ -426,7 +430,7 @@ export function MembersTab() {
                                 className="h-4 w-4"
                             />
                             <Label htmlFor="activeOnly" className="text-sm cursor-pointer">
-                                Actifs uniquement
+                                {t('admin.member.activeOnly', 'Actifs uniquement')}
                             </Label>
                         </div>
                         {(searchQuery || selectedType !== 'tous' || selectedCountry !== 'tous' || !activeOnly) && (
@@ -435,7 +439,7 @@ export function MembersTab() {
                                 size="sm"
                                 onClick={resetAllFilters}
                             >
-                                Réinitialiser
+                                {t('common.reset', 'Réinitialiser')}
                             </Button>
                         )}
                     </div>
@@ -482,8 +486,8 @@ export function MembersTab() {
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-12 text-muted-foreground">
                                         {searchQuery || selectedType !== 'tous' || selectedCountry !== 'tous' || !activeOnly
-                                            ? "Aucun membre ne correspond aux critères de recherche"
-                                            : "Aucun membre disponible"}
+                                            ? t('admin.member.noResults', 'Aucun membre ne correspond aux critères de recherche')
+                                            : t('admin.member.noMembers', 'Aucun membre disponible')}
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -537,7 +541,7 @@ export function MembersTab() {
                                                     size="icon"
                                                     variant="ghost"
                                                     onClick={() => handleEdit(member)}
-                                                    title="Modifier"
+                                                    title={t('common.edit', 'Modifier')}
                                                 >
                                                     <Pencil className="h-4 w-4" />
                                                 </Button>
@@ -545,7 +549,7 @@ export function MembersTab() {
                                                     size="icon"
                                                     variant="ghost"
                                                     onClick={() => handleDelete(member.id, member.nom)}
-                                                    title="Supprimer"
+                                                    title={t('common.delete', 'Supprimer')}
                                                 >
                                                     <Trash2 className="h-4 w-4 text-destructive" />
                                                 </Button>
@@ -562,7 +566,7 @@ export function MembersTab() {
                 {finalTotalPages > 1 && (
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>Lignes par page:</span>
+                            <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
                             <Select
                                 value={itemsPerPage.toString()}
                                 onValueChange={(v) => setItemsPerPage(parseInt(v))}
@@ -578,7 +582,7 @@ export function MembersTab() {
                                 </SelectContent>
                             </Select>
                             <span>
-                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredMembers.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredMembers.length)} sur {finalFilteredMembers.length}
+                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredMembers.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredMembers.length)} {t('admin.of', 'sur')} {finalFilteredMembers.length}
                             </span>
                         </div>
 

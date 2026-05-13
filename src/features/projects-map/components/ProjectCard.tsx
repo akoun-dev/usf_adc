@@ -29,7 +29,7 @@ export function ProjectCard({ project }: Props) {
           />
         )}
         <p className="text-xs text-muted-foreground">
-          {project.countries?.name_fr ?? '—'} • {project.region ?? '—'}
+          {project.countries?.name_fr ?? '—'} • {getLangValue(project.region, i18n.language) ?? '—'}
         </p>
       </div>
       {project.description && (

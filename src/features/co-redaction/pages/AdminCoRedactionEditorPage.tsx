@@ -53,10 +53,11 @@ import {
 } from '../hooks/useCoRedaction';
 import { useAutosave } from '../hooks/useAutosave';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getLangValue } from '@/types/i18n';
 
 export default function AdminCoRedactionEditorPage() {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -76,13 +77,12 @@ export default function AdminCoRedactionEditorPage() {
   // Realtime
   useDocumentRealtime({ documentId: id });
 
-  // Charger le contenu du document
   useEffect(() => {
     if (doc) {
-      setContent(doc.content || '');
-      setTitle(doc.title || '');
+      setContent(getLangValue(doc.content, i18n.language) || '');
+      setTitle(getLangValue(doc.title, i18n.language) || '');
     }
-  }, [doc]);
+  }, [doc, i18n.language]);
 
   // Verrouiller le document au chargement
   useEffect(() => {
@@ -183,7 +183,7 @@ export default function AdminCoRedactionEditorPage() {
     >
       {/* Barre d'outils supérieure avec Glassmorphism */}
       <div className="sticky top-0 z-50 border-b bg-white/70 dark:bg-background/70 backdrop-blur-xl shadow-sm">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="w-full px-6">
           <div className="flex items-center gap-4 h-16">
             <Button
               variant="ghost"
@@ -204,7 +204,7 @@ export default function AdminCoRedactionEditorPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onBlur={() => {
-                  if (title !== doc.title) {
+                  if (title !== getLangValue(doc.title, i18n.language)) {
                     updateDoc.mutate({ id: doc.id, input: { title } });
                   }
                 }}
@@ -214,7 +214,7 @@ export default function AdminCoRedactionEditorPage() {
               <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-muted-foreground font-bold">
                 <DocumentStatusBadge status={doc.status_workflow} />
                 <span>•</span>
-                <span>{doc.category || 'General'}</span>
+                <span>{getLangValue(doc.category, i18n.language) || 'General'}</span>
               </div>
             </div>
 
@@ -300,7 +300,7 @@ export default function AdminCoRedactionEditorPage() {
       </div>
 
       {/* Zone de l'éditeur */}
-      <main className="container mx-auto px-4 py-8 max-w-5xl">
+      <main className="w-full px-6 py-8">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

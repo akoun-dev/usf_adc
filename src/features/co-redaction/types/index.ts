@@ -5,10 +5,10 @@ export type DocumentPermissionRole = 'editor' | 'reviewer' | 'admin';
 
 export interface CoDocument {
   id: string;
-  title: string;
-  description: string | null;
-  content: string;
-  category: string;
+  title: any;
+  description: any | null;
+  content: any;
+  category: any;
   country_id: string | null;
   file_url: string | null;
   status_workflow: DocumentWorkflowStatus;
@@ -44,7 +44,7 @@ export interface DocumentVersion {
   id: string;
   document_id: string;
   version_number: number;
-  content: string;
+  content: any;
   change_summary: string | null;
   created_by: string | null;
   created_at: string;
@@ -67,25 +67,25 @@ export interface DocumentComment {
   document_id: string;
   user_id: string | null;
   author_name: string;
-  content: string;
+  content: any;
   created_at: string;
   updated_at: string;
 }
 
 export interface CreateDocumentInput {
-  title: string;
-  description?: string;
-  content?: string;
-  category?: string;
+  title: any;
+  description?: any;
+  content?: any;
+  category?: any;
   country_id?: string;
   file_url?: string;
 }
 
 export interface UpdateDocumentInput {
-  title?: string;
-  description?: string;
-  content?: string;
-  category?: string;
+  title?: any;
+  description?: any;
+  content?: any;
+  category?: any;
   country_id?: string;
   file_url?: string;
   status_workflow?: DocumentWorkflowStatus;

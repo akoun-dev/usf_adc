@@ -145,7 +145,7 @@ export function ProjectActorsTab({ projectId, onActorsChange }: ProjectActorsTab
                 </SelectTrigger>
                 <SelectContent>
                   {ACTOR_TYPES.map(type => (
-                    <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+                    <SelectItem key={type.value} value={type.value}>{t(`project.${type.value}`, type.label)}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -222,7 +222,7 @@ export function ProjectActorsTab({ projectId, onActorsChange }: ProjectActorsTab
                     <TableRow key={actor.id}>
                       <TableCell className="font-medium">{actor.name}</TableCell>
                       <TableCell>
-                        <span className="capitalize">{actor.type}</span>
+                        <span className="capitalize">{t(`project.${actor.type}`, actor.type)}</span>
                       </TableCell>
                       <TableCell>{actor.role || '-'}</TableCell>
                       <TableCell>{actor.organization || '-'}</TableCell>

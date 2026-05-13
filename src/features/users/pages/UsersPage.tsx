@@ -113,7 +113,7 @@ export default function UsersPage() {
                             {t("users.title")}
                         </CardTitle>
                         <CardDescription>
-                            {stats.total} {t("nav.users").toLowerCase()} au total
+                            {t("users.totalUsers", { count: stats.total })}
                         </CardDescription>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
@@ -250,7 +250,7 @@ export default function UsersPage() {
                                                             {user.full_name || t("users.noName")}
                                                         </p>
                                                         <p className="text-xs text-muted-foreground font-medium">
-                                                            {user.email} • {user.language?.toUpperCase()}
+                                                            {user.email || t('common.noEmail', 'Pas d\'email')} • {user.language?.toUpperCase()}
                                                         </p>
                                                     </div>
                                                 </div>

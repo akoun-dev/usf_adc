@@ -57,6 +57,7 @@ export function useChatAssistant() {
                             response = content
                                 ? t(
                                       "chat.assistant.correct_sim",
+                                      { content },
                                       `[Correction] : ${content} (Ceci est une simulation de correction IA)`
                                   )
                                 : t(
@@ -68,6 +69,7 @@ export function useChatAssistant() {
                             response = content
                                 ? t(
                                       "chat.assistant.translate_sim",
+                                      { content },
                                       `[Traduction] : ${content} (Ceci est une simulation de traduction IA)`
                                   )
                                 : t(
@@ -79,6 +81,7 @@ export function useChatAssistant() {
                             response = content
                                 ? t(
                                       "chat.assistant.summarize_sim",
+                                      { content: content.substring(0, 50) },
                                       `[Résumé] : ${content.substring(0, 50)}... (Ceci est une simulation de résumé IA)`
                                   )
                                 : t(
@@ -95,6 +98,7 @@ export function useChatAssistant() {
                         default:
                             response = t(
                                 "chat.assistant.unknown_cmd",
+                                { command },
                                 `La commande ${command} n'est pas reconnue. Tapez /aide pour voir la liste.`
                             )
                     }
@@ -119,6 +123,7 @@ export function useChatAssistant() {
                     id: (Date.now() + 1).toString(),
                     content: t(
                         "chat.assistant.simulated_reply",
+                        { text },
                         `J'ai bien reçu votre demande : "${text}". En tant qu'Assistant FSU, je peux vous aider à rédiger, traduire ou optimiser ce contenu. (Ceci est une réponse simulée, l'intégration LLM arrive à l'étape suivante)`
                     ),
                     sender: "assistant",

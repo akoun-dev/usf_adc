@@ -53,7 +53,7 @@ export const coRedactionService = {
       query = query.eq('category', filters.category);
     }
     if (filters?.search) {
-      query = query.ilike('title', `%${filters.search}%`);
+      query = query.or(`title->>'fr'.ilike.%${filters.search}%,title->>'en'.ilike.%${filters.search}%,title->>'pt'.ilike.%${filters.search}%,title->>'ar'.ilike.%${filters.search}%`);
     }
 
     const { data, error, count } = await query
@@ -85,7 +85,7 @@ export const coRedactionService = {
       query = query.eq('category', filters.category);
     }
     if (filters?.search) {
-      query = query.ilike('title', `%${filters.search}%`);
+      query = query.or(`title->>'fr'.ilike.%${filters.search}%,title->>'en'.ilike.%${filters.search}%,title->>'pt'.ilike.%${filters.search}%,title->>'ar'.ilike.%${filters.search}%`);
     }
 
     const { data, error } = await query;
@@ -118,10 +118,10 @@ export const coRedactionService = {
     const { data, error } = await (supabase as any)
       .from(TABLES.documents)
       .insert({
-        title: input.title,
-        description: input.description || null,
-        content: input.content || '',
-        category: input.category || 'general',
+        title: typeof input.title === 'string' ? { fr: input.title, en: input.title, pt: input.title, ar: input.title } : input.title,
+        description: typeof input.description === 'string' ? { fr: input.description, en: input.description, pt: input.description, ar: input.description } : (input.description || null),
+        content: typeof input.content === 'string' ? { fr: input.content, en: input.content, pt: input.content, ar: input.content } : (input.content || { fr: '', en: '', pt: '', ar: '' }),
+        category: typeof input.category === 'string' ? { fr: input.category, en: input.category, pt: input.category, ar: input.category } : (input.category || { fr: 'general', en: 'general', pt: 'general', ar: 'general' }),
         country_id: input.country_id || null,
         file_url: input.file_url || null,
         status_workflow: 'draft',
@@ -148,15 +148,25 @@ export const coRedactionService = {
     return data as CoDocument;
   },
 
-  async updateDocument(id: string, input: UpdateDocumentInput): Promise<CoDocument> {
+  async updateDocument(id: string, input: UpdateDocumentInput, lang?: string): Promise<CoDocument> {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('Non authentifié');
 
     const updateData: Record<string, unknown> = {
-      ...input,
       last_edited_by: user.id,
       updated_at: new Date().toISOString(),
     };
+
+    // Gérer les champs multilingues si lang est fourni et que la valeur est une chaîne
+    const multiLangFields = ['title', 'description', 'content', 'category'];
+    
+    Object.entries(input).forEach(([key, value]) => {
+      if (lang && multiLangFields.includes(key) && typeof value === 'string') {
+        updateData[`${key}->${lang}`] = value;
+      } else {
+        updateData[key] = value;
+      }
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase as any)
@@ -488,6 +498,7 @@ export const coRedactionService = {
   async addComment(
     documentId: string,
     content: string,
+    lang: string = 'fr',
     authorName?: string
   ): Promise<DocumentComment> {
     const { data: { user } } = await supabase.auth.getUser();
@@ -509,7 +520,7 @@ export const coRedactionService = {
         document_id: documentId,
         user_id: user?.id || null,
         author_name: name,
-        content,
+        content: { [lang]: content },
       })
       .select('*')
       .single();

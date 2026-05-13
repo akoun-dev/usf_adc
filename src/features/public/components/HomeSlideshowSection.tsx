@@ -5,6 +5,10 @@ import { Trans, useTranslation } from "react-i18next";
 import { ArrowRight, ChevronRight, Wifi } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import slideWorker from "@/assets/slideshow/slide-worker.jpg";
+import slideTelecom from "@/assets/slideshow/slide-telecom-operator.jpg";
+import slideTechnoAfrica from "@/assets/slideshow/slide-techno-africa.jpg";
+import slidePartenariat from "@/assets/slideshow/slide-partenariat.jpg";
 
 
 export function HomeSlideshowSection() {
@@ -25,7 +29,7 @@ export function HomeSlideshowSection() {
                 </>
             ),
             description: t("home.slideshow.together.desc"),
-            image: "/src/assets/slideshow/slide-worker.jpg",
+            image: slideWorker,
         },
         {
             id: 2,
@@ -40,7 +44,7 @@ export function HomeSlideshowSection() {
                 </>
             ),
             description: t("home.slideshow.development.desc"),
-            image: "/src/assets/slideshow/slide-telecom-operator.jpg",
+            image: slideTelecom,
         },
         {
             id: 5,
@@ -55,7 +59,7 @@ export function HomeSlideshowSection() {
                 </>
             ),
             description: t("home.slideshow.projects.desc"),
-            image: "/src/assets/slideshow/slide-techno-africa.jpg",
+            image: slideTechnoAfrica,
         },
         {
             id: 7,
@@ -70,7 +74,7 @@ export function HomeSlideshowSection() {
                 </>
             ),
             description: t("home.slideshow.echanges.desc"),
-            image: "/src/assets/slideshow/slide-partenariat.jpg",
+            image: slidePartenariat,
         },
     ]
 

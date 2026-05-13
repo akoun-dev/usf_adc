@@ -242,7 +242,7 @@ export function useProjects() {
 export function useCreateProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: adminService.createProject,
+    mutationFn: (input: any) => adminService.createProject(input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
   });
 }
@@ -250,7 +250,7 @@ export function useCreateProject() {
 export function useUpdateProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; title?: string; description?: string; country_id?: string; status?: string; region?: string }) =>
+    mutationFn: ({ id, ...input }: { id: string; title?: Record<string, string>; description?: Record<string, string>; country_id?: string; status?: string; region?: Record<string, string>; beneficiaries?: Record<string, string>; thematic?: Record<string, string>; budget?: number; start_date?: string; end_date?: string; objectives?: string; indicators?: string; latitude?: number; longitude?: number; progress?: number; operator?: string }) =>
       adminService.updateProject(id, input as any),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-projects'] }),
   });
@@ -274,7 +274,7 @@ export function useDocuments() {
 export function useCreateDocument() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: adminService.createDocument,
+    mutationFn: (input: any) => adminService.createDocument(input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
   });
 }
@@ -284,11 +284,13 @@ export function useUpdateDocument() {
   return useMutation({
     mutationFn: ({ id, ...input }: { 
       id: string; 
-      title?: string; 
-      description?: string; 
-      category?: string; 
+      title?: any; 
+      description?: any; 
+      category?: any; 
+      content?: any;
       is_public?: boolean;
-      tags?: string[]
+      tags?: string[];
+      language?: string;
     }) => adminService.updateDocument(id, input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-documents'] }),
   });
@@ -426,7 +428,7 @@ export function useCreateForumCategory() {
 export function useUpdateForumCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; name?: string; description?: string; color?: string }) =>
+    mutationFn: ({ id, ...input }: { id: string; name?: any; description?: any; slug?: any; color?: string }) =>
       adminService.updateForumCategory(id, input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-categories'] }),
   });
@@ -448,10 +450,18 @@ export function useForumTopics() {
   });
 }
 
+export function useCreateForumTopic() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createForumTopic,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-topics'] }),
+  });
+}
+
 export function useUpdateForumTopic() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; status?: string; title?: string }) =>
+    mutationFn: ({ id, ...input }: { id: string; status?: string; title?: any; content?: any; category_id?: string }) =>
       adminService.updateForumTopic(id, input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-forum-topics'] }),
   });

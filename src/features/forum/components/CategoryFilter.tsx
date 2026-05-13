@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
 import type { ForumCategory } from '../types';
+import { getLangValue } from '@/types/i18n';
 
 interface CategoryFilterProps {
   categories: ForumCategory[];
@@ -9,7 +10,7 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, selected, onSelect }: CategoryFilterProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -27,7 +28,7 @@ export function CategoryFilter({ categories, selected, onSelect }: CategoryFilte
           className="cursor-pointer"
           onClick={() => onSelect(cat.id)}
         >
-          {cat.name}
+          {getLangValue(cat.name, i18n.language)}
         </Badge>
       ))}
     </div>

@@ -90,10 +90,18 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { formatDistanceToNow } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr, enUS, pt, arSA } from 'date-fns/locale';
+
+const dateLocales: Record<string, any> = {
+  fr: fr,
+  en: enUS,
+  pt: pt,
+  ar: arSA,
+};
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { DocumentPermissionsDialog } from '../components/DocumentPermissionsDialog';
+import { getLangValue } from '@/types/i18n';
 
 const CATEGORIES = [
   { value: 'general', label: 'Général' },
@@ -105,7 +113,7 @@ const CATEGORIES = [
 ];
 
 export default function AdminCoRedactionPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   
@@ -259,7 +267,6 @@ export default function AdminCoRedactionPage() {
       </CardHeader>
 
       <CardContent className="px-0">
-        {/* Filters & View Toggle */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6 bg-white/50 dark:bg-card/50 backdrop-blur-md p-2 rounded-xl border border-slate-200/50 dark:border-border/50 shadow-sm">
           <div className="relative w-full lg:max-w-xs">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -321,7 +328,6 @@ export default function AdminCoRedactionPage() {
           </div>
         </div>
 
-        {/* Documents Grid/List */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -370,10 +376,10 @@ export default function AdminCoRedactionPage() {
                             <DropdownMenuItem onClick={() => navigate(`/admin/co-redaction/${doc.id}`)}>
                               <Eye className="mr-2 h-4 w-4" /> Consulter
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => {}}>
+                            <DropdownMenuItem onClick={(e) => e.preventDefault()}>
                                <DocumentPermissionsDialog 
                                  documentId={doc.id} 
-                                 trigger={<div className="flex items-center"><Shield className="mr-2 h-4 w-4" /> Permissions</div>}
+                                 trigger={<div className="flex items-center w-full px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 cursor-pointer"><Shield className="mr-2 h-4 w-4" /> Permissions</div>}
                                />
                             </DropdownMenuItem>
                             {doc.locked_by && (
@@ -413,10 +419,10 @@ export default function AdminCoRedactionPage() {
                           <DocumentStatusBadge status={doc.status_workflow} />
                         </div>
                         <CardTitle className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">
-                          {doc.title}
+                          {getLangValue(doc.title, i18n.language)}
                         </CardTitle>
                         <CardDescription className="line-clamp-2 mt-2 min-h-[2.5rem]">
-                          {doc.description || 'Aucune description fournie.'}
+                          {getLangValue(doc.description, i18n.language) || 'Aucune description fournie.'}
                         </CardDescription>
                       </CardHeader>
                       
@@ -458,7 +464,6 @@ export default function AdminCoRedactionPage() {
                         </div>
                       </CardFooter>
                       
-                      {/* Hover Effect Bar */}
                       <div className="absolute bottom-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
                     </Card>
                   </motion.div>
@@ -474,11 +479,11 @@ export default function AdminCoRedactionPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[400px]">{t('coRedaction.title', 'Titre')}</TableHead>
-                      <TableHead>Statut</TableHead>
-                      <TableHead>Catégorie</TableHead>
-                      <TableHead>Créateur</TableHead>
-                      <TableHead>Dernière modification</TableHead>
+                      <TableHead className="w-[400px]">{t('document.title', 'Titre')}</TableHead>
+                      <TableHead>{t('document.status', 'Statut')}</TableHead>
+                      <TableHead>{t('document.category', 'Catégorie')}</TableHead>
+                      <TableHead>{t('coRedaction.creator', 'Créateur')}</TableHead>
+                      <TableHead>{t('coRedaction.lastModified', 'Dernière modification')}</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -491,8 +496,8 @@ export default function AdminCoRedactionPage() {
                               <FileText className="h-5 w-5" />
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-bold">{doc.title}</span>
-                              <span className="text-xs text-muted-foreground line-clamp-1">{doc.description || 'Aucune description'}</span>
+                               <span className="font-bold">{getLangValue(doc.title, i18n.language)}</span>
+                               <span className="text-xs text-muted-foreground line-clamp-1">{getLangValue(doc.description, i18n.language) || 'Aucune description'}</span>
                             </div>
                           </div>
                         </TableCell>
@@ -501,7 +506,7 @@ export default function AdminCoRedactionPage() {
                         </TableCell>
                         <TableCell>
                           <Badge variant="outline" className="rounded-md">
-                            {CATEGORIES.find(c => c.value === doc.category)?.label || doc.category}
+                            {getLangValue(doc.category, i18n.language) || '—'}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -518,7 +523,10 @@ export default function AdminCoRedactionPage() {
                         </TableCell>
                         <TableCell>
                           <span className="text-sm text-muted-foreground">
-                            {formatDistanceToNow(new Date(doc.updated_at), { addSuffix: true, locale: fr })}
+                            {formatDistanceToNow(new Date(doc.updated_at), { 
+                              addSuffix: true, 
+                              locale: dateLocales[i18n.language.split('-')[0]] || fr 
+                            })}
                           </span>
                         </TableCell>
                         <TableCell className="text-right">
@@ -549,7 +557,6 @@ export default function AdminCoRedactionPage() {
           </AnimatePresence>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/50 pt-8 pb-12">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">

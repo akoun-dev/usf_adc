@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getCountries, createCountry, updateCountry, deleteCountry } from '../services/admin-service';
+import { Country } from '../types';
 
 export function useCountries() {
   return useQuery({
@@ -19,7 +20,7 @@ export function useCreateCountry() {
 export function useUpdateCountry() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...input }: { id: string; name_fr?: string; name_en?: string; code_iso?: string; region?: string }) =>
+    mutationFn: ({ id, ...input }: { id: string } & Partial<Country>) =>
       updateCountry(id, input),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-countries'] }),
   });

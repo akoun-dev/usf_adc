@@ -1,12 +1,15 @@
-/**
- * Page publique de détail d'un document
- * Affiche le contenu, les versions (pour les autorisés) et les commentaires
- */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr, enUS, pt, arSA } from 'date-fns/locale';
+
+const dateLocales: Record<string, any> = {
+  fr: fr,
+  en: enUS,
+  pt: pt,
+  ar: arSA,
+};
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,13 +37,11 @@ import {
   useDocumentRealtime,
 } from '../hooks/useCoRedaction';
 import bgHeader from '@/assets/bg-header.jpg';
-
-
-
+import { getLangValue } from '@/types/i18n';
 
 export default function PublicCoRedactionDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { highestRole } = useAuth();
   const [activeTab, setActiveTab] = useState('content');
@@ -56,7 +57,9 @@ export default function PublicCoRedactionDetailPage() {
 
   const formatDate = (date: string | null) => {
     if (!date) return '—';
-    return format(new Date(date), 'PPp', { locale: fr });
+    return format(new Date(date), 'PPp', { 
+      locale: dateLocales[i18n.language.split('-')[0]] || fr 
+    });
   };
 
   if (isLoading) {
@@ -99,17 +102,15 @@ export default function PublicCoRedactionDetailPage() {
           <div className="absolute inset-0" />
           <div className="relative text-center max-w-4xl mx-auto space-y-6 h-56 flex flex-col items-center justify-center">
             <h1 className="text-4xl md:text-5xl font-bold text-primary">
-              {t('public.about.title')}
+              {getLangValue(doc.title, i18n.language)}
             </h1>
             <p className="text-xl text-base !mt-2">
-              {t('public.about.description')}
+              {getLangValue(doc.description, i18n.language) || t('public.about.description')}
             </p>
           </div>
         </div>
 
       </div>
-
-
 
       <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-10">
         {/* Barre d'actions */}
@@ -145,9 +146,9 @@ export default function PublicCoRedactionDetailPage() {
 
         {/* En-tête du document */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">{doc.title}</h1>
-          {doc.description && (
-            <p className="text-muted-foreground">{doc.description}</p>
+          <h1 className="text-3xl font-bold mb-2">{getLangValue(doc.title, i18n.language)}</h1>
+          {getLangValue(doc.description, i18n.language) && (
+            <p className="text-muted-foreground">{getLangValue(doc.description, i18n.language)}</p>
           )}
         </div>
 
@@ -178,7 +179,7 @@ export default function PublicCoRedactionDetailPage() {
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
-                  {doc.category}
+                  {getLangValue(doc.category, i18n.language)}
                 </Badge>
               </div>
             </div>
@@ -207,10 +208,10 @@ export default function PublicCoRedactionDetailPage() {
           <TabsContent value="content" className="mt-4">
             <Card>
               <CardContent className="p-6">
-                {doc.content ? (
+                {getLangValue(doc.content, i18n.language) ? (
                   <div
                     className="prose prose-sm dark:prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: doc.content }}
+                    dangerouslySetInnerHTML={{ __html: getLangValue(doc.content, i18n.language) }}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">

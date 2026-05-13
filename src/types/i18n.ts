@@ -28,20 +28,24 @@ export const isTranslatedContent = (value: any): value is TranslatedContent => {
 export const getLangValue = (content: any, lang: string): string => {
   if (!content) return "";
   
-  // If it's a string, return it as is (legacy or non-translated)
   if (typeof content === "string") return content;
-  
-  // If it's the specific language requested
+  if (typeof content !== 'object') return String(content);
+
   const specificLang = lang.split("-")[0];
-  if (content[specificLang]) return content[specificLang];
+  let value = content[specificLang];
   
-  // Fallbacks
-  if (content["fr"]) return content["fr"];
-  if (content["en"]) return content["en"];
+  if (value === undefined || value === null) {
+    value = content["fr"] || content["en"];
+  }
   
-  // Last resort: any key
-  const keys = Object.keys(content);
-  if (keys.length > 0) return content[keys[0]];
+  if (value === undefined || value === null) {
+    const keys = Object.keys(content);
+    if (keys.length > 0) value = content[keys[0]];
+  }
+
+  if (value !== null && typeof value === 'object') {
+    return getLangValue(value, lang);
+  }
   
-  return "";
+  return value !== undefined && value !== null ? String(value) : "";
 };

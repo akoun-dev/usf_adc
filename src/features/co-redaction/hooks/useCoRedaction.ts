@@ -64,11 +64,11 @@ export function useCreateDocument() {
 
 export function useUpdateDocument() {
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return useMutation({
     mutationFn: ({ id, input }: { id: string; input: UpdateDocumentInput }) =>
-      coRedactionService.updateDocument(id, input),
+      coRedactionService.updateDocument(id, input, i18n.language),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['co-redaction-documents'] });
       queryClient.invalidateQueries({ queryKey: ['co-redaction-document', variables.id] });
@@ -263,10 +263,11 @@ export function useDocumentComments(documentId: string | undefined) {
 
 export function useAddComment() {
   const queryClient = useQueryClient();
+  const { i18n } = useTranslation();
 
   return useMutation({
     mutationFn: ({ documentId, content, authorName }: { documentId: string; content: string; authorName?: string }) =>
-      coRedactionService.addComment(documentId, content, authorName),
+      coRedactionService.addComment(documentId, content, i18n.language.split('-')[0], authorName),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['co-redaction-comments', variables.documentId] });
     },

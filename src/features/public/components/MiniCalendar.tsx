@@ -209,7 +209,7 @@ export function MiniCalendar() {
                                       </h5>
                                       <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
                                         <Clock className="h-3 w-3" />
-                                        {startDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                        {startDate.toLocaleDateString(i18n.language, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                       </div>
                                       {event.location && (
                                         <div className="flex items-center gap-1 mt-0.5 text-xs text-muted-foreground">

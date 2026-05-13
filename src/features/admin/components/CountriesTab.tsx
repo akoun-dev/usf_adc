@@ -12,14 +12,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import {
     Plus,
     Pencil,
     Trash2,
@@ -31,15 +23,12 @@ import {
 } from "lucide-react"
 import {
     useCountries,
-    useCreateCountry,
-    useUpdateCountry,
     useDeleteCountry,
 } from "../hooks/useCountries"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import { useToast } from "@/hooks/use-toast"
 import { useTranslation } from "react-i18next"
-import { Textarea } from "@/components/ui/textarea"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useNavigate } from "react-router-dom"
 import {
     Select,
     SelectContent,
@@ -56,20 +45,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
-import { CountryLogoUpload } from "./CountryLogoUpload"
 import type { Country } from "../types"
-
-const REGIONS = [
-    "Toutes",
-    "CEDEAO",
-    "CEEAC",
-    "SADC",
-    "EAC",
-    "UMA",
-    "IGAD",
-    "CEN-SAD",
-    "COMESA",
-]
 
 type SortField =
     | "name_fr"
@@ -81,58 +57,49 @@ type SortOrder = "asc" | "desc"
 
 interface ColumnConfig {
     key: SortField
-    label: string
+    labelKey: string
+    defaultLabel: string
     sortable: boolean
 }
 
 const COLUMNS: ColumnConfig[] = [
-    { key: "name_fr", label: "Pays", sortable: true },
-    { key: "region", label: "Région", sortable: true },
-    { key: "capital", label: "Capital", sortable: true },
-    { key: "fsu_established", label: "FSU", sortable: true },
-    { key: "population", label: "Population", sortable: true },
+    { key: "name_fr", labelKey: "admin.country", defaultLabel: "Pays", sortable: true },
+    { key: "region", labelKey: "admin.region", defaultLabel: "Région", sortable: true },
+    { key: "capital", labelKey: "admin.capital", defaultLabel: "Capitale", sortable: true },
+    { key: "fsu_established", labelKey: "admin.fsu", defaultLabel: "FSU", sortable: true },
+    { key: "population", labelKey: "admin.population", defaultLabel: "Population", sortable: true },
+]
+
+const REGIONS = [
+    "CEDEAO",
+    "CEEAC",
+    "SADC",
+    "EAC",
+    "UMA",
+    "IGAD",
+    "CEN-SAD",
+    "COMESA",
+    "CEMAC",
 ]
 
 export function CountriesTab() {
     const { data: countries = [], isLoading, refetch } = useCountries()
     const { hasRole } = useAuth()
     const isGlobalAdmin = hasRole("super_admin")
-    const createCountry = useCreateCountry()
-    const updateCountry = useUpdateCountry()
     const deleteCountry = useDeleteCountry()
     const { toast } = useToast()
     const { t } = useTranslation()
+    const navigate = useNavigate()
 
     // Search and filter state
     const [searchQuery, setSearchQuery] = useState("")
-    const [selectedRegion, setSelectedRegion] = useState("Toutes")
+    const [selectedRegion, setSelectedRegion] = useState("all")
     const [sortField, setSortField] = useState<SortField>("name_fr")
     const [sortOrder, setSortOrder] = useState<SortOrder>("asc")
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
-
-    // Dialog state
-    const [open, setOpen] = useState(false)
-    const [editing, setEditing] = useState<Country | null>(null)
-    const [form, setForm] = useState({
-        name_fr: "",
-        name_en: "",
-        code_iso: "",
-        region: "",
-        official_name: "",
-        flag_url: "",
-        description: "",
-        population: "",
-        capital: "",
-        fsu_established: "",
-        fsu_budget: "",
-        fsu_coordinator_name: "",
-        fsu_coordinator_email: "",
-        fsu_coordinator_phone: "",
-        logo_path: "",
-    })
 
     // Filter and sort countries
     const filteredAndSortedCountries = useMemo(() => {
@@ -152,19 +119,19 @@ export function CountriesTab() {
         }
 
         // Apply region filter
-        if (selectedRegion !== "Toutes") {
+        if (selectedRegion !== "all") {
             filtered = filtered.filter(c => c.region === selectedRegion)
         }
 
         // Apply sorting
         filtered = [...filtered].sort((a, b) => {
-            const aValue = a[sortField] || ""
-            const bValue = b[sortField] || ""
+            const aValue = (a[sortField] || "").toString()
+            const bValue = (b[sortField] || "").toString()
 
             if (sortOrder === "asc") {
-                return aValue < bValue ? -1 : aValue > bValue ? 1 : 0
+                return aValue.localeCompare(bValue)
             } else {
-                return aValue > bValue ? -1 : aValue < bValue ? 1 : 0
+                return bValue.localeCompare(aValue)
             }
         })
 
@@ -205,88 +172,18 @@ export function CountriesTab() {
     }
 
     const openNew = () => {
-        setEditing(null)
-        setForm({
-            name_fr: "",
-            name_en: "",
-            code_iso: "",
-            region: "",
-            official_name: "",
-            flag_url: "",
-            description: "",
-            population: "",
-            capital: "",
-            fsu_established: "",
-            fsu_budget: "",
-            fsu_coordinator_name: "",
-            fsu_coordinator_email: "",
-            fsu_coordinator_phone: "",
-            logo_path: "",
-        })
-        setOpen(true)
+        navigate('/admin/countries/new')
     }
 
     const openEdit = (c: Country) => {
-        setEditing(c)
-        setForm({
-            name_fr: c.name_fr || "",
-            name_en: c.name_en || "",
-            code_iso: c.code_iso || "",
-            region: c.region || "",
-            official_name: c.official_name || "",
-            flag_url: c.flag_url || "",
-            description: c.description || "",
-            population: c.population || "",
-            capital: c.capital || "",
-            fsu_established: c.fsu_established || "",
-            fsu_budget: c.fsu_budget || "",
-            fsu_coordinator_name: c.fsu_coordinator_name || "",
-            fsu_coordinator_email: c.fsu_coordinator_email || "",
-            fsu_coordinator_phone: c.fsu_coordinator_phone || "",
-            logo_path: c.logo_path || "",
-        })
-        setOpen(true)
-    }
-
-    const handleSubmit = () => {
-        const payload = {
-            ...form,
-            code_iso: form.code_iso.toUpperCase().slice(0, 2),
-        }
-        if (editing) {
-            updateCountry.mutate(
-                { id: editing.id, ...payload },
-                {
-                    onSuccess: () => {
-                        setOpen(false)
-                        toast({ title: t("admin.countryUpdated") })
-                        refetch()
-                    },
-                    onError: () =>
-                        toast({
-                            title: t("common.error"),
-                            variant: "destructive",
-                        }),
-                }
-            )
-        } else {
-            createCountry.mutate(payload, {
-                onSuccess: () => {
-                    setOpen(false)
-                    toast({ title: t("admin.countryAdded") })
-                    refetch()
-                },
-                onError: () =>
-                    toast({ title: t("common.error"), variant: "destructive" }),
-            })
-        }
+        navigate(`/admin/countries/edit/${c.id}`)
     }
 
     const handleDelete = (id: string, name: string) => {
-        if (!confirm(`Supprimer le pays "${name}" ?`)) return
+        if (!confirm(t('admin.deleteCountryConfirm', `Supprimer le pays "${name}" ?`))) return
         deleteCountry.mutate(id, {
             onSuccess: () => {
-                toast({ title: "Pays supprimé avec succès" })
+                toast({ title: t('admin.countryDeleted', "Pays supprimé avec succès") })
                 refetch()
             },
             onError: () =>
@@ -340,7 +237,7 @@ export function CountriesTab() {
 
     const resetFilters = () => {
         setSearchQuery("")
-        setSelectedRegion("Toutes")
+        setSelectedRegion("all")
         setCurrentPage(1)
     }
 
@@ -352,7 +249,7 @@ export function CountriesTab() {
     if (isLoading) {
         return (
             <div className="flex justify-center py-12">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                <RefreshCw className="h-8 w-8 animate-spin text-primary" />
             </div>
         )
     }
@@ -363,13 +260,12 @@ export function CountriesTab() {
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-row items-center justify-between">
                         <div>
-                            <CardTitle className="text-2xl">
-                                Gestion des Pays
+                            <CardTitle className="text-2xl font-bold text-slate-800">
+                                {t('admin.countriesManagement', 'Gestion des Pays')}
                             </CardTitle>
                             <p className="text-sm text-muted-foreground mt-1">
-                                {stats.total} pays au total • {stats.withFsu}{" "}
-                                avec FSU • {stats.withCoordinator} avec
-                                coordinateur
+                                {stats.total} {t('admin.totalCountries', 'pays au total')} • {stats.withFsu}{" "}
+                                {t('admin.withFsu', 'avec FSU')} • {stats.withCoordinator} {t('admin.withCoordinator', 'avec coordinateur')}
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -377,22 +273,24 @@ export function CountriesTab() {
                                 variant="outline"
                                 size="sm"
                                 onClick={() => refetch()}
+                                className="bg-white"
                             >
                                 <RefreshCw className="h-4 w-4 mr-2" />
-                                Actualiser
+                                {t('common.refresh', 'Actualiser')}
                             </Button>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 onClick={handleExport}
+                                className="bg-white"
                             >
                                 <Download className="h-4 w-4 mr-2" />
-                                Exporter
+                                {t('common.export', 'Exporter')}
                             </Button>
                             {isGlobalAdmin && (
-                                <Button size="sm" onClick={openNew}>
+                                <Button size="sm" onClick={openNew} className="shadow-sm">
                                     <Plus className="h-4 w-4 mr-2" />
-                                    Nouveau Pays
+                                    {t('admin.newCountry', 'Nouveau Pays')}
                                 </Button>
                             )}
                         </div>
@@ -401,22 +299,23 @@ export function CountriesTab() {
                     {/* Filters */}
                     <div className="flex flex-col sm:flex-row gap-4">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                             <Input
-                                placeholder="Rechercher par nom, capital, code ISO..."
+                                placeholder={t('admin.searchCountriesPlaceholder', 'Rechercher par nom, capitale, code ISO...')}
                                 value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
-                                className="pl-10"
+                                className="pl-10 bg-white border-slate-200"
                             />
                         </div>
                         <Select
                             value={selectedRegion}
                             onValueChange={setSelectedRegion}
                         >
-                            <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filtrer par région" />
+                            <SelectTrigger className="w-full sm:w-[200px] bg-white border-slate-200">
+                                <SelectValue placeholder={t('admin.filterByRegion', 'Filtrer par région')} />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="all">{t('common.all', 'Toutes')}</SelectItem>
                                 {REGIONS.map(region => (
                                     <SelectItem key={region} value={region}>
                                         {region}
@@ -424,41 +323,35 @@ export function CountriesTab() {
                                 ))}
                             </SelectContent>
                         </Select>
-                        {(searchQuery || selectedRegion !== "Toutes") && (
+                        {(searchQuery || selectedRegion !== "all") && (
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={resetFilters}
+                                className="text-slate-500 hover:text-slate-700"
                             >
-                                Réinitialiser
+                                {t('common.reset', 'Réinitialiser')}
                             </Button>
                         )}
                     </div>
-
-                    {/* Results info */}
-                    {stats.filtered !== stats.total && (
-                        <div className="text-sm text-muted-foreground">
-                            Affichage de {stats.filtered} pays sur {stats.total}
-                        </div>
-                    )}
                 </div>
             </CardHeader>
             <CardContent className="px-0">
-                <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <Table>
                         <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[50px]"></TableHead>
+                            <TableRow className="bg-slate-50/50">
+                                <TableHead className="w-[60px]"></TableHead>
                                 {COLUMNS.map(column => (
-                                    <TableHead key={column.key}>
+                                    <TableHead key={column.key} className="text-slate-600 font-semibold">
                                         {column.sortable ? (
                                             <button
                                                 onClick={() =>
                                                     handleSort(column.key)
                                                 }
-                                                className="flex items-center gap-1 hover:text-foreground transition-colors"
+                                                className="flex items-center gap-1 hover:text-primary transition-colors"
                                             >
-                                                {column.label}
+                                                {t(column.labelKey, column.defaultLabel)}
                                                 {sortField === column.key &&
                                                     (sortOrder === "asc" ? (
                                                         <ChevronUp className="h-4 w-4" />
@@ -467,125 +360,114 @@ export function CountriesTab() {
                                                     ))}
                                             </button>
                                         ) : (
-                                            column.label
+                                            t(column.labelKey, column.defaultLabel)
                                         )}
                                     </TableHead>
                                 ))}
-                                {isGlobalAdmin && (
-                                    <TableHead className="w-[100px] text-right">
-                                        Actions
-                                    </TableHead>
-                                )}
+                                <TableHead className="w-[100px] text-right text-slate-600 font-semibold px-6">
+                                    {t('common.actions', 'Actions')}
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {paginatedCountries.length === 0 ? (
                                 <TableRow>
                                     <TableCell
-                                        colSpan={
-                                            COLUMNS.length +
-                                            (isGlobalAdmin ? 2 : 1)
-                                        }
-                                        className="text-center py-12 text-muted-foreground"
+                                        colSpan={COLUMNS.length + 2}
+                                        className="text-center py-20 text-muted-foreground"
                                     >
-                                        {searchQuery ||
-                                            selectedRegion !== "Toutes"
-                                            ? "Aucun pays ne correspond aux critères de recherche"
-                                            : "Aucun pays disponible"}
+                                        <div className="flex flex-col items-center gap-2">
+                                            <Search className="h-10 w-10 text-slate-200" />
+                                            <p>
+                                                {searchQuery || selectedRegion !== "all"
+                                                    ? t('admin.noCountriesFound', 'Aucun pays ne correspond aux critères de recherche')
+                                                    : t('admin.noCountries', 'Aucun pays disponible')}
+                                            </p>
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 paginatedCountries.map(c => (
                                     <TableRow
                                         key={c.id}
-                                        className="group hover:bg-muted/50"
+                                        className="group hover:bg-slate-50/50 transition-colors cursor-pointer"
+                                        onClick={() => openEdit(c)}
                                     >
-                                        <TableCell>
-                                            {c.flag_url && (
+                                        <TableCell className="pl-6">
+                                            {c.flag_url ? (
                                                 <img
                                                     src={c.flag_url}
                                                     alt={c.name_fr}
-                                                    className="w-8 h-auto rounded shadow-sm"
+                                                    className="w-10 h-7 object-cover rounded shadow-sm border border-slate-100"
                                                 />
+                                            ) : (
+                                                <div className="w-10 h-7 bg-slate-100 rounded border border-slate-100 flex items-center justify-center">
+                                                    <Globe className="h-4 w-4 text-slate-300" />
+                                                </div>
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            <div>
-                                                <div className="font-medium">
-                                                    {c.name_fr}
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-slate-700">
+                                                    {t('common.language', 'fr') === 'en' ? c.name_en : c.name_fr}
+                                                </span>
+                                                <span className="text-[10px] text-muted-foreground uppercase tracking-wider truncate max-w-[180px]">
+                                                    {c.official_name || c.name_en}
+                                                </span>
+                                                <div className="mt-1">
+                                                    <Badge
+                                                        variant="outline"
+                                                        className="text-[10px] h-4 px-1.5 font-bold bg-slate-50 text-slate-500 border-slate-200"
+                                                    >
+                                                        {c.code_iso?.toUpperCase()}
+                                                    </Badge>
                                                 </div>
-                                                {c.official_name && (
-                                                    <div className="text-xs text-muted-foreground">
-                                                        {c.official_name}
-                                                    </div>
-                                                )}
-                                                <Badge
-                                                    variant="outline"
-                                                    className="text-xs mt-1"
-                                                >
-                                                    {c.code_iso?.toUpperCase()}
-                                                </Badge>
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="secondary">
+                                            <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-100 font-medium">
                                                 {c.region}
                                             </Badge>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="text-sm text-slate-600">
                                             {c.capital || "-"}
                                         </TableCell>
                                         <TableCell>
                                             {c.fsu_established ? (
-                                                <div className="text-sm">
-                                                    <span className="font-medium">
-                                                        Depuis{" "}
+                                                <div className="flex flex-col">
+                                                    <span className="font-bold text-slate-700">
                                                         {c.fsu_established}
                                                     </span>
                                                     {c.fsu_budget && (
-                                                        <div className="text-xs text-muted-foreground">
+                                                        <span className="text-[10px] text-muted-foreground">
                                                             {c.fsu_budget}
-                                                        </div>
+                                                        </span>
                                                     )}
                                                 </div>
                                             ) : (
-                                                <span className="text-muted-foreground text-sm">
-                                                    Non défini
+                                                <span className="text-muted-foreground text-xs italic">
+                                                    {t('common.notAvailable', 'Non défini')}
                                                 </span>
                                             )}
                                         </TableCell>
                                         <TableCell>
-                                            {c.fsu_coordinator_name ? (
-                                                <div className="text-sm">
-                                                    <div className="font-medium">
-                                                        {c.fsu_coordinator_name}
-                                                    </div>
-                                                    {c.fsu_coordinator_email && (
-                                                        <div className="text-xs text-muted-foreground">
-                                                            {
-                                                                c.fsu_coordinator_email
-                                                            }
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                <span className="text-muted-foreground text-sm">
-                                                    Non défini
+                                            <div className="flex flex-col gap-0.5">
+                                                <span className="text-sm font-medium text-slate-700">
+                                                    {c.population || "-"}
                                                 </span>
-                                            )}
+                                            </div>
                                         </TableCell>
-                                        {isGlobalAdmin && (
-                                            <TableCell className="text-right">
-                                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() =>
-                                                            openEdit(c)
-                                                        }
-                                                    >
-                                                        <Pencil className="h-4 w-4" />
-                                                    </Button>
+                                        <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>
+                                            <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => openEdit(c)}
+                                                    className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                </Button>
+                                                {isGlobalAdmin && (
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
@@ -595,12 +477,13 @@ export function CountriesTab() {
                                                                 c.name_fr
                                                             )
                                                         }
+                                                        className="h-8 w-8 text-destructive hover:bg-destructive/10"
                                                     >
-                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                        <Trash2 className="h-4 w-4" />
                                                     </Button>
-                                                </div>
-                                            </TableCell>
-                                        )}
+                                                )}
+                                            </div>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             )}
@@ -610,10 +493,10 @@ export function CountriesTab() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 border-t pt-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 border-t pt-6">
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
-                                <span className="w-[120px]">{t("admin.rowsPerPage", "Lignes par page")}:</span>
+                                <span className="whitespace-nowrap">{t("admin.rowsPerPage", "Lignes par page")}:</span>
                                 <Select
                                     value={itemsPerPage.toString()}
                                     onValueChange={v => {
@@ -621,7 +504,7 @@ export function CountriesTab() {
                                         setCurrentPage(1)
                                     }}
                                 >
-                                    <SelectTrigger className="w-[70px]">
+                                    <SelectTrigger className="w-[70px] bg-white border-slate-200">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -642,11 +525,11 @@ export function CountriesTab() {
                                     currentPage * itemsPerPage,
                                     stats.filtered
                                 )}{" "}
-                                {t("admin.of", "sur")} {stats.filtered}
+                                {t("common.of", "sur")} {stats.filtered}
                             </span>
                         </div>
 
-                        <Pagination>
+                        <Pagination className="w-auto m-0">
                             <PaginationContent>
                                 <PaginationPrevious
                                     onClick={() =>
@@ -658,46 +541,37 @@ export function CountriesTab() {
                                             : "cursor-pointer"
                                     }
                                 />
-
-                                {Array.from(
-                                    { length: Math.min(5, totalPages) },
-                                    (_, i) => {
-                                        let pageNum
-                                        if (totalPages <= 5) {
-                                            pageNum = i + 1
-                                        } else if (currentPage <= 3) {
-                                            pageNum = i + 1
-                                        } else if (
-                                            currentPage >=
-                                            totalPages - 2
-                                        ) {
-                                            pageNum = totalPages - 4 + i
-                                        } else {
-                                            pageNum = currentPage - 2 + i
-                                        }
-
+                                
+                                {Array.from({ length: totalPages }).map((_, i) => {
+                                    const pageNum = i + 1
+                                    if (
+                                        pageNum === 1 ||
+                                        pageNum === totalPages ||
+                                        (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                                    ) {
                                         return (
                                             <PaginationItem key={pageNum}>
                                                 <PaginationLink
-                                                    onClick={() =>
-                                                        setCurrentPage(pageNum)
-                                                    }
-                                                    isActive={
-                                                        currentPage === pageNum
-                                                    }
+                                                    isActive={currentPage === pageNum}
+                                                    onClick={() => setCurrentPage(pageNum)}
                                                     className="cursor-pointer"
                                                 >
                                                     {pageNum}
                                                 </PaginationLink>
                                             </PaginationItem>
                                         )
+                                    } else if (
+                                        pageNum === currentPage - 2 ||
+                                        pageNum === currentPage + 2
+                                    ) {
+                                        return (
+                                            <PaginationItem key={pageNum}>
+                                                <PaginationEllipsis />
+                                            </PaginationItem>
+                                        )
                                     }
-                                )}
-
-                                {totalPages > 5 &&
-                                    currentPage < totalPages - 2 && (
-                                        <PaginationEllipsis />
-                                    )}
+                                    return null
+                                })}
 
                                 <PaginationNext
                                     onClick={() =>
@@ -716,276 +590,6 @@ export function CountriesTab() {
                     </div>
                 )}
             </CardContent>
-
-            {/* Edit/Create Dialog */}
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                        <DialogTitle>
-                            {editing
-                                ? `Modifier: ${editing.name_fr}`
-                                : "Ajouter un nouveau pays"}
-                        </DialogTitle>
-                    </DialogHeader>
-                    <Tabs defaultValue="basic" className="pt-2">
-                        <TabsList className="grid w-full grid-cols-3">
-                            <TabsTrigger value="basic">
-                                Informations de base
-                            </TabsTrigger>
-                            <TabsTrigger value="fsu">FSU</TabsTrigger>
-                            <TabsTrigger value="contact">Contact</TabsTrigger>
-                        </TabsList>
-
-                        <TabsContent value="basic" className="space-y-4 mt-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <Label>Nom français *</Label>
-                                    <Input
-                                        value={form.name_fr}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                name_fr: e.target.value,
-                                            })
-                                        }
-                                        placeholder="ex: Afrique du Sud"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label>Nom anglais *</Label>
-                                    <Input
-                                        value={form.name_en}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                name_en: e.target.value,
-                                            })
-                                        }
-                                        placeholder="ex: South Africa"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-1">
-                                <Label>Nom officiel</Label>
-                                <Input
-                                    value={form.official_name}
-                                    onChange={e =>
-                                        setForm({
-                                            ...form,
-                                            official_name: e.target.value,
-                                        })
-                                    }
-                                    placeholder="ex: République d'Afrique du Sud"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-4">
-                                <div className="space-y-1">
-                                    <Label>Code ISO *</Label>
-                                    <Input
-                                        value={form.code_iso}
-                                        maxLength={2}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                code_iso: e.target.value,
-                                            })
-                                        }
-                                        placeholder="ZA"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label>Région *</Label>
-                                    <Input
-                                        value={form.region}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                region: e.target.value,
-                                            })
-                                        }
-                                        list="regions"
-                                        placeholder="SADC"
-                                    />
-                                    <datalist id="regions">
-                                        {REGIONS.filter(
-                                            r => r !== "Toutes"
-                                        ).map(r => (
-                                            <option key={r} value={r} />
-                                        ))}
-                                    </datalist>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label>Capital</Label>
-                                    <Input
-                                        value={form.capital}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                capital: e.target.value,
-                                            })
-                                        }
-                                        placeholder="Pretoria"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <Label>Population</Label>
-                                    <Input
-                                        value={form.population}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                population: e.target.value,
-                                            })
-                                        }
-                                        placeholder="60,0 millions"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <CountryLogoUpload
-                                        label="Drapeau"
-                                        value={form.flag_url}
-                                        onChange={url =>
-                                            setForm({ ...form, flag_url: url })
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        </TabsContent>
-
-                        <TabsContent value="fsu" className="space-y-4 mt-4">
-                            <div className="space-y-1">
-                                <Label>Description du FSU</Label>
-                                <Textarea
-                                    value={form.description}
-                                    onChange={e =>
-                                        setForm({
-                                            ...form,
-                                            description: e.target.value,
-                                        })
-                                    }
-                                    placeholder="Décrivez les activités du FSU dans ce pays..."
-                                    rows={4}
-                                />
-                                <p className="text-xs text-muted-foreground">
-                                    Histoire, objectifs, projets principaux du
-                                    FSU
-                                </p>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <Label>Année d'établissement</Label>
-                                    <Input
-                                        value={form.fsu_established}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                fsu_established: e.target.value,
-                                            })
-                                        }
-                                        placeholder="2016"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label>Budget FSU</Label>
-                                    <Input
-                                        value={form.fsu_budget}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                fsu_budget: e.target.value,
-                                            })
-                                        }
-                                        placeholder="60 milliards FCFA"
-                                    />
-                                </div>
-                            </div>
-                        </TabsContent>
-
-                        <TabsContent value="contact" className="space-y-4 mt-4">
-                            <div className="space-y-1">
-                                <Label>Coordinateur FSU</Label>
-                                <Input
-                                    value={form.fsu_coordinator_name}
-                                    onChange={e =>
-                                        setForm({
-                                            ...form,
-                                            fsu_coordinator_name:
-                                                e.target.value,
-                                        })
-                                    }
-                                    placeholder="Mme Thandi Mbeki"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <Label>Email coordinateur</Label>
-                                    <Input
-                                        type="email"
-                                        value={form.fsu_coordinator_email}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                fsu_coordinator_email:
-                                                    e.target.value,
-                                            })
-                                        }
-                                        placeholder="fsu@southafrica.gov.za"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label>Téléphone</Label>
-                                    <Input
-                                        value={form.fsu_coordinator_phone}
-                                        onChange={e =>
-                                            setForm({
-                                                ...form,
-                                                fsu_coordinator_phone:
-                                                    e.target.value,
-                                            })
-                                        }
-                                        placeholder="+27 10 000 0000"
-                                    />
-                                </div>
-                            </div>
-
-                            <CountryLogoUpload
-                                value={form.logo_path}
-                                onChange={path =>
-                                    setForm({ ...form, logo_path: path })
-                                }
-                                countryCode={form.code_iso}
-                            />
-                        </TabsContent>
-                    </Tabs>
-
-                    <div className="flex justify-end gap-2 pt-4 border-t">
-                        <Button
-                            variant="outline"
-                            onClick={() => setOpen(false)}
-                        >
-                            Annuler
-                        </Button>
-                        <Button
-                            onClick={handleSubmit}
-                            disabled={
-                                !form.name_fr ||
-                                !form.name_en ||
-                                !form.code_iso ||
-                                !form.region
-                            }
-                        >
-                            {editing ? "Mettre à jour" : "Créer"}
-                        </Button>
-                    </div>
-                </DialogContent>
-            </Dialog>
         </Card>
     )
 }

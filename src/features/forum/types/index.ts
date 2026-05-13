@@ -1,16 +1,16 @@
 export interface ForumCategory {
   id: string;
-  name: string;
-  description: string | null;
-  slug: string;
+  name: any;
+  description: any;
+  slug: any;
   sort_order: number;
   created_at: string;
 }
 
 export interface ForumTopic {
   id: string;
-  title: string;
-  content: string;
+  title: any;
+  content: any;
   category_id: string | null;
   created_by: string;
   is_pinned: boolean;
@@ -28,7 +28,7 @@ export interface ForumTopic {
 export interface ForumPost {
   id: string;
   topic_id: string;
-  content: string;
+  content: any;
   author_id: string;
   created_at: string;
   updated_at: string;

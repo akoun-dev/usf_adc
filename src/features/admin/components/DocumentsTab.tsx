@@ -14,10 +14,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Pencil, Trash2, Plus, FileText, Upload, Search, X, Filter, Download, Eye, History, RotateCcw, File, RefreshCw, ChevronUp, ChevronDown } from 'lucide-react';
+import { Pencil, Trash2, Plus, FileText, Upload, Search, X, Filter, Download, Eye, History, RotateCcw, File, RefreshCw, ChevronUp, ChevronDown, Sparkles, Loader2, Languages } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as adminService from '../services/admin-service';
+import { format } from 'date-fns';
+import { fr, enUS, pt, arSA } from 'date-fns/locale';
+
+const dateLocales: Record<string, any> = {
+  fr: fr,
+  en: enUS,
+  pt: pt,
+  ar: arSA,
+};
 import { Skeleton } from '@/components/ui/skeleton';
+import { translateToFourLang } from '../services/translate.service';
+import { getLangValue } from '@/types/i18n';
+import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     Pagination,
     PaginationContent,
@@ -29,9 +42,10 @@ import {
 } from '@/components/ui/pagination';
 
 interface DocumentFormData {
-  title: string;
-  description: string;
-  category: string;
+  title: string | Record<string, string>;
+  description: string | Record<string, string>;
+  category: string | Record<string, string>;
+  content?: string | Record<string, string>;
   file?: File;
   file_url?: string;
   file_name?: string;
@@ -41,6 +55,7 @@ interface DocumentFormData {
   is_public: boolean;
   tags: string[];
   validity_end_date?: string | null;
+  language?: string;
 }
 
 const DOCUMENT_CATEGORIES = [
@@ -58,13 +73,15 @@ const DOCUMENT_CATEGORIES = [
 ];
 
 export function DocumentsTab() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
   const { data: documents, isLoading } = useDocuments();
   const { data: searchResults, isPending: isSearching, mutate: executeSearch } = useSearchDocuments();
   const createDocument = useCreateDocument();
   const updateDocument = useUpdateDocument();
   const deleteDocument = useDeleteDocument();
   const restoreVersion = useRestoreDocumentVersion();
+  const { toast } = useToast();
   
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -74,6 +91,9 @@ export function DocumentsTab() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [isBulkTranslating, setIsBulkTranslating] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -81,6 +101,13 @@ export function DocumentsTab() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'archived'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [activeTab, setActiveTab] = useState('fr');
+
+  const [extraTranslations, setExtraTranslations] = useState<Record<string, { title: string, description: string, category: string, content: string }>>({
+    en: { title: '', description: '', category: '', content: '' },
+    pt: { title: '', description: '', category: '', content: '' },
+    ar: { title: '', description: '', category: '', content: '' },
+  });
   
   const { register, handleSubmit, reset, setValue, watch } = useForm<DocumentFormData>();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -88,18 +115,122 @@ export function DocumentsTab() {
 
   const onSubmit = async (data: DocumentFormData) => {
     try {
+      setIsTranslating(true);
+      
+      // The first tab (registered fields) is always French content
+      const frFields = {
+        title: (watch('title') as string) || '',
+        description: (watch('description') as string) || '',
+        category: (watch('category') as string) || '',
+        content: (watch('content') as string) || '',
+      };
+
+      // Prepare the multilingual structure
+      // We send the French fields and any manual translations
+      const finalData = {
+        ...data,
+        title: { fr: frFields.title, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.title])) },
+        description: { fr: frFields.description, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.description])) },
+        category: { fr: frFields.category, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.category])) },
+        content: { fr: frFields.content, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.content])) },
+        language: 'fr' // Source is always French for documents in this form
+      };
+
+      // Remove empty manual translations to let the backend auto-translate if needed
+      ['en', 'pt', 'ar'].forEach(l => {
+        if (!finalData.title[l]) delete finalData.title[l];
+        if (!finalData.description[l]) delete finalData.description[l];
+        if (!finalData.category[l]) delete finalData.category[l];
+        if (!finalData.content[l]) delete finalData.content[l];
+      });
+
       if (editingId) {
-        await updateDocument.mutateAsync({ id: editingId, ...data });
+        await updateDocument.mutateAsync({ id: editingId, ...finalData });
       } else {
-        await createDocument.mutateAsync(data as any);
+        await createDocument.mutateAsync(finalData as any);
       }
+      
+      toast({
+        title: t('common.success'),
+        description: t('admin.documentSaved', 'Document enregistré avec succès'),
+      });
+      
       reset();
       setEditingId(null);
       setIsOpen(false);
       setFile(null);
       setUploadProgress(0);
+      setExtraTranslations({
+        en: { title: '', description: '', category: '', content: '' },
+        pt: { title: '', description: '', category: '', content: '' },
+        ar: { title: '', description: '', category: '', content: '' },
+      });
     } catch (error) {
       console.error('Error saving document:', error);
+      toast({
+        title: t('common.error'),
+        description: t('common.errorOccurred'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+  const handleBulkTranslate = async () => {
+    if (!documents || documents.length === 0) return;
+    
+    const confirmTranslate = window.confirm(t('admin.confirmBulkTranslate', "Voulez-vous traduire automatiquement tous les documents qui n'ont pas encore de version multilingue ? Cela peut prendre quelques minutes."));
+    if (!confirmTranslate) return;
+
+    setIsBulkTranslating(true);
+    setBulkProgress(0);
+    
+    let translatedCount = 0;
+    const docsToTranslate = documents.filter(doc => {
+      const title = doc.title as any;
+      return !title?.en || !title?.pt || !title?.ar;
+    });
+
+    if (docsToTranslate.length === 0) {
+      toast({ title: t('admin.nothingToTranslate', 'Tous les documents sont déjà traduits.') });
+      setIsBulkTranslating(false);
+      return;
+    }
+
+    try {
+      for (let i = 0; i < docsToTranslate.length; i++) {
+        const doc = docsToTranslate[i];
+        
+        // On prépare les données pour la traduction (source FR)
+        const updateData = {
+          title: doc.title,
+          description: doc.description,
+          category: doc.category,
+          content: doc.content,
+          language: 'fr'
+        };
+
+        await updateDocument.mutateAsync({ id: doc.id, ...updateData });
+        
+        translatedCount++;
+        setBulkProgress(Math.round((translatedCount / docsToTranslate.length) * 100));
+      }
+
+      toast({
+        title: t('common.success'),
+        description: t('admin.bulkTranslateSuccess', `${translatedCount} documents ont été traduits avec succès.`),
+      });
+    } catch (error) {
+      console.error('Bulk translation error:', error);
+      toast({
+        title: t('common.error'),
+        description: t('common.errorOccurred'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsBulkTranslating(false);
+      setBulkProgress(0);
     }
   };
   
@@ -111,12 +242,12 @@ export function DocumentsTab() {
                           'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
       
       if (!validTypes.includes(selectedFile.type)) {
-        alert(t('admin.invalidFileType', 'Type de fichier non valide. Veuillez télécharger un PDF, DOCX, XLSX ou PPTX.'));
+        alert(t('admin.invalidFileType', "Type de fichier non valide. Veuillez télécharger un PDF, DOCX, XLSX ou PPTX."));
         return;
       }
       
       if (selectedFile.size > 10 * 1024 * 1024) {
-        alert(t('admin.fileTooLarge', 'Le fichier est trop volumineux. Maximum 10 Mo.'));
+        alert(t('admin.fileTooLarge', "Le fichier est trop volumineux. Maximum 10 Mo."));
         return;
       }
       
@@ -212,10 +343,17 @@ export function DocumentsTab() {
   };
 
   const handleEdit = (item: any) => {
+    const getVal = (field: any, lang: string) => {
+      if (!field) return '';
+      if (typeof field === 'object') return field[lang] || '';
+      return lang === 'fr' ? field : '';
+    };
+
     setEditingId(item.id);
-    setValue('title', item.title);
-    setValue('description', item.description || '');
-    setValue('category', item.category || '');
+    setValue('title', getVal(item.title, currentLang));
+    setValue('description', getVal(item.description, currentLang));
+    setValue('category', getVal(item.category, currentLang));
+    setValue('content', getVal(item.content, currentLang));
     setValue('file_url', item.file_url || '');
     setValue('file_name', item.file_name || '');
     setValue('file_path', item.file_path || '');
@@ -224,6 +362,19 @@ export function DocumentsTab() {
     setValue('is_public', item.is_public || false);
     setValue('tags', item.tags || []);
     setValue('validity_end_date', item.validity_end_date ? new Date(item.validity_end_date).toISOString().split('T')[0] : '');
+    
+    // Set extra translations
+    const extra: any = {};
+    ['en', 'pt', 'ar'].forEach(l => {
+      extra[l] = {
+        title: getVal(item.title, l),
+        description: getVal(item.description, l),
+        category: getVal(item.category, l),
+        content: getVal(item.content, l),
+      };
+    });
+    setExtraTranslations(extra);
+    
     setIsOpen(true);
   };
 
@@ -349,6 +500,21 @@ export function DocumentsTab() {
               </DialogContent>
             </Dialog>
             
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleBulkTranslate} 
+              disabled={isBulkTranslating || isLoading}
+              className="gap-2"
+            >
+              {isBulkTranslating ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Languages className="h-4 w-4" />
+              )}
+              {isBulkTranslating ? `${bulkProgress}%` : t('admin.bulkTranslate', "Traduire l'existant")}
+            </Button>
+
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" onClick={() => { reset(); setEditingId(null); setFile(null); setUploadProgress(0); }}>
@@ -363,35 +529,185 @@ export function DocumentsTab() {
                   </DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  <div>
-                    <Label htmlFor="title">{t('document.title', 'Titre')}</Label>
-                    <Input id="title" {...register('title', { required: true })} />
-                  </div>
+                  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="grid grid-cols-4 w-full mb-4">
+                      <TabsTrigger value="fr">Français</TabsTrigger>
+                      <TabsTrigger value="en">English</TabsTrigger>
+                      <TabsTrigger value="pt">Português</TabsTrigger>
+                      <TabsTrigger value="ar">العربية</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="fr" className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <Label htmlFor="title">{t('document.title', 'Titre')}</Label>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="gap-2 text-xs h-7"
+                          onClick={async () => {
+                            setIsTranslating(true);
+                            try {
+                              const val = watch('title') as string;
+                              if (val) {
+                                const trans = await translateToFourLang('fr', val);
+                                setExtraTranslations(prev => ({
+                                  en: { ...prev.en, title: trans.en },
+                                  pt: { ...prev.pt, title: trans.pt },
+                                  ar: { ...prev.ar, title: trans.ar },
+                                }));
+                              }
+                              
+                              const desc = watch('description') as string;
+                              if (desc) {
+                                const transDesc = await translateToFourLang('fr', desc);
+                                setExtraTranslations(prev => ({
+                                  en: { ...prev.en, description: transDesc.en },
+                                  pt: { ...prev.pt, description: transDesc.pt },
+                                  ar: { ...prev.ar, description: transDesc.ar },
+                                }));
+                              }
+                              
+                              toast({ title: t('common.success'), description: t('admin.translationComplete', 'Traduction terminée') });
+                            } catch (err) {
+                              toast({ title: t('common.error'), variant: 'destructive' });
+                            } finally {
+                              setIsTranslating(false);
+                            }
+                          }}
+                        >
+                          <Sparkles className="h-3 w-3" />
+                          {t('admin.autoTranslate', 'Traduire via IA')}
+                        </Button>
+                      </div>
+                      <Input id="title" {...register('title', { required: true })} />
+                      
+                      <div>
+                        <Label htmlFor="category">{t('document.category', 'Catégorie')}</Label>
+                        <Select onValueChange={(value) => setValue('category', value)} value={watch('category') as string || ''}>
+                          <SelectTrigger>
+                            <SelectValue placeholder={t('document.selectCategory', 'Sélectionner une catégorie')} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {DOCUMENT_CATEGORIES.map((category) => (
+                              <SelectItem key={category.value} value={category.value}>
+                                {category.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="description">{t('document.description', 'Description')}</Label>
+                        <Textarea id="description" {...register('description')} rows={3} />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="content">{t('document.content', 'Contenu')}</Label>
+                        <Textarea id="content" {...register('content')} rows={5} placeholder={t('document.contentPlaceholder', 'Contenu détaillé du document...')} />
+                      </div>
+                    </TabsContent>
+
+                    {['en', 'pt', 'ar'].map((lang) => (
+                      <TabsContent key={lang} value={lang} className="space-y-4">
+                        <div className="flex justify-between items-center">
+                          <Label htmlFor={`trans-title-${lang}`}>{t('document.title', 'Titre')} ({lang.toUpperCase()})</Label>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="gap-2 text-xs h-7"
+                            onClick={async () => {
+                              setIsTranslating(true);
+                              try {
+                                const val = watch('title') as string;
+                                if (val) {
+                                  const trans = await translateToFourLang(currentLang, val);
+                                  setExtraTranslations(prev => ({
+                                    ...prev,
+                                    [lang]: { ...prev[lang], title: trans[lang] }
+                                  }));
+                                }
+                                
+                                const desc = watch('description') as string;
+                                if (desc) {
+                                  const transDesc = await translateToFourLang(currentLang, desc);
+                                  setExtraTranslations(prev => ({
+                                    ...prev,
+                                    [lang]: { ...prev[lang], description: transDesc[lang] }
+                                  }));
+                                }
+                                
+                                toast({ title: t('common.success'), description: t('admin.translationComplete', 'Traduction terminée') });
+                              } catch (err) {
+                                toast({ title: t('common.error'), variant: 'destructive' });
+                              } finally {
+                                setIsTranslating(false);
+                              }
+                            }}
+                          >
+                            <Sparkles className="h-3 w-3" />
+                            {t('admin.translateThis', 'Traduire cette langue')}
+                          </Button>
+                        </div>
+                        <Input 
+                          id={`trans-title-${lang}`} 
+                          value={extraTranslations[lang]?.title || ''}
+                          onChange={(e) => setExtraTranslations(prev => ({
+                            ...prev,
+                            [lang]: { ...prev[lang], title: e.target.value }
+                          }))}
+                          dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                        />
+                        
+                        <div>
+                          <Label htmlFor={`trans-desc-${lang}`}>{t('document.description', 'Description')} ({lang.toUpperCase()})</Label>
+                          <Textarea 
+                            id={`trans-desc-${lang}`} 
+                            value={extraTranslations[lang]?.description || ''}
+                            onChange={(e) => setExtraTranslations(prev => ({
+                              ...prev,
+                              [lang]: { ...prev[lang], description: e.target.value }
+                            }))}
+                            rows={3}
+                            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor={`trans-content-${lang}`}>{t('document.content', 'Contenu')} ({lang.toUpperCase()})</Label>
+                          <Textarea 
+                            id={`trans-content-${lang}`} 
+                            value={extraTranslations[lang]?.content || ''}
+                            onChange={(e) => setExtraTranslations(prev => ({
+                              ...prev,
+                              [lang]: { ...prev[lang], content: e.target.value }
+                            }))}
+                            rows={5}
+                            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                          />
+                        </div>
+                      </TabsContent>
+                    ))}
+                  </Tabs>
                   
-                  <div>
-                    <Label htmlFor="category">{t('document.category', 'Catégorie')}</Label>
-                    <Select onValueChange={(value) => setValue('category', value)} value={watch('category') || ''}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t('document.selectCategory', 'Sélectionner une catégorie')} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {DOCUMENT_CATEGORIES.map((category) => (
-                          <SelectItem key={category.value} value={category.value}>
-                            {category.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="description">{t('document.description', 'Description')}</Label>
-                    <Textarea id="description" {...register('description')} rows={3} />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="validity_end_date">{t('document.validityEndDate', 'Date de fin de validité')}</Label>
-                    <Input id="validity_end_date" type="date" {...register('validity_end_date')} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t">
+                    <div>
+                      <Label htmlFor="validity_end_date">{t('document.validityEndDate', 'Date de fin de validité')}</Label>
+                      <Input id="validity_end_date" type="date" {...register('validity_end_date')} />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="tags">{t('document.tags', 'Tags')}</Label>
+                      <Input
+                        id="tags"
+                        {...register('tags', {
+                          onChange: handleTagChange
+                        })}
+                        placeholder={t('document.tagsPlaceholder', 'Entrez des tags séparés par des virgules')}
+                      />
+                    </div>
                   </div>
                   
                   <div>
@@ -441,20 +757,6 @@ export function DocumentsTab() {
                     </div>
                   </div>
                   
-                  <div>
-                    <Label htmlFor="tags">{t('document.tags', 'Tags')}</Label>
-                    <Input
-                      id="tags"
-                      {...register('tags', {
-                        onChange: handleTagChange
-                      })}
-                      placeholder={t('document.tagsPlaceholder', 'Entrez des tags séparés par des virgules')}
-                    />
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('document.tagsHelp', 'Séparez les tags par des virgules')}
-                    </p>
-                  </div>
-                  
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="is_public"
@@ -464,11 +766,12 @@ export function DocumentsTab() {
                     <Label htmlFor="is_public">{t('document.publicDocument', 'Document public')}</Label>
                   </div>
                   
-                  <div className="flex justify-end gap-2">
+                  <div className="flex justify-end gap-2 pt-4">
                     <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
                       {t('common.cancel', 'Annuler')}
                     </Button>
-                    <Button type="submit" disabled={createDocument.isPending || updateDocument.isPending}>
+                    <Button type="submit" disabled={createDocument.isPending || updateDocument.isPending || isTranslating}>
+                      {isTranslating && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                       {t('common.save', 'Enregistrer')}
                     </Button>
                   </div>
@@ -477,6 +780,16 @@ export function DocumentsTab() {
             </Dialog>
           </div>
         </div>
+
+        {isBulkTranslating && (
+          <div className="mt-4 p-4 border rounded-lg bg-primary/5">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium">{t('admin.translatingDocuments', 'Traduction des documents en cours...')}</span>
+              <span className="text-sm font-bold">{bulkProgress}%</span>
+            </div>
+            <Progress value={bulkProgress} className="h-2 w-full" />
+          </div>
+        )}
 
         <div className="mt-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
@@ -547,7 +860,7 @@ export function DocumentsTab() {
                     <TableCell className="font-bold text-sm">
                       <div className="flex items-center gap-2">
                         <FileText className="h-4 w-4 text-primary" />
-                        {item.title}
+                        {getLangValue(item.title, i18n.language)}
                         {item.validity_end_date && new Date(item.validity_end_date) < new Date() && (
                           <Badge variant="destructive" className="ml-2 text-[10px]">Archivé</Badge>
                         )}
@@ -555,20 +868,20 @@ export function DocumentsTab() {
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary" className="font-bold text-[10px]">
-                        {DOCUMENT_CATEGORIES.find(c => c.value === item.category)?.label || item.category || '-'}
+                        {DOCUMENT_CATEGORIES.find(c => c.value === getLangValue(item.category, i18n.language))?.label || getLangValue(item.category, i18n.language) || '-'}
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {item.tags?.map((tag: string) => (
-                          <Badge key={tag} variant="outline" className="text-[10px] font-bold">
-                            {tag}
+                        {Array.isArray(item.tags) && item.tags.map((tag: any, index: number) => (
+                          <Badge key={index} variant="outline" className="text-[10px] font-bold">
+                            {typeof tag === 'string' ? tag : getLangValue(tag, i18n.language)}
                           </Badge>
                         ))}
                       </div>
                     </TableCell>
                     <TableCell className="text-xs text-muted-foreground font-medium">
-                      {item.created_at ? new Date(item.created_at).toLocaleDateString('fr-FR') : '-'}
+                      {item.created_at ? format(new Date(item.created_at), 'P', { locale: dateLocales[i18n.language.split('-')[0]] || fr }) : '-'}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">

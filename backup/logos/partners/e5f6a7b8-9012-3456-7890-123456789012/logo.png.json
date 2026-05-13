@@ -1,15 +1,15 @@
 {
   "name": "logo.png",
-  "id": "d2bd03e0-0640-4124-b84a-305a44d8dc2d",
-  "updated_at": "2026-05-01T19:16:46.749Z",
-  "created_at": "2026-05-01T19:16:46.749Z",
-  "last_accessed_at": "2026-05-01T19:16:46.749Z",
+  "id": "aa56062e-f648-4617-ad4a-06158d815d33",
+  "updated_at": "2026-05-12T09:36:17.353Z",
+  "created_at": "2026-05-12T09:36:17.353Z",
+  "last_accessed_at": "2026-05-12T09:36:17.353Z",
   "metadata": {
     "eTag": "\"8f9327db2597fa57d2f42b4a6c5a9855\"",
     "size": 5969,
     "mimetype": "image/png",
-    "cacheControl": "max-age=3600",
-    "lastModified": "2026-05-01T19:16:46.743Z",
+    "cacheControl": "max-age=max-age=3600",
+    "lastModified": "2026-05-12T09:36:17.349Z",
     "contentLength": 5969,
     "httpStatusCode": 200
   }

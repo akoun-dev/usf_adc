@@ -10,8 +10,8 @@ export default function AdminForumPage() {
         <div className="space-y-6 animate-fade-in">
             <Tabs defaultValue="topics" className="space-y-4">
                 <TabsList>
-                    <TabsTrigger value="topics">{t('admin.forumTopics', 'Topics')}</TabsTrigger>
-                    <TabsTrigger value="categories">{t('admin.forumCategories', 'Catégories')}</TabsTrigger>
+                    <TabsTrigger value="topics">{t('admin.forum.topics', 'Topics')}</TabsTrigger>
+                    <TabsTrigger value="categories">{t('admin.forum.categories', 'Catégories')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="categories">

@@ -54,7 +54,7 @@ function createPopupContent(project: Project, t: (key: string) => string, lang: 
         <span style="font-size:24px;">${themeInfo.icon}</span>
         <div style="flex:1;">
           <h3 style="margin:0;font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.3;">${title}</h3>
-          <p style="margin:2px 0 0;font-size:12px;color:#666;">${project.countries?.name_fr || ''} ${project.region ? '· ' + project.region : ''}</p>
+          <p style="margin:2px 0 0;font-size:12px;color:#666;">${project.countries?.name_fr || ''} ${getLangValue(project.region, lang) ? '· ' + getLangValue(project.region, lang) : ''}</p>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
@@ -70,7 +70,7 @@ function createPopupContent(project: Project, t: (key: string) => string, lang: 
         </div>
         <div>
         <div style="font-size:10px;color:#64748b;text-transform:uppercase;">${t('public.map.beneficiaries')}</div>
-            <div className="font-bold">${project.beneficiaire?.toLocaleString('fr-FR') || '—'}</div>
+            <div class="font-bold">${getLangValue(project.beneficiaries, lang)?.toLocaleString('fr-FR') || '—'}</div>
         </div>
         <div>
           <div style="font-size:10px;color:#64748b;text-transform:uppercase;">${t('public.map.status.label')}</div>

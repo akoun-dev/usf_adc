@@ -4,10 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Pencil, Trash2, Search, Lock, Unlock, MessageSquare, Check, X, RefreshCw, Download, ChevronUp, ChevronDown } from 'lucide-react';
+import { 
+    Pencil, Trash2, Search, Lock, Unlock, MessageSquare, 
+    Check, X, RefreshCw, Download, ChevronUp, ChevronDown, 
+    Plus, Sparkles, Loader2, Languages 
+} from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useForm } from 'react-hook-form';
 import { useTableManagement, useExportToCSV, ColumnConfig } from '../hooks/useTableManagement';
 import {
     Pagination,
@@ -18,12 +26,16 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from '@/components/ui/pagination';
-import { useForumTopics, useUpdateForumTopic, useDeleteForumTopic } from '../hooks/useContentManagement';
+import { useForumTopics, useUpdateForumTopic, useDeleteForumTopic, useForumCategories, useCreateForumTopic } from '../hooks/useContentManagement';
+import { getLangValue } from '@/types/i18n';
+import { translateToFourLang } from '../services/translate.service';
+import { useToast } from '@/hooks/use-toast';
 
 interface ForumTopic {
     id: string;
-    title: string;
-    slug: string;
+    title: any;
+    content: any;
+    slug: any;
     status: 'open' | 'closed' | 'locked';
     created_at: string;
     updated_at: string;
@@ -31,7 +43,7 @@ interface ForumTopic {
     view_count: number;
     category: {
         id: string;
-        name: string;
+        name: any;
         color: string;
     };
     author: {
@@ -41,31 +53,112 @@ interface ForumTopic {
     };
 }
 
+interface ForumTopicFormData {
+    title: string | Record<string, string>;
+    content: string | Record<string, string>;
+    category_id: string;
+    status: 'open' | 'closed' | 'locked';
+}
+
 const COLUMNS: ColumnConfig<ForumTopic>[] = [
-    { key: 'title', label: 'Titre', sortable: true },
-    { key: 'category', label: 'Catégorie', sortable: true },
-    { key: 'author', label: 'Auteur', sortable: true },
-    { key: 'status', label: 'Statut', sortable: true },
-    { key: 'post_count', label: 'Posts', sortable: true },
-    { key: 'created_at', label: 'Créé le', sortable: true },
+    { key: 'title', label: 'admin.forum.title', sortable: true },
+    { key: 'category', label: 'admin.forum.category', sortable: true },
+    { key: 'author', label: 'admin.forum.author', sortable: true },
+    { key: 'status', label: 'admin.forum.status', sortable: true },
+    { key: 'post_count', label: 'admin.forum.posts', sortable: true },
+    { key: 'created_at', label: 'admin.forum.createdAt', sortable: true },
 ];
 
 const TOPIC_STATUSES = [
-    { value: 'tous', label: 'Tous les statuts' },
-    { value: 'open', label: 'Ouvert' },
-    { value: 'closed', label: 'Fermé' },
-    { value: 'locked', label: 'Verrouillé' },
+    { value: 'tous', label: 'admin.forum.statusAll' },
+    { value: 'open', label: 'admin.forum.statusOpen' },
+    { value: 'closed', label: 'admin.forum.statusClosed' },
+    { value: 'locked', label: 'admin.forum.statusLocked' },
 ];
 
 export function ForumTopicsTab() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currentLang = i18n.language.split('-')[0];
     const { data: topics = [], isLoading, refetch } = useForumTopics();
+    const { data: allCategories = [] } = useForumCategories();
+    const createTopic = useCreateForumTopic();
     const updateTopic = useUpdateForumTopic();
     const deleteTopic = useDeleteForumTopic();
+    const { toast } = useToast();
+
+    // Form state
+    const [isOpen, setIsOpen] = useState(false);
+    const [editingId, setEditingId] = useState<string | null>(null);
+    const [activeTab, setActiveTab] = useState('fr');
+    const [isTranslating, setIsTranslating] = useState(false);
+    const [extraTranslations, setExtraTranslations] = useState<Record<string, { title: string, content: string }>>({
+        en: { title: '', content: '' },
+        pt: { title: '', content: '' },
+        ar: { title: '', content: '' },
+    });
+
+    const { register, handleSubmit, reset, setValue, watch } = useForm<ForumTopicFormData>();
 
     // Filter state
     const [selectedStatus, setSelectedStatus] = useState('tous');
     const [selectedCategory, setSelectedCategory] = useState('toutes');
+
+    const onSubmit = async (data: ForumTopicFormData) => {
+        try {
+            const frTitle = (watch('title') as string) || '';
+            const frContent = (watch('content') as string) || '';
+            
+            const finalData = {
+                ...data,
+                title: { fr: frTitle, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.title])) },
+                content: { fr: frContent, ...Object.fromEntries(Object.entries(extraTranslations).map(([l, v]) => [l, v.content])) },
+            };
+
+            if (editingId) {
+                await updateTopic.mutateAsync({ id: editingId, ...finalData });
+            } else {
+                await createTopic.mutateAsync(finalData as any);
+            }
+            
+            toast({ title: t('common.success') });
+            reset();
+            setEditingId(null);
+            setIsOpen(false);
+            setExtraTranslations({
+                en: { title: '', content: '' },
+                pt: { title: '', content: '' },
+                ar: { title: '', content: '' },
+            });
+            refetch();
+        } catch (error) {
+            toast({ title: t('common.error'), variant: 'destructive' });
+        }
+    };
+
+    const handleEdit = (item: ForumTopic) => {
+        const getVal = (field: any, lang: string) => {
+            if (!field) return '';
+            if (typeof field === 'object') return field[lang] || '';
+            return lang === 'fr' ? field : '';
+        };
+
+        setEditingId(item.id);
+        setValue('title', getVal(item.title, currentLang));
+        setValue('content', getVal(item.content, currentLang));
+        setValue('category_id', item.category.id);
+        setValue('status', item.status);
+        
+        const extra: any = {};
+        ['en', 'pt', 'ar'].forEach(l => {
+            extra[l] = {
+                title: getVal(item.title, l),
+                content: getVal(item.content, l),
+            };
+        });
+        setExtraTranslations(extra);
+        
+        setIsOpen(true);
+    };
 
     // Use table management hook
     const {
@@ -84,7 +177,7 @@ export function ForumTopicsTab() {
         resetFilters: resetTableFilters,
     } = useTableManagement<ForumTopic>({
         data: topics,
-        columns: COLUMNS,
+        columns: COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })),
         initialSortField: 'created_at',
         initialSortOrder: 'desc',
         initialItemsPerPage: 10,
@@ -114,7 +207,7 @@ export function ForumTopicsTab() {
         return finalFilteredTopics.slice(startIndex, startIndex + itemsPerPage);
     }, [finalFilteredTopics, currentPage, itemsPerPage]);
 
-    const { handleExport } = useExportToCSV<ForumTopic>(finalFilteredTopics, COLUMNS, 'forum-topics');
+    const { handleExport } = useExportToCSV<ForumTopic>(finalFilteredTopics, COLUMNS.map(c => ({ ...c, label: t(c.label, c.label) })), 'forum-topics');
 
     const handleToggleLock = async (topic: ForumTopic) => {
         const newStatus = topic.status === 'locked' ? 'open' : 'locked';
@@ -125,8 +218,9 @@ export function ForumTopicsTab() {
         refetch();
     };
 
-    const handleDelete = async (id: string, title: string) => {
-        if (confirm(`Supprimer le topic "${title}" ? Cette action est irréversible.`)) {
+    const handleDelete = async (id: string, title: any) => {
+        const displayTitle = getLangValue(title, i18n.language);
+        if (confirm(t('admin.forum.confirmDelete', { title: displayTitle }, `Supprimer le topic "${displayTitle}" ? Cette action est irréversible.`))) {
             await deleteTopic.mutateAsync(id);
             refetch();
         }
@@ -134,9 +228,9 @@ export function ForumTopicsTab() {
 
     const getStatusBadge = (status: string) => {
         const variants = {
-            open: { variant: 'default' as const, label: 'Ouvert' },
-            closed: { variant: 'secondary' as const, label: 'Fermé' },
-            locked: { variant: 'destructive' as const, label: 'Verrouillé' },
+            open: { variant: 'default' as const, label: t('admin.forum.statusOpen', 'Ouvert') },
+            closed: { variant: 'secondary' as const, label: t('admin.forum.statusClosed', 'Fermé') },
+            locked: { variant: 'destructive' as const, label: t('admin.forum.statusLocked', 'Verrouillé') },
         };
         return <Badge variant={variants[status]?.variant || 'outline'}>
             {variants[status]?.label || status}
@@ -150,10 +244,11 @@ export function ForumTopicsTab() {
     };
 
     // Extract unique categories for filter
-    const categories = useMemo(() => {
-        const uniqueCategories = Array.from(new Map(topics.map(topic => [topic.category.id, topic.category])).values());
-        return [{ id: 'toutes', name: 'Toutes les catégories' }, ...uniqueCategories];
-    }, [topics]);
+    const categoriesForFilter = useMemo(() => {
+        const validTopics = topics.filter(t => t.category);
+        const uniqueCategories = Array.from(new Map(validTopics.map(topic => [topic.category.id, topic.category])).values());
+        return [{ id: 'toutes', name: t('admin.forum.categoryAll', 'Toutes les catégories') }, ...uniqueCategories];
+    }, [topics, t]);
 
     return (
         <Card>
@@ -161,10 +256,10 @@ export function ForumTopicsTab() {
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-row items-center justify-between">
                         <div>
-                            <CardTitle>{t('admin.forumTopicsManagement', 'Gestion des Topics')}</CardTitle>
-                            <CardDescription>{t('admin.forumTopicsManagementDesc', 'Gérer les discussions du forum')}</CardDescription>
+                            <CardTitle>{t('admin.forum.topicsManagement', 'Gestion des Topics')}</CardTitle>
+                            <CardDescription>{t('admin.forum.topicsManagementDesc', 'Gérer les discussions du forum')}</CardDescription>
                             <p className="text-sm text-muted-foreground mt-1">
-                                {finalFilteredTopics.length} topics {topics.length > finalFilteredTopics.length && `sur ${topics.length}`}
+                                {finalFilteredTopics.length} {t('admin.forum.topicsCount', 'topics')} {topics.length > finalFilteredTopics.length && `${t('admin.of', 'sur')} ${topics.length}`}
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -174,7 +269,7 @@ export function ForumTopicsTab() {
                                 onClick={() => refetch()}
                             >
                                 <RefreshCw className="h-4 w-4 mr-2" />
-                                Actualiser
+                                {t('common.refresh', 'Actualiser')}
                             </Button>
                             <Button
                                 variant="outline"
@@ -182,8 +277,171 @@ export function ForumTopicsTab() {
                                 onClick={handleExport}
                             >
                                 <Download className="h-4 w-4 mr-2" />
-                                Exporter
+                                {t('common.export', 'Exporter')}
                             </Button>
+                            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                                <DialogTrigger asChild>
+                                    <Button size="sm" onClick={() => {
+                                        setEditingId(null);
+                                        reset({
+                                            title: '',
+                                            content: '',
+                                            category_id: '',
+                                            status: 'open'
+                                        });
+                                        setExtraTranslations({
+                                            en: { title: '', content: '' },
+                                            pt: { title: '', content: '' },
+                                            ar: { title: '', content: '' },
+                                        });
+                                    }}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        {t('admin.forum.newTopic', 'Nouveau Topic')}
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-2xl">
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            {editingId ? t('admin.forum.editTopic', 'Modifier le Topic') : t('admin.forum.newTopic', 'Nouveau Topic')}
+                                        </DialogTitle>
+                                    </DialogHeader>
+                                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="category_id">{t('admin.forum.category', 'Catégorie')}</Label>
+                                                <Select 
+                                                    value={watch('category_id')} 
+                                                    onValueChange={(v) => setValue('category_id', v)}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder={t('admin.forum.chooseCategory', 'Choisir une catégorie')} />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {allCategories.map(cat => (
+                                                            <SelectItem key={cat.id} value={cat.id}>
+                                                                {getLangValue(cat.name, i18n.language)}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="status">{t('admin.forum.status', 'Statut')}</Label>
+                                                <Select 
+                                                    value={watch('status')} 
+                                                    onValueChange={(v: any) => setValue('status', v)}
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="open">{t('admin.forum.statusOpen', 'Ouvert')}</SelectItem>
+                                                        <SelectItem value="closed">{t('admin.forum.statusClosed', 'Fermé')}</SelectItem>
+                                                        <SelectItem value="locked">{t('admin.forum.statusLocked', 'Verrouillé')}</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+
+                                        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                                            <TabsList className="grid grid-cols-4 w-full mb-4">
+                                                <TabsTrigger value="fr">{t('common.french', 'Français')}</TabsTrigger>
+                                                <TabsTrigger value="en">{t('common.english', 'English')}</TabsTrigger>
+                                                <TabsTrigger value="pt">{t('common.portuguese', 'Português')}</TabsTrigger>
+                                                <TabsTrigger value="ar">{t('common.arabic', 'العربية')}</TabsTrigger>
+                                            </TabsList>
+
+                                            <TabsContent value="fr" className="space-y-4">
+                                                <div className="flex justify-between items-center">
+                                                    <Label htmlFor="title">{t('admin.forum.title', 'Titre')}</Label>
+                                                    <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        disabled={isTranslating}
+                                                        className="gap-2 text-xs h-7"
+                                                        onClick={async () => {
+                                                            setIsTranslating(true);
+                                                            try {
+                                                                const titleVal = watch('title') as string;
+                                                                if (titleVal) {
+                                                                    const trans = await translateToFourLang('fr', titleVal);
+                                                                    setExtraTranslations(prev => ({
+                                                                        en: { ...prev.en, title: trans.en },
+                                                                        pt: { ...prev.pt, title: trans.pt },
+                                                                        ar: { ...prev.ar, title: trans.ar },
+                                                                    }));
+                                                                }
+                                                                const contentVal = watch('content') as string;
+                                                                if (contentVal) {
+                                                                    const trans = await translateToFourLang('fr', contentVal);
+                                                                    setExtraTranslations(prev => ({
+                                                                        en: { ...prev.en, content: trans.en },
+                                                                        pt: { ...prev.pt, content: trans.pt },
+                                                                        ar: { ...prev.ar, content: trans.ar },
+                                                                    }));
+                                                                }
+                                                                toast({ title: t('common.success') });
+                                                            } catch (err) {
+                                                                toast({ title: t('common.error'), variant: 'destructive' });
+                                                            } finally {
+                                                                setIsTranslating(false);
+                                                            }
+                                                        }}
+                                                    >
+                                                        {isTranslating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+                                                        {t('admin.autoTranslate', 'Traduire via IA')}
+                                                    </Button>
+                                                </div>
+                                                <Input id="title" {...register('title', { required: true })} />
+                                                
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="content">{t('admin.forum.content', 'Contenu')}</Label>
+                                                    <Textarea id="content" {...register('content', { required: true })} rows={5} />
+                                                </div>
+                                            </TabsContent>
+
+                                            {['en', 'pt', 'ar'].map((lang) => (
+                                                <TabsContent key={lang} value={lang} className="space-y-4">
+                                                    <Label htmlFor={`trans-title-${lang}`}>{t('admin.forum.title', 'Titre')} ({lang.toUpperCase()})</Label>
+                                                    <Input 
+                                                        id={`trans-title-${lang}`} 
+                                                        value={extraTranslations[lang]?.title || ''}
+                                                        onChange={(e) => setExtraTranslations(prev => ({
+                                                            ...prev,
+                                                            [lang]: { ...prev[lang], title: e.target.value }
+                                                        }))}
+                                                        dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                                    />
+                                                    
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor={`trans-content-${lang}`}>{t('admin.forum.content', 'Contenu')} ({lang.toUpperCase()})</Label>
+                                                        <Textarea 
+                                                            id={`trans-content-${lang}`} 
+                                                            value={extraTranslations[lang]?.content || ''}
+                                                            onChange={(e) => setExtraTranslations(prev => ({
+                                                                ...prev,
+                                                                [lang]: { ...prev[lang], content: e.target.value }
+                                                            }))}
+                                                            rows={5}
+                                                            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                                                        />
+                                                    </div>
+                                                </TabsContent>
+                                            ))}
+                                        </Tabs>
+
+                                        <DialogFooter>
+                                            <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+                                                {t('common.cancel')}
+                                            </Button>
+                                            <Button type="submit">
+                                                {t('common.save')}
+                                            </Button>
+                                        </DialogFooter>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
 
@@ -192,7 +450,7 @@ export function ForumTopicsTab() {
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Rechercher par titre, auteur ou contenu..."
+                                placeholder={t('admin.forum.searchPlaceholder', 'Rechercher par titre, auteur ou contenu...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-10"
@@ -200,14 +458,14 @@ export function ForumTopicsTab() {
                         </div>
                         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                             <SelectTrigger className="w-full sm:w-[200px]">
-                                <SelectValue placeholder="Filtrer par catégorie" />
+                                <SelectValue placeholder={t('admin.forum.filterByCategory', 'Filtrer par catégorie')} />
                             </SelectTrigger>
                             <SelectContent>
-                                {categories.map(category => (
+                                {categoriesForFilter.map(category => (
                                     <SelectItem key={category.id} value={category.id}>
                                         <div className="flex items-center gap-2">
-                                            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: category.id !== 'toutes' ? category.color : '#ccc' }} />
-                                            {category.name}
+                                            {category.id !== 'toutes' && <div className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />}
+                                            {category.id === 'toutes' ? category.name : getLangValue(category.name, i18n.language)}
                                         </div>
                                     </SelectItem>
                                 ))}
@@ -215,12 +473,12 @@ export function ForumTopicsTab() {
                         </Select>
                         <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                             <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filtrer par statut" />
+                                <SelectValue placeholder={t('admin.forum.filterByStatus', 'Filtrer par statut')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {TOPIC_STATUSES.map(status => (
                                     <SelectItem key={status.value} value={status.value}>
-                                        {status.label}
+                                        {t(status.label, status.label)}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -231,7 +489,7 @@ export function ForumTopicsTab() {
                                 size="sm"
                                 onClick={resetAllFilters}
                             >
-                                Réinitialiser
+                                {t('common.reset', 'Réinitialiser')}
                             </Button>
                         )}
                     </div>
@@ -250,7 +508,7 @@ export function ForumTopicsTab() {
                                                 onClick={() => handleSort(column.key as keyof ForumTopic)}
                                                 className="flex items-center gap-1 hover:text-foreground transition-colors"
                                             >
-                                                {column.label}
+                                                {t(column.label, column.label)}
                                                 {sortField === column.key && (
                                                     sortOrder === 'asc' ? (
                                                         <ChevronUp className="h-4 w-4" />
@@ -260,7 +518,7 @@ export function ForumTopicsTab() {
                                                 )}
                                             </button>
                                         ) : (
-                                            column.label
+                                            t(column.label, column.label)
                                         )}
                                     </TableHead>
                                 ))}
@@ -279,8 +537,8 @@ export function ForumTopicsTab() {
                                 <TableRow>
                                     <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
                                         {searchQuery || selectedCategory !== 'toutes' || selectedStatus !== 'tous'
-                                            ? "Aucun topic ne correspond aux critères de recherche"
-                                            : "Aucun topic disponible"}
+                                            ? t('admin.forum.noResults', 'Aucun topic ne correspond aux critères de recherche')
+                                            : t('admin.forum.noTopics', 'Aucun topic disponible')}
                                     </TableCell>
                                 </TableRow>
                             ) : (
@@ -289,35 +547,35 @@ export function ForumTopicsTab() {
                                         <TableCell className="font-medium max-w-[300px]">
                                             <div className="flex items-center gap-2">
                                                 <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                                                <span className="truncate">{topic.title}</span>
+                                                <span className="truncate">{getLangValue(topic.title, i18n.language)}</span>
                                             </div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-2">
-                                                <div className="h-3 w-3 rounded-full" style={{ backgroundColor: topic.category.color }} />
-                                                {topic.category.name}
+                                                <div className="h-3 w-3 rounded-full" style={{ backgroundColor: topic.category?.color || '#ccc' }} />
+                                                {getLangValue(topic.category?.name, i18n.language)}
                                             </div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-2">
-                                                {topic.author.avatar_url && (
+                                                {topic.author?.avatar_url && (
                                                     <img
                                                         src={topic.author.avatar_url}
                                                         alt={topic.author.name}
                                                         className="h-6 w-6 rounded-full"
                                                     />
                                                 )}
-                                                <span>{topic.author.name}</span>
+                                                <span>{topic.author?.name || t('admin.forum.systemUser', 'Système')}</span>
                                             </div>
                                         </TableCell>
                                         <TableCell>{getStatusBadge(topic.status)}</TableCell>
                                         <TableCell>
                                             <Badge variant="secondary">
-                                                {topic.post_count} {topic.post_count > 1 ? 'posts' : 'post'}
+                                                {topic.post_count} {topic.post_count > 1 ? t('admin.forum.posts', 'posts') : t('admin.forum.post', 'post')}
                                             </Badge>
                                         </TableCell>
                                         <TableCell>
-                                            {new Date(topic.created_at).toLocaleDateString('fr-FR', {
+                                            {new Date(topic.created_at).toLocaleDateString(i18n.language, {
                                                 day: 'numeric',
                                                 month: 'short',
                                                 year: 'numeric'
@@ -328,8 +586,16 @@ export function ForumTopicsTab() {
                                                 <Button
                                                     size="icon"
                                                     variant="ghost"
+                                                    onClick={() => handleEdit(topic)}
+                                                    title={t('common.edit', 'Modifier')}
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    size="icon"
+                                                    variant="ghost"
                                                     onClick={() => handleToggleLock(topic)}
-                                                    title={topic.status === 'locked' ? 'Déverrouiller' : 'Verrouiller'}
+                                                    title={topic.status === 'locked' ? t('admin.forum.unlock', 'Déverrouiller') : t('admin.forum.lock', 'Verrouiller')}
                                                 >
                                                     {topic.status === 'locked' ? (
                                                         <Unlock className="h-4 w-4" />
@@ -341,7 +607,7 @@ export function ForumTopicsTab() {
                                                     size="icon"
                                                     variant="ghost"
                                                     onClick={() => handleDelete(topic.id, topic.title)}
-                                                    title="Supprimer"
+                                                    title={t('common.delete', 'Supprimer')}
                                                 >
                                                     <Trash2 className="h-4 w-4 text-destructive" />
                                                 </Button>
@@ -354,11 +620,12 @@ export function ForumTopicsTab() {
                     </Table>
                 </div>
 
+
                 {/* Pagination */}
                 {finalTotalPages > 1 && (
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span>Lignes par page:</span>
+                            <span>{t('admin.rowsPerPage', 'Lignes par page')}:</span>
                             <Select
                                 value={itemsPerPage.toString()}
                                 onValueChange={(v) => setItemsPerPage(parseInt(v))}
@@ -374,7 +641,7 @@ export function ForumTopicsTab() {
                                 </SelectContent>
                             </Select>
                             <span>
-                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredTopics.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredTopics.length)} sur {finalFilteredTopics.length}
+                                {Math.min((currentPage - 1) * itemsPerPage + 1, finalFilteredTopics.length)}-{Math.min(currentPage * itemsPerPage, finalFilteredTopics.length)} {t('admin.of', 'sur')} {finalFilteredTopics.length}
                             </span>
                         </div>
 

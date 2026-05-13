@@ -1,4 +1,4 @@
-﻿import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
+import { useMemo, useState, useCallback, useRef, useEffect } from 'react';
 import { MapPin, FileDown, Globe, Map, Search, Maximize2, Minimize2, Layers, TrendingUp, Users, DollarSign, Building2, Wifi, Satellite, Map as MapIcon, X } from 'lucide-react';
 import { ProjectMap } from '@/features/projects-map/components/ProjectMap';
 import { exportMapData } from '@/features/projects-map/utils/export-map';
@@ -13,6 +13,7 @@ import { PublicLayout } from '../components/PublicLayout';
 import { useRegions, useCountries, REGIONS } from '../hooks/useCountries';
 import { usePublicProjects } from '../hooks/usePublicProjects';
 import type { ProjectWithDetails } from '../services/projects.service';
+import { getLocalizedField } from '../services/projects.service';
 import { Card, CardContent } from '@/components/ui/card';
 import { CountriesMap } from '../components/CountriesMap';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -41,7 +42,10 @@ const PROJECT_THEMES: Record<ProjectTheme, { icon: string; color: string; labelK
 
 // Detect project theme from title/description
 function detectProjectTheme(project: ProjectWithDetails): ProjectTheme {
-    const text = `${project.title} ${project.description || ''} ${project.thematic || ''}`.toLowerCase();
+    const title = getLocalizedField(project.title, 'fr')
+    const desc = getLocalizedField(project.description, 'fr')
+    const thematic = getLocalizedField(project.thematic, 'fr')
+    const text = `${title} ${desc} ${thematic}`.toLowerCase();
 
     if (text.match(/santé|health|médical|hôpital|clinique|soins/)) return 'health';
     if (text.match(/éducation|education|école|écol|school|université|formation|teacher/)) return 'education';
@@ -70,14 +74,14 @@ function mapPublicProjectToProject(project: ProjectWithDetails): Project {
     return {
         id: project.id,
         country_id: project.country?.code_iso || project.country_id,
-        title: project.title,
-        description: project.description || '',
+        title: getLocalizedField(project.title, 'fr'),
+        description: getLocalizedField(project.description, 'fr'),
         status: project.status === 'completed' ? 'completed' : 'in_progress',
         budget: parseBudgetToNumber(project.budget),
-        beneficiaire: project.beneficiaries,
+        beneficiaire: getLocalizedField(project.beneficiaries, 'fr') || null,
         latitude: project.latitude ?? 0,
         longitude: project.longitude ?? 0,
-        region: project.region || project.country?.region || 'Unknown',
+        region: getLocalizedField(project.region, 'fr') || project.country?.region || 'Unknown',
         created_by: null,
         created_at: project.created_at,
         updated_at: project.updated_at,
@@ -151,11 +155,11 @@ export default function PublicMapPage() {
                 if (!query) return true;
 
                 return [
-                    project.title,
-                    project.description,
+                    getLocalizedField(project.title, 'fr'),
+                    getLocalizedField(project.description, 'fr'),
                     project.country?.name_fr,
                     project.country?.name_en,
-                    project.region,
+                    getLocalizedField(project.region, 'fr'),
                 ].some((value) => value?.toLowerCase().includes(query) ?? false);
             });
     }, [publicProjects, search, statusFilter, themeFilter, regionFilter]);

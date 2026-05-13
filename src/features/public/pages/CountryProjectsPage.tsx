@@ -9,6 +9,7 @@ import { usePublicDocumentsByCountry } from '../hooks/usePublicDocuments';
 import { useEventsByCountry } from '../hooks/usePublicEvents';
 import { getLangValue } from '@/types/i18n';
 import type { ProjectWithDetails } from '../services/projects.service';
+import { getLocalizedField } from '../services/projects.service';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -62,15 +63,15 @@ function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: T
                   className="h-5 w-auto"
                 />
               )}
-              <h3 className="font-bold text-lg">{project.title}</h3>
+              <h3 className="font-bold text-lg">{getLocalizedField(project.title, locale)}</h3>
             </div>
-            <p className="text-sm text-muted-foreground">{project.region || project.country?.region || ''}</p>
+            <p className="text-sm text-muted-foreground">{getLocalizedField(project.region, locale) || project.country?.region || ''}</p>
           </div>
           <Badge className={statusInfo.color}>{statusInfo.label}</Badge>
         </div>
 
         <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-          {project.description}
+          {getLocalizedField(project.description, locale)}
         </p>
 
         <div className="space-y-2 text-sm mb-4">
@@ -81,7 +82,7 @@ function ProjectCard({ project, t, locale }: { project: ProjectWithDetails; t: T
           {project.beneficiaries && (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4" />
-              <span>{t('public.memberCountries.project.beneficiaries', { count: project.beneficiaries })}</span>
+              <span>{t('public.memberCountries.project.beneficiaries', { count: getLocalizedField(project.beneficiaries, locale) })}</span>
             </div>
           )}
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -144,11 +145,12 @@ export default function CountryProjectsPage() {
   );
 
   const uniqueThematics = useMemo(() => {
+    const lang = i18n.language || 'fr'
     const thematics = visibleProjects
-      .map(p => p.thematic)
-      .filter((t): t is string => !!t);
+      .map(p => getLocalizedField(p.thematic, lang))
+      .filter(Boolean)
     return Array.from(new Set(thematics)).sort();
-  }, [visibleProjects]);
+  }, [visibleProjects, i18n.language]);
 
   const filteredProjects = useMemo(() => {
     let filtered = visibleProjects;
@@ -160,7 +162,8 @@ export default function CountryProjectsPage() {
     }
 
     if (selectedThematic !== 'all') {
-      filtered = filtered.filter((project) => project.thematic === selectedThematic);
+      const lang = i18n.language || 'fr'
+      filtered = filtered.filter((project) => getLocalizedField(project.thematic, lang) === selectedThematic);
     }
 
     return filtered;

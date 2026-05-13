@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageHero from '@/components/PageHero';
 import { useProjects } from '@/features/projects-map/hooks/useProjects';
+import { getLangValue } from '@/types/i18n';
 
 export default function AdminGlobalDashboard() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { data: projects } = useProjects();
   const activeProjects = projects?.filter(p => p.status === 'in_progress')?.length ?? 0;
@@ -55,11 +56,11 @@ export default function AdminGlobalDashboard() {
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { region: 'CEDEAO', count: projects?.filter(p => p.region === 'CEDEAO')?.length ?? 0 },
-                { region: 'SADC', count: projects?.filter(p => p.region === 'SADC')?.length ?? 0 },
-                { region: 'EAC', count: projects?.filter(p => p.region === 'EAC')?.length ?? 0 },
-                { region: 'CEEAC', count: projects?.filter(p => p.region === 'CEEAC')?.length ?? 0 },
-                { region: 'UMA', count: projects?.filter(p => p.region === 'UMA')?.length ?? 0 },
+                { region: 'CEDEAO', count: projects?.filter(p => getLangValue(p.region, i18n.language) === 'CEDEAO')?.length ?? 0 },
+                { region: 'SADC', count: projects?.filter(p => getLangValue(p.region, i18n.language) === 'SADC')?.length ?? 0 },
+                { region: 'EAC', count: projects?.filter(p => getLangValue(p.region, i18n.language) === 'EAC')?.length ?? 0 },
+                { region: 'CEEAC', count: projects?.filter(p => getLangValue(p.region, i18n.language) === 'CEEAC')?.length ?? 0 },
+                { region: 'UMA', count: projects?.filter(p => getLangValue(p.region, i18n.language) === 'UMA')?.length ?? 0 },
               ].map(r => (
                 <div key={r.region} className="flex items-center justify-between rounded-md border p-2">
                   <span className="text-sm font-medium">{r.region}</span>

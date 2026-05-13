@@ -22,19 +22,20 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import type { ForumPost } from '../types';
+import { getLangValue } from '@/types/i18n';
 
 interface PostItemProps {
   post: ForumPost;
   currentUserId?: string;
   isAdmin?: boolean;
-  onUpdate?: (id: string, content: string) => void;
+  onUpdate?: (id: string, content: any) => void;
   onDelete?: (id: string) => void;
 }
 
 export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: PostItemProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState(post.content);
+  const [editContent, setEditContent] = useState('');
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const canManage = currentUserId === post.author_id || isAdmin;
@@ -56,15 +57,25 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
     return t('forum.timeAgo.days', { count: days });
   };
 
+  const handleStartEdit = () => {
+    setEditContent(getLangValue(post.content, i18n.language));
+    setIsEditing(true);
+  };
+
   const handleSave = () => {
     if (editContent.trim() && onUpdate) {
-      onUpdate(post.id, editContent.trim());
+      let finalContent = post.content;
+      if (typeof post.content === 'object' && post.content !== null) {
+        finalContent = { ...post.content, [i18n.language.split('-')[0]]: editContent.trim() };
+      } else {
+        finalContent = { [i18n.language.split('-')[0]]: editContent.trim() };
+      }
+      onUpdate(post.id, finalContent);
       setIsEditing(false);
     }
   };
 
   const handleCancel = () => {
-    setEditContent(post.content);
     setIsEditing(false);
   };
 
@@ -92,7 +103,7 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => { setEditContent(post.content); setIsEditing(true); }}>
+                  <DropdownMenuItem onClick={handleStartEdit}>
                     <Pencil className="mr-2 h-4 w-4" />{t('forum.post.edit')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -123,7 +134,7 @@ export function PostItem({ post, currentUserId, isAdmin, onUpdate, onDelete }: P
             </div>
           </div>
         ) : (
-          <p className="mt-1 text-sm text-foreground whitespace-pre-wrap">{post.content}</p>
+          <p className="mt-1 text-sm text-foreground whitespace-pre-wrap">{getLangValue(post.content, i18n.language)}</p>
         )}
       </div>
 

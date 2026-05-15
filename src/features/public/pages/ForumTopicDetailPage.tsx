@@ -12,6 +12,21 @@ import PageHero from '@/components/PageHero';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
+/** Safely convert a JSONB value to string for display */
+function asString(val: unknown): string {
+  if (typeof val === 'string') return val
+  if (val && typeof val === 'object') {
+    const obj = val as Record<string, unknown>
+    const inner = obj['fr'] || Object.values(obj)[0]
+    if (typeof inner === 'string') return inner
+    if (inner && typeof inner === 'object') {
+      const innerObj = inner as Record<string, unknown>
+      return (innerObj['fr'] || Object.values(innerObj)[0] || '') as string
+    }
+  }
+  return String(val || '')
+}
+
 function getAvatarColor(name: string) {
   const colors = [
     'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-purple-500',
@@ -118,7 +133,7 @@ export default function ForumTopicDetailPage() {
                   )}
                 </div>
 
-                <h1 className="text-2xl font-bold mb-4">{topic.title}</h1>
+                <h1 className="text-2xl font-bold mb-4">{asString(topic.title)}</h1>
 
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                   <span className="flex items-center gap-1">
@@ -162,7 +177,7 @@ export default function ForumTopicDetailPage() {
         <Card>
           <CardContent className="p-6">
             <div className="prose prose-sm max-w-none">
-              <p className="whitespace-pre-wrap">{topic.content}</p>
+              <p className="whitespace-pre-wrap">{asString(topic.content)}</p>
             </div>
           </CardContent>
         </Card>

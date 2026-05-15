@@ -35,6 +35,7 @@ import {
   usePublicDocuments,
   useDocumentsRealtime,
 } from '../hooks/useCoRedaction';
+import { getLangValue } from '@/types/i18n';
 import bgHeader from '@/assets/bg-header.jpg';
 
 
@@ -48,7 +49,7 @@ const CATEGORIES = [
 ];
 
 export default function PublicCoRedactionPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user, highestRole } = useAuth();
   const [search, setSearch] = useState('');
@@ -142,11 +143,11 @@ export default function PublicCoRedactionPage() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-                        {doc.title}
+                        {getLangValue(doc.title, i18n.language)}
                       </h3>
                       {doc.description && (
                         <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                          {doc.description}
+                          {getLangValue(doc.description, i18n.language)}
                         </p>
                       )}
                     </div>
@@ -154,7 +155,7 @@ export default function PublicCoRedactionPage() {
 
                   <div className="flex flex-wrap gap-2 mt-3">
                     <Badge variant="outline" className="text-xs">
-                      {CATEGORIES.find(c => c.value === doc.category)?.label || doc.category}
+                      {CATEGORIES.find(c => c.value === getLangValue(doc.category, i18n.language))?.label || getLangValue(doc.category, i18n.language)}
                     </Badge>
                   </div>
                 </CardContent>

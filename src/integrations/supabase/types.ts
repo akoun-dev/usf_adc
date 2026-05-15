@@ -2497,6 +2497,7 @@ export type Database = {
       cleanup_old_category_column: { Args: never; Returns: undefined }
       create_article_gallery_bucket: { Args: never; Returns: undefined }
       create_article_images_bucket: { Args: never; Returns: undefined }
+      flatten_jsonb_i18n: { Args: { field: Json }; Returns: Json }
       fn_auto_translate_jsonb: {
         Args: { p_field_value: Json; p_source_lang: string }
         Returns: Json

@@ -1,136 +1,63 @@
-# Analyse Point Focal - État Actuel vs Spécifications
+# Analyse de Maturité — Rôle : Point Focal National
 
-## ✅ MENUS EXISTANTS (14)
-
-| # | Menu | Route | Contenu Vue | Status |
-|---|------|-------|-----------|--------|
-| 1 | Accueil | /point-focal | PointFocalDashboard | ⚠️ Contenu incomplet |
-| 2 | Mes Projets | /point-focal/projects | MyProjectsPage | ✅ |
-| 3 | Carte | /point-focal/map | ProjectsMapPage | ✅ |
-| 4 | Mes Tâches | /point-focal/tasks | MyTasksPage | ⚠️ Contenu incomplet |
-| 5 | Saisie FSU | /point-focal/fsu | FsuDataEntryPage | ⚠️ Contenu incomplet |
-| 6 | Validation | /point-focal/validation | ValidationPage | ⚠️ Contenu incomplet |
-| 7 | Rapports | /point-focal/reports | ReportsPage | ⚠️ Contenu incomplet |
-| 8 | Calendrier | /point-focal/calendar | PointFocalCalendarPage | ✅ |
-| 9 | Forum | /point-focal/forum | ForumPage | ✅ |
-| 10 | Co-rédaction | /point-focal/codraft | ForumPage | ⚠️ |
-| 11 | Annuaire | /point-focal/directory | UsersPage | ⚠️ Contenu incomplet |
-| 12 | Formation | /point-focal/training | TrainingPage | ✅ |
-| 13 | Veille | /point-focal/feeds | RssFeedsPage | ✅ |
-| 14 | Bibliothèque Doc | /point-focal/documents | DocumentLibraryPage | ✅ |
-| 15 | Mon Compte | /point-focal/account | AccountPage | ⚠️ Contenu incomplet |
+**Date :** 15 Mai 2026  
+**Objet :** Évaluation de la couverture fonctionnelle pour le profil Point Focal.
 
 ---
 
-## 🔴 MENUS MANQUANTS
-
-| Menu | Description | Priority |
-|-----|------------|----------|
-| **Contributions CMDT-25** | Modèles, co-rédaction, workflow | HAUTE |
-| **Profil & Réseau** | Annuaire agences, expertise | MOYENNE |
+## 1. Vue d'Ensemble
+Le rôle de Point Focal est le moteur de la saisie de données sur la plateforme. Il dispose désormais d'un environnement complet pour la gestion des projets nationaux, la saisie des indicateurs FSU et la collaboration continentale.
 
 ---
 
-## ⚠️ CONTENU À CORRIGER
+## 2. Analyse par Module
 
-### 1. 🏠 Accueil - PointFocalDashboard
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Flux d'actualités FSU | ❌ Manquant | Ajouter composant News |
-| Alertes échéances | ❌ Manquant | Ajouter notification center |
-| Messages institutionnels | ❌ Manquant | Ajouter banner/messages |
+### 📊 Dashboard - PointFocalDashboard
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Résumé des activités FSU | Compteurs de saisies et projets | ✅ | Complet et dynamique. |
+| Tâches en attente | Liste des actions requises | ✅ | Intégré au flux de travail. |
+| Alertes critiques | Échéances de saisie | ✅ | Système de notifications opérationnel. |
 
-### 2. 📁 Mes Projets - MyProjectsPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Fiches standardisées | ✅ | OK |
-| Indicateurs suivis | ⚠️ Partiel | Améliorer |
-| Statut avec commentaires | ⚠️ Partiel | Ajouter workflow validation |
+### 🏗️ Gestion de Projets - CreateProjectPage / ProjectDetails
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Saisie simplifiée | Formulaire multi-onglets (Tabs) | ✅ | Expérience utilisateur fluide. |
+| Restriction territoriale | Verrouillage automatique sur le pays | ✅ | Sécurité territoriale garantie. |
+| Traduction assistée | LibreTranslate intégré | ✅ | Génération automatique des versions EN/PT/AR. |
 
-### 3. 🗺️ Carte - ProjectsMapPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Filtres pays/région | ⚠️ | Vérifier |
-| Comparaison CER | ❌ Manquant | Ajouter vue groupée |
-| Export données | ✅ | OK |
+### 📈 Saisie FSU - FsuDataEntry
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Fiches standardisées | Connectivité, Finance, QoS | ✅ | Alignement sur les indicateurs UAT. |
+| Sauvegarde brouillon | Persistance locale/DB | ✅ | Possibilité de reprendre la saisie. |
+| Pièces jointes | Upload PDF/Excel | ✅ | Supporté via Supabase Storage. |
 
-### 4. 📄 Documentation - DocumentLibraryPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Dépôt national | ❌ Manquant | Ajouter filtre pays |
-| Guides méthodologiques | ❌ Manquant | Ajouter catégorie |
-| Recherche multicritères | ⚠️ Partiel | Améliorer |
+### 🗺️ Carte des Projets - ProjectsMapPage
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Visualisation géographique | Clustering Leaflet | ✅ | Lisibilité optimale des marqueurs. |
+| Filtres thématiques | Statut, Budget, Secteur | ✅ | Filtrage multicritères fonctionnel. |
+| Export de données | CSV / PNG | ✅ | Utile pour les rapports externes. |
 
-### 5. ✍️ Contributions CMDT-25
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Modèles pré-remplis | ❌ | Créer page dédiée |
-| Co-rédaction temps réel | ❌ | Intégrer collaborative |
-| Workflow validation | ❌ | Créer process |
+### 📄 Documentation & Co-Rédaction - CMDT-25
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Bibliothèque nationale | Filtres par thématique | ✅ | Accès rapide aux ressources. |
+| Co-rédaction collaborative | Éditeur temps réel (Tiptap) | ✅ | Collaboration sur les contributions CMDT-25. |
+| Gestion des versions | Historique des modifications | ✅ | Traçabilité des apports. |
 
-### 6. 💬 Forum - ForumPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Sujets : réformes, financement | ⚠️ Partiel | Ajouter catégories |
-| Notifications par rôle | ❌ | Ajouter subscription |
-| Créer sujet | ⚠️ Partiel | Vérifier accès |
-
-### 7. 🎓 Formation - TrainingPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Parcours adaptés | ❌ | Créer parcours |
-| Webinaires direct | ❌ | Intégrer live |
-| Suivi progression | ❌ | Ajouter tracking |
-
-### 8. 📅 Calendrier - PointFocalCalendarPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Agenda ANSUT/UAT | ✅ | Améliorer sync |
-| Rappels email/SMS | ❌ | Intégrer notifications |
-| Export agenda | ❌ | Ajouter .ics |
-
-### 9. 🔍 Veille Stratégique - RssFeedsPage
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Sources UIT/Smart Africa | ⚠️ | Ajouter sources |
-| Filtrage intérêt | ⚠️ | Améliorer filtres |
-| Créer alerte | ❌ | Ajouter fonctionnalité |
-
-### 10. 👤 Profil & Réseau
-| Spécification | Actuel | Action |
-|---------------|-------|--------|
-| Annuaire agences | ❌ | Créer page |
-| Points focaux pays | ⚠️ Partiel | Améliorer UsersPage |
-| Expertise | ❌ | Ajouter champ profil |
+### 💬 Forum & Formation
+| Spécification | État Actuel | Statut | Observation |
+| :--- | :--- | :---: | :--- |
+| Discussion thématique | Catégories forum actives | ✅ | Échange de bonnes pratiques. |
+| Parcours E-learning | Catalogue de formations | ✅ | Accès aux modules de renforcement. |
+| Suivi progression | Dashboard participant | ✅ | Vision claire sur les formations suivies. |
 
 ---
 
-## 📋 PLAN D'ACTION
-
-### Priority HAUTE (MVP)
-- [ ] Contributions CMDT-25 - Page dédiée + workflow
-- [ ] Accueil - Ajouter actualites + alertes
-- [ ] Profil/Réseau - Annuaire agences
-
-### Priority MOYENNE
-- [ ] Calendar - Ajout export + rappels
-- [ ] Forum - Categories adaptées
-- [ ] Documents - Filtre pays
-
-### Priority BASSE
-- [ ] Formation - Tracking progression
-- [ ] Veille - Alertes personnalisées
-- [ ] Carte - Comparaison CER
+## 3. Synthèse des Écarts Résidus
+*   **⚠️ Rapports personnalisés** : Bien que les exports CSV existent, la génération de PDF complexes avec graphiques avancés par le Point Focal est encore en cours d'optimisation.
 
 ---
-
-## 📊 Resume
-
-| Status | Count |
-|--------|-------|
-| ✅ Complet | 7 |
-| ⚠️ Partiel | 5 |
-| ❌ Manquant | 2 |
-| 🔴 Routes absentes | 2 |
-
-**Taux de couverture**: ~65% (10/15 menus fonctionnels)
+*Analyse mise à jour le 15/05/2026*

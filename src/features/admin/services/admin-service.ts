@@ -806,6 +806,58 @@ export async function uploadDocumentFile(file: File): Promise<{
     }
 }
 
+// =====================================================
+// Project Documents
+// =====================================================
+
+export async function getProjectDocuments(projectId: string) {
+    const { data, error } = await supabase
+        .from("project_documents")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: false })
+    if (error) throw error
+    return data ?? []
+}
+
+export async function createProjectDocument(input: {
+    project_id: string
+    file_name: string
+    file_path: string
+    file_size: number
+    mime_type: string
+    file_url: string
+    document_type?: string
+    validity_end_date?: string | null
+}) {
+    const { data, error } = await supabase
+        .from("project_documents")
+        .insert(input)
+        .select()
+        .single()
+    if (error) throw error
+    return data
+}
+
+export async function deleteProjectDocument(id: string) {
+    // First get the file path to delete from storage
+    const { data: doc } = await supabase
+        .from("project_documents")
+        .select("file_path")
+        .eq("id", id)
+        .single()
+
+    if (doc?.file_path) {
+        const { error: storageError } = await supabase.storage
+            .from("documents")
+            .remove([doc.file_path])
+        if (storageError) console.error("Error deleting from storage:", storageError)
+    }
+
+    const { error } = await supabase.from("project_documents").delete().eq("id", id)
+    if (error) throw error
+}
+
 // Documents
 export async function getDocuments() {
     const { data, error } = await supabase

@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { getLocalizedField } from './projects.service';
 
 // Types based on Supabase migrations
 export interface PublicDocument {
@@ -213,11 +214,12 @@ export async function fetchDocumentStats(): Promise<DocumentStats> {
   let featured = 0;
 
   (documents || []).forEach(doc => {
-    byCategory[doc.category] = (byCategory[doc.category] || 0) + 1;
+    const cat = getLocalizedField(doc.category as Record<string, string> | string | null);
+    byCategory[cat] = (byCategory[cat] || 0) + 1;
     if (doc.type) {
-      byType[doc.type] = (byType[doc.type] || 0) + 1;
+      byType[doc.type as string] = (byType[doc.type as string] || 0) + 1;
     }
-    byLanguage[doc.language] = (byLanguage[doc.language] || 0) + 1;
+    byLanguage[doc.language as string] = (byLanguage[doc.language as string] || 0) + 1;
     if (doc.featured) featured++;
   });
 
@@ -250,14 +252,27 @@ export async function searchDocuments(query: string): Promise<DocumentWithTags[]
 }
 
 /**
- * Maps a database row to a DocumentWithTags object with computed download_url
+ * Maps a database row to a DocumentWithTags object with computed download_url.
+ * Handles JSONB multilingual fields (title, description, category, content)
+ * by extracting the localized string value.
  */
 function mapDocumentRow(doc: Record<string, unknown>): DocumentWithTags {
   const { document_tags, ...rest } = doc;
   const filePath = rest.file_path as string;
   const { data } = supabase.storage.from('documents').getPublicUrl(filePath);
+
+  // Convert JSONB multilingual fields to strings
+  const title = getLocalizedField(rest.title as Record<string, string> | string | null);
+  const description = rest.description
+    ? getLocalizedField(rest.description as Record<string, string> | string | null)
+    : null;
+  const category = getLocalizedField(rest.category as Record<string, string> | string | null);
+
   return {
-    ...(rest as Omit<PublicDocument, 'download_url' | 'tags'>),
+    ...(rest as Omit<PublicDocument, 'download_url' | 'tags' | 'title' | 'description' | 'category'>),
+    title,
+    description,
+    category,
     download_url: data.publicUrl,
     tags: (document_tags as Array<{ tag: string }>)?.map((dt) => dt.tag) || [],
   } as DocumentWithTags;

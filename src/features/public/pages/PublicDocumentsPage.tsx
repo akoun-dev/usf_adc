@@ -57,6 +57,22 @@ function formatDocumentDate(date: string) {
     })
 }
 
+/** Safely convert a value to a string for display/filtering */
+function asString(val: unknown): string {
+    if (typeof val === 'string') return val
+    if (val && typeof val === 'object') {
+        // Doubly-nested JSONB: {fr: {fr: "...", en: "..."}, ...}
+        const obj = val as Record<string, unknown>
+        const inner = obj['fr'] || Object.values(obj)[0]
+        if (typeof inner === 'string') return inner
+        if (inner && typeof inner === 'object') {
+            const innerObj = inner as Record<string, unknown>
+            return (innerObj['fr'] || Object.values(innerObj)[0] || '') as string
+        }
+    }
+    return String(val || '')
+}
+
 export default function PublicDocumentsPage() {
     const { t } = useTranslation()
     const { data: documents, isLoading } = usePublicDocuments()
@@ -71,13 +87,15 @@ export default function PublicDocumentsPage() {
     const filteredDocuments = useMemo(() => {
         return allDocuments.filter(document => {
             const query = search.trim().toLowerCase()
+            const titleStr = asString(document.title)
+            const descStr = asString(document.description)
             const matchSearch =
                 !query ||
-                document.title.toLowerCase().includes(query) ||
-                document.description.toLowerCase().includes(query) ||
+                titleStr.toLowerCase().includes(query) ||
+                descStr.toLowerCase().includes(query) ||
                 document.tags.some(tag => tag.toLowerCase().includes(query))
             const matchCategory =
-                category === "all" || document.category === category
+                category === "all" || asString(document.category) === category
             const matchLanguage =
                 language === "all" || document.language === language
 
@@ -309,9 +327,12 @@ function formatFileSize(bytes: number): string {
 
 function LibraryDocumentCard({ document }: { document: PublicDocument }) {
     const { t } = useTranslation()
+    const titleStr = asString(document.title)
+    const descStr = asString(document.description)
+    const categoryStr = asString(document.category)
     const categoryInfo =
         DOCUMENT_CATEGORIES[
-        document.category as keyof typeof DOCUMENT_CATEGORIES
+        categoryStr as keyof typeof DOCUMENT_CATEGORIES
         ]
     const typeInfo =
         DOCUMENT_TYPES[document.type as keyof typeof DOCUMENT_TYPES]
@@ -323,7 +344,7 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                     {document.thumbnail ? (
                         <img
                             src={document.thumbnail}
-                            alt={document.title}
+                            alt={titleStr}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                     ) : null}
@@ -352,10 +373,10 @@ function LibraryDocumentCard({ document }: { document: PublicDocument }) {
                     ) : null}
 
                     <h3 className="font-semibold text-lg line-clamp-2 mb-2">
-                        {document.title}
+                        {titleStr}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                        {document.description}
+                        {descStr}
                     </p>
 
                     <div className="mb-4 flex flex-wrap gap-1.5">

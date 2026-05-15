@@ -1,0 +1,588 @@
+SECTION;ID;MODULE / TITRE;DESCRIPTION / DETAILS;PRÉCONDITIONS;ETAPES DE TEST;DONNEES DE TEST;RESULTAT ATTENDU;RESULTAT OBTENU;STATUT;PRIORITE;SERVICE / COMPOSANT;;;;;;;;;;;;;;;;;;
+0. INTRODUCTION;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+INTRODUCTION;;PROJET;Plateforme USF ADCA (NEXUS) - Union Africaine;;;;;;;;;;;;;;;;;;;;;;;;;;
+INTRODUCTION;;OBJECTIF;Valider la conformité fonctionnelle de la plateforme USF ADC par rapport au cahier des charges;;;;;;;;;;;;;;;;;;;;;;;;;;
+INTRODUCTION;;PERIMETRE;Authentification, Profils, Tableaux de bord, Projets/Cartographie, FSU, Validation, Forum, Messagerie, Notifications, Administration, Admin Pays, Point Focal, Co-Rédaction, E-Learning, Support, Utilisateurs, Invitations, Rapports, Newsletters, Documents, Chat, Flux RSS, Formation, Pages Publiques, Paramètres, i18n;;;;;;;;;;;;;;;;;;;;;;;;;;
+INTRODUCTION;;ROLES;super_admin; country_admin; point_focal; contributor; editor; visiteur;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+1. ORGANISATION;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ORGANISATION;;ENVIRONNEMENT;Recette / Staging;;;;;;;;;;;;;;;;;;;;;;;;;;
+ORGANISATION;;NAVIGATEURS;Chrome (dernière version); Firefox; Safari; Edge;;;;;;;;;;;;;;;;;;;;;;;
+ORGANISATION;;PREREQUIS;Base de données Supabase initialisée avec les données de test (seed);;;;;;;;;;;;;;;;;;;;;;;;;;
+ORGANISATION;;TECHNOLOGIE;React + Vite + TypeScript; Supabase (PostgreSQL; Auth; Storage; Realtime); Tailwind CSS; shadcn/ui;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+2. AUTHENTIFICATION (auth-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;AUT-01;CONNEXION;Connexion réussie avec identifiants valides;Page de login accessible (/login);"1. Accéder à  /login
+2. Saisir email et mot de passe valides
+3. Cliquer sur Se connecter";Email: admin@nexus.org / PW: password123;Redirection vers le Dashboard selon le rôle;[ ];En attente;HAUTE;auth-service.signIn();;;;;;;;;;;;;;;;;;
+TEST;AUT-02;CONNEXION;Echec de connexion avec identifiants invalides;Page de login accessible;"1. Saisir un email inexistant
+2. Cliquer sur Se connecter";Email: ghost@test.com / PW: wrong;"Affichage du message d'erreur ""Identifiants invalides""";[ ];En attente;HAUTE;auth-service.signIn();;;;;;;;;;;;;;;;;;
+TEST;AUT-03;CONNEXION;Déconnexion;Utilisateur connecté;"1. Cliquer sur le menu utilisateur
+2. Cliquer sur Déconnexion
+3. Vérifier la redirection";â€”;Redirection vers la page de login; session détruite;[ ];En attente;HAUTE;auth-service.signOut();;;;;;;;;;;;;;;;;
+TEST;AUT-04;MOT DE PASSE OUBLIE;Envoi de l'email de réinitialisation;Page /forgot-password accessible;"1. Saisir l'email du compte
+2. Cliquer sur Envoyer";Email: user@test.com;Email de réinitialisation envoyé; message de confirmation affiché;[ ];En attente;HAUTE;auth-service.resetPassword();;;;;;;;;;;;;;;;;
+TEST;AUT-05;REINITIALISATION MOT DE PASSE;Nouveau mot de passe via lien email;Lien de réinitialisation reÃ§u;"1. Ouvrir le lien de réinitialisation
+2. Saisir le nouveau mot de passe
+3. Confirmer";Nouveau PW: NewPass123!;Mot de passe mis à  jour; connexion possible avec le nouveau mot de passe;[ ];En attente;HAUTE;auth-service.updatePassword();;;;;;;;;;;;;;;;;
+TEST;AUT-06;INSCRIPTION;Création de compte via /inscription;Page d'inscription accessible;"1. Remplir le formulaire (nom; email; pays; etc.)
+2. Valider
+3. Confirmer l'email";Nom: Jean Dupont / Email: j.dupont@test.com;Compte créé avec rôle par défaut; email de confirmation envoyé;[ ];En attente;HAUTE;RegistrationPage;;;;;;;;;;;;;;;;;
+TEST;AUT-07;MFA;Vérification MFA;MFA activé pour le compte;"1. Se connecter
+2. Saisir le code MFA
+3. Valider";Code MFA: 123456;Accès autorisé après validation MFA;[ ];En attente;MOYENNE;MfaVerification;;;;;;;;;;;;;;;;;;
+TEST;AUT-08;AUTH GUARD;Protection des routes authentifiées;Utilisateur non connecté;"1. Accéder à une route protégée (ex: /dashboard)
+2. Vérifier la redirection";â€”;Redirection automatique vers /login;[ ];En attente;HAUTE;AuthGuard;;;;;;;;;;;;;;;;;;
+TEST;AUT-09;ROLE GUARD;Restriction d'accès par rôle;Utilisateur avec rôle point_focal;"1. Accéder à /admin/settings (réservé super_admin)
+2. Vérifier la redirection";â€”;Redirection vers /unauthorized ou page d'erreur 403;[ ];En attente;HAUTE;RoleGuard;;;;;;;;;;;;;;;;;;
+TEST;AUT-10;SESSION;Récupération de la session active;Utilisateur connecté;"1. Appeler auth-service.getSession()
+2. Vérifier les données retournées";â€”;Session valide avec token et user;[ ];En attente;MOYENNE;auth-service.getSession();;;;;;;;;;;;;;;;;;
+TEST;AUT-11;PROFIL AUTH;Récupération du profil utilisateur;Utilisateur connecté;"1. Appeler auth-service.getUserProfile()
+2. Vérifier les données (nom; pays; etc.)";â€”;Profil complet retourné avec infos du pays;[ ];En attente;MOYENNE;auth-service.getUserProfile();;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+3. PROFIL UTILISATAIRE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;PROF-01;PROFIL;Affichage du profil utilisateur;Utilisateur connecté;"1. Accéder à /profile
+2. Vérifier les informations affichées";â€”;Nom; email; téléphone; avatar; langue; pays affichés correctement;[ ];En attente;HAUTE;ProfilePage;;;;;;;;;;;;;
+TEST;PROF-02;PROFIL;Modification du profil;"1. Accéder à /profile
+2. Modifier le nom et le téléphone
+3. Sauvegarder";Nom: Marie Curie / Tél: +225 07000000;Modifications persistées en base; confirmation affichée;[ ];En attente;HAUTE;auth-service.updateProfile();;;;;;;;;;;;;;;;;;
+TEST;PROF-03;PRÉFÉRENCES;Modification des préférences;Page /profile/preferences accessible;"1. Changer la langue préférée
+2. Changer le thème (clair/sombre)
+3. Sauvegarder";Langue: English / Thème: Dark;Préférences mises à jour; interface mise à jour;[ ];En attente;MOYENNE;ProfilePreferencesPage;;;;;;;;;;;;;;;;;
+TEST;PROF-04;SÉCURITÉ;Changement de mot de passe;Page /profile/security accessible;"1. Saisir l'ancien mot de passe
+2. Saisir le nouveau mot de passe
+3. Confirmer et sauvegarder";Ancien PW: OldPass123 / Nouveau: NewPass456;Mot de passe changé avec succès;[ ];En attente;HAUTE;ProfileSecurityPage;;;;;;;;;;;;;;;;;;
+TEST;PROF-05;SÉCURITÉ;Activation MFA;Page /profile/security accessible;"1. Cliquer sur Activer MFA
+2. Configurer via l'application d'authentification
+3. Valider";â€”;MFA activé; vérification demandée à la prochaine connexion;[ ];En attente;MOYENNE;ProfileSecurityPage;;;;;;;;;;;;;;;;;
+TEST;PROF-06;AVATAR;Upload d'avatar;Page /profile accessible;"1. Cliquer sur l'avatar
+2. Sélectionner une image
+3. Sauvegarder";Image: avatar.jpg (< 2MB);Avatar mis à jour et affiché;[ ];En attente;MOYENNE;ProfilePage;;;;;;;;;;;;;;;;;;
+TEST;PROF-07;HISTORIQUE;Affichage historique des promotions;Utilisateur avec historique de promotion;"1. Accéder à /profile
+2. Vérifier la section historique";â€”;Historique des promotions affiché avec dates et rôles;[ ];En attente;BASSE;PromotionHistory;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+4. TABLEAUX DE BORD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;DASH-01;ROUTING;Redirection selon le rôle;Utilisateur connecté avec différents rôles;"1. Se connecter en tant que point_focal
+2. Vérifier la redirection
+3. Se connecter en country_admin
+4. Vérifier";Rôles: point_focal; country_admin; super_admin;Redirection vers le dashboard approprié;[ ];En attente;HAUTE;DashboardRouter;;;;;;;;;;;;;;;;
+TEST;DASH-02;POINT FOCAL;Dashboard Point Focal;Utilisateur point_focal connecté;"1. Accéder à /dashboard/point-focal
+2. Vérifier les widgets (KPI; graphiques; tÃ¢ches)";â€”;Dashboard avec statistiques du pays; projets en cours; tÃ¢ches;[ ];En attente;HAUTE;PointFocalDashboard;;;;;;;;;;;;;;;;
+TEST;DASH-03;ADMIN PAYS;Dashboard Admin Pays;Utilisateur country_admin connecté;"1. Accéder à /dashboard/admin-pays
+2. Vérifier les widgets (KPI pays; validations en attente)";â€”;Dashboard avec KPI du pays; soumissions en attente; rapports;[ ];En attente;HAUTE;AdminPaysDashboard;;;;;;;;;;;;;;;;
+TEST;DASH-04;ADMIN GLOBAL;Dashboard Super Admin;Utilisateur super_admin connecté;"1. Accéder à /dashboard/admin-global
+2. Vérifier les widgets (KPI globaux; stats par pays)";â€”;Dashboard avec KPI globaux; stats tous pays; alertes;[ ];En attente;HAUTE;AdminGlobalDashboard;;;;;;;;;;;;;;;;
+TEST;DASH-05;PUBLIC;Dashboard public externe;Aucune authentification requise;"1. Accéder au dashboard public
+2. Vérifier les statistiques visibles";â€”;Statistiques agrégées affichées sans données sensibles;[ ];En attente;MOYENNE;PublicExternalDashboard;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+5. PROJETS ET CARTOGRAPHIE (projects-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;PRJ-01;PROJETS;Création d'un nouveau projet;Utilisateur point_focal connecté;"1. Cliquer sur Nouveau Projet
+2. Remplir les champs (titre; secteur; pays; budget; etc.)
+3. Sauvegarder";Titre: Projet Alpha / Secteur: Énergie / Pays: Côte d'Ivoire;"Projet créé avec statut ""Brouillon""";[ ];En attente;HAUTE;useCreateProject;;;;;;;;;;;;;;;;;;
+TEST;PRJ-02;PROJETS;Modification d'un projet;Projet existant en Brouillon;"1. Ouvrir le projet
+2. Modifier la description et le budget
+3. Enregistrer";Description: Mise à jour / Budget: 500000;Modifications persistées;[ ];En attente;HAUTE;useUpdateProject;;;;;;;;;;;;;;;;;;
+TEST;PRJ-03;PROJETS;Suppression d'un projet;Projet existant en Brouillon;"1. Ouvrir le projet
+2. Cliquer sur Supprimer
+3. Confirmer";â€”;Projet supprimé; plus visible dans la liste;[ ];En attente;MOYENNE;useDeleteProject;;;;;;;;;;;;;;;;;
+TEST;PRJ-04;PROJETS;Listing et filtrage des projets;Plusieurs projets existants;"1. Accéder à la liste des projets
+2. Filtrer par pays
+3. Filtrer par secteur
+4. Filtrer par statut";Filtre: Pays=CI / Secteur=Énergie;Liste filtrée affichée correctement;[ ];En attente;HAUTE;useProjects;;;;;;;;;;;;;;;;;;
+TEST;PRJ-05;CARTE;Affichage de la carte interactive;Page /map accessible;"1. Accéder à /map
+2. Vérifier l'affichage des marqueurs
+3. Cliquer sur un marqueur";â€”;Carte avec marqueurs de projets; popup d'info au clic;[ ];En attente;HAUTE;ProjectMap;;;;;;;;;;;;;;;;;
+TEST;PRJ-06;CARTE;Filtres géographiques;Au moins 5 projets sur 3 pays;"1. Sélectionner un pays dans le filtre
+2. Vérifier la mise à jour de la carte";Pays: Sénégal;Seuls les marqueurs du Sénégal sont affichés;[ ];En attente;HAUTE;ProjectFilters;;;;;;;;;;;;;;;;;;
+TEST;PRJ-07;CARTE;Sidebar projets;Carte affichée;"1. Cliquer sur un marqueur
+2. Vérifier la sidebar
+3. Vérifier les détails du projet";â€”;Sidebar avec détails du projet; lien vers la fiche complète;[ ];En attente;MOYENNE;ProjectSidebar;;;;;;;;;;;;;;;;;
+TEST;PRJ-08;CARTE;Export de la carte;Carte avec des projets;"1. Cliquer sur Exporter
+2. Choisir le format (CSV/PDF)
+3. Télécharger";â€”;Fichier exporté avec les données des projets filtrés;[ ];En attente;MOYENNE;export-map.ts;;;;;;;;;;;;;;;;;;
+TEST;PRJ-09;PROJETS;Soumission d'un projet;Projet en Brouillon;"1. Ouvrir le projet
+2. Cliquer sur Soumettre
+3. Confirmer";â€”;"Statut passe à ""Soumis"""; notification envoyée au validateur;[ ];En attente;HAUTE;useUpdateProject;;;;;;;;;;;;;;;;;
+TEST;PRJ-10;PROJETS;Détail d'un projet (vue admin);Projet existant;"1. Accéder à /admin/projects/:id
+2. Vérifier les onglets (Détails; Acteurs; Documents; Historique; Carte)";â€”;Tous les onglets affichés avec les données correctes;[ ];En attente;HAUTE;ProjectDetailPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+6. FSU - FICHE DE SUIVI (fsu-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;FSU-01;FSU NOUVELLE SOUMISSION;Accès au formulaire FSU;Utilisateur point_focal connecté;"1. Accéder à /fsu/new
+2. Vérifier le formulaire en étapes";â€”;Formulaire multi-étapes affiché (Connectivité; Qualité; Financement);[ ];En attente;HAUTE;FsuNewSubmissionPage;;;;;;;;;;;;;;;;
+TEST;FSU-02;FSU NOUVELLE SOUMISSION;Saisie des indicateurs de connectivité;Étape Connectivité du formulaire;"1. Saisir les valeurs des indicateurs
+2. Passer à l'étape suivante";Taux de couverture: 85% / Abonnés: 5M;Étape validée; progression à l'étape suivante;[ ];En attente;HAUTE;ConnectivityStep;;;;;;;;;;;;;;;;;
+TEST;FSU-03;FSU NOUVELLE SOUMISSION;Saisie des indicateurs de qualité;Étape Qualité;"1. Saisir les indicateurs de qualité
+2. Passer à l'étape suivante";QoS: Bonne / Latence: 30ms;Étape validée; progression;[ ];En attente;HAUTE;QualityStep;;;;;;;;;;;;;;;;;
+TEST;FSU-04;FSU NOUVELLE SOUMISSION;Saisie des données de financement;Étape Financement;"1. Saisir les montants
+2. Passer à l'étape suivante";Budget: 10M USD / Investissement: 5M USD;Étape validée;[ ];En attente;HAUTE;FinancingStep;;;;;;;;;;;;;;;;;;
+TEST;FSU-05;FSU NOUVELLE SOUMISSION;Avertissement d'incohérence;Valeurs incohérentes saisies;"1. Saisir une valeur incohérente (ex: couverture > 100%)
+2. Vérifier l'avertissement";Couverture: 150%;Avertissement d'incohérence affiché;[ ];En attente;MOYENNE;InconsistencyWarning;;;;;;;;;;;;;;;;;;
+TEST;FSU-06;FSU SOUMISSION;Envoi de la soumission FSU;Formulaire complet;"1. Vérifier l'aperÃ§u
+2. Cliquer sur Envoyer";â€”;"Soumission créée avec statut ""Soumis"""; confirmation affichée;[ ];En attente;HAUTE;useSubmitSubmission;;;;;;;;;;;;;;;;;
+TEST;FSU-07;FSU LISTE;Liste des soumissions FSU;Utilisateur avec soumissions;"1. Accéder à /fsu/submissions
+2. Vérifier la liste";â€”;Liste des soumissions avec statut; date; actions;[ ];En attente;HAUTE;FsuSubmissionsPage;;;;;;;;;;;;;;;;
+TEST;FSU-08;FSU DÉTAIL;Détail d'une soumission;Soumission existante;"1. Cliquer sur une soumission
+2. Vérifier les détails";â€”;Détails complets de la soumission; statut; historique;[ ];En attente;HAUTE;FsuSubmissionDetailPage;;;;;;;;;;;;;;;;
+TEST;FSU-09;FSU UPLOAD;Upload de pièces jointes;Soumission en cours;"1. Cliquer sur Ajouter une pièce jointe
+2. Sélectionner un fichier
+3. Uploader";Fichier: rapport.pdf (1MB);Fichier uploadé et attaché à la soumission;[ ];En attente;MOYENNE;AttachmentUploader;;;;;;;;;;;;;;;;;;
+TEST;FSU-10;FSU EXPORT;Téléchargement du template FSU;Page FSU accessible;"1. Cliquer sur Télécharger le template
+2. Vérifier le fichier";â€”;Template Excel téléchargé;[ ];En attente;MOYENNE;download-template.ts;;;;;;;;;;;;;;;;;;
+TEST;FSU-11;FSU STATUS;Badge de statut de soumission;Soumissions avec différents statuts;1. Vérifier les badges pour chaque statut;Statuts: draft; submitted; under_review; approved; rejected; revision_requested;Badge coloré correspondant au statut affiché;[ ];En attente;MOYENNE;SubmissionStatusBadge;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+7. VALIDATION (validation-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;VAL-01;VALIDATION;Liste des soumissions en attente de validation;Utilisateur country_admin connecté;"1. Accéder à /validation
+2. Vérifier la liste des soumissions";â€”;Liste des soumissions en attente avec filtres;[ ];En attente;HAUTE;ValidationListPage;;;;;;;;;;;;;;;;;;
+TEST;VAL-02;VALIDATION;Détail d'une soumission à valider;Soumission en attente;"1. Cliquer sur une soumission
+2. Vérifier les détails";â€”;Détails complets; historique de validation; actions disponibles;[ ];En attente;HAUTE;ValidationDetailPage;;;;;;;;;;;;;;;;
+TEST;VAL-03;VALIDATION;Approbation d'une soumission;Soumission en attente;"1. Ouvrir la soumission
+2. Cliquer sur Approuver
+3. Ajouter un commentaire";Commentaire: Conforme;Soumission approuvée; statut mis à jour; notification envoyée;[ ];En attente;HAUTE;useValidationActions;;;;;;;;;;;;;;;;
+TEST;VAL-04;VALIDATION;Rejet d'une soumission;Soumission en attente;"1. Ouvrir la soumission
+2. Cliquer sur Rejeter
+3. Saisir le motif de rejet";Motif: Données manquantes;Soumission rejetée; motif enregistré; notification envoyée;[ ];En attente;HAUTE;useValidationActions;;;;;;;;;;;;;;;;
+TEST;VAL-05;VALIDATION;Demande de révision;Soumission en attente;"1. Ouvrir la soumission
+2. Cliquer sur Demander une révision
+3. Préciser les modifications";Instructions: Vérifier les montants;"Statut passé à ""Révision demandée"""; commenté;[ ];En attente;HAUTE;useValidationActions;;;;;;;;;;;;;;;;;
+TEST;VAL-06;VALIDATION;Historique de validation;Soumission avec historique;"1. Ouvrir une soumission validée
+2. Vérifier l'onglet Historique";â€”;Historique complet des actions de validation;[ ];En attente;MOYENNE;ValidationHistory;;;;;;;;;;;;;;;;;;
+TEST;VAL-07;VALIDATION;Paramétrage du workflow;Utilisateur super_admin;"1. Accéder aux paramètres de workflow
+2. Modifier les règles
+3. Sauvegarder";â€”;Workflow mis à jour;[ ];En attente;MOYENNE;WorkflowSettingsPanel;;;;;;;;;;;;;;;;;;
+TEST;VAL-08;VALIDATION;Export Excel des validations;Liste de validations;"1. Cliquer sur Exporter Excel
+2. Télécharger le fichier";â€”;Fichier Excel avec toutes les données de validation;[ ];En attente;MOYENNE;export-validation-excel.ts;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+8. FORUM (forum-service.ts;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;FOR-01;FORUM;Liste des sujets;Page /forum accessible;"1. Accéder à /forum
+2. Vérifier la liste des sujets";â€”;Liste des sujets avec titre; auteur; date; nombre de réponses;[ ];En attente;HAUTE;useTopics;;;;;;;;;;;;;;;
+TEST;FOR-02;FORUM;Création d'un nouveau sujet;Utilisateur connecté;"1. Accéder à /forum/new
+2. Saisir le titre et le contenu
+3. Sélectionner une catégorie
+4. Publier";Titre: Nouvelle discussion / Catégorie: Général;Sujet créé et visible dans la liste;[ ];En attente;HAUTE;useCreateTopic;;;;;;;;;;;;;;;;;;
+TEST;FOR-03;FORUM;Affichage d'un sujet;Sujet existant;"1. Cliquer sur un sujet
+2. Vérifier le contenu et les réponses";â€”;Sujet affiché avec contenu; réponses; auteur; date;[ ];En attente;HAUTE;useTopic;;;;;;;;;;;;;;;
+TEST;FOR-04;FORUM;Publication d'une réponse;Sujet existant;"1. Ouvrir un sujet
+2. Saisir une réponse
+3. Publier";Réponse: Voici mon commentaire;Réponse ajoutée sous le sujet;[ ];En attente;HAUTE;useCreatePost;;;;;;;;;;;;;;;;;;
+TEST;FOR-05;FORUM;Modification d'un post;Post existant de l'utilisateur;"1. Cliquer sur Modifier sur le post
+2. Modifier le contenu
+3. Sauvegarder";Nouveau contenu: Message modifié;Post mis à jour;" mention ""Modifié"" affichée";[ ];En attente;MOYENNE;useUpdatePost;;;;;;;;;;;;;;;;;
+TEST;FOR-06;FORUM;Suppression d'un post;Post existant de l'utilisateur;"1. Cliquer sur Supprimer
+2. Confirmer";â€”;Post supprimé; plus visible;[ ];En attente;MOYENNE;useDeletePost;;;;;;;;;;;;;;;;;
+TEST;FOR-07;FORUM;Filtrage par catégorie;Plusieurs catégories existantes;"1. Sélectionner une catégorie dans le filtre
+2. Vérifier la liste";Catégorie: Télécommunications;Seuls les sujets de la catégorie sont affichés;[ ];En attente;MOYENNE;CategoryFilter;;;;;;;;;;;;;;;;;;
+TEST;FOR-08;FORUM;Groupes de discussion;Groupes créés;"1. Accéder à /forum/groups
+2. Vérifier les groupes";â€”;Liste des groupes de discussion;[ ];En attente;MOYENNE;ForumGroupsPage;;;;;;;;;;;;;;;;;;
+TEST;FOR-09;MODÉRATION;Signalement de contenu;Utilisateur connecté;"1. Cliquer sur Signaler sur un post
+2. Sélectionner le motif
+3. Soumettre";Motif: Contenu inapproprié;Signalement créé; visible par les modérateurs;[ ];En attente;HAUTE;useReportContent;;;;;;;;;;;;;;;;;
+TEST;FOR-10;MODÉRATION;Traitement d'un signalement;Modérateur connecté;"1. Accéder au panneau de modération
+2. Ouvrir un signalement
+3. Prendre une action (ignorer/supprimer)";â€”;Signalement traité; action enregistrée;[ ];En attente;HAUTE;useReviewReport;;;;;;;;;;;;;;;;;
+TEST;FOR-11;MODÉRATION;Liste des signalements;Modérateur connecté;"1. Accéder au panneau de modération
+2. Vérifier la liste";â€”;Liste des signalements en attente avec détails;[ ];En attente;HAUTE;useForumReports;;;;;;;;;;;;;;;;;;
+TEST;FOR-12;MODÉRATION;Panneau de modération;Modérateur connecté;"1. Accéder au panneau
+2. Vérifier les actions disponibles";â€”;Actions: Ignorer; Supprimer le contenu; Avertir l'utilisateur;[ ];En attente;HAUTE;ModerationPanel;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+9. MESSAGERIE (messaging-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;MSG-01;MESSAGERIE;Affichage de la boîte de réception;Utilisateur connecté;"1. Accéder à /admin/messaging
+2. Vérifier la liste des messages";â€”;Liste des messages reÃ§us avec expéditeur; sujet; date;[ ];En attente;HAUTE;MessagingPage;;;;;;;;;;;;;;;;
+TEST;MSG-02;MESSAGERIE;Lecture d'un message;Message existant;"1. Cliquer sur un message
+2. Vérifier le contenu";â€”;Message affiché avec contenu complet; expéditeur; date;[ ];En attente;HAUTE;MailDetail;;;;;;;;;;;;;;;;
+TEST;MSG-03;MESSAGERIE;Composition d'un nouveau message;Page messagerie accessible;"1. Cliquer sur Nouveau message
+2. Saisir le destinataire; sujet; contenu
+3. Envoyer";Destinataire: admin@nexus.org / Sujet: Test;Message envoyé; visible dans les envoyés;[ ];En attente;HAUTE;MailCompose;;;;;;;;;;;;;;;;;
+TEST;MSG-04;MESSAGERIE;Réponse à un message;Message ouvert;"1. Cliquer sur Répondre
+2. Saisir la réponse
+3. Envoyer";Réponse: Bien reÃ§u merci;Réponse envoyée; fil de discussion mis à jour;[ ];En attente;MOYENNE;MailCompose;;;;;;;;;;;;;;;;;
+TEST;MSG-05;MESSAGERIE;Sidebar messagerie;Page messagerie;"1. Vérifier la sidebar
+2. Cliquer sur les dossiers (Boîte; Envoyés; Brouillons)";â€”;Navigation entre dossiers fonctionnelle; compteurs à jour;[ ];En attente;MOYENNE;MailSidebar;;;;;;;;;;;;;;;;;
+TEST;MSG-06;MESSAGERIE;Icône messagerie;Barre de navigation;"1. Vérifier l'icône de messagerie
+2. Vérifier le compteur de non-lus";â€”;Icône avec badge de nombre de messages non lus;[ ];En attente;MOYENNE;MailIcon;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+10. NOTIFICATIONS (notification-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;NOT-01;NOTIFICATIONS;Liste des notifications;Utilisateur connecté;"1. Accéder à /notifications
+2. Vérifier la liste";â€”;Liste des notifications avec type; message; date; statut lu/non-lu;[ ];En attente;HAUTE;NotificationsPage;;;;;;;;;;;;;;;
+TEST;NOT-02;NOTIFICATIONS;Marquage comme lu;Notifications non lues;"1. Cliquer sur une notification non lue
+2. Vérifier le changement de statut";â€”;Notification marquée comme lue; compteur mis à jour;[ ];En attente;HAUTE;useMarkAsRead;;;;;;;;;;;;;;;;;
+TEST;NOT-03;NOTIFICATIONS;Compteur de non-lus;Barre de navigation;"1. Vérifier le badge de notifications
+2. Comparer avec la liste";â€”;Badge affichant le nombre correct de notifications non lues;[ ];En attente;HAUTE;useUnreadCount;;;;;;;;;;;;;;;;;;
+TEST;NOT-04;NOTIFICATIONS;Paramètres d'alertes;Page /notifications/settings accessible;"1. Accéder aux paramètres
+2. Modifier les préférences de notification
+3. Sauvegarder";â€”;Préférences mises à jour;[ ];En attente;MOYENNE;AlertSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;NOT-05;NOTIFICATIONS;Types de notifications;Différents événements déclenchés;"1. Déclencher différents événements (validation; forum; etc.)
+2. Vérifier les notifications";Types: validation; forum; projet; système;Notifications de différents types générées correctement;[ ];En attente;HAUTE;useNotifications;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11. ADMINISTRATION (admin-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;ADM-01;ADMIN DASHBOARD;Affichage du tableau de bord admin;Utilisateur super_admin;"1. Accéder à /admin
+2. Vérifier les widgets et statistiques";â€”;Dashboard avec KPI globaux; graphiques; statistiques;[ ];En attente;HAUTE;AdminDashboard;;;;;;;;;;;;;;;;
+TEST;ADM-02;ACTUALITÉS;Liste des articles;Page /admin/news accessible;"1. Accéder à /admin/news
+2. Vérifier la liste des articles";â€”;Liste des articles avec titre; statut; date; auteur;[ ];En attente;HAUTE;AdminNewsPage;;;;;;;;;;;;;;;
+TEST;ADM-03;ACTUALITÉS;Création d'un article;Page /admin/news/create;"1. Remplir le titre; contenu; catégorie
+2. Ajouter une image
+3. Publier";Titre: Nouvelle actualité / Catégorie: Télécom;"Article créé avec statut ""Publié""";[ ];En attente;HAUTE;ArticleFormPage;;;;;;;;;;;;;;;;;;
+TEST;ADM-04;ACTUALITÉS;Édition d'un article;Article existant;"1. Ouvrir /admin/news/edit/:id
+2. Modifier le contenu
+3. Sauvegarder";Nouveau titre: Actualité modifiée;Article mis à jour;[ ];En attente;HAUTE;ArticleFormPage;;;;;;;;;;;;;;;;;;
+TEST;ADM-05;ACTUALITÉS;Galerie d'images;Article en édition;"1. Ajouter plusieurs images à la galerie
+2. Vérifier l'aperÃ§u";Images: img1.jpg; img2.png;Galerie avec lightbox fonctionnelle;[ ];En attente;MOYENNE;ImageGallery / GalleryLightbox;;;;;;;;;;;;;;;;;
+TEST;ADM-06;CATÉGORIES;Gestion des catégories;Page /admin/categories;"1. Créer une nouvelle catégorie
+2. Modifier une catégorie
+3. Supprimer une catégorie";Nom: Nouvelle Catégorie;Catégorie créée; modifiée; supprimée;[ ];En attente;MOYENNE;CategoriesTab;;;;;;;;;;;;;;;;
+TEST;ADM-07;PROJETS;Gestion des projets admin;Page /admin/projects;"1. Lister les projets
+2. Filtrer par statut
+3. Voir les détails";â€”;Liste complète avec filtres fonctionnels;[ ];En attente;HAUTE;AdminProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;ADM-08;DOCUMENTS;Gestion documentaire;Page /admin/documents;"1. Uploader un document
+2. Modifier les métadonnées
+3. Supprimer";Document: rapport_2026.pdf;Document uploadé; modifié; supprimé;[ ];En attente;MOYENNE;AdminDocumentsPage;;;;;;;;;;;;;;;;
+TEST;ADM-09;ÉVÉNEMENTS;Gestion des événements;Page /admin/events;"1. Créer un événement
+2. Modifier l'événement
+3. Supprimer";Titre: Conférence ATU / Date: 2026-06-15;Événement créé; modifié; supprimé;[ ];En attente;MOYENNE;AdminEventsPage;;;;;;;;;;;;;;;;
+TEST;ADM-10;MEMBRES;Gestion des membres associés;Page /admin/membres-associes;"1. Lister les membres
+2. Ajouter un membre
+3. Modifier le logo";â€”;Membres gérés avec logos;[ ];En attente;MOYENNE;AdminMembersPage;;;;;;;;;;;;;;;;;;
+TEST;ADM-11;PAYS;Gestion des pays;Page /admin/countries (super_admin);"1. Lister les pays
+2. Ajouter un nouveau pays
+3. Modifier le drapeau/logo";Pays: Tunisie / Code: TN;Pays créé avec drapeau et logo;[ ];En attente;HAUTE;AdminCountriesPage;;;;;;;;;;;;;;;;;;
+TEST;ADM-12;FORUM ADMIN;Gestion du forum;Page /admin/forum;"1. Vérifier les statistiques du forum
+2. Modérer les sujets";â€”;Statistiques du forum affichées; modération fonctionnelle;[ ];En attente;MOYENNE;AdminForumPage;;;;;;;;;;;;;;;;;
+TEST;ADM-13;SETUP;Page de setup initial;Aucun admin configuré;"1. Accéder à /setup-admin
+2. Créer le premier compte admin";Email: setup@nexus.org;Admin initial créé; accès au panneau admin;[ ];En attente;HAUTE;AdminSetupPage;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+12. PARAMÃˆTRES ADMINISTRATION;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;SET-01;PARAMÃˆTRES PLATEFORME;Configuration générale;Page /admin/settings/platform;"1. Modifier le nom de la plateforme
+2. Modifier le logo
+3. Sauvegarder";â€”;Paramètres mis à jour;[ ];En attente;HAUTE;PlatformSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-02;CLÉS API;Gestion des clés API;Page /admin/settings/apikeys;"1. Générer une nouvelle clé API
+2. Révoquer une clé";â€”;Clé générée avec secret affiché une seule fois; révocation fonctionnelle;[ ];En attente;HAUTE;ApiKeysSettingsPage;;;;;;;;;;;;;;;;;
+TEST;SET-03;RESTRICTIONS IP;Gestion des restrictions IP;Page /admin/settings/ip;"1. Ajouter une IP autorisée
+2. Supprimer une IP";IP: 192.168.1.100;Restriction IP ajoutée/supprimée;[ ];En attente;MOYENNE;IpRestrictionsSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-04;SAUVEGARDES;Gestion des sauvegardes;Page /admin/settings/backups;"1. Créer une sauvegarde
+2. Télécharger la sauvegarde
+3. Restaurer";â€”;Sauvegarde créée; téléchargeable; restauration possible;[ ];En attente;HAUTE;BackupsSettingsPage;;;;;;;;;;;;;;;;
+TEST;SET-05;JOURNAUX AUDIT;Consultation des journaux;Page /admin/settings/audit;"1. Accéder aux journaux
+2. Filtrer par date; utilisateur; action";â€”;Journaux d'audit affichés avec filtres fonctionnels;[ ];En attente;HAUTE;AuditLogsSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-06;FAQ ADMIN;Gestion de la FAQ;Page /admin/settings/faq;"1. Créer une question/réponse
+2. Modifier une FAQ
+3. Supprimer";Question: Comment s'inscrire? / Réponse: Via le formulaire...;FAQ créée; modifiée; supprimée;[ ];En attente;MOYENNE;FaqSettingsPage;;;;;;;;;;;;;;;;
+TEST;SET-07;RAPPORTS TRIMESTRIELS;Gestion des rapports trimestriels;Page /admin/settings/quarterly;"1. Créer un rapport
+2. Uploader le fichier
+3. Publier";Rapport: Q1 2026;Rapport créé et publié;[ ];En attente;MOYENNE;QuarterlyReportsSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-08;PARAMÃˆTRES IA;Configuration de l'IA;Page /admin/settings/ai;"1. Configurer les paramètres IA
+2. Activer/désactiver les fonctionnalités IA";â€”;Paramètres IA mis à jour;[ ];En attente;MOYENNE;AiSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-09;PARAMÃˆTRES FSU;Configuration FSU;Page /admin/settings/fsu;"1. Configurer les périodes de soumission
+2. Définir les indicateurs";Période: Q2 2026;Paramètres FSU mis à jour;[ ];En attente;HAUTE;FsuSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;SET-10;MESSAGE DG;Message de bienvenue du DG;Page /admin/settings/welcome;"1. Saisir le message du DG
+2. Ajouter une photo
+3. Publier";Message: Bienvenue sur NEXUS...;Message affiché sur la page d'accueil;[ ];En attente;MOYENNE;DgMessageSettingsPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+13. ADMINISTRATEUR PAYS (country-admin);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;CAP-01;DASHBOARD ADMIN PAYS;Dashboard pays;Utilisateur country_admin;"1. Accéder à /country-admin
+2. Vérifier les KPI du pays";â€”;Dashboard avec statistiques du pays; alertes;[ ];En attente;HAUTE;CountryAdminDashboard;;;;;;;;;;;;;;;;;
+TEST;CAP-02;PROJETS PAYS;Gestion des projets du pays;Utilisateur country_admin;"1. Accéder à /country-admin/projects
+2. Vérifier la liste";â€”;Projets du pays listés avec filtres;[ ];En attente;HAUTE;CountryAdminProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-03;PROJETS EN ATTENTE;Validation des projets;Projets en attente;"1. Accéder à /country-admin/projects/pending
+2. Vérifier les projets en attente";â€”;Projets en attente de validation listés;[ ];En attente;HAUTE;CountryAdminProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-04;FSU PAYS;Gestion FSU du pays;Utilisateur country_admin;"1. Accéder à /country-admin/fsu
+2. Vérifier les soumissions";â€”;Soumissions FSU du pays listées;[ ];En attente;HAUTE;CountryAdminFsuPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-05;UTILISATEURS PAYS;Gestion des utilisateurs du pays;Utilisateur country_admin;"1. Accéder à /country-admin/users
+2. Vérifier la liste";â€”;Utilisateurs du pays listés;[ ];En attente;HAUTE;CountryAdminUsersPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-06;RAPPORTS PAYS;Rapports du pays;Utilisateur country_admin;"1. Accéder à /country-admin/reports
+2. Vérifier les rapports disponibles";â€”;Rapports du pays avec KPI;[ ];En attente;HAUTE;CountryAdminReportsPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-07;FORUM PAYS;Modération du forum pays;Utilisateur country_admin;"1. Accéder à /country-admin/forum
+2. Vérifier les statistiques et la modération";â€”;Forum du pays avec outils de modération;[ ];En attente;MOYENNE;CountryAdminForumPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-08;SUPPORT PAYS;Gestion du support pays;Utilisateur country_admin;"1. Accéder à /country-admin/support
+2. Vérifier les tickets";â€”;Tickets de support du pays listés;[ ];En attente;MOYENNE;CountryAdminSupportPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-09;PARAMÃˆTRES PAYS;Configuration pays;Utilisateur country_admin;"1. Accéder à /country-admin/settings
+2. Modifier les paramètres";â€”;Paramètres du pays modifiés;[ ];En attente;MOYENNE;CountryAdminSettingsPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-10;PROFIL ADMIN PAYS;Profil de l'admin pays;Utilisateur country_admin;"1. Accéder à /country-admin/profile
+2. Vérifier les informations";â€”;Profil de l'admin pays affiché;[ ];En attente;MOYENNE;CountryAdminProfilePage;;;;;;;;;;;;;;;;;;
+TEST;CAP-11;CALENDRIER PAYS;Calendrier des événements pays;Utilisateur country_admin;"1. Accéder à /country-admin/calendar
+2. Vérifier le calendrier";â€”;Calendrier avec événements du pays;[ ];En attente;MOYENNE;PointFocalCalendarPage;;;;;;;;;;;;;;;;;;
+TEST;CAP-12;CARTE PAYS;Carte des projets du pays;Utilisateur country_admin;"1. Accéder à /country-admin/map
+2. Vérifier la carte";â€”;Carte avec projets du pays;[ ];En attente;HAUTE;ProjectsMapPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+14. POINT FOCAL;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;PF-01;DASHBOARD PF;Dashboard point focal;Utilisateur point_focal;"1. Accéder à /point-focal
+2. Vérifier les widgets";â€”;Dashboard avec tÃ¢ches; projets; alertes;[ ];En attente;HAUTE;PointFocalDashboard;;;;;;;;;;;;;;;;
+TEST;PF-02;PROJETS PF;Mes projets;Utilisateur point_focal;"1. Accéder à /point-focal/projects
+2. Vérifier la liste";â€”;Projets du point focal listés;[ ];En attente;HAUTE;MyProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;PF-03;TÃ‚CHES PF;Mes tÃ¢ches;Utilisateur point_focal;"1. Accéder à /point-focal/tasks
+2. Vérifier la liste des tÃ¢ches";â€”;TÃ¢ches assignées listées avec statut et priorité;[ ];En attente;HAUTE;MyTasksPage;;;;;;;;;;;;;;;;;;
+TEST;PF-04;FSU PF;Saisie FSU;Utilisateur point_focal;"1. Accéder à /point-focal/fsu
+2. Vérifier le formulaire";â€”;Formulaire FSU accessible;[ ];En attente;HAUTE;FsuDataEntryPage;;;;;;;;;;;;;;;;;;
+TEST;PF-05;VALIDATION PF;Validation locale;Utilisateur point_focal;"1. Accéder à /point-focal/validation
+2. Vérifier les soumissions";â€”;Soumissions en attente de validation locale;[ ];En attente;HAUTE;PointFocalValidationPage;;;;;;;;;;;;;;;;;;
+TEST;PF-06;FORUM PF;Forum point focal;Utilisateur point_focal;"1. Accéder à /point-focal/forum
+2. Créer un sujet";â€”;Forum accessible; création de sujet fonctionnelle;[ ];En attente;MOYENNE;PointFocalForumPage;;;;;;;;;;;;;;;;;
+TEST;PF-07;FORMATION PF;E-learning point focal;Utilisateur point_focal;"1. Accéder à /point-focal/training
+2. Vérifier les formations disponibles";â€”;Catalogue de formations affiché;[ ];En attente;MOYENNE;PointFocalTrainingPage;;;;;;;;;;;;;;;;;;
+TEST;PF-08;CALENDRIER PF;Calendrier;Utilisateur point_focal;"1. Accéder à /point-focal/calendar
+2. Vérifier les événements";â€”;Calendrier avec événements et dates clés;[ ];En attente;MOYENNE;PointFocalCalendarPage;;;;;;;;;;;;;;;;;;
+TEST;PF-09;CMDT PF;Contributions CMDT 2025;Utilisateur point_focal;"1. Accéder à /point-focal/cmdt25
+2. Vérifier les contributions";â€”;Contributions CMDT affichées;[ ];En attente;MOYENNE;CmdtContributionsPage;;;;;;;;;;;;;;;;;;
+TEST;PF-10;ANNUAIRE PF;Annuaire des agences;Utilisateur point_focal;"1. Accéder à /point-focal/directory
+2. Rechercher une agence";â€”;Annuaire avec recherche et filtres;[ ];En attente;MOYENNE;AgencyDirectoryPage;;;;;;;;;;;;;;;;;;
+TEST;PF-11;COMPTE PF;Page compte point focal;Utilisateur point_focal;"1. Accéder à /point-focal/account
+2. Vérifier les informations";â€”;Informations du compte affichées;[ ];En attente;MOYENNE;AccountPage;;;;;;;;;;;;;;;;;;
+TEST;PF-12;FLUX RSS PF;Flux RSS;Utilisateur point_focal;"1. Accéder à /point-focal/feeds
+2. Vérifier les flux";â€”;Flux RSS affichés;[ ];En attente;BASSE;RssFeedsPage;;;;;;;;;;;;;;;;;;
+TEST;PF-13;DOCUMENTS PF;Bibliothèque documents;Utilisateur point_focal;"1. Accéder à /point-focal/documents
+2. Vérifier les documents";â€”;Documents accessibles et téléchargeables;[ ];En attente;MOYENNE;DocumentLibraryPage;;;;;;;;;;;;;;;;;;
+TEST;PF-14;RAPPORTS PF;Rapports point focal;Utilisateur point_focal;"1. Accéder à /point-focal/reports
+2. Vérifier les rapports";â€”;Rapports disponibles pour le point focal;[ ];En attente;MOYENNE;ReportsPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+15. CO-RÉDACTION (co-redaction-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;CORED-01;CO-RÉDACTION ADMIN;Liste des documents;Utilisateur connecté;"1. Accéder à /admin/co-redaction
+2. Vérifier la liste des documents";â€”;Liste des documents avec titre; statut; auteurs; date;[ ];En attente;HAUTE;AdminCoRedactionPage;;;;;;;;;;;;;;;
+TEST;CORED-02;CO-RÉDACTION ADMIN;Détail d'un document;Document existant;"1. Cliquer sur un document
+2. Vérifier les détails";â€”;Détails du document; historique des versions; commentaires;[ ];En attente;HAUTE;AdminCoRedactionDetailPage;;;;;;;;;;;;;;;;
+TEST;CORED-03;CO-RÉDACTION ADMIN;Éditeur de document;Document existant;"1. Accéder à /admin/co-redaction/:id/edit
+2. Vérifier l'éditeur riche";â€”;Éditeur CKEditor avec barre d'outils complète;[ ];En attente;HAUTE;AdminCoRedactionEditorPage;;;;;;;;;;;;;;;;;;
+TEST;CORED-04;CO-RÉDACTION;Éditeur de texte riche;Page d'édition ouverte;"1. Saisir du texte
+2. Formater (gras; italique; titres; listes)
+3. Insérer un tableau";â€”;Texte formaté correctement;[ ];En attente;HAUTE;RichTextEditor / CKEditorWrapper;;;;;;;;;;;;;;;;;;
+TEST;CORED-05;CO-RÉDACTION;Sauvegarde automatique;Document en édition;"1. Modifier le document
+2. Attendre 5 secondes
+3. Vérifier la sauvegarde";â€”;Document sauvegardé automatiquement; indicateur de sauvegarde affiché;[ ];En attente;HAUTE;useAutosave;;;;;;;;;;;;;;;;;
+TEST;CORED-06;CO-RÉDACTION;Verrouillage de section;Document en édition collaborative;"1. Sélectionner une section
+2. Vérifier le verrouillage";â€”;Section verrouillée pour les autres utilisateurs; indicateur de verrouillage;[ ];En attente;HAUTE;LockIndicator;;;;;;;;;;;;;;;;;
+TEST;CORED-07;CO-RÉDACTION;Historique des versions;Document avec plusieurs versions;"1. Ouvrir l'historique des versions
+2. Comparer deux versions";â€”;Historique affiché; comparaison possible;[ ];En attente;MOYENNE;VersionHistory;;;;;;;;;;;;;;;;;
+TEST;CORED-08;CO-RÉDACTION;Commentaires;Document en édition;"1. Sélectionner du texte
+2. Ajouter un commentaire
+3. Vérifier l'affichage";Commentaire: À revoir;Commentaire ajouté et visible;[ ];En attente;HAUTE;DocumentComments;;;;;;;;;;;;;;;;;;
+TEST;CORED-09;CO-RÉDACTION;Permissions du document;Document existant;"1. Ouvrir les paramètres de permissions
+2. Ajouter un collaborateur
+3. Définir les droits";â€”;Permissions mises à jour; collaborateur ajouté;[ ];En attente;HAUTE;DocumentPermissionsDialog;;;;;;;;;;;;;;;;;
+TEST;CORED-10;CO-RÉDACTION;Badge de statut du document;Documents avec différents statuts;1. Vérifier les badges pour chaque statut;â€”;Badge coloré correspondant au statut (Brouillon; En revue; Approuvé; etc.);[ ];En attente;MOYENNE;DocumentStatusBadge;;;;;;;;;;;;;;;
+TEST;CORED-11;CO-RÉDACTION;Temps réel;Édition collaborative;"1. Ouvrir le document avec 2 utilisateurs
+2. Modifier avec l'utilisateur 1
+3. Vérifier la mise à jour pour l'utilisateur 2";â€”;Modifications visibles en temps réel pour les deux utilisateurs;[ ];En attente;HAUTE;useDocumentRealtime;;;;;;;;;;;;;;;;;;
+TEST;CORED-12;CO-RÉDACTION PUBLIC;Page publique co-rédaction;Aucune authentification;"1. Accéder à /co-redaction
+2. Vérifier la liste publique";â€”;Documents publics affichés;[ ];En attente;MOYENNE;PublicCoRedactionPage;;;;;;;;;;;;;;;;;;
+TEST;CORED-13;CO-RÉDACTION PUBLIC;Détail public;Document public;"1. Accéder à /co-redaction/:id
+2. Vérifier le contenu";â€”;Contenu du document affiché en lecture seule;[ ];En attente;MOYENNE;PublicCoRedactionDetailPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+16. E-LEARNING (elearning-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;ELRN-01;E-LEARNING;Catalogue public des formations;Page /elearning accessible;"1. Accéder à /elearning
+2. Vérifier le catalogue";â€”;Catalogue des formations avec filtres;[ ];En attente;HAUTE;PublicCatalogPage;;;;;;;;;;;;;;;;;;
+TEST;ELRN-02;E-LEARNING;Détail d'une formation;Formation existante;"1. Cliquer sur une formation
+2. Vérifier les détails";â€”;Détails de la formation; programme; formateurs; inscription;[ ];En attente;HAUTE;TrainingDetailsPage;;;;;;;;;;;;;;;
+TEST;ELRN-03;E-LEARNING ADMIN;Gestionnaire de formations;Utilisateur admin;"1. Accéder à /admin/elearning
+2. Vérifier la liste";â€”;Gestionnaire avec CRUD formations;[ ];En attente;HAUTE;AdminTrainingManager;;;;;;;;;;;;;;;;;;
+TEST;ELRN-04;E-LEARNING;Inscription à une formation;Formation disponible;"1. Ouvrir une formation
+2. Cliquer sur S'inscrire";â€”;Inscription enregistrée; confirmation affichée;[ ];En attente;HAUTE;useTrainings;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+17. SUPPORT / TICKETS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;SUP-01;SUPPORT;Liste des tickets;Utilisateur connecté;"1. Accéder à /support
+2. Vérifier la liste des tickets";â€”;Liste des tickets avec statut; priorité; date;[ ];En attente;HAUTE;SupportPage;;;;;;;;;;;;;;;;
+TEST;SUP-02;SUPPORT;Création d'un ticket;Page /support/new;"1. Remplir le formulaire (sujet; description; priorité; catégorie)
+2. Soumettre";Sujet: Problème de connexion / Priorité: Haute;"Ticket créé avec statut ""Ouvert""";[ ];En attente;HAUTE;SupportNewTicketPage;;;;;;;;;;;;;;;;;;
+TEST;SUP-03;SUPPORT;Détail d'un ticket;Ticket existant;"1. Cliquer sur un ticket
+2. Vérifier les détails";â€”;Détails du ticket; historique; commentaires;[ ];En attente;HAUTE;SupportTicketDetailPage;;;;;;;;;;;;;;;;
+TEST;SUP-04;SUPPORT;Ajout de commentaire;Ticket ouvert;"1. Saisir un commentaire
+2. Envoyer";Commentaire: Le problème persiste;Commentaire ajouté au ticket;[ ];En attente;HAUTE;useAddComment;;;;;;;;;;;;;;;;;;
+TEST;SUP-05;SUPPORT;Changement de statut;Ticket existant;"1. Changer le statut (Ouvert â†’ En cours â†’ Résolu â†’ Fermé)
+2. Vérifier";â€”;Statut mis à jour; badge de statut mis à jour;[ ];En attente;HAUTE;useUpdateTicket;;;;;;;;;;;;;;;;;
+TEST;SUP-06;SUPPORT;Badge de statut ticket;Tickets avec différents statuts;1. Vérifier les badges pour chaque statut;Statuts: open; in_progress; resolved; closed;Badge coloré correspondant au statut;[ ];En attente;MOYENNE;TicketStatusBadge;;;;;;;;;;;;;;;
+TEST;SUP-07;FAQ;FAQ publique;Page /faq accessible;"1. Accéder à /faq
+2. Rechercher une question
+3. Vérifier la réponse";â€”;FAQ avec recherche fonctionnelle;[ ];En attente;MOYENNE;FaqPage;;;;;;;;;;;;;;;;;;
+TEST;SUP-08;SUPPORT ADMIN;Gestion FAQ admin;Page admin FAQ;"1. Créer une question/réponse
+2. Modifier
+3. Supprimer";â€”;FAQ gérée correctement;[ ];En attente;MOYENNE;FaqManagementPanel;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+18. GESTION DES UTILISATEURS (user-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;USR-01;UTILISATEURS;Liste des utilisateurs;Utilisateur admin;"1. Accéder à /admin/users
+2. Vérifier la liste";â€”;Liste des utilisateurs avec nom; email; rôle; statut; pays;[ ];En attente;HAUTE;UsersPage;;;;;;;;;;;;;;
+TEST;USR-02;UTILISATEURS;Changement de rôle;Utilisateur dans la liste;"1. Sélectionner un utilisateur
+2. Changer le rôle
+3. Confirmer";Rôle: point_focal â†’ country_admin;Rôle mis à jour;[ ];En attente;HAUTE;useManageRole / RoleManager;;;;;;;;;;;;;;;;;;
+TEST;USR-03;UTILISATEURS;Activation/désactivation;Utilisateur actif;"1. Basculer le statut actif/inactif
+2. Confirmer";â€”;Statut de l'utilisateur modifié; accès bloqué si désactivé;[ ];En attente;HAUTE;useToggleUserActive / UserStatusToggle;;;;;;;;;;;;;;;;;
+TEST;USR-04;UTILISATEURS;Import CSV;Fichier CSV préparé;"1. Cliquer sur Importer CSV
+2. Sélectionner le fichier
+3. Lancer l'import";Fichier: users_import.csv (10 utilisateurs);Utilisateurs importés; rapport d'import affiché;[ ];En attente;MOYENNE;CsvImportDialog;;;;;;;;;;;;;;;;;
+TEST;USR-05;UTILISATEURS;Export Excel;Liste d'utilisateurs;"1. Cliquer sur Exporter Excel
+2. Télécharger le fichier";â€”;Fichier Excel avec la liste des utilisateurs;[ ];En attente;MOYENNE;export-users-excel.ts;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+19. INVITATIONS (invitation-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;INV-01;INVITATIONS;Liste des invitations;Utilisateur admin;"1. Accéder à /admin/invitations
+2. Vérifier la liste";â€”;Liste des invitations avec email; rôle; statut; date;[ ];En attente;HAUTE;InvitationsPage;;;;;;;;;;;;;;;
+TEST;INV-02;INVITATIONS;Création d'une invitation;Page invitations;"1. Cliquer sur Inviter un utilisateur
+2. Saisir l'email et le rôle
+3. Envoyer";Email: new.user@test.com / Rôle: point_focal;Invitation créée; email envoyé;[ ];En attente;HAUTE;useCreateInvitation / InviteUserForm;;;;;;;;;;;;;;;;;
+TEST;INV-03;INVITATIONS;Acceptation d'une invitation;Lien d'invitation reÃ§u;"1. Ouvrir le lien d'invitation
+2. Créer le compte
+3. Vérifier le rôle";â€”;Compte créé avec le rôle spécifié dans l'invitation;[ ];En attente;HAUTE;useAcceptInvitation / AcceptInvitationPage;;;;;;;;;;;;;;;;;;
+TEST;INV-04;INVITATIONS;Annulation d'une invitation;Invitation en attente;"1. Cliquer sur Annuler
+2. Confirmer";â€”;Invitation annulée; lien d'invitation invalidé;[ ];En attente;MOYENNE;useCancelInvitation;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+20. RAPPORTS (reports-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;RPT-01;RAPPORTS;Page des rapports;Utilisateur connecté;"1. Accéder à /reports
+2. Vérifier les rapports disponibles";â€”;Liste des rapports avec filtres;[ ];En attente;HAUTE;ReportsPage;;;;;;;;;;;;;;;;;;
+TEST;RPT-02;RAPPORTS;Constructeur de rapports;Utilisateur admin;"1. Accéder à /reports/builder
+2. Sélectionner les critères
+3. Générer";Critères: Pays=CI / Période=Q1 2026;Rapport généré avec les données filtrées;[ ];En attente;HAUTE;ReportBuilderPage;;;;;;;;;;;;;;;;;;
+TEST;RPT-03;RAPPORTS;Cartes KPI;Rapport généré;"1. Vérifier les cartes KPI
+2. Vérifier les valeurs";â€”;KPI affichés: total projets; taux de complétion; budget; etc.;[ ];En attente;HAUTE;KpiCards;;;;;;;;;;;;;;;
+TEST;RPT-04;RAPPORTS;Graphiques;Rapport généré;"1. Vérifier les graphiques (statuts; timeline; comparaison)";â€”;Graphiques affichés correctement;[ ];En attente;HAUTE;StatusChart / TimelineChart / KpiComparison;;;;;;;;;;;;;;;;;;
+TEST;RPT-05;RAPPORTS;Tableau par pays;Rapport généré;"1. Vérifier le tableau par pays
+2. Trier les colonnes";â€”;Tableau avec données par pays; tri fonctionnel;[ ];En attente;MOYENNE;CountryTable;;;;;;;;;;;;;;;;;
+TEST;RPT-06;RAPPORTS;Export CSV;Rapport généré;"1. Cliquer sur Export CSV
+2. Télécharger";â€”;Fichier CSV avec les données du rapport;[ ];En attente;MOYENNE;export-csv.ts;;;;;;;;;;;;;;;;;;
+TEST;RPT-07;RAPPORTS;Export PDF;Rapport généré;"1. Cliquer sur Export PDF
+2. Télécharger";â€”;Fichier PDF avec graphiques et données;[ ];En attente;MOYENNE;export-pdf.ts;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+21. NEWSLETTERS (newsletter-service.ts);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;NWS-01;NEWSLETTERS;Liste des newsletters;Page /admin/newsletters;"1. Accéder à la page
+2. Vérifier la liste";â€”;Liste des newsletters avec titre; statut; date;[ ];En attente;MOYENNE;NewslettersPage;;;;;;;;;;;;;;;;
+TEST;NWS-02;NEWSLETTERS;Création d'une newsletter;Page /admin/newsletters/create;"1. Remplir le titre et le contenu
+2. Ajouter les destinataires
+3. Programmer/envoyer";Titre: Newsletter Mai 2026;Newsletter créée;[ ];En attente;MOYENNE;NewslettersAdminPage;;;;;;;;;;;;;;;;;;
+TEST;NWS-03;NEWSLETTERS;Formulaire newsletter;Dialog de création;"1. Remplir les champs
+2. Prévisualiser
+3. Envoyer";â€”;Formulaire fonctionnel avec prévisualisation;[ ];En attente;MOYENNE;NewsletterFormDialog;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+22. DOCUMENTS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;DOC-01;DOCUMENTS;Bibliothèque de documents;Page /documents accessible;"1. Accéder à /documents
+2. Vérifier la liste";â€”;Documents listés avec catégories; recherche;[ ];En attente;MOYENNE;DocumentLibraryPage;;;;;;;;;;;;;;;;;
+TEST;DOC-02;DOCUMENTS;Recherche de documents;Bibliothèque avec documents;"1. Saisir un terme de recherche
+2. Vérifier les résultats";Terme: rapport;Résultats filtrés par le terme de recherche;[ ];En attente;MOYENNE;DocumentLibraryPage;;;;;;;;;;;;;;;;;;
+TEST;DOC-03;DOCUMENTS;Téléchargement;Document disponible;"1. Cliquer sur Télécharger
+2. Vérifier le fichier";â€”;Fichier téléchargé correctement;[ ];En attente;MOYENNE;DocumentLibraryPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+23. CHAT EN DIRECT;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;CHT-01;CHAT;Page de chat en direct;Page /chat accessible;"1. Accéder à /chat
+2. Vérifier l'interface";â€”;Interface de chat avec historique;[ ];En attente;MOYENNE;LiveChatPage;;;;;;;;;;;;;;;;;;
+TEST;CHT-02;CHAT;Assistant chat;Chat ouvert;"1. Poser une question
+2. Vérifier la réponse";Question: Comment soumettre un projet?;Réponse de l'assistant affichée;[ ];En attente;MOYENNE;ChatAssistant / use-chat-assistant;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+24. FLUX RSS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;RSS-01;FLUX RSS;Page des flux RSS;Page /feeds accessible;"1. Accéder à /feeds
+2. Vérifier les flux";â€”;Flux RSS affichés avec sources;[ ];En attente;BASSE;RssFeedsPage;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+25. PAGES PUBLIQUES;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;PUB-01;PAGE ACCUEIL;Affichage de la page d'accueil;Aucune authentification;"1. Accéder à /
+2. Vérifier les sections (hero; slideshow; actualités; partenaires; CTA)";â€”;Page d'accueil complète avec toutes les sections;[ ];En attente;HAUTE;PublicHomePage;;;;;;;;;;;;;;;;;;
+TEST;PUB-02;CARTE PUBLIQUE;Carte interactive publique;Aucune authentification;"1. Accéder à /carte-public
+2. Vérifier la carte";â€”;Carte avec projets publics; filtres;[ ];En attente;HAUTE;PublicMapPage;;;;;;;;;;;;;;;;;
+TEST;PUB-03;DOCUMENTS PUBLICS;Documents publics;Aucune authentification;"1. Accéder à /documents-publics
+2. Vérifier les documents";â€”;Documents publics accessibles;[ ];En attente;MOYENNE;PublicDocumentsPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-04;ACTUALITÉS PUBLIQUES;Liste des actualités;Aucune authentification;"1. Accéder à /actualites
+2. Vérifier la liste";â€”;Actualités publiées affichées;[ ];En attente;HAUTE;NewsPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-05;ACTUALITÉS PUBLIQUES;Détail d'une actualité;Actualité publiée;"1. Cliquer sur une actualité
+2. Vérifier le contenu";â€”;Article complet avec image; contenu; date; auteur;[ ];En attente;HAUTE;NewsDetailPage;;;;;;;;;;;;;;;
+TEST;PUB-06;FORUM PUBLIC;Forum public;Aucune authentification;"1. Accéder à /forum-public
+2. Vérifier les sujets";â€”;Sujets publics du forum affichés;[ ];En attente;MOYENNE;PublicForumPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-07;FORUM PUBLIC;Détail sujet public;Sujet public;"1. Cliquer sur un sujet
+2. Vérifier le contenu et les réponses";â€”;Sujet et réponses affichés;[ ];En attente;MOYENNE;ForumTopicDetailPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-08;APPELS À PROJETS;Page appels à projets;Aucune authentification;"1. Accéder à /appels-a-projets
+2. Vérifier les projets";â€”;Appels à projets affichés avec filtres;[ ];En attente;HAUTE;CallsForProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-09;À PROPOS;Page à propos;Aucune authentification;"1. Accéder à /a-propos
+2. Vérifier le contenu";â€”;Page à propos avec informations sur l'ATU/ANSUT;[ ];En attente;MOYENNE;AboutPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-10;FAQ PUBLIQUE;FAQ publique;Aucune authentification;"1. Accéder à /faq-public
+2. Rechercher une question";â€”;FAQ avec recherche fonctionnelle;[ ];En attente;MOYENNE;PublicFaqPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-11;CALENDRIER PUBLIC;Calendrier des événements;Aucune authentification;"1. Accéder à /calendrier
+2. Vérifier les événements";â€”;Calendrier avec événements publics;[ ];En attente;MOYENNE;EventsCalendarPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-12;ÉVÉNEMENT PUBLIC;Détail d'un événement;Événement publié;"1. Cliquer sur un événement
+2. Vérifier les détails";â€”;Détails de l'événement; lieu; date; description;[ ];En attente;MOYENNE;EventDetailPage;;;;;;;;;;;;;;;
+TEST;PUB-13;ANNUAIRE PAYS;Annuaire des pays membres;Aucune authentification;"1. Accéder à /annuaire-pays-membres
+2. Vérifier la liste des pays";â€”;Carte interactive + liste des pays membres;[ ];En attente;HAUTE;CountriesDirectoryPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-14;PROJETS PAYS;Projets par pays;Pays avec projets;"1. Accéder à /projets-pays/:countryCode
+2. Vérifier les projets";â€”;Projets du pays affichés;[ ];En attente;HAUTE;CountryProjectsPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-15;DÉTAIL PROJET PUBLIC;Détail d'un projet public;Projet publié;"1. Accéder à /projets/:id
+2. Vérifier les détails";â€”;Détails du projet; commentaires; documents;[ ];En attente;HAUTE;PublicProjectDetailPage;;;;;;;;;;;;;;;;
+TEST;PUB-16;INSCRIPTION;Page d'inscription;Aucune authentification;"1. Accéder à /inscription
+2. Remplir le formulaire";â€”;Formulaire d'inscription fonctionnel;[ ];En attente;HAUTE;RegistrationPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-17;SUTEL;Page SUTEL;Aucune authentification;"1. Accéder à /sutel
+2. Vérifier le contenu";â€”;Page SUTEL affichée;[ ];En attente;BASSE;SUTELPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-18;MEMBRES ASSOCIÉS;Page membres associés;Aucune authentification;"1. Accéder à /membres-associes
+2. Vérifier la liste";â€”;Membres associés avec logos;[ ];En attente;MOYENNE;AssociatedMembersPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-19;NOTRE HISTOIRE;Page historique;Aucune authentification;"1. Accéder à /notre-histoire
+2. Vérifier le contenu";â€”;Page historique avec timeline;[ ];En attente;MOYENNE;OurHistoryPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-20;ÉQUIPE DE DIRECTION;Page équipe;Aucune authentification;"1. Accéder à /equipe-direction
+2. Vérifier les profils";â€”;Équipe de direction avec photos et biographies;[ ];En attente;MOYENNE;LeadershipTeamPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-21;STRATÉGIES;Page stratégies et politiques;Aucune authentification;"1. Accéder à /strategies-politiques
+2. Vérifier le contenu";â€”;Stratégies et politiques affichées;[ ];En attente;MOYENNE;StrategiesPolitiquesPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-22;POLITIQUE CONFIDENTIALITÉ;Page privacy;Aucune authentification;"1. Accéder à /privacy-policy
+2. Vérifier le contenu";â€”;Politique de confidentialité affichée;[ ];En attente;MOYENNE;PrivacyPolicyPage;;;;;;;;;;;;;;;;;;
+TEST;PUB-23;MENTIONS LÉGALES;Page mentions légales;Aucune authentification;"1. Accéder à /legal-notice
+2. Vérifier le contenu";â€”;Mentions légales affichées;[ ];En attente;MOYENNE;LegalNoticePage;;;;;;;;;;;;;;;;;;
+TEST;PUB-24;COMMENTAIRES PROJET;Commentaires sur projet public;Projet public;"1. Accéder à un projet public
+2. Ajouter un commentaire";Commentaire: Excellent projet;Commentaire ajouté et visible;[ ];En attente;MOYENNE;ProjectComments;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+26. INTERNATIONALISATION (i18n);;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;I18N-01;LANGUES;Changement de langue;Barre de navigation;"1. Cliquer sur le sélecteur de langue
+2. Choisir FranÃ§ais";Langue: FranÃ§ais;Interface entièrement traduite en franÃ§ais;[ ];En attente;HAUTE;LanguageSwitcher / LanguageToggle;;;;;;;;;;;;;;;;;;
+TEST;I18N-02;LANGUES;Traduction anglaise;Interface en franÃ§ais;"1. Basculer en English
+2. Vérifier toutes les pages";â€”;Interface entièrement traduite en anglais;[ ];En attente;HAUTE;LanguageSwitcher;;;;;;;;;;;;;;;;;;
+TEST;I18N-03;LANGUES;Traduction arabe (RTL);Interface en franÃ§ais;"1. Basculer en Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©
+2. Vérifier l'alignement RTL";â€”;Interface en arabe avec alignement RTL;[ ];En attente;HAUTE;RTLProvider;;;;;;;;;;;;;;;;;;
+TEST;I18N-04;LANGUES;Traduction portugaise;Interface en franÃ§ais;"1. Basculer en PortuguÃªs
+2. Vérifier les pages";â€”;Interface traduite en portugais;[ ];En attente;HAUTE;LanguageSwitcher;;;;;;;;;;;;;;;;;;
+TEST;I18N-05;LANGUES;Persistance de la langue;Langue changée;"1. Changer la langue
+2. Rafraîchir la page
+3. Vérifier la langue";â€”;Langue conservée après rafraîchissement;[ ];En attente;HAUTE;i18n/index.ts;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+27. THÃˆME ET UI;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;UI-01;THÃˆME;Basculer thème clair/sombre;Barre de navigation;"1. Cliquer sur le toggle thème
+2. Vérifier le changement";â€”;Thème changé; toutes les couleurs adaptées;[ ];En attente;HAUTE;ThemeToggle / ThemeProvider;;;;;;;;;;;;;;;;;
+TEST;UI-02;UI;Composants UI (shadcn);Pages avec composants;"1. Vérifier les boutons; inputs; modales; tables; onglets
+2. Vérifier la cohérence visuelle";â€”;Composants UI cohérents et fonctionnels;[ ];En attente;MOYENNE;components/ui/*;;;;;;;;;;;;;;;;;;
+TEST;UI-03;UI;Responsive design;Différentes tailles d'écran;"1. Tester sur mobile (375px)
+2. Tester sur tablette (768px)
+3. Tester sur desktop (1440px)";â€”;Interface adaptée à chaque taille d'écran;[ ];En attente;HAUTE;AppLayout;;;;;;;;;;;;;;;;;;
+TEST;UI-04;UI;Navigation et sidebar;Interface connectée;"1. Vérifier la sidebar admin
+2. Vérifier la sidebar utilisateur
+3. Naviguer entre les pages";â€”;Navigation fluide; sidebar avec liens corrects;[ ];En attente;HAUTE;AdminSidebar / UserSidebar;;;;;;;;;;;;;;;;;
+TEST;UI-05;UI;Menu utilisateur;Barre de navigation;"1. Cliquer sur le menu utilisateur
+2. Vérifier les options";â€”;Options: Profil; Préférences; Déconnexion;[ ];En attente;HAUTE;UserMenu;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+28. SÉCURITÉ ET ROBUSTESSE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;SEC-01;SÉCURITÉ;Protection des routes par rôle;Utilisateur avec rôle limité;"1. Tenter d'accéder à /admin en tant que point_focal
+2. Vérifier le comportement";â€”;Accès refusé; redirection vers page non autorisée;[ ];En attente;HAUTE;RoleGuard;;;;;;;;;;;;;;;;;
+TEST;SEC-02;SÉCURITÉ;Timeout d'inactivité;Utilisateur connecté;"1. Laisser la session inactive
+2. Vérifier la déconnexion automatique";â€”;Déconnexion automatique après la période d'inactivité;[ ];En attente;HAUTE;useIdleTimeout;;;;;;;;;;;;;;;;;;
+TEST;SEC-03;SÉCURITÉ;Error Boundary;Erreur dans un composant;"1. Déclencher une erreur dans un composant
+2. Vérifier le comportement";â€”;Error Boundary affiche un message d'erreur au lieu d'un crash;[ ];En attente;HAUTE;ErrorBoundary;;;;;;;;;;;;;;;;;;
+TEST;SEC-04;SÉCURITÉ;Restrictions IP;IP non autorisée;"1. Accéder depuis une IP non autorisée
+2. Vérifier le comportement";â€”;Accès bloqué si IP non dans la liste autorisée;[ ];En attente;MOYENNE;IpRestrictionsTab;;;;;;;;;;;;;;;;;;
+TEST;SEC-05;SÉCURITÉ;Clés API;Gestion des clés;"1. Générer une clé API
+2. Utiliser la clé pour un appel API
+3. Révoquer la clé";â€”;Clé fonctionnelle tant qu'active; révoquée = accès refusé;[ ];En attente;HAUTE;useApiKeys;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+29. DÉCONNEXION INACTIVITÉ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;IDLE-01;INACTIVITÉ;Timeout après inactivité;Utilisateur connecté;"1. Laisser la session inactive (durée configurée)
+2. Vérifier la déconnexion automatique";â€”;Déconnexion automatique; redirection vers login;[ ];En attente;HAUTE;useIdleTimeout;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+30. SCROLL ET ANIMATIONS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;ANIM-01;ANIMATIONS;Animations au scroll;Page d'accueil;"1. Scroller sur la page d'accueil
+2. Vérifier les animations";â€”;Éléments animés à l'apparition lors du scroll;[ ];En attente;BASSE;useScrollAnimation;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+31. RÉSUMÉ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+STATS;;NB TOTAL TESTS;175+ cas de test couvrant tous les modules;;;;;;;;;;;;;;;;;;;;;;;;;;
+STATS;;MODULES COUVERTS;Authentification; Profil; Dashboards; Projets/Carte; FSU; Validation; Forum; Messagerie; Notifications; Administration; Paramètres; Admin Pays; Point Focal; Co-Rédaction; E-Learning; Support; Utilisateurs; Invitations; Rapports; Newsletters; Documents; Chat; RSS; Pages Publiques; i18n; UI/UX; Sécurité
+STATS;;SERVICES;auth-service; user-service; admin-service; projects-service; fsu-service; validation-service; forum-service; moderation-service; messaging-service; notification-service; invitation-service; reports-service; newsletter-service; elearning-service; co-redaction-service; support-service; countries.service; documents.service; events.service; news.service;;;;;;;
+STATS;;ROLES TESTÉS;super_admin; country_admin; point_focal; contributor; editor; visiteur;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+32. LÉGENDE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+LÉGENDE;;STATUT;En attente = Non testé; Réussi = Conforme; Échoué = Non conforme; Bloqué = Impossible de tester;;;;;;;;;;;;;;;;;;;;;;;
+LÉGENDE;;PRIORITÉ;HAUTE = Critique; MOYENNE = Important; BASSE = Secondaire;;;;;;;;;;;;;;;;;;;;;;;;
+LÉGENDE;;RÉSULTAT OBTENU;[ ] = À remplir par le testeur;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+33. VALIDATION FINALE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+TEST;FIN-01;VALIDATION FINALE;Tests de non-régression;Tous les modules testés;"1. Exécuter tous les tests
+2. Vérifier qu'aucune régression n'est introduite";â€”;Tous les tests passent sans régression;[ ];En attente;HAUTE;â€”;;;;;;;;;;;;;;;;;;
+TEST;FIN-02;VALIDATION FINALE;Test de performance;Plateforme déployée;"1. Mesurer le temps de chargement des pages
+2. Vérifier la fluidité de navigation";â€”;Pages < 3s de chargement; navigation fluide;[ ];En attente;HAUTE;â€”;;;;;;;;;;;;;;;;;
+TEST;FIN-03;VALIDATION FINALE;Test multi-navigateurs;Chrome; Firefox; Safari; Edge;"1. Tester sur Chrome
+2. Tester sur Firefox
+3. Tester sur Safari
+4. Tester sur Edge";â€”;Comportement identique sur tous les navigateurs;[ ];En attente;HAUTE;â€”;;;;;;;;;;;;;;;
+TEST;FIN-04;VALIDATION FINALE;Test mobile;Responsive;"1. Tester sur mobile iOS
+2. Tester sur mobile Android";â€”;Interface utilisable sur mobile;[ ];En attente;HAUTE;â€”;;;;;;;;;;;;;;;;;;
+TEST;FIN-05;VALIDATION FINALE;Accessibilité;Pages clés;"1. Vérifier la navigation au clavier
+2. Vérifier les contrastes
+3. Vérifier les labels ARIA";â€”;Conformité WCAG de base respectée;[ ];En attente;MOYENNE;â€”;;;;;;;;;;;;;;;;;;

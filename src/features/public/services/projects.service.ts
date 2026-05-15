@@ -8,7 +8,8 @@ export type JsonbField = Record<string, string> | string | null;
 
 /**
  * Extrait la valeur localisée depuis un champ JSONB multilingue.
- * Compatible avec : string brute, JSON stringifié, objet Record<string,string>.
+ * Compatible avec : string brute, JSON stringifié, objet Record<string,string>,
+ * et objet doublement imbriqué (ex: {fr: {fr: "...", en: "..."}, en: {...}}).
  */
 export function getLocalizedField(field: JsonbField, lang = 'fr'): string {
   if (!field) return ''
@@ -16,7 +17,7 @@ export function getLocalizedField(field: JsonbField, lang = 'fr'): string {
     try {
       const parsed = JSON.parse(field)
       if (typeof parsed === 'object' && parsed !== null) {
-        return parsed[lang] || parsed['fr'] || ''
+        return extractLocalizedValue(parsed, lang)
       }
     } catch {
       return field
@@ -24,9 +25,24 @@ export function getLocalizedField(field: JsonbField, lang = 'fr'): string {
     return field
   }
   if (typeof field === 'object' && !Array.isArray(field)) {
-    return field[lang] || field['fr'] || ''
+    return extractLocalizedValue(field as Record<string, unknown>, lang)
   }
   return String(field)
+}
+
+/**
+ * Extrait la valeur localisée depuis un objet, en gérant le cas
+ * où la valeur est elle-même un objet (structure doublement imbriquée).
+ */
+function extractLocalizedValue(obj: Record<string, unknown>, lang: string): string {
+  const value = obj[lang] ?? obj['fr'] ?? Object.values(obj)[0]
+  if (typeof value === 'string') return value
+  // Handle doubly-nested case: {fr: {fr: "...", en: "..."}, en: {...}}
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    const inner = value as Record<string, unknown>
+    return (typeof inner[lang] === 'string' ? inner[lang] : typeof inner['fr'] === 'string' ? inner['fr'] : String(Object.values(inner)[0] || ''))
+  }
+  return String(value || '')
 }
 
 export interface Country {
@@ -94,13 +110,13 @@ export async function fetchPublicProjects(): Promise<ProjectWithDetails[]> {
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }
 
 /**
@@ -134,13 +150,13 @@ export async function fetchProjectsByCountryCode(countryCode: string): Promise<P
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }
 
 /**
@@ -160,13 +176,13 @@ export async function fetchProjectsByCountryId(countryId: string): Promise<Proje
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }
 
 /**
@@ -186,13 +202,13 @@ export async function fetchProjectsByThematic(thematic: string): Promise<Project
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }
 
 /**
@@ -212,13 +228,13 @@ export async function fetchProjectsByStatus(status: ProjectStatus): Promise<Proj
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }
 
 /**
@@ -243,11 +259,11 @@ export async function fetchProjectById(id: string): Promise<ProjectWithDetails |
 
   return {
     ...data,
-    images: data.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
-    tags: data.project_project_tags
+    images: (data as any).project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
+    tags: (data as any).project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  };
+  } as ProjectWithDetails;
 }
 
 /**
@@ -310,11 +326,11 @@ export async function fetchProjectsForMap(): Promise<ProjectWithDetails[]> {
 
   if (error) throw error;
 
-  return (data || []).map(project => ({
+  return (data || []).map((project: any) => ({
     ...project,
     images: project.project_images?.map((pi: { image_url: string }) => pi.image_url) || [],
     tags: project.project_project_tags
       ?.map((pt: { project_tags: { name: string } }) => pt.project_tags?.name)
       .filter(Boolean) || []
-  }));
+  })) as ProjectWithDetails[];
 }

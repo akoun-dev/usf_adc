@@ -1,131 +1,94 @@
-# USF ADC - Plateforme de Gestion Administrative
+# NEXUS — Plateforme Africaine USF-ADCA
 
-Une application web moderne pour la gestion administrative de l'Union des Syndicats Financiers Africains (USF ADC).
+![NEXUS Header](https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop)
 
-## 📌 Aperçu
+**NEXUS** est la plateforme stratégique de suivi du Fonds de Service Universel (FSU) pour l'Union Africaine des Télécommunications (UAT), développée en partenariat avec l'ANSUT. Elle permet une collaboration continentale sans précédent pour connecter l'Afrique au monde numérique.
 
-Plateforme complète pour la gestion des membres, projets, formations, événements et communications de l'USF ADC.
+## ✨ Fonctionnalités Clés
 
-## 🚀 Technologies
+### 🌍 Pilotage Continental & National
+*   **Dashboards Multi-Rôles** : Vues adaptées pour le Super Admin (UAT), les Admins Nationaux et les Points Focaux.
+*   **Cartographie Interactive** : Visualisation géographique des projets à l'échelle de l'Afrique avec clustering et filtres thématiques.
+*   **Gestion de Projets** : Suivi complet du cycle de vie des initiatives FSU (Budget, Bénéficiaires, Indicateurs).
 
-- **Framework**: React 18 + TypeScript
-- **UI**: Tailwind CSS, Radix UI, shadcn/ui
-- **Base de données**: Supabase
-- **Gestion d'état**: React Query (TanStack)
-- **Internationalisation**: i18next
-- **Éditeur riche**: Tiptap
-- **Cartographie**: Leaflet
-- **Tests**: Vitest, Testing Library
+### 📈 Suivi FSU & Conformité
+*   **Collecte de Données** : Saisie structurée des indicateurs de connectivité, financement et qualité de service (QoS).
+*   **Workflow de Validation** : Système robuste de soumission, revue et approbation des données nationales.
 
-## 🛠️ Fonctionnalités principales
+### 🤝 Collaboration & Ressources
+*   **Co-Rédaction** : Éditeur collaboratif temps réel pour la production de rapports stratégiques.
+*   **E-Learning** : Catalogue de formations et ressources documentaires pour les membres.
+*   **Communauté** : Forum de discussion, messagerie interne et chat en direct.
+*   **Support** : Système intégré de gestion des tickets d'assistance.
 
-### Authentification & Profils
-- Système d'authentification sécurisé
-- Gestion des profils membres
-- Historique des promotions
-- Rôles et permissions (Admin, Membre, Invité)
-
-### Gestion des Membres
-- Annuaire des pays membres
-- Système d'invitations
-- Acceptation/refus d'invitations
-- Gestion des promotions
-
-### Contenu Public
-- Actualités et annonces
-- Projets et appels à projets
-- Événements et calendrier
-- Documents publics
-- Forum de discussion
-
-### Administration
-- Tableau de bord complet
-- Gestion des formations
-- Suivi des activités
-- Génération de rapports
-
-## 📁 Structure du projet
-
-```
-src/
-├── pages/              # Pages principales de l'application
-├── features/           # Fonctionnalités organisées par domaine
-│   ├── profiles/       # Gestion des profils
-│   ├── invitations/    # Système d'invitations
-│   ├── public/         # Pages publiques
-│   └── training/       # Gestion des formations
-├── hooks/              # Hooks personnalisés
-├── core/               # Types, constantes et utilitaires
-├── integrations/       # Intégrations (Supabase, etc.)
-├── assets/             # Ressources statiques
-└── lib/                # Utilitaires généraux
-```
-
-## 🔧 Configuration requise
-
-- Node.js 18+
-- Bun ou npm/yarn
-- Compte Supabase (pour la base de données)
-
-## 📦 Installation
-
-```bash
-# Cloner le dépôt
-git clone [URL_DU_DEPOT]
-cd usf_adc
-
-# Installer les dépendances
-bun install
-
-# Configurer l'environnement
-cp .env.example .env
-# Éditer .env avec vos clés Supabase
-
-# Lancer l'application en développement
-bun run dev
-```
-
-## 🎯 Scripts disponibles
-
-| Commande          | Description                          |
-|-------------------|--------------------------------------|
-| `bun run dev`     | Lancer le serveur de développement    |
-| `bun run build`   | Builder pour production              |
-| `bun run lint`    | Vérifier la qualité du code          |
-| `bun run test`    | Exécuter les tests                   |
-| `bun run preview` | Prévisualiser la build de production  |
-
-## 🌍 Environnements
-
-- **Développement**: `http://localhost:5173`
-- **Production**: À configurer selon votre hébergement
-
-## 📂 Variables d'environnement
-
-Créer un fichier `.env` à la racine avec les variables suivantes :
-
-```env
-VITE_SUPABASE_URL=votre_url_supabase
-VITE_SUPABASE_ANON_KEY=votre_cle_anonyme
-VITE_APP_TITLE="USF ADC Admin"
-```
-
-## 🤝 Contribution
-
-1. Forker le projet
-2. Créer une branche (`git checkout -b feature/ma-fonctionnalite`)
-3. Commiter vos changements (`git commit -m 'Ajout de ma fonctionnalité'`)
-4. Pousser vers la branche (`git push origin feature/ma-fonctionnalite`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENCE](LICENCE) pour plus de détails.
-
-## 📞 Support
-
-Pour toute question ou problème, contactez l'équipe de développement à [support@usf-adc.org].
+### 🌐 Internationalisation & IA
+*   **Multilingue (FR, EN, PT, AR)** : Support complet des quatre langues officielles.
+*   **LibreTranslate AI** : Traduction automatique des contenus (projets, actualités, forum) intégrée au workflow d'administration.
+*   **Sécurité** : Authentification forte avec Double Facteur (2FA).
 
 ---
 
-© 2024 Union des Syndicats Financiers Africains (USF ADC). Tous droits réservés.
+## 🛠️ Stack Technique
+
+*   **Frontend** : [React 18](https://reactjs.org/), [Vite](https://vitejs.dev/), [TypeScript](https://www.typescriptlang.org/)
+*   **UI/UX** : [Tailwind CSS](https://tailwindcss.com/), [Shadcn UI](https://ui.shadcn.com/), [Framer Motion](https://www.framer.com/motion/)
+*   **Backend & DB** : [Supabase](https://supabase.com/) (PostgreSQL, Auth, Storage, Edge Functions)
+*   **Cartographie** : [Leaflet](https://leafletjs.com/)
+*   **Traduction** : [LibreTranslate](https://libretranslate.com/), [i18next](https://www.i18next.com/)
+*   **Gestion d'État** : [TanStack Query](https://tanstack.com/query/latest)
+
+---
+
+## 📁 Structure du Projet
+
+```text
+src/
+├── core/               # Types globaux, constantes et utilitaires
+├── components/         # Composants UI partagés (Shadcn)
+├── features/           # Modules métier (Architecture par domaine)
+│   ├── admin/          # Gestion globale du contenu
+│   ├── co-redaction/   # Éditeur collaboratif
+│   ├── fsu/            # Saisie des indicateurs
+│   ├── projects-map/   # Cartographie interactive
+│   ├── validation/     # Workflow d'approbation
+│   └── ...             # Training, Forum, News, etc.
+├── hooks/              # Hooks React transversaux
+├── i18n/               # Locales et configuration multilingue
+├── integrations/       # Clients Supabase et API tierces
+└── lib/                # Fonctions utilitaires génériques
+```
+
+---
+
+## 🚀 Installation & Démarrage
+
+### Prérequis
+*   Node.js 18+
+*   Compte Supabase actif
+
+### Installation
+1.  Cloner le dépôt
+2.  Installer les dépendances :
+    ```bash
+    npm install
+    ```
+3.  Configurer les variables d'environnement dans un fichier `.env` :
+    ```env
+    VITE_SUPABASE_URL=votre_url
+    VITE_SUPABASE_ANON_KEY=votre_cle_anon
+    ```
+
+### Démarrage
+```bash
+npm run dev
+```
+
+---
+
+## 📄 Documentation
+Pour plus de détails, consultez :
+*   [Rapport d'Audit de Conformité](RAPPORT_AUDIT_CONFORMITE_NEXUS.md)
+*   [Listing des Fonctionnalités](LISTING_FONCTIONNALITES_ET_SERVICES.md)
+
+---
+*© 2026 NEXUS — USF-ADCA / ANSUT. Tous droits réservés.*

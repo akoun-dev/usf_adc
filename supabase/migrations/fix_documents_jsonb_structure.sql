@@ -60,23 +60,55 @@ $$ LANGUAGE plpgsql IMMUTABLE;
 
 -- Corriger les champs title, description, category, content dans la table documents
 UPDATE documents
-SET 
+SET
     title = flatten_jsonb_i18n(title::JSONB),
     description = flatten_jsonb_i18n(description::JSONB),
     category = flatten_jsonb_i18n(category::JSONB),
     content = flatten_jsonb_i18n(content::JSONB)
-WHERE 
+WHERE
     -- Ne corriger que les lignes qui ont un problème (valeur est un objet imbriqué)
-    (title::JSONB IS NOT NULL AND jsonb_typeof(title::JSONB) = 'object' 
+    (title::JSONB IS NOT NULL AND jsonb_typeof(title::JSONB) = 'object'
      AND EXISTS (SELECT 1 FROM jsonb_each(title::JSONB) WHERE jsonb_typeof(value) = 'object'))
     OR
-    (description::JSONB IS NOT NULL AND jsonb_typeof(description::JSONB) = 'object' 
+    (description::JSONB IS NOT NULL AND jsonb_typeof(description::JSONB) = 'object'
      AND EXISTS (SELECT 1 FROM jsonb_each(description::JSONB) WHERE jsonb_typeof(value) = 'object'))
     OR
-    (category::JSONB IS NOT NULL AND jsonb_typeof(category::JSONB) = 'object' 
+    (category::JSONB IS NOT NULL AND jsonb_typeof(category::JSONB) = 'object'
      AND EXISTS (SELECT 1 FROM jsonb_each(category::JSONB) WHERE jsonb_typeof(value) = 'object'))
     OR
-    (content::JSONB IS NOT NULL AND jsonb_typeof(content::JSONB) = 'object' 
+    (content::JSONB IS NOT NULL AND jsonb_typeof(content::JSONB) = 'object'
+     AND EXISTS (SELECT 1 FROM jsonb_each(content::JSONB) WHERE jsonb_typeof(value) = 'object'));
+
+-- Corriger les champs title, content dans la table forum_topics
+UPDATE forum_topics
+SET
+    title = flatten_jsonb_i18n(title::JSONB),
+    content = flatten_jsonb_i18n(content::JSONB)
+WHERE
+    (title::JSONB IS NOT NULL AND jsonb_typeof(title::JSONB) = 'object'
+     AND EXISTS (SELECT 1 FROM jsonb_each(title::JSONB) WHERE jsonb_typeof(value) = 'object'))
+    OR
+    (content::JSONB IS NOT NULL AND jsonb_typeof(content::JSONB) = 'object'
+     AND EXISTS (SELECT 1 FROM jsonb_each(content::JSONB) WHERE jsonb_typeof(value) = 'object'));
+
+-- Corriger les champs name, description dans la table forum_categories
+UPDATE forum_categories
+SET
+    name = flatten_jsonb_i18n(name::JSONB),
+    description = flatten_jsonb_i18n(description::JSONB)
+WHERE
+    (name::JSONB IS NOT NULL AND jsonb_typeof(name::JSONB) = 'object'
+     AND EXISTS (SELECT 1 FROM jsonb_each(name::JSONB) WHERE jsonb_typeof(value) = 'object'))
+    OR
+    (description::JSONB IS NOT NULL AND jsonb_typeof(description::JSONB) = 'object'
+     AND EXISTS (SELECT 1 FROM jsonb_each(description::JSONB) WHERE jsonb_typeof(value) = 'object'));
+
+-- Corriger les champs content dans la table forum_posts
+UPDATE forum_posts
+SET
+    content = flatten_jsonb_i18n(content::JSONB)
+WHERE
+    (content::JSONB IS NOT NULL AND jsonb_typeof(content::JSONB) = 'object'
      AND EXISTS (SELECT 1 FROM jsonb_each(content::JSONB) WHERE jsonb_typeof(value) = 'object'));
 
 -- Nettoyage : supprimer la fonction utilitaire (optionnel, peut être conservée)

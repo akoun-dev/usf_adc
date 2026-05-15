@@ -1,13 +1,38 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { Bell, Newspaper, Calendar } from "lucide-react"
+import { Bell, Newspaper, Calendar, Mail, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
+import { useState } from "react"
+import { newsletterService } from "@/features/newsletters/services/newsletter-service"
+import { toast } from "sonner"
 
 export function CommunityCta() {
     const { t } = useTranslation()
     const { ref, isVisible } = useScrollAnimation(0.05)
+    const [email, setEmail] = useState('')
+    const [subscribed, setSubscribed] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleSubscribe = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!email) return
+        
+        setIsSubmitting(true)
+        try {
+            await newsletterService.subscribeVisitor(email)
+            setSubscribed(true)
+            setEmail('')
+            toast.success(t('public.newsletter.success', 'Inscription réussie !'))
+            setTimeout(() => setSubscribed(false), 5000)
+        } catch (error) {
+            toast.error(t('public.newsletter.error', 'Erreur lors de l\'inscription.'))
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
 
     return (
         <section
@@ -28,8 +53,40 @@ export function CommunityCta() {
                         <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
                             {t("index.newsEvents.joinCommunityDesc")}
                         </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto mb-10">
+                            <form onSubmit={handleSubscribe} className="flex w-full max-w-md gap-2">
+                                <Input
+                                    type="email"
+                                    placeholder={t("public.newsletter.placeholder", "Votre email...")}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="h-12 bg-white/80 backdrop-blur-sm border-primary/20"
+                                    required
+                                    disabled={subscribed || isSubmitting}
+                                />
+                                <Button 
+                                    type="submit" 
+                                    size="lg" 
+                                    className="h-12 px-6"
+                                    disabled={subscribed || isSubmitting}
+                                >
+                                    {subscribed ? (
+                                        <>
+                                            <Check className="mr-2 h-4 w-4" />
+                                            {t("public.newsletter.subscribed", "Inscrit")}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Mail className="mr-2 h-4 w-4" />
+                                            {t("public.newsletter.subscribe", "S'abonner")}
+                                        </>
+                                    )}
+                                </Button>
+                            </form>
+                        </div>
+
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Button size="lg" className="h-14 px-8 text-lg font-semibold" asChild>
+                            <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-semibold" asChild>
                                 <Link to="/actualites">
                                     <Newspaper className="mr-2 h-5 w-5" />
                                     {t("index.newsEvents.viewNews")}

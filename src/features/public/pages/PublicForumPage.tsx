@@ -1,8 +1,10 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { MessageSquare, Users, Clock, Search, Lock, Mail, Pin, Flame, CheckCircle, Tag as TagIcon, TrendingUp, Award, Sparkles, ArrowRight, Eye, Reply } from 'lucide-react';
 import { PublicLayout } from '../components/PublicLayout';
 import { useTranslation } from 'react-i18next';
+import { newsletterService } from '@/features/newsletters/services/newsletter-service';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -55,12 +57,29 @@ function getAvatarColor(name: string) {
   return colors[Math.abs(hash) % colors.length];
 }
 
+/** Safely convert a JSONB value to string for display/filtering */
+function asString(val: unknown): string {
+  if (typeof val === 'string') return val
+  if (val && typeof val === 'object') {
+    const obj = val as Record<string, unknown>
+    const inner = obj['fr'] || Object.values(obj)[0]
+    if (typeof inner === 'string') return inner
+    if (inner && typeof inner === 'object') {
+      const innerObj = inner as Record<string, unknown>
+      return (innerObj['fr'] || Object.values(innerObj)[0] || '') as string
+    }
+  }
+  return String(val || '')
+}
+
 // Enhanced Topic Card with better visual hierarchy
 function TopicCard({ topic, showCategory = true }: { topic: ForumTopic; showCategory?: boolean }) {
   const { t, i18n } = useTranslation();
   const statusBadge = getStatusBadge(topic.status || 'active', t);
   const StatusIcon = statusBadge.icon;
   const startDate = new Date(topic.created_at);
+  const titleStr = asString(topic.title);
+  const contentStr = asString(topic.content);
 
   return (
     <Link to={`/forum-public/${topic.id}`} className="block group">
@@ -110,11 +129,11 @@ function TopicCard({ topic, showCategory = true }: { topic: ForumTopic; showCate
                 </div>
 
                 <h3 className="font-bold text-base sm:text-lg line-clamp-2 group-hover:text-primary transition-colors mb-2">
-                  {topic.title}
+                  {titleStr}
                 </h3>
 
                 <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                  {topic.content?.substring(0, 150) + '...'}
+                  {contentStr.substring(0, 150) + '...'}
                 </p>
 
                 {/* Tags */}
@@ -195,8 +214,8 @@ function CategoryCard({ category, topicCount, onClick, isSelected }: {
             {category.icon}
           </div>
           <div>
-            <h4 className="font-semibold text-sm">{translated.name || category.name}</h4>
-            <p className="text-xs text-muted-foreground line-clamp-1">{translated.description || category.description}</p>
+            <h4 className="font-semibold text-sm">{translated.name || asString(category.name)}</h4>
+            <p className="text-xs text-muted-foreground line-clamp-1">{translated.description || asString(category.description)}</p>
           </div>
         </div>
         <Badge variant={isSelected ? "default" : "secondary"} className="shrink-0">
@@ -254,6 +273,23 @@ export default function PublicForumPage() {
   const [activeTab, setActiveTab] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    try {
+      await newsletterService.subscribeVisitor(newsletterEmail);
+      setNewsletterSubscribed(true);
+      setNewsletterEmail('');
+      toast.success(t('public.forum.newsletter.success', 'Inscription réussie !'));
+      setTimeout(() => setNewsletterSubscribed(false), 5000);
+    } catch (error) {
+      toast.error(t('public.forum.newsletter.error', 'Erreur lors de l\'inscription.'));
+    }
+  };
 
   // Fetch real data from database
   const { data: categories = [], isLoading: categoriesLoading } = usePublicForumCategories();
@@ -266,9 +302,11 @@ export default function PublicForumPage() {
     return topics.filter((topic) => {
       const matchCategory = selectedCategory === 'all' || topic.category_id === selectedCategory;
       const searchLower = search.toLowerCase();
+      const titleStr = asString(topic.title);
+      const contentStr = asString(topic.content);
       const matchSearch = !search ||
-        topic.title.toLowerCase().includes(searchLower) ||
-        topic.content.toLowerCase().includes(searchLower) ||
+        titleStr.toLowerCase().includes(searchLower) ||
+        contentStr.toLowerCase().includes(searchLower) ||
         (topic.tags && topic.tags.some((tag: string) => tag.toLowerCase().includes(searchLower)));
 
       let matchTab = true;
@@ -546,10 +584,25 @@ export default function PublicForumPage() {
                     {t('public.forum.newsletter.description')}
                   </p>
                 </div>
-                <Input placeholder={t('public.forum.newsletter.placeholder')} className="mb-3" />
-                <Button className="w-full" variant="outline">
-                  {t('public.forum.newsletter.subscribe')}
-                </Button>
+                <form onSubmit={handleNewsletterSubscribe}>
+                  <Input
+                    placeholder={t('public.forum.newsletter.placeholder')}
+                    className="mb-3"
+                    type="email"
+                    required
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    disabled={newsletterSubscribed}
+                  />
+                  <Button
+                    className="w-full"
+                    variant={newsletterSubscribed ? "secondary" : "outline"}
+                    type="submit"
+                    disabled={newsletterSubscribed}
+                  >
+                    {newsletterSubscribed ? '✓ ' + t('public.forum.newsletter.subscribed', 'Inscrit') : t('public.forum.newsletter.subscribe')}
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </div>

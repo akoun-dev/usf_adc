@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client"
+import { getLocalizedField } from "./projects.service"
 
 export interface ForumCategory {
     id: string
@@ -44,7 +45,7 @@ export async function getPublicForumCategories(): Promise<ForumCategory[]> {
         .order("sort_order", { ascending: true })
 
     if (error) throw error
-    return data || []
+    return (data || []).map(c => mapCategoryRow(c) as ForumCategory)
 }
 
 export async function getPublicForumTopics(): Promise<ForumTopic[]> {
@@ -63,7 +64,7 @@ export async function getPublicForumTopics(): Promise<ForumTopic[]> {
         .select("*")
 
     // Create a map of categories
-    const categoryMap = new Map(categories?.map(c => [c.id, c]) || [])
+    const categoryMap = new Map(categories?.map((c: any) => [c.id, c]) || [])
 
     // Get author IDs from topics
     const authorIds = [...new Set(data?.map(t => t.created_by) || [])]
@@ -75,11 +76,11 @@ export async function getPublicForumTopics(): Promise<ForumTopic[]> {
         if (authorIds.length > 0) {
             const { data: authors, error: authorError } = await supabase
                 .from("profiles")
-                .select("id, full_name, country")
+                .select("id, full_name")
                 .in("id", authorIds)
 
             if (!authorError && authors) {
-                authorMap = new Map(authors.map(a => [a.id, a]))
+                authorMap = new Map(authors.map((a: any) => [a.id, a]))
             }
         }
     } catch (e) {
@@ -106,17 +107,17 @@ export async function getPublicForumTopics(): Promise<ForumTopic[]> {
     })
 
     // Combine all data
-    const topicsWithCounts = topics.map(topic => ({
-        ...topic,
+    const topicsWithCounts = topics.map((topic: any) => ({
+        ...mapTopicRow(topic),
         category: topic.category_id
-            ? categoryMap.get(topic.category_id) || null
+            ? mapCategoryRow(categoryMap.get(topic.category_id) || null) as ForumCategory | null
             : null,
         author: authorMap.get(topic.created_by) || null,
         _count: {
             posts: postCounts.get(topic.id) || 0,
             replies: (postCounts.get(topic.id) || 0) - 1,
         },
-    }))
+    })) as ForumTopic[]
 
     return topicsWithCounts
 }
@@ -146,21 +147,20 @@ export async function getPublicForumTopicById(
             .select("*")
             .eq("id", data.category_id)
             .single()
-        category = cat
+        category = cat ? (mapCategoryRow(cat) as ForumCategory) : null
     }
 
     // Get author (may fail for anon users)
-    let author: { full_name: string | null; country?: string | null } | null =
-        null
+    let author: { full_name: string | null; country?: string | null } | null = null
     try {
         const { data: authorData, error: authorError } = await supabase
             .from("profiles")
-            .select("full_name, country")
+            .select("full_name")
             .eq("id", data.created_by)
             .single()
 
         if (!authorError && authorData) {
-            author = authorData
+            author = { full_name: (authorData as any).full_name }
         }
     } catch (e) {
         // If we can't fetch author, that's okay
@@ -174,14 +174,14 @@ export async function getPublicForumTopicById(
         .eq("topic_id", topicId)
 
     return {
-        ...data,
-        category,
+        ...(mapTopicRow(data) as Partial<ForumTopic>),
+        category: category ? (mapCategoryRow(category) as ForumCategory) : null,
         author: author || null,
         _count: {
             posts: count || 0,
             replies: (count || 0) - 1,
         },
-    }
+    } as ForumTopic
 }
 
 export async function incrementTopicViews(topicId: string): Promise<void> {
@@ -208,4 +208,32 @@ export async function getPopularTags(): Promise<string[]> {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([tag]) => tag)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/**
+ * Maps a forum topic row, converting JSONB multilingual fields to strings.
+ */
+function mapTopicRow(topic: any): any {
+    if (!topic) return topic
+    return {
+        ...topic,
+        title: getLocalizedField(topic.title as Record<string, string> | string | null),
+        content: getLocalizedField(topic.content as Record<string, string> | string | null),
+    }
+}
+
+/**
+ * Maps a forum category row, converting JSONB multilingual fields to strings.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapCategoryRow(cat: any): any {
+    if (!cat) return null
+    return {
+        ...cat,
+        name: getLocalizedField(cat.name as Record<string, string> | string | null),
+        description: cat.description
+            ? getLocalizedField(cat.description as Record<string, string> | string | null)
+            : null,
+    }
 }

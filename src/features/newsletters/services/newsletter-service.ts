@@ -69,4 +69,17 @@ export const newsletterService = {
     const { error } = await supabase.from('newsletters').delete().eq('id', id);
     if (error) throw error;
   },
+
+  async subscribeVisitor(email: string): Promise<void> {
+    const { error } = await supabase
+      .from('newsletter_subscribers')
+      .insert({ email });
+    
+    if (error) {
+      if (error.code === '23505') { // Unique violation
+        return; // Already subscribed, no need to throw
+      }
+      throw error;
+    }
+  },
 };

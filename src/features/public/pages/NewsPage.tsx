@@ -4,6 +4,8 @@ import { Newspaper, Search, Calendar, Filter, Mail, Share2, Clock, User, Tag, Ar
 import { PublicLayout } from '../components/PublicLayout';
 import { usePublicNews, NewsArticle } from '../hooks/usePublicNews';
 import { useTranslation } from 'react-i18next';
+import { newsletterService } from '@/features/newsletters/services/newsletter-service';
+import { toast } from 'sonner';
 import { getLangValue } from '@/types/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -275,12 +277,19 @@ export default function NewsPage() {
   const regularStartIndex = (currentPage - 1) * itemsPerPage;
   const paginatedRegular = regular.slice(regularStartIndex, regularStartIndex + itemsPerPage);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 5000);
+    
+    try {
+      await newsletterService.subscribeVisitor(email);
+      setSubscribed(true);
+      setEmail('');
+      toast.success(t('public.news.subscribedSuccess', 'Inscription réussie !'));
+      setTimeout(() => setSubscribed(false), 5000);
+    } catch (error) {
+      toast.error(t('public.news.subscribedError', 'Une erreur est survenue.'));
+    }
   };
 
   return (

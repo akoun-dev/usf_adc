@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { getLangValue } from '@/types/i18n';
 import {
   Dialog,
   DialogContent,
@@ -35,7 +36,7 @@ export function VersionHistory({
   onRestore,
   trigger,
 }: VersionHistoryProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedVersion, setSelectedVersion] = useState<DocumentVersion | null>(null);
   const [showDiff, setShowDiff] = useState(false);
   const { data: versions, isLoading } = useDocumentVersions(documentId);
@@ -150,7 +151,7 @@ export function VersionHistory({
                 <ScrollArea className="flex-1">
                   <div
                     className="prose prose-sm dark:prose-invert max-w-none p-4"
-                    dangerouslySetInnerHTML={{ __html: selectedVersion.content }}
+                    dangerouslySetInnerHTML={{ __html: getLangValue(selectedVersion.content, i18n.language) }}
                   />
                 </ScrollArea>
               </div>

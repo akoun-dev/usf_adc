@@ -586,3 +586,32 @@ export function useProjectById(id: string) {
     enabled: !!id,
   });
 }
+
+// Project Documents Hooks
+export function useProjectDocuments(projectId: string) {
+  return useQuery({
+    queryKey: ['project-documents', projectId],
+    queryFn: () => adminService.getProjectDocuments(projectId),
+    enabled: !!projectId
+  });
+}
+
+export function useCreateProjectDocument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.createProjectDocument,
+    onSuccess: (_, variables) => {
+      qc.invalidateQueries({ queryKey: ['project-documents', variables.project_id] });
+    }
+  });
+}
+
+export function useDeleteProjectDocument(projectId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: adminService.deleteProjectDocument,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['project-documents', projectId] });
+    }
+  });
+}

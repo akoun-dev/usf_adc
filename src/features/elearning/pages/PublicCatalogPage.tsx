@@ -23,17 +23,20 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import bgHeader from '@/assets/bg-header.jpg'
+import { getLangValue } from "@/types/i18n"
 
 export default function PublicCatalogPage() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate()
     const [searchTerm, setSearchTerm] = useState("")
     const [typeFilter, setTypeFilter] = useState<string>("all")
     const { data: trainings, isLoading, error } = useTrainings('published')
 
     const filteredTrainings = trainings?.filter(training => {
-        const matchesSearch = training.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            training.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        const title = getLangValue(training.title, i18n.language).toLowerCase()
+        const desc = getLangValue(training.description, i18n.language).toLowerCase()
+        const matchesSearch = title.includes(searchTerm.toLowerCase()) ||
+                            desc.includes(searchTerm.toLowerCase())
         const matchesType = typeFilter === "all" || training.type === typeFilter
         return matchesSearch && matchesType
     })
@@ -115,33 +118,33 @@ export default function PublicCatalogPage() {
                     ))}
                 </div>
 
-                {/* Filters & Tabs */}
-                <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-8">
-                    <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-                        <div className="relative w-full md:w-80">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input 
-                                placeholder={t('common.search')}
-                                className="pl-10 h-11"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
+                {/* Filters & Content */}
+                <Tabs defaultValue="grid" className="w-full">
+                    <div className="flex flex-col md:flex-row gap-6 justify-between items-center mb-8">
+                        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+                            <div className="relative w-full md:w-80">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input 
+                                    placeholder={t('common.search')}
+                                    className="pl-10 h-11"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+
+                            <Select value={typeFilter} onValueChange={setTypeFilter}>
+                                <SelectTrigger className="w-full md:w-48 h-11">
+                                    <SelectValue placeholder={t('elearning.filterByType', 'Filtrer par type')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">{t('common.all', 'Tous les types')}</SelectItem>
+                                    <SelectItem value="online">{t('elearning.online', 'En ligne')}</SelectItem>
+                                    <SelectItem value="onsite">{t('elearning.onsite', 'Présentiel')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
 
-                        <Select value={typeFilter} onValueChange={setTypeFilter}>
-                            <SelectTrigger className="w-full md:w-48 h-11">
-                                <SelectValue placeholder={t('elearning.filterByType', 'Filtrer par type')} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">{t('common.all', 'Tous les types')}</SelectItem>
-                                <SelectItem value="online">{t('elearning.online', 'En ligne')}</SelectItem>
-                                <SelectItem value="onsite">{t('elearning.onsite', 'Présentiel')}</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <Tabs defaultValue="grid" className="w-full md:w-auto">
-                        <TabsList className="grid w-full grid-cols-2 h-11 p-1">
+                        <TabsList className="grid w-full grid-cols-2 h-11 p-1 md:w-auto">
                             <TabsTrigger value="grid" className="data-[state=active]:bg-primary data-[state=active]:text-white">
                                 <LayoutGrid className="h-4 w-4 mr-2" />
                                 {t('common.grid', 'Grille')}
@@ -151,11 +154,8 @@ export default function PublicCatalogPage() {
                                 {t('elearning.calendar')}
                             </TabsTrigger>
                         </TabsList>
-                    </Tabs>
-                </div>
+                    </div>
 
-                {/* Content Section */}
-                <Tabs defaultValue="grid" className="w-full">
                     <TabsContent value="grid" className="mt-0 outline-none">
                         {isLoading ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

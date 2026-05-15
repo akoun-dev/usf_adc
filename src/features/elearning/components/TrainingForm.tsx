@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -5,8 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Training } from '../types';
-import { Loader2, Save } from 'lucide-react';
+import { Loader2, Save, Languages } from 'lucide-react';
+import { translateToFourLang } from '@/features/admin/services/translate.service';
+import { toast } from 'sonner';
 
 interface TrainingFormProps {
     initialData?: Partial<Training>;
@@ -17,10 +21,13 @@ interface TrainingFormProps {
 
 export function TrainingForm({ initialData, onSubmit, onCancel, isSubmitting }: TrainingFormProps) {
     const { t } = useTranslation();
+    const [currentLang, setCurrentLang] = useState('fr');
+    const [isTranslating, setIsTranslating] = useState(false);
+
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<Partial<Training>>({
         defaultValues: {
-            title: initialData?.title || '',
-            description: initialData?.description || '',
+            title: initialData?.title || { fr: '', en: '', pt: '', ar: '' },
+            description: initialData?.description || { fr: '', en: '', pt: '', ar: '' },
             type: initialData?.type || 'online',
             start_date: initialData?.start_date || '',
             end_date: initialData?.end_date || '',
@@ -28,23 +35,79 @@ export function TrainingForm({ initialData, onSubmit, onCancel, isSubmitting }: 
             capacity: initialData?.capacity || 0,
             location: initialData?.location || '',
             status: initialData?.status || 'draft',
+            image_url: initialData?.image_url || '',
         }
     });
 
     const currentType = watch('type');
     const currentStatus = watch('status');
+    const formData = watch();
+
+    const handleTranslate = async () => {
+        try {
+            const currentTitle = formData.title?.[currentLang];
+            const currentDesc = formData.description?.[currentLang];
+
+            if (!currentTitle && !currentDesc) {
+                toast.error(t('admin.noContentToTranslate', 'Aucun contenu à traduire'));
+                return;
+            }
+
+            setIsTranslating(true);
+            toast.info(t('admin.translating', 'Traduction en cours...'));
+
+            if (currentTitle) {
+                const translatedTitle = await translateToFourLang(currentLang, currentTitle);
+                setValue('title', translatedTitle);
+            }
+            if (currentDesc) {
+                const translatedDesc = await translateToFourLang(currentLang, currentDesc);
+                setValue('description', translatedDesc);
+            }
+
+            toast.success(t('admin.translationSuccess', 'Traduction terminée'));
+        } catch (error) {
+            console.error('Translation error:', error);
+            toast.error(t('admin.translationError', 'Erreur lors de la traduction'));
+        } finally {
+            setIsTranslating(false);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
             <div className="grid gap-4">
+                <div className="flex justify-between items-center bg-muted/30 p-2 rounded-md mb-2">
+                    <Tabs value={currentLang} onValueChange={setCurrentLang} className="w-auto">
+                        <TabsList>
+                            <TabsTrigger value="fr">Français</TabsTrigger>
+                            <TabsTrigger value="en">English</TabsTrigger>
+                            <TabsTrigger value="pt">Português</TabsTrigger>
+                            <TabsTrigger value="ar">العربية</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                    <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm"
+                        onClick={handleTranslate} 
+                        disabled={isTranslating}
+                        className="flex items-center gap-2"
+                    >
+                        {isTranslating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Languages className="h-4 w-4" />}
+                        {t('admin.autoTranslate', 'Traduire automatiquement')}
+                    </Button>
+                </div>
+
                 <div className="space-y-2">
-                    <Label htmlFor="title">{t('elearning.title', 'Titre de la formation')}</Label>
+                    <Label htmlFor="title">{t('elearning.title', 'Titre de la formation')} ({currentLang.toUpperCase()})</Label>
                     <Input
                         id="title"
-                        {...register('title', { required: true })}
+                        value={formData.title?.[currentLang] || ''}
+                        onChange={(e) => setValue(`title.${currentLang}`, e.target.value)}
                         placeholder="Ex: Introduction à la cybersécurité"
                     />
-                    {errors.title && <span className="text-xs text-destructive">{t('common.required', 'Ce champ est requis')}</span>}
+                    {!formData.title?.fr && currentLang === 'fr' && <p className="text-sm text-destructive">{t('common.required', 'Champ requis')}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -130,10 +193,20 @@ export function TrainingForm({ initialData, onSubmit, onCancel, isSubmitting }: 
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="description">{t('elearning.description', 'Description')}</Label>
+                    <Label htmlFor="image_url">{t('elearning.imageUrl', 'URL de l\'image')}</Label>
+                    <Input
+                        id="image_url"
+                        {...register('image_url')}
+                        placeholder="https://example.com/image.jpg"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="description">{t('elearning.description', 'Description')} ({currentLang.toUpperCase()})</Label>
                     <Textarea
                         id="description"
-                        {...register('description')}
+                        value={formData.description?.[currentLang] || ''}
+                        onChange={(e) => setValue(`description.${currentLang}`, e.target.value)}
                         rows={4}
                         placeholder="Description détaillée de la formation..."
                     />

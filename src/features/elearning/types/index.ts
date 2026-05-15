@@ -3,8 +3,8 @@ import type { AppRole } from '@/core/constants/roles';
 
 export type Training = {
     id: string;
-    title: string;
-    description: string | null;
+    title: Record<string, string>;
+    description: Record<string, string> | null;
     type: 'online' | 'onsite';
     start_date: string | null;
     end_date: string | null;
@@ -36,8 +36,8 @@ export type TrainingDocument = {
 export type TrainingEvent = {
     id: string;
     training_id: string | null;
-    title: string;
-    description: string | null;
+    title: Record<string, string>;
+    description: Record<string, string> | null;
     start_date: string;
     end_date: string;
     type: 'online' | 'onsite';

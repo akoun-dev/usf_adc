@@ -2310,31 +2310,31 @@ export type Database = {
       training_events: {
         Row: {
           created_at: string | null
-          description: string | null
+          description: Json | null
           end_date: string
           id: string
           start_date: string
-          title: string
+          title: Json
           training_id: string | null
           type: string
         }
         Insert: {
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           end_date: string
           id?: string
           start_date: string
-          title: string
+          title?: Json
           training_id?: string | null
           type: string
         }
         Update: {
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           end_date?: string
           id?: string
           start_date?: string
-          title?: string
+          title?: Json
           training_id?: string | null
           type?: string
         }
@@ -2385,14 +2385,14 @@ export type Database = {
           capacity: number | null
           content: Json | null
           created_at: string | null
-          description: string | null
+          description: Json | null
           end_date: string | null
           id: string
           image_url: string | null
           location: string | null
           start_date: string | null
           status: string
-          title: string
+          title: Json
           trainer: string | null
           type: string
           updated_at: string | null
@@ -2401,14 +2401,14 @@ export type Database = {
           capacity?: number | null
           content?: Json | null
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           end_date?: string | null
           id?: string
           image_url?: string | null
           location?: string | null
           start_date?: string | null
           status?: string
-          title: string
+          title?: Json
           trainer?: string | null
           type: string
           updated_at?: string | null
@@ -2417,14 +2417,14 @@ export type Database = {
           capacity?: number | null
           content?: Json | null
           created_at?: string | null
-          description?: string | null
+          description?: Json | null
           end_date?: string | null
           id?: string
           image_url?: string | null
           location?: string | null
           start_date?: string | null
           status?: string
-          title?: string
+          title?: Json
           trainer?: string | null
           type?: string
           updated_at?: string | null

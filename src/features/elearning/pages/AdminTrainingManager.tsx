@@ -23,9 +23,10 @@ import {
 import { TrainingForm } from "../components/TrainingForm"
 import { Training } from "../types"
 import { toast } from "sonner"
+import { getLangValue } from "@/types/i18n"
 
 export default function AdminTrainingManager() {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { data: trainings, isLoading } = useTrainings('all')
     const createTraining = useCreateTraining()
     const updateTraining = useUpdateTraining()
@@ -116,7 +117,9 @@ export default function AdminTrainingManager() {
                         ) : (
                             trainings?.map((training) => (
                                 <TableRow key={training.id} className="group hover:bg-muted/50 transition-colors">
-                                    <TableCell className="font-medium">{training.title}</TableCell>
+                                    <TableCell className="font-medium">
+                                        {getLangValue(training.title, i18n.language)}
+                                    </TableCell>
                                     <TableCell>
                                         <Badge variant="secondary" className="capitalize">
                                             {training.type === 'online' ? t('elearning.online', 'En ligne') : t('elearning.onsite', 'Présentiel')}

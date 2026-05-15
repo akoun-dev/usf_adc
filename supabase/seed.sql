@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict pTa2Xg29n2TxX7EjbbHpcDh6arUNVC1eslfG1TaBWnmiWOiIceIVEYcZhvJPikm
+-- \restrict UQ053a19zTgnjzJoDVveS0b3spOC7CaGtzSxLvskQUy5sAfllnabL1uCiH4KTH3
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -148,7 +148,10 @@ INSERT INTO "auth"."audit_log_entries" ("instance_id", "id", "payload", "created
 	('00000000-0000-0000-0000-000000000000', 'bdf757aa-1811-4c35-8a64-fa22f68c7a8d', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-15 13:08:57.811353+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'af85a24f-84db-4ed2-a6a2-7a2bd1abb506', '{"action":"token_refreshed","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-15 14:08:03.624579+00', ''),
 	('00000000-0000-0000-0000-000000000000', 'e64cc157-91d4-4b46-9c6d-e953d0057b86', '{"action":"token_revoked","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"token"}', '2026-05-15 14:08:03.634031+00', ''),
-	('00000000-0000-0000-0000-000000000000', 'b5557a53-1443-4beb-9a0d-51670bce188f', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-15 14:23:05.081191+00', '');
+	('00000000-0000-0000-0000-000000000000', 'b5557a53-1443-4beb-9a0d-51670bce188f', '{"action":"logout","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account"}', '2026-05-15 14:23:05.081191+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'fc132d6f-4784-463d-974e-044c8d26941e', '{"action":"login","actor_id":"691c96a8-ab0b-4b49-9d60-1fa2960a4ad7","actor_name":"Administrator","actor_username":"admin@test.local","actor_via_sso":false,"log_type":"account","traits":{"provider":"email"}}', '2026-05-15 15:31:14.972084+00', ''),
+	('00000000-0000-0000-0000-000000000000', 'ea3fef7f-bb01-4112-a856-5db745bcfaf1', '{"action":"token_refreshed","actor_id":"33bb925e-e4d2-4e2d-b607-d1794f1601bb","actor_name":"Test Admin","actor_username":"testadmin@test.com","actor_via_sso":false,"log_type":"token"}', '2026-05-15 15:55:36.057041+00', ''),
+	('00000000-0000-0000-0000-000000000000', '251dfa43-9ce9-4ee8-9d1d-751360131f3d', '{"action":"token_revoked","actor_id":"33bb925e-e4d2-4e2d-b607-d1794f1601bb","actor_name":"Test Admin","actor_username":"testadmin@test.com","actor_via_sso":false,"log_type":"token"}', '2026-05-15 15:55:36.071822+00', '');
 
 
 --
@@ -174,8 +177,8 @@ INSERT INTO "auth"."users" ("instance_id", "id", "aud", "role", "email", "encryp
 	('00000000-0000-0000-0000-000000000000', '6006ceea-0e49-4184-8f64-06080a39f4a8', 'authenticated', 'authenticated', 'civ-pointfocal@test.local', '$2a$10$1/48NPOx5TpuhdEXTyaQMu4lZQvdyYbH/C94Y.Yfx7nhDczaRcxdS', '2026-05-01 21:06:24.138647+00', NULL, '', NULL, '', NULL, '', '', NULL, NULL, '{"provider": "email", "providers": ["email"]}', '{"full_name": "Point Focal Cote d''Ivoire", "email_verified": true}', NULL, '2026-05-01 21:06:24.131999+00', '2026-05-01 21:06:24.140644+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '86cd46ca-8383-4a62-b6fa-3658b0b2f36a', 'authenticated', 'authenticated', 'civ-admin@test.local', '$2a$10$tmpix/NYKsIdWMra4aey1.wB68subZsHydsNZDh1bUYIiBoFdV4Aa', '2026-05-01 21:06:24.017915+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-04 14:04:42.603204+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Admin Cote d''Ivoire", "email_verified": true}', NULL, '2026-05-01 21:06:24.011371+00', '2026-05-04 15:11:50.515247+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
 	('00000000-0000-0000-0000-000000000000', '7525d5b5-0819-499e-8d18-28ac5acbde34', 'authenticated', 'authenticated', 'admin@admin.com', '$2a$10$s41.CcrPelQMS4u/p4R1D.VdIh9AhCzaIagEvpGbwBiJBabWYhNz2', '2026-05-05 11:53:52.139296+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-05 11:53:52.149558+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "7525d5b5-0819-499e-8d18-28ac5acbde34", "email": "admin@admin.com", "full_name": "Test Admin", "email_verified": true, "phone_verified": false}', NULL, '2026-05-05 11:53:52.123187+00', '2026-05-07 15:25:39.870552+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', 'authenticated', 'authenticated', 'admin@test.local', '$2a$10$XJVQ4cktvk4g9R6JpGLlOuOnYxK2ysw/MXklWkKJRVBX.D.yFFLKC', '2026-05-01 21:06:23.611291+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-15 13:08:57.8205+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Administrator", "email_verified": true}', NULL, '2026-05-01 21:06:23.602618+00', '2026-05-15 14:08:03.645372+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
-	('00000000-0000-0000-0000-000000000000', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', 'authenticated', 'authenticated', 'testadmin@test.com', '$2a$10$96Aqrv9hkVtQ8axnClrBLOTbmX3CYKyVaWQ7M4Y9Zas8UXNdwu/9e', '2026-05-13 16:25:13.961424+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-13 16:25:13.973306+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "33bb925e-e4d2-4e2d-b607-d1794f1601bb", "email": "testadmin@test.com", "full_name": "Test Admin", "email_verified": true, "phone_verified": false}', NULL, '2026-05-13 16:25:13.92042+00', '2026-05-13 17:25:39.467513+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
+	('00000000-0000-0000-0000-000000000000', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', 'authenticated', 'authenticated', 'admin@test.local', '$2a$10$XJVQ4cktvk4g9R6JpGLlOuOnYxK2ysw/MXklWkKJRVBX.D.yFFLKC', '2026-05-01 21:06:23.611291+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-15 15:31:14.9779+00', '{"provider": "email", "providers": ["email"]}', '{"full_name": "Administrator", "email_verified": true}', NULL, '2026-05-01 21:06:23.602618+00', '2026-05-15 15:31:14.995562+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false),
+	('00000000-0000-0000-0000-000000000000', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', 'authenticated', 'authenticated', 'testadmin@test.com', '$2a$10$96Aqrv9hkVtQ8axnClrBLOTbmX3CYKyVaWQ7M4Y9Zas8UXNdwu/9e', '2026-05-13 16:25:13.961424+00', NULL, '', NULL, '', NULL, '', '', NULL, '2026-05-13 16:25:13.973306+00', '{"provider": "email", "providers": ["email"]}', '{"sub": "33bb925e-e4d2-4e2d-b607-d1794f1601bb", "email": "testadmin@test.com", "full_name": "Test Admin", "email_verified": true, "phone_verified": false}', NULL, '2026-05-13 16:25:13.92042+00', '2026-05-15 15:55:36.08834+00', NULL, NULL, '', '', NULL, '', 0, NULL, '', NULL, false, NULL, false);
 
 
 --
@@ -210,7 +213,8 @@ INSERT INTO "auth"."identities" ("provider_id", "user_id", "identity_data", "pro
 
 INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "factor_id", "aal", "not_after", "refreshed_at", "user_agent", "ip", "tag", "oauth_client_id", "refresh_token_hmac_key", "refresh_token_counter", "scopes") VALUES
 	('6c8f2e5e-8c4c-472c-882a-6301924a48aa', '7525d5b5-0819-499e-8d18-28ac5acbde34', '2026-05-05 11:53:52.149621+00', '2026-05-07 15:25:39.874912+00', NULL, 'aal1', NULL, '2026-05-07 15:25:39.874868', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36', '172.18.0.1', NULL, NULL, NULL, NULL, NULL),
-	('bfffc7af-8103-42e5-8ed0-bdf03e26be96', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', '2026-05-13 16:25:13.973605+00', '2026-05-13 17:25:39.469526+00', NULL, 'aal1', NULL, '2026-05-13 17:25:39.469477', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', '172.18.0.1', NULL, NULL, NULL, NULL, NULL);
+	('c9549ed7-1480-40bc-9685-b41454ce8cd1', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', '2026-05-15 15:31:14.978739+00', '2026-05-15 15:31:14.978739+00', NULL, 'aal1', NULL, NULL, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', '172.18.0.1', NULL, NULL, NULL, NULL, NULL),
+	('bfffc7af-8103-42e5-8ed0-bdf03e26be96', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', '2026-05-13 16:25:13.973605+00', '2026-05-15 15:55:36.106481+00', NULL, 'aal1', NULL, '2026-05-15 15:55:36.106299', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', '172.18.0.1', NULL, NULL, NULL, NULL, NULL);
 
 
 --
@@ -219,7 +223,8 @@ INSERT INTO "auth"."sessions" ("id", "user_id", "created_at", "updated_at", "fac
 
 INSERT INTO "auth"."mfa_amr_claims" ("session_id", "created_at", "updated_at", "authentication_method", "id") VALUES
 	('6c8f2e5e-8c4c-472c-882a-6301924a48aa', '2026-05-05 11:53:52.153452+00', '2026-05-05 11:53:52.153452+00', 'password', '5df84433-e476-4eea-a77a-e9a5df9fd2ca'),
-	('bfffc7af-8103-42e5-8ed0-bdf03e26be96', '2026-05-13 16:25:13.981077+00', '2026-05-13 16:25:13.981077+00', 'password', 'b0e45ab8-5739-4973-a07c-b0ea69eace81');
+	('bfffc7af-8103-42e5-8ed0-bdf03e26be96', '2026-05-13 16:25:13.981077+00', '2026-05-13 16:25:13.981077+00', 'password', 'b0e45ab8-5739-4973-a07c-b0ea69eace81'),
+	('c9549ed7-1480-40bc-9685-b41454ce8cd1', '2026-05-15 15:31:14.997653+00', '2026-05-15 15:31:14.997653+00', 'password', '4e91eaec-603d-4156-a1b2-47f4c3ffbd59');
 
 
 --
@@ -278,7 +283,9 @@ INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "r
 	('00000000-0000-0000-0000-000000000000', 70, 'pbv6dzl5covf', '7525d5b5-0819-499e-8d18-28ac5acbde34', true, '2026-05-07 14:27:15.382587+00', '2026-05-07 15:25:39.866307+00', '52yv7ykqkp2r', '6c8f2e5e-8c4c-472c-882a-6301924a48aa'),
 	('00000000-0000-0000-0000-000000000000', 71, 'wqdh4ozgrunf', '7525d5b5-0819-499e-8d18-28ac5acbde34', false, '2026-05-07 15:25:39.868638+00', '2026-05-07 15:25:39.868638+00', 'pbv6dzl5covf', '6c8f2e5e-8c4c-472c-882a-6301924a48aa'),
 	('00000000-0000-0000-0000-000000000000', 85, 'tdutydkhwukw', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', true, '2026-05-13 16:25:13.977192+00', '2026-05-13 17:25:39.464807+00', NULL, 'bfffc7af-8103-42e5-8ed0-bdf03e26be96'),
-	('00000000-0000-0000-0000-000000000000', 87, 'pzy7sqilp5w3', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', false, '2026-05-13 17:25:39.466255+00', '2026-05-13 17:25:39.466255+00', 'tdutydkhwukw', 'bfffc7af-8103-42e5-8ed0-bdf03e26be96');
+	('00000000-0000-0000-0000-000000000000', 93, 'c2odfpo3u6of', '691c96a8-ab0b-4b49-9d60-1fa2960a4ad7', false, '2026-05-15 15:31:14.987767+00', '2026-05-15 15:31:14.987767+00', NULL, 'c9549ed7-1480-40bc-9685-b41454ce8cd1'),
+	('00000000-0000-0000-0000-000000000000', 87, 'pzy7sqilp5w3', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', true, '2026-05-13 17:25:39.466255+00', '2026-05-15 15:55:36.072839+00', 'tdutydkhwukw', 'bfffc7af-8103-42e5-8ed0-bdf03e26be96'),
+	('00000000-0000-0000-0000-000000000000', 94, 'nucxwhmovdgd', '33bb925e-e4d2-4e2d-b607-d1794f1601bb', false, '2026-05-15 15:55:36.082134+00', '2026-05-15 15:55:36.082134+00', 'pzy7sqilp5w3', 'bfffc7af-8103-42e5-8ed0-bdf03e26be96');
 
 
 --
@@ -321,11 +328,11 @@ INSERT INTO "auth"."refresh_tokens" ("instance_id", "id", "token", "user_id", "r
 -- Data for Name: trainings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."trainings" ("id", "title", "description", "type", "start_date", "end_date", "trainer", "capacity", "location", "content", "status", "image_url", "created_at", "updated_at") VALUES
-	('e1b1a1a1-1111-4111-a111-111111111111', 'Introduction à la Cybersécurité', 'Bases de la sécurité informatique.', 'online', '2026-05-14 10:27:03.873843+00', '2026-05-21 10:27:03.873843+00', 'Dr. Amadou Diallo', 100, NULL, '{}', 'published', 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b', '2026-05-07 10:27:03.873843+00', '2026-05-07 10:27:03.873843+00'),
-	('e2b2a2a2-2222-4222-a222-222222222222', 'Gestion de Projet Agile', 'Méthodologies Agiles.', 'onsite', '2026-05-22 10:27:10.954455+00', '2026-05-27 10:27:10.954455+00', 'Mme Sarah Kouamé', 25, 'Abidjan', '{}', 'published', 'https://images.unsplash.com/photo-1531403009284-440f080d1e12', '2026-05-07 10:27:10.954455+00', '2026-05-07 10:27:10.954455+00'),
-	('e3b3a3a3-3333-4333-a333-333333333333', 'Transformation Numérique', 'E-gouvernance.', 'online', '2026-05-05 10:27:10.954455+00', '2026-05-12 10:27:10.954455+00', 'M. Jean-Pierre Mbengue', 200, NULL, '{}', 'published', 'https://images.unsplash.com/photo-1460925895917-afdab827c52f', '2026-05-07 10:27:10.954455+00', '2026-05-07 10:27:10.954455+00'),
-	('e4b4a4a4-4444-4444-a444-444444444444', 'Maintenance Fibre Optique', 'Technique fibre.', 'onsite', '2026-06-06 10:27:10.954455+00', '2026-06-11 10:27:10.954455+00', 'Equipe Technique', 15, 'Dakar', '{}', 'published', 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957', '2026-05-07 10:27:10.954455+00', '2026-05-07 10:27:10.954455+00');
+INSERT INTO "public"."trainings" ("id", "type", "start_date", "end_date", "trainer", "capacity", "location", "content", "status", "image_url", "created_at", "updated_at", "title", "description") VALUES
+	('e1b1a1a1-1111-4111-a111-111111111111', 'online', '2026-05-14 10:27:03.873843+00', '2026-05-21 10:27:03.873843+00', 'Dr. Amadou Diallo', 100, NULL, '{}', 'published', 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b', '2026-05-07 10:27:03.873843+00', '2026-05-15 15:53:33.312666+00', '{"fr": "Introduction à la Cybersécurité"}', '{"fr": "Bases de la sécurité informatique."}'),
+	('e3b3a3a3-3333-4333-a333-333333333333', 'online', '2026-05-05 10:27:10.954455+00', '2026-05-12 10:27:10.954455+00', 'M. Jean-Pierre Mbengue', 200, NULL, '{}', 'published', 'https://images.unsplash.com/photo-1460925895917-afdab827c52f', '2026-05-07 10:27:10.954455+00', '2026-05-15 15:53:33.312666+00', '{"fr": "Transformation Numérique"}', '{"fr": "E-gouvernance."}'),
+	('e4b4a4a4-4444-4444-a444-444444444444', 'onsite', '2026-06-06 10:27:10.954455+00', '2026-06-11 10:27:10.954455+00', 'Equipe Technique', 15, 'Dakar', '{}', 'published', 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957', '2026-05-07 10:27:10.954455+00', '2026-05-15 15:53:33.312666+00', '{"fr": "Maintenance Fibre Optique"}', '{"fr": "Technique fibre."}'),
+	('e2b2a2a2-2222-4222-a222-222222222222', 'onsite', '2026-05-22 10:27:10.954455+00', '2026-05-27 10:27:10.954455+00', 'Mme Sarah Kouamé', 25, 'Abidjan', '{}', 'published', 'https://img.magnific.com/photos-gratuite/orateur-confiant-parlant-montrant-du-doigt-tableau-blanc_74855-4122.jpg?semt=ais_hybrid&w=740&q=80', '2026-05-07 10:27:10.954455+00', '2026-05-15 16:12:11.138094+00', '{"fr": "Gestion de Projet Agile"}', '{"fr": "Méthodologies Agiles."}');
 
 
 --
@@ -1950,7 +1957,7 @@ INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE SET; Schema: auth; Owner: supabase_auth_admin
 --
 
-SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 92, true);
+SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 94, true);
 
 
 --
@@ -1964,6 +1971,6 @@ SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict pTa2Xg29n2TxX7EjbbHpcDh6arUNVC1eslfG1TaBWnmiWOiIceIVEYcZhvJPikm
+-- \unrestrict UQ053a19zTgnjzJoDVveS0b3spOC7CaGtzSxLvskQUy5sAfllnabL1uCiH4KTH3
 
 RESET ALL;

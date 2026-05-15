@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { TrainingEvent } from "../types"
+import { getLangValue } from "@/types/i18n"
 
 interface TrainingCalendarProps {
     events: TrainingEvent[];
@@ -30,7 +31,7 @@ interface TrainingCalendarProps {
 }
 
 export function TrainingCalendar({ events, onEventClick }: TrainingCalendarProps) {
-    const { i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
     const [currentMonth, setCurrentMonth] = useState(new Date())
     const locale = i18n.language === 'fr' ? fr : enUS
 
@@ -97,7 +98,9 @@ export function TrainingCalendar({ events, onEventClick }: TrainingCalendarProps
                                         onClick={() => onEventClick?.(event)}
                                         className="text-[10px] p-1 rounded bg-secondary/80 hover:bg-secondary cursor-pointer border border-secondary transition-colors"
                                     >
-                                        <div className="font-semibold truncate">{event.title}</div>
+                                        <div className="font-semibold truncate">
+                                            {getLangValue(event.title, i18n.language)}
+                                        </div>
                                         <div className="flex items-center gap-1 opacity-70">
                                             {event.type === 'online' ? <Video className="w-2 h-2" /> : <MapPin className="w-2 h-2" />}
                                             {format(new Date(event.start_date), 'HH:mm')}

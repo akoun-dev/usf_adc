@@ -22,6 +22,7 @@ import { RegistrationButton } from "../components/RegistrationButton"
 import { format } from "date-fns"
 import { fr, enUS } from "date-fns/locale"
 import { PublicLayout } from "@/features/public/components/PublicLayout"
+import { getLangValue } from "@/types/i18n"
 
 export default function TrainingDetailsPage() {
     const { id } = useParams<{ id: string }>()
@@ -69,6 +70,9 @@ export default function TrainingDetailsPage() {
         )
     }
 
+    const title = getLangValue(training.title, i18n.language)
+    const description = getLangValue(training.description, i18n.language)
+
     return (
         <PublicLayout>
             <div className="w-full px-20 min-[1900px]:px-40 lg:px-12 md:px-10 sm:px-6 py-12">
@@ -96,7 +100,7 @@ export default function TrainingDetailsPage() {
                                     </Badge>
                                 </div>
                                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-primary">
-                                    {training.title}
+                                    {title}
                                 </h1>
                             </div>
                         </div>
@@ -109,7 +113,7 @@ export default function TrainingDetailsPage() {
                                 <div className="rounded-2xl overflow-hidden shadow-xl border aspect-video">
                                     <img
                                         src={training.image_url}
-                                        alt={training.title}
+                                        alt={title}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -118,7 +122,7 @@ export default function TrainingDetailsPage() {
                             <section className="space-y-4">
                                 <h2 className="text-2xl font-bold border-b pb-2">{t('common.description')}</h2>
                                 <div className="prose prose-slate dark:prose-invert max-w-none">
-                                    {training.description}
+                                    {description}
                                 </div>
                             </section>
 

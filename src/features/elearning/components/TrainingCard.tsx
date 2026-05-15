@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next"
 import type { Training } from "../types"
 import { format } from "date-fns"
 import { fr, enUS } from "date-fns/locale"
+import { getLangValue } from "@/types/i18n"
 
 interface TrainingCardProps {
     training: Training;
@@ -29,13 +30,16 @@ export function TrainingCard({ training, onViewDetails }: TrainingCardProps) {
     const { t, i18n } = useTranslation()
     const locale = i18n.language === 'fr' ? fr : enUS
 
+    const title = getLangValue(training.title, i18n.language)
+    const description = getLangValue(training.description, i18n.language)
+
     return (
         <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300 overflow-hidden group">
             {training.image_url ? (
                 <div className="h-48 overflow-hidden">
                     <img 
                         src={training.image_url} 
-                        alt={training.title} 
+                        alt={title} 
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 </div>
@@ -63,10 +67,10 @@ export function TrainingCard({ training, onViewDetails }: TrainingCardProps) {
                     )}
                 </div>
                 <CardTitle className="line-clamp-2 leading-tight">
-                    {training.title}
+                    {title}
                 </CardTitle>
                 <CardDescription className="line-clamp-3">
-                    {training.description}
+                    {description}
                 </CardDescription>
             </CardHeader>
 
